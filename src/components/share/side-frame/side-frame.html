@@ -1,0 +1,10 @@
+<div class="wrapper" :style="{'top': top + 'px'}" v-show="showWrapper">
+  <div class="side-frame-container" :style="{'top': (80 - top) + 'px'}" :class="{'slide-in': showFrame}">
+    <div class="side-frame-button">
+      <el-button class="close-button iconfont iconpms-icon_Close" @click="close" :title="$t('common.close')"></el-button>
+    </div>
+    <slot name="header"></slot>
+    <slot name="frame"></slot>
+  </div>
+  <div class="mask" :style="{'top': top + 'px'}" v-if="showWrapper" @click="outsideClick"></div>
+</div>

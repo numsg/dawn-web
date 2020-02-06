@@ -1,0 +1,7 @@
+.left-navigation {
+  .menu-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 15px);
+  }  
+}

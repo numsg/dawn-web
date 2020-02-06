@@ -1,0 +1,53 @@
+{
+  "serverPath": "http://172.22.24.180:8081",
+  "token": "Bearer d277145",
+  "projection": "4326",
+  "screenshotName": "screenshot.png",
+  "thematicMapNamePrefix": "thematic-map-",
+  "thematicMapNameSuffix": ".png",
+  "defaultRadius": 5000,
+  "minRadius": 1000,
+  "maxRadius": 1000000,
+  "baseMapConfig": {
+    "map": {
+      "defaultExtent": {
+        "maxZoom": 18,
+        "minZoom": 4,
+        "defaultZoom": 8,
+        "center": [-71.03024353036785, 18.972403322502018],
+        "level": 1,
+        "projection": "EPSG:4326"
+      },
+      "fullExtent": {
+        "level": 10,
+        "center": [-71.03024353036785, 18.972403322502018]
+      }
+    },
+    "wpmsLayerName": "domWPMS",
+    "wpmsImageLayerName": "domWPMS_Image",
+    "wpmsTileLayer": {
+      "id": "wpmsLayer",
+      "name": "wpms",
+      "levelShift": 1.0,
+      "visible": true,
+      "url": "http://172.22.24.180:8081"
+    }
+  },
+  "wgcsServerConfig": {
+    "wgcsLayerName": "domWGCS_modify"
+  },
+  "wnasServerConfig": {
+    "wnasLayerName": "singaporeWNAS",
+    "shortpathName": "domWNAS_shortpath",
+    "serviceareaName": "domWNAS_servicearea",
+    "closestFacilityName": "domWNAS_closestfacility",
+    "shortpathExpressionName": "",
+    "serviceareaExpressionName": "距离分析",
+    "closestFacilityExpressionName": "距离分析"
+  },
+  "wfsServerName": {
+    "poi": "dom_poi",
+    "geoName": "dom_name",
+    "geoNameStudy": "dom_name_study"
+  }
+}

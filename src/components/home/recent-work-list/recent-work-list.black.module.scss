@@ -1,0 +1,120 @@
+@import '@/assets/styles/vars.scss';
+
+.recent-work-list {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .no-data {
+    font-size: 14px;
+    color: #f5f5f5;
+    text-align: center;
+    line-height: 36px;
+  }
+
+  ul {
+    width: 100%;
+    height: calc(100% - 42px);
+    padding: 5px 10px;
+    margin-top: 5px;
+    overflow: auto;
+
+    li {
+      line-height: 42px;
+      height: 42px;
+      color: #f5f5f5;
+      padding: 0 5px;
+
+      &:nth-child(2n + 1) {
+        background: #243d69;
+      }
+
+      .item-content {
+        float: left;
+        width: 100%;
+      }
+
+      .task-name {
+        float: right;
+        width: 95px;
+        text-align: right;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .desc {
+        float: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
+      }
+
+      .date {
+        width: 140px;
+        float: left;
+      }
+
+      @media screen and (max-width: 1920px) {
+        .desc {
+          &.desc-one {
+            max-width: 260px;
+          }
+
+          &.desc-two {
+            max-width: 630px;
+          }
+
+          &.desc-three {
+            max-width: 1000px;
+          }
+
+          &.desc-four {
+            max-width: 1550px;
+          }
+        }
+      }
+
+      @media screen and (max-width: 1440px) {
+        .desc {
+          &.desc-one {
+            max-width: 140px;
+          }
+
+          &.desc-two {
+            max-width: 390px;
+          }
+
+          &.desc-three {
+            max-width: 660px;
+          }
+
+          &.desc-four {
+            max-width: 1050px;
+          }
+        }
+      }
+    }
+
+
+    .show-more {
+      position: absolute;
+      bottom: 5px;
+      text-align: right;
+      padding: 0 15px;
+      right: 0;
+
+      i {
+        cursor: pointer;
+        padding: 7px;
+        border-radius: 3px;
+      }
+
+      i:hover {
+        background: #3498db;
+        color: $box-background;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.app-header {
+  padding: 0 !important;
+  height: 80px !important;
+}
+
+.layout-main {
+  display: inline-flex !important;
+  padding: 20px !important;
+  background: #1e3763;
+  padding-top: 0 !important;
+  .layout-content {
+    padding: 15px;
+    position: relative;
+  }
+}

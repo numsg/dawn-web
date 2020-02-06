@@ -1,0 +1,15 @@
+<el-container>
+  <el-header class="app-header">
+    <app-header></app-header>
+  </el-header>
+  <el-main
+    class="layout-main"
+    v-loading="loading"
+    :v-loading.lock="true"
+    :element-loading-text="loadingText"
+    :element-loading-spinner="loadingSpinner"
+    :element-loading-background="loadingBackground"
+  >
+    <app-content class="layout-content"></app-content>
+  </el-main>
+</el-container>

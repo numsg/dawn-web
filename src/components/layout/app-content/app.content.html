@@ -1,0 +1,17 @@
+<div class="main-content">
+  <div class="breadcrumb-inner">
+    <span class="circle">
+      <span class="small-circle"></span>
+    </span>
+    <el-breadcrumb separator=">">
+      <el-breadcrumb-item class="breadcrumb-item-content" v-for="item in $route.matched" :key="item.path" v-if="item.name !== 'index'">
+        <span :class="{childRoute: item.path === $route.fullPath}">{{ $t('navbar.' + item.name) }}</span>
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
+  <div class="b-display-zone">
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+  </div>
+</div>

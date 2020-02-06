@@ -1,0 +1,23 @@
+<div class="role-menu-container">
+  <div class="role-menu-content">
+    <el-tree
+      show-checkbox
+      default-expand-all
+      node-key="id"
+      @check="onCheckClick"
+      :props="childProps"
+      :data="menuTree"
+      :default-checked-keys="defaultChoose"
+      :check-strictly="true"
+      @check-change="onCheckChange"
+      ref="tree"
+    >
+    <span class="custom-tree-node" slot-scope="{node,data}" >
+      <span class="node-label" :title="node.label">{{ node.label }}</span>
+    </span>
+  </el-tree>
+  </div>
+  <div class="role-menu-bottom"> 
+    <el-button type="primary" class="iconfont iconpms-icon_save primary-btn" @click="onSave"> {{$t('common.save')}}</el-button>
+  </div>
+</div>

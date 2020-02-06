@@ -1,0 +1,146 @@
+<div class="right-content">
+  <div v-if="data.length===0" class="no-data-area"> {{$t('common.no_data')}}</div>
+  <div class="card-area" v-for="(item,key) in data" :key="item.id" :index="item.id">
+    <div class="title header-title">
+      <i></i> {{ $t( item.name) }}</div>
+
+    <div class="content-area" :ref="child.id" :id="child.id" v-for="(child,index) in item.children" :key="child.id"
+      :index="child.id">
+      <el-card class="list-card" :class="{'active': currentItemId===child.id  }">
+        <div @click="onclickItem(child)">
+          <div class="option-name-key">
+            <div class="name" :title="$t( child.name)"> {{ $t(child.name) }}</div>
+            <div class="symbol">(</div>
+            <div class="key" :title="child.key">{{ child.key }}</div>
+            <div class="symbol">)</div>
+          </div>
+          <div class="option-desc"> {{$t(child.description)}}</div>
+          <div class="option-value">
+            <el-input v-model="child.value" :title="child.value" :disabled="!isEdit || child.id !== currentItemId "
+              class="value-input"  :placeholder="$t('common.length_limit128')" maxlength="128">
+            </el-input>
+
+            <!-- 编辑、删除按钮  -->
+            <span v-if="!isEdit && !isAdd">
+              <el-button v-if="rolePrivilege.delete" class="iconfont iconpms-icon_delet operate-btn"
+                @click="onDelete(item,child)" :title="$t('plan_deduction.delete')" @click.stop></el-button>
+              <el-button v-if="rolePrivilege.update" class="iconfont iconpms-icon_edit operate-btn"
+                @click="onEdit(child)" :title="$t('common.edit')" @click.stop></el-button>
+            </span>
+
+            <!-- 编辑 -->
+            <span v-if="isEdit && child.id=== currentItemId">
+              <!-- 数据源 -->
+              <span v-if="item.id === '2' || item.id === '7' " class="value-select">
+                <!-- {{$t('system-config.select_form_data_source')}}: -->
+                <el-select v-model="selectDataId" :placeholder="$t('system-config.select_form_data_source')"
+                  :clearable="true" @change="getSelectIdWhenEdit(child)" :title="selectDataId">
+                  <el-option v-for="(dataSource,key) in dataSources " :key="key"
+                    :label="dataSource.name + '：'+ dataSource.id" :value="dataSource.id">
+                  </el-option>
+                </el-select>
+              </span>
+
+              <!-- 规则类型 -->
+              <span v-if="item.id === '4' " class="value-select">
+                <el-select v-model="selectDataId" :placeholder="$t('system-config.select_form_rule_types')"
+                  :clearable="true" @change="getSelectIdWhenEdit(child)" :title="selectDataId">
+                  <el-option v-for="(ruleType,key) in ruleTypes " :key="key" :label="ruleType.name + '：'+ ruleType.id"
+                    :value="ruleType.id">
+                  </el-option>
+                </el-select>
+
+                <!-- <el-autocomplete v-model="selectDataId" :fetch-suggestions="querySearchRuleType" :title="selectDataId"
+                :placeholder="$t('system-config.select_form_rule_types')" :trigger-on-focus="false"
+                  @select="getSelectIdWhenEdit(child)">
+                  <template slot-scope="{item}">
+                      <div>{{item.name}}</div>
+                      <div>{{item.id}}</div>
+                  </template>
+                </el-autocomplete> -->
+              </span>
+              <!-- 保存、取消编辑 -->
+              <el-button class="iconfont iconpms-icon_cancel operate-btn" :title="$t('common.cancel')"
+                @click="onCancleEdit(child)" @click.stop>
+              </el-button>
+              <el-button class="iconfont iconpms-icon_save operate-btn" :title="$t('common.confirm_submit')"
+                @click="onSaveEdit(child)" @click.stop>
+              </el-button>
+            </span>
+          </div>
+        </div>
+      </el-card>
+    </div>
+
+    <div v-if="!isAdd && !isEdit && rolePrivilege.add" class="add-btn-area">
+      <el-button circle class="iconfont iconpms-icon_Blow-Up  default-btn icon-btn" :title="$t('plan_deduction.new')"
+        @click="onAdd(item.id)">
+      </el-button>
+    </div>
+
+    <!-- 添加 -->
+    <div class="add-card">
+      <el-card v-if=" item.id=== currentParentId">
+        <el-form ref="form" :model="configOption" :rules="rules">
+          <el-form-item :label="$t('common.name')" prop="name" class="form-item-size">
+            <!-- <el-input :placeholder="$t('system-config.input_tips_placeholder')" v-model="configOption.name"></el-input> -->
+            <el-input :placeholder="$t('common.length_limit128')" maxlength="129" v-model="configOption.name">
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="key" prop="key" class="form-item-size">
+            <!-- <el-input :placeholder="$t('system-config.input_tips_placeholder')" v-model="configOption.key"></el-input> -->
+            <el-input :placeholder="$t('common.length_limit128')" maxlength="129" v-model="configOption.key"></el-input>
+          </el-form-item>
+
+          <div class="add-value-input">
+            <span class="form-item-size">
+              <el-form-item :label="$t('common.value')" prop="value">
+                <!-- <el-input :placeholder="$t('system-config.custom_input_or_from_data_source')"
+                  v-model="configOption.value"></el-input> -->
+                <el-input :placeholder="$t('common.length_limit128')" maxlength="129" v-model="configOption.value">
+                </el-input>
+              </el-form-item>
+            </span>
+
+            <!-- 数据源 -->
+            <span v-if="item.id === '2' || item.id === '7' " class="value-select">
+              <!-- {{$t('system-config.select_form_data_source')}}: -->
+              <el-select v-model="selectDataId" :placeholder="$t('system-config.select_form_data_source')"
+                :clearable="true" @change="getSelectIdWhenAdd" :title="selectDataId">
+                <el-option v-for="(dataSource,key) in dataSources " :key="key"
+                  :label="dataSource.name + '：'+ dataSource.id" :value="dataSource.id">
+                </el-option>
+              </el-select>
+            </span>
+
+            <!-- 规则类型 -->
+            <span v-if="item.id === '4' " class="value-select">
+              <!-- {{$t('system-config.select_form_rule_types')}}: -->
+              <el-select v-model="selectDataId" :placeholder="$t('system-config.select_form_rule_types')"
+                :clearable="true" @change="getSelectIdWhenAdd" :title="selectDataId">
+                <el-option v-for="(ruleType,key) in ruleTypes " :key="key" :label="ruleType.name + '：'+ ruleType.id"
+                  :value="ruleType.id">
+                </el-option>
+              </el-select>
+            </span>
+          </div>
+
+          <el-form-item :label="$t('common.description')" prop="description">
+            <!-- <el-input :placeholder="$t('system-config.input_tips_placeholder')" type="textarea" autosize
+              v-model="configOption.description"></el-input> -->
+            <el-input :placeholder="$t('common.length_limit2000')" type="textarea" maxlength="2001" autosize
+              v-model="configOption.description"></el-input>
+          </el-form-item>
+
+          <el-form-item class="form-btn clearfix">
+            <el-button class=" iconfont iconpms-icon_save primary-btn  flr" @click="onSaveAdd(item)">
+              {{$t('common.save')}}</el-button>
+            <el-button class=" iconfont iconpms-icon_cancel default-btn flr" @click="onCancelAdd">
+              {{$t('common.cancel')}}</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
+    </div>
+  </div>
+</div>

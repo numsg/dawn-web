@@ -1,0 +1,176 @@
+<div style="display: inline-flex; align-items: stretch;height: 100%;">
+  <el-container>
+    <el-aside width="540px" class="role-list-container">
+      <div>
+        <el-header class="role-list-header">
+          <el-input
+            class="input-search role-search"
+            :placeholder="$t('tempMgr.keywords_search_placeholder')"
+            v-model="roleSearchKey"
+            suffix-icon="iconfont iconpms-icon_search"
+          ></el-input>
+          <el-button
+            v-if="rolePrivilege.add"
+            class="on-release-authority iconfont no-text-btn iconpms-icon_add primary-btn add-role"
+            type="primary"
+            @click="onAddRole"
+            :title="$t('user-manage.add_user')"
+            >{{ $t('role-manage.add_role') }}
+          </el-button>
+        </el-header>
+        <ul class="role-container" id="role_container">
+          <li
+            class="role-content"
+            :class="{'current-role':currentRole.code === role.code}"
+            v-for="role in roleList"
+            :key="role.id"
+            @click="onRoleClick(role)"
+          >
+            <div class="role-item role-content-left">
+              <span class="iconfont iconpms-icon_User-roles role-picture"></span>
+            </div>
+            <div class="role-item" :class="{'role-content-middle':currentRole.id === role.id}">
+              <p class="item-title" :title="role.name">{{ role.name }}</p>
+              <p v-if="currentRole.id === role.id" class="item-text">
+                {{ $t('role-manage.possess_privileges') }}&nbsp;&nbsp;{{ resourceCount }}
+              </p>
+            </div>
+            <div v-if="rolePrivilege.delete" class="role-item role-content-right">
+              <span class="span-button role-right">
+                <el-button
+                  type="text"
+                  :title="role.prompt ? role.prompt : $t('common.delete')"
+                  v-if="currentRole.id === role.id"
+                  class="iconfont  iconpms-icon_delet delete-btn"
+                  @click="onRoleDelete(role, $event)"
+                  @click.stop
+                  :disabled="role.disabled"
+                ></el-button>
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <p class="ddata-null" v-if="isSearchNull">
+        {{ $t('common.no_data') }}
+      </p>
+    </el-aside>
+    <el-main style="padding: 0;" class="role-detaile-container">
+      <el-row class="role-row role-detail-row" :gutter="15">
+        <div class="header-title">
+          <i></i>
+          <span>{{ $t('role-manage.role_detail') }}</span>
+        </div>
+        <el-form :model="currentRole" size="medium" ref="currentRole" :rules="validateRole" class="role-form" @submit.native.prevent>
+          <el-form-item :label="$t('role-manage.role_name')" prop="name">
+            <el-input
+              :title="currentRole.name"
+              :disabled="roleListIsNull"
+              v-model="currentRole.name"
+              maxlength="64"
+              :placeholder="$t('user-manage.role_name_length_between_1_64')"
+            ></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('common.description')" prop="description">
+            <el-input
+              :disabled="roleListIsNull"
+              v-model="currentRole.description"
+              :rows="4"
+              resize="none"
+              type="textarea"
+              maxlength="2000"
+              :placeholder="$t('user-manage.description_length_limit_2000')"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+      </el-row>
+
+      <el-row class="role-row role-resource-row" :gutter="15">
+        <div class="release-container">
+          <div class="header-title">
+            <i></i>
+            <span>{{ $t('role-manage.aleady_ass_resource') }}</span>
+          </div>
+          <div v-show="showConRes" style="height: 100%;">
+            <span class="release">
+              <el-button
+                v-if="rolePrivilege.update"
+                class="on-release-authority primary-btn iconfont iconpms-icon_Related-permissions2"
+                type="primary"
+                @click="onReleaseAuthority"
+                >{{ $t('role-manage.ass_resource') }}
+              </el-button>
+            </span>
+            <div class="role-resource">
+              <el-resource-card
+                :showEdit="true"
+                :rolePrivilege="rolePrivilege"
+                v-if="currentRole.code"
+                :currentRole="currentRole"
+                :isNewRole="isNewRole"
+                @on-count-change="resourceCountChange"
+                @on-menu-change="onMenuChanged"
+                @on-menu-item-edit="handMenuItemEdit"
+              ></el-resource-card>
+            </div>
+          </div>
+          <div class="role-pri-null" v-if="!showConRes">
+            <img :src="rolePriNull" />
+            <p v-if="rolePrivilege.update">
+              {{ $t('role-manage.cur_role_no_resource')
+              }}<span
+                >,{{ $t('role-manage.please') }}<button @click="onReleaseAuthority">{{ $t('role-manage.associate') }}</button
+                >{{ $t('role-manage.resource_privileges') }}
+              </span>
+            </p>
+          </div>
+        </div>
+      </el-row>
+    </el-main>
+  </el-container>
+
+  <!-- 点击关联权限资源按钮侧边栏 -->
+  <el-side-frame ref="sideFrameCardEdit" v-if="sideCardEditVisible" @close="onSideFrameClose">
+    <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+      <resource-card-edit :currentRole="currentRole" :menuList="menuIdList" @on-add-menu-list="onMenuListChange"> </resource-card-edit>
+    </div>
+  </el-side-frame>
+
+  <!-- 点击编辑资源卡片 -->
+  <el-side-frame ref="sideFrameMenuEdit" v-if="menuEditVisible" @close="onMenuEditClose" @open="onMenuEditOpen">
+    <div class="side-frame-header" slot="header">
+      <div class="header-title side-frame-title">
+        <i></i>
+        <span>{{ $t('role-manage.plan_config_privilege') }}</span>
+      </div>
+    </div>
+    <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+      <el-menu-edit
+        :menuData="menuItem"
+        :roleHasmenuIds="menuIdList"
+        :rolecode="currentRole.code"
+        :roleDetail="currentRole"
+        @on-menu-item-edit="onMenuListChange"
+      ></el-menu-edit>
+    </div>
+  </el-side-frame>
+
+  <div v-if="showCanSave" class="user-form-event">
+    <el-button @click="cancelEdit" class="default-btn iconfont  iconpms-icon_cancel"> {{ $t('common.cancel') }}</el-button>
+    <el-button type="primary" @click="onSave" class="primary-btn iconfont iconpms-icon_save"> {{ $t('common.save') }}</el-button>
+  </div>
+
+  <el-dialog
+    class="route-leave-dialog clearfix"
+    top="0px"
+    :title="$tc('common.prompt')"
+    :show-close="false"
+    :visible.sync="routerLeaveDialogVisible"
+  >
+    <span>{{ $tc('role-manage.jump_other_page') }}</span>
+    <span slot="footer">
+      <el-button @click="routerLeaveDialogVisible=false">{{ $tc('common.cancel') }}</el-button>
+      <el-button type="primary" @click="routeLeave">{{ $tc('common.determine') }}</el-button>
+    </span>
+  </el-dialog>
+</div>

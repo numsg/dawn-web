@@ -1,0 +1,56 @@
+<div class="tag-box">
+  <div v-for="(tag, i) in tags" class="tag-content">
+    <div class="tag">
+      <div class="edit-content" v-if="isEdit && tag.tagId === currentTag.tagId">
+        <el-form :rules="tagRules" ref="edittagForm" :model="currentTag">
+          <el-form-item prop="tagName">
+            <div class="content">
+              <el-input
+                size="mini"
+                maxlength="128"
+                :placeholder="$t('common.length_limit128')"
+                @input="onInput(currentTag.tagName, 'currentTag')"
+                v-model="currentTag.tagName"
+              ></el-input>
+              <div class="etid-btn" v-if="!disableAdd">
+                <el-button :title="$t('common.save')" class="iconfont iconpms-icon_save icon-button" @click="onSaveEdit"></el-button>
+                <el-button :title="$t('common.cancel')" class="iconfont iconpms-icon_cancel icon-button" @click="onCancelEdit"></el-button>
+              </div>
+            </div>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div class="tag-name" :title="tag.tagName" v-else="isEdit && tag.tagId === currentTag.tagId">
+        <div class="name-content" :class="{'no-btn':disableAdd }">{{ tag.tagName }}</div>
+        <div class="etid-btn" v-if="!disableAdd">
+          <el-button :title="$t('common.edit')" class="iconfont iconpms-icon_edit icon-button" @click="onEdit(tag)"></el-button>
+          <el-button :title="$t('common.delete')" class="iconfont iconpms-icon_delet icon-button" @click="onDelete(tag,i)"></el-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tag add-content" v-if="isAdd">
+    <div class="edit-content">
+      <el-form :rules="tagRules" ref="tagForm" :model="addModel">
+        <el-form-item prop="tagName">
+          <div class="content">
+            <el-input
+              size="mini"
+              @input="onInput(addModel.tagName,'addModel')"
+              :placeholder="$t('common.length_limit128')"
+              maxlength="128"
+              v-model="addModel.tagName"
+            ></el-input>
+            <div class="etid-btn">
+              <el-button :title="$t('common.save')" class="iconfont iconpms-icon_save icon-button" @click="onAddSave"></el-button>
+              <el-button :title="$t('common.cancel')" class="iconfont iconpms-icon_cancel icon-button" @click="onAddCancel"></el-button>
+            </div>
+          </div>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
+  <div class="tag-content make-new-btn" v-if="!isAdd && !disableAdd">
+    <el-button circle class="iconfont iconpms-icon_Blow-Up drag default-btn" :title="$t('system_log.ADD')" @click="makeNewTag"> </el-button>
+  </div>
+</div>

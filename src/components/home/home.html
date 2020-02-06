@@ -1,0 +1,191 @@
+<div class="home" @scroll="onScroll">
+  <div class="operate">
+    <el-button
+      v-if="editMode"
+      class="animated iconfont default-btn iconpms-icon_Blow-Up"
+      :class="{'fadeIn': editMode}"
+      @click="handleModultBtnClick"
+      >{{ $t('home.add_module') }}</el-button
+    >
+    <el-button
+      v-if="editMode"
+      class="animated iconfont default-btn iconpms-icon_Typesetting"
+      :class="{'fadeIn': editMode}"
+      @click="handleComposingBtnClick"
+      >{{ $t('home.complie_template') }}</el-button
+    >
+    <el-button
+      v-if="editMode"
+      class="animated iconfont default-btn iconpms-icon_cancel"
+      :class="{'fadeIn': editMode}"
+      @click="cancelEdit"
+      >{{ $t('common.cancel') }}</el-button
+    >
+    <el-button
+      v-if="editMode"
+      class="animated iconfont primary-btn iconpms-icon_save"
+      :class="{'fadeIn': editMode}"
+      @click="savePageConfig"
+      >{{ $t('home.save_configuration') }}</el-button
+    >
+    <el-button
+      v-if="!editMode"
+      circle
+      class="iconfont start-edit default-btn iconpms-icon_configuration-management-icon"
+      @click="editMode=!editMode"
+      :title="$t('home.configuration_page')"
+    ></el-button>
+  </div>
+  <el-dialog
+    top="0px"
+    width="1230px"
+    class="composing-dialog"
+    :modal="true"
+    :visible.sync="composingDialog"
+    :show-close="false"
+    @click="handleComposingDialogClose"
+    @close="handleDialogClose"
+  >
+    <div class="composing">
+      <div class="container" id="composingContainer" style="width: 1200px; height: 600px;">
+        <ul>
+          <li :id="type.id" v-for="type in types" @click="chooseType(type)" @mouseover="isHover=true" @mouseleave="isHover=false">
+            <div class="box-item">
+              <div class="desc">{{ type.desc }}</div>
+              <div class="type-one" v-for="item in type.items" :style="{flex: item.flex}"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="menu">
+        <button class="table" @click="handleTableClick">{{ $t('home.table') }}</button>
+        <button class="helix" @click="handleHelixClick">{{ $t('home.ring') }}</button>
+      </div>
+      <div class="exit">
+        <el-button circle class="iconfont iconpms-icon_cancel" @click="closeDialog"></el-button>
+      </div>
+    </div>
+  </el-dialog>
+  <el-dialog
+    top="0px"
+    width="1230px"
+    :show-close="false"
+    class="module-dialog"
+    :visible.sync="moduleDialog"
+    @click="handleComposingDialogClose"
+    @close="handleDialogClose"
+  >
+    <div class="module-list" id="moduleContainer" style="width: 1200px; height: 600px;">
+      <ul>
+        <li :id="module.id" v-for="module in moduleList">
+          <img :src="module.image" alt="" class="fll" />
+          <div class="msg">
+            <div class="title">{{ $tc(module.title) }}</div>
+            <div class="content">
+              <p>
+                {{ $tc(module.desc) }}
+              </p>
+              <div class="btn-box">
+                <el-button circle v-if="module.added" class="iconfont iconpms-icon_Verifying-and-passing" disabled> </el-button>
+                <el-button circle v-else class="default-btn iconfont iconpms-icon_Blow-Up" @click="handleModuleAdd(module)"></el-button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="menu">
+      <button class="table" @click="handleModuleTableClick">{{ $t('home.table') }}</button>
+      <button class="helix" @click="handleModuleHelixClick">{{ $t('home.ring') }}</button>
+    </div>
+    <div class="exit">
+      <el-button circle class="iconfont iconpms-icon_cancel" @click="closeDialog"></el-button>
+    </div>
+  </el-dialog>
+
+  <Draggable v-model="currentType.items" :disabled="!editMode" handle=".item-header" class="outer-draggable">
+    <Draggable
+      :list="draggableItem.dataList"
+      :group="{name: 'draggableItem'}"
+      class="wrapper"
+      :class="{'wrapper-no-data': draggableItem.dataList.length ===0 && editMode}"
+      :style="{flex: draggableItem.flex, 'background-image': (draggableItem.dataList.length ===0 && editMode) ? 'url(' + nodataBg + ')' : 'none'}"
+      v-for="draggableItem in currentType.items"
+      @start="handleStartDrag"
+      @end="handleEndDrag"
+      ghost-class="ghost"
+      v-bind="dragOptions"
+      @added="handleAdd"
+      @removed="handleRemoved"
+      @choose="handleChoose"
+      :move="handleMoveCallback"
+      handle=".item-header"
+      :disabled="!editMode"
+    >
+      <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+        <div v-for="data in draggableItem.dataList" v-if="data.privilege" class="data-item" :key="data.id">
+          <div class="data-item-inner">
+            <div class="item-header" :class="{'edit-mode': editMode}">
+              <div class="title-box">
+                <i class="label"></i>
+                <span class="title">{{ $t(data.title) }}</span>
+              </div>
+              <span v-if="data.componentName==='plan-entrance'" class="senior-member iconfont iconpms-icon_Senior-member"></span>
+              <span
+                v-if="editMode"
+                class="animated iconfont iconpms-icon_cancel flr close-btn"
+                :class="{'fadeIn': editMode}"
+                @click="handleModuleRemove(data, draggableItem)"
+              ></span>
+            </div>
+            <div class="item-content" :class="draggableItem.span < 7 ? 'style-one': 'style-two'">
+              <NavigationGuidanceComponent :span="draggableItem.span" v-if="data.componentName==='navigation-guidance'">
+              </NavigationGuidanceComponent>
+              <RecentWorkListComponent :span="draggableItem.span" v-if="data.componentName==='recent-work-list'"> </RecentWorkListComponent>
+              <!-- <PlanRadarComponent
+                :span="draggableItem.span"
+                :showTitle="false"
+                v-if="data.componentName==='plan-systems'"
+              ></PlanRadarComponent> -->
+              <PlanEntranceComponent
+                :homeScroll="homeScroll"
+                @popover-visible="handleHomeScroll"
+                :span="draggableItem.span"
+                v-if="data.componentName==='plan-entrance'"
+              >
+              </PlanEntranceComponent>
+              <PlanAppliedComponent :span="draggableItem.span" v-if="data.componentName==='plan-applied'"> </PlanAppliedComponent>
+              <!-- <PlanCoverageComponent :span="draggableItem.span" v-if="data.componentName==='plan-coverage'"> </PlanCoverageComponent> -->
+              <!-- <PlanCoverageMapComponent
+                :span="draggableItem.span"
+                v-if="data.componentName==='plan-coverage-map'"
+              ></PlanCoverageMapComponent> -->
+              <OrganzationPlanSetupComponent
+                :span="draggableItem.span"
+                v-if="data.componentName==='organzation-plan-setup'"
+              ></OrganzationPlanSetupComponent>
+              <UnloadKnowledgeModelComponent
+                :span="draggableItem.span"
+                v-if="data.componentName==='unload-knowledge-model'"
+              ></UnloadKnowledgeModelComponent>
+            </div>
+          </div>
+        </div>
+      </transition-group>
+    </Draggable>
+  </Draggable>
+
+  <el-dialog
+    class="route-leave-dialog clearfix"
+    top="0px"
+    :title="$tc('common.prompt')"
+    :show-close="false"
+    :visible.sync="routerLeaveDialogVisible"
+  >
+    <span>{{ $t('home.is_editing_confirmation_jump') }}</span>
+    <span slot="footer">
+      <el-button @click="routeLeave(false)">{{ $tc('common.cancel') }}</el-button>
+      <el-button type="primary" @click="routeLeave(true)">{{ $tc('common.determine') }}</el-button>
+    </span>
+  </el-dialog>
+</div>

@@ -1,0 +1,106 @@
+@import '@/assets/styles/vars.scss';
+.resource-card-edit-container {
+  height: 100%;
+  .resource-card-edit-content {
+    height: 100%;
+    overflow: scroll;
+   // width: 95%;
+  }
+  .res-title {
+    i {
+      display: inline-block;
+      width: 4px;
+      height: 12px;
+      background-color: #3498db;
+      margin-right: 10px;
+    }
+    span {
+      font-weight: 900;
+      font-size: 16px;
+      color: rgb(46, 45, 45);
+    }
+  }
+  .c____100____el-tabs__content {
+    height: calc(100% - 140px);
+    position: absolute;
+    top: 56px;
+    overflow: scroll;
+    width: calc(100% - 20px);
+    margin-top: 12px;
+   margin-left: -10px;
+  }
+  .c____100____el-tabs__item {
+    padding: 0 20px;
+    height: 40px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 40px;
+    display: inline-block;
+    list-style: none;
+    font-size: 14px;
+    font-weight: 700 !important;
+    color: #555;
+    position: relative;
+  }
+  .menu-list-content {
+    padding: 5px 0 0 9px;
+
+    .custom-tree-node {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      padding-right: 0.3em;
+      height: 48px;
+    
+      .node-label {
+        display: inline-block;
+        max-width: 350px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    
+    }
+
+  }
+  .menu-item {
+    margin: 7px 0;
+    border: 1px dashed #e4e7ed;
+    border-radius: 5px;
+    font-weight: 600;
+  }
+  .resource-card-edit-save {
+    position: relative;
+    bottom: 30px;
+    height: 40px;
+    text-align: right;
+  }
+  .c____100____el-tree-node__content {
+    height: 48px !important;
+  }
+  .c____100____el-table .c____100____cell {
+    word-break: break-all;
+    line-height: 23px;
+    // max-width: 120px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .table-slot-cell{
+    word-break: break-all;
+    line-height: 23px;
+    max-width: 120px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+.api-p{
+  margin:12px 0px 0px 10px;
+
+}
+

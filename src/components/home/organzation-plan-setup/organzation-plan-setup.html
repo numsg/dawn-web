@@ -1,0 +1,4 @@
+<div class="org-setup-box" :class="{'box-one': span===3,'box-two': span===5,'box-three': span===7,'box-four': span===10}">
+  <div class="no-data" v-if="allPlans.length <= 0">{{ $t('common.no_data') }}</div>
+  <vo-basic class="chart-component" :data="chartSource" direction="l2r" :pan="true" :zoom="true" :toggleCollapse="false"></vo-basic>
+</div>

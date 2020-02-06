@@ -1,0 +1,18 @@
+<el-dialog
+  class="route-leave-dialog clearfix"
+  width="420px"
+  top="0px"
+  :title="$tc('whatever.notice.notify_title')"
+  :show-close="false"
+  @close="close"
+  :before-close="close"
+  :append-to-body="true"
+  :visible.sync="visible"
+>
+  <i class="status el-icon-warning"></i>
+  <span class="message">{{ $tc('whatever.common.leave_without_save_change') }}</span>
+  <span slot="footer">
+    <el-button @click="close">{{ $tc('whatever.common.btn_cancel_redirect') }}</el-button>
+    <el-button type="primary" @click="routeLeave">{{ $tc('whatever.common.btn_quit_and_redirect') }}</el-button>
+  </span>
+</el-dialog>

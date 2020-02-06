@@ -1,0 +1,35 @@
+.role-menu-container {
+  height: 100%;
+  .role-menu-content {
+    margin-bottom: 10px;
+    background: #fff;
+    height: calc(100% - 50px);
+    overflow: scroll;
+
+    .c____100____el-tree-node {
+      padding: 10px;
+    }
+    .c____100____el-tree-node__label{
+      display: inline-block;
+      max-width: 350px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .role-menu-bottom {
+    margin-top: -42px;
+    text-align: right;
+    float: right;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+  }
+  .node-label {
+    display: inline-block;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

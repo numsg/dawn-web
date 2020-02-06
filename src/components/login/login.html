@@ -1,0 +1,78 @@
+<div class="login-body">
+  <div class="login-bg"></div>
+  <div class="loginWarp">
+    <div class="system-logo">
+      <img :src="systemOptions.systemImg" />
+      <!-- <p class="log-txt" :class="{ 'text-spacing':language !== 'zh'}">{{ systemOptions.systemName }}</p> -->
+      <p class="log-txt" :class="{ 'text-spacing':language !== 'zh'}">社区管理系统</p>
+    </div>
+    <div
+      v-if="!loginFlag"
+      class="login-account"
+      v-loading="load_data"
+      :modal-append-to-body="false"
+      :element-loading-text="$t('login.logining')"
+      @keyup.enter="handleLogin"
+    >
+      <div class="login-title">
+        <!-- Sign in -->
+        {{ $t('login.login') }}
+      </div>
+      <div class="login-form">
+        <el-form ref="loginForm" :model="form" :rules="rules">
+          <el-form-item prop="username" class="login-item" :label="$t('login.username')"
+            ><br />
+            <!-- <el-input v-model="form.username" placeholder="请输入用户名：" class="form-input" :autofocus="true"></el-input> -->
+            <el-autocomplete
+              class="inline-input  form-input"
+              v-model="form.username"
+              :placeholder="$t('login.please_input_username')"
+              :fetch-suggestions="querySearch"
+              @select="handleSelect"
+            >
+            </el-autocomplete>
+          </el-form-item>
+          <el-form-item prop="password" class="login-item" :label="$t('login.password')">
+            <el-input
+              type="password"
+              v-model="form.password"
+              :placeholder="$t('login.please_input_pwd')"
+              @focus="loadPassword"
+              class="form-input"
+            ></el-input>
+          </el-form-item>
+          <el-alert class="login-error" type="error" :title="$t('login.login_pro') + loginError" :closable="false" v-if="loginErr">
+          </el-alert>
+          <div style="height: 16px;margin: 0,8;align-self: left;" class="option">
+            <!-- <el-checkbox id='savePwd' style="height: 16px;margin: 0,8;align-self: left;color: #fff" v-model='checked' label="记住密码"></el-checkbox> -->
+            <el-checkbox id="savePwd" v-model="checked" :label="$t('login.remember_pwd')" @change="changePwd"> </el-checkbox>
+          </div>
+          <el-form-item class="login-item" style="margin-top:80px;">
+            <el-button size="medium" style="width:100%;font-size:14px;" icon="check" class="login-btn" @click="handleLogin">
+              {{ $t('login.login') }}</el-button
+            >
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+    <div v-if="loginFlag" class="select-role">
+      <div class="role">
+        <div class="role-title">{{ $t('login.role') }}</div>
+        <ul class="frame">
+          <li
+            :class="{'is-select': selectedRole != null && selectedRole.id === currentRole.id}"
+            v-for="currentRole in roles"
+            @click="selecteRole(currentRole)"
+            @dblclick="getRolePrivileges"
+          >
+            <span :title="currentRole.name">{{ currentRole.name }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="confirm">
+        <el-button @click="cancel" class="confirm-btn" size="medium">{{ $t('common.cancel') }}</el-button>
+        <el-button @click="getRolePrivileges" class="confirm-btn" size="medium">{{ $t('common.determine') }} </el-button>
+      </div>
+    </div>
+  </div>
+</div>

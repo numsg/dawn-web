@@ -1,0 +1,593 @@
+@import './vars.scss';
+
+/************角标样式实现************/
+
+.superscript {
+  float: right;
+  margin-top: -19px;
+  margin-right: -20px;
+  width: 40px;
+  height: 40px;
+  transform: rotate(450deg);
+}
+
+.superscript-title {
+  float: right;
+  margin-right: 9px;
+  margin-top: -58px;
+  color: white;
+  transform: rotate(270deg);
+}
+
+/* 使用背景色渐变 */
+
+.superscript .gradual {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #31b968 50%, transparent 50%);
+}
+
+/* 使用三角形 */
+
+.superscript .triangle {
+  width: 0;
+  height: 0;
+  border-top: 70px solid red;
+  border-right: 56px solid transparent;
+}
+
+/* 使用矩形旋转, 和父节点的 overflow:hidden 配合 */
+
+.superscript .rect {
+  width: 183px;
+  height: 183px;
+  margin: -91px 0 0 -91px;
+  background: #31b968;
+  transform: rotateZ(45deg);
+}
+
+.superscript .desc {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  z-index: 1;
+}
+
+/************角标样式实现 end************/
+
+/** 清除样式start **/
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: '';
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/** 清除样式end **/
+
+
+
+/** 滚动条样式end **/
+
+/** 头部样式 */
+
+.header-title {
+  height: 25px;
+  line-height: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 9px;
+  color: $title-color;
+
+  i {
+    display: inline-block;
+    width: 4px;
+    height: 12px;
+    background-color: $color-primary1;
+    margin-right: 10px;
+  }
+}
+
+// 标题
+.common-title {
+  font-size: 18px;
+  position: relative;
+  color: $title-color;
+  padding-left: 30px;
+  line-height: 24px;
+  font-weight: 700;
+  text-align: left;
+
+  &::after {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    content: '';
+    border: 3px solid $main-color;
+    border-radius: 50%;
+  }
+
+  a {
+    display: block;
+  }
+}
+
+// 部分组件公共顶部样式
+.box-top {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .common-title {
+    flex: 1;
+  }
+
+  .el-input {
+    width: 316px;
+    margin-right: 14px;
+  }
+
+  .el-button {
+    // font-size: 18px;
+    // padding: 0 15px;
+  }
+
+  .el-switch {
+    padding-left: 20px;
+    border-left: 1px solid #ddd;
+    margin-left: 20px;
+
+    .el-switch__label {
+      line-height: 30px;
+      color: $text-color;
+    }
+  }
+}
+
+/** 头部样式 */
+
+/** 主要按钮样式 */
+
+.primary-btn {
+  background-color: $color-primary !important;
+  //display: flex;
+  justify-content: center;
+  color: #fff;
+  padding: 7px 20px 7px;
+
+  &:hover {
+    background-color: $color-primary;
+    color: #fff;
+  }
+}
+
+/** 主要按钮样式 */
+
+.fll {
+  float: left;
+}
+
+.flr {
+  float: right;
+}
+
+.icon-btn {
+  cursor: pointer;
+  color: $color-primary;
+  margin-right: 15px;
+  font-size: 20px !important;
+  // font-weight: 700;
+}
+
+.nav-drop {
+  top: 62px !important;
+}
+
+/** 统一按钮样式 */
+
+// 蓝色按钮样式
+.primary-btn {
+  background: $color-primary !important;
+  color: #ffffff !important;
+  border: 1px solid $color-primary;
+
+  span {
+    display: block !important;
+    float: right !important;
+  }
+}
+
+.primary-btn:hover {
+  color: #ffffff !important;
+  background: #3fa9f0 !important;
+  border: 1px solid #3fa9f0;
+}
+
+.primary-btn:focus {
+  color: #ffffff !important;
+  background: #3fa9f0 !important;
+  border: 1px solid #3fa9f0;
+}
+
+.top-operate-btn {
+  .el-button--primary {
+    background: $color-primary;
+    color: #ffffff !important;
+  }
+}
+
+.el-button--primary:hover {
+  color: #ffffff !important;
+  background: #3fa9f0 !important;
+
+  .primary-btn {
+    background: #3fa9f0 !important;
+  }
+}
+
+button {
+  &.iconfont {
+    font-size: 14px;
+    border-radius: 3px;
+  }
+
+  span {
+    margin-left: 5px;
+  }
+}
+
+/** 白色默认按钮 */
+
+.default-btn {
+  border: 1px solid #3498db !important;
+  color: #3498db !important;
+  background-color: $default-btn-color;
+  display: flex;
+  justify-content: center;
+  padding: 7px 20px 7px;
+}
+
+.default-btn:hover {
+  color: #fff !important;
+  background-color: #3498db !important;
+}
+
+/** tag 标签*/
+
+.tag-item {
+  display: inline-block;
+  font-size: 14px;
+  color: #3498db;
+  padding: 0 20px;
+  margin: 0 18px 9px 0;
+  background-color: rgb(235, 247, 255);
+  border: 1px solid rgb(159, 205, 236);
+  border-radius: 3px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 32px;
+}
+
+.input-search {
+  input {
+    height: 36px;
+    // line-height: 30px !important;
+  }
+
+  i {
+    // font-size: 20px !important;
+    float: right;
+    color: $text-color !important;
+    position: relative;
+  }
+}
+
+/** 侧边栏标题样式*/
+
+.side-frame-header {
+  width: calc(100% - 40px);
+  height: 40px;
+
+  .side-frame-title {
+    line-height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+
+    i {
+      margin-right: 4px;
+    }
+  }
+}
+
+.side-frame-content {
+  height: calc(100% - 40px);
+}
+
+.date-picker-popper {
+  // margin-top: -5px !important;
+  // margin-left: -144px !important;
+  z-index: 2006 !important;
+  position: absolute !important;
+  top: 365px !important;
+  left: 450px !important;
+}
+
+.el-button.is-circle {
+  padding: 9px;
+  border-radius: 50%;
+}
+
+.el-table {
+  font-size: 14px;
+}
+
+.iconfont-size {
+  font-size: 20px;
+}
+
+// 富文本文本选中左下角只显示字数
+.mce-flow-layout {
+  .mce-last {
+    display: none !important;
+  }
+}
+
+#mceu_23-body {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+
+
+/*****************富文本样式start*******************/
+.mce-panel {
+  background: $default-btn-color !important;
+  border: 1px solid $border-color !important;
+
+
+  .mce-disabled {
+    cursor: not-allowed !important;
+    background: $border-color !important;
+  }
+
+  .mce-btn-group {
+    .mce-btn {
+      background: $default-btn-color !important;
+
+      .mce-txt {
+        color: $text-color !important;
+      }
+    }
+  }
+
+  .mce-menubtn:hover {
+    border-color: $border-color !important;
+    background: $default-btn-color !important;
+
+  }
+
+  .mce-menubtn:focus {
+    border-color: $border-color !important;
+    background: $default-btn-color !important;
+  }
+
+  .mce-abs-end {
+    .mce-first {
+      background: $default-btn-color !important;
+      border-color: $active-background-color !important;
+
+      span {
+        color: $active-background-color !important;
+      }
+    }
+
+    .mce-last {
+      background: $default-btn-color !important;
+      border-color: $text-color !important;
+
+      span {
+        color: $text-color !important;
+      }
+    }
+  }
+
+  .mce-menubtn {
+    border-color: $border-color !important;
+    background: $border-color !important;
+
+
+    .mce-txt {
+      color: $text-color !important;
+    }
+  }
+
+  .mce-toolbar {
+    .mce-active {
+      // button {
+      //   background: $active-background-color !important;
+      // }
+
+      // .mce-text {
+      //   color: $active-text-color !important;
+      // }
+
+      // .mce-ico {
+      //   color: $active-text-color !important;
+      // }
+    }
+  }
+
+  .mce-toolbar-grp {
+
+    .mce-active {
+      background: $mce-active-toolbar-grp-btn !important;
+      color: $active-text-color !important;
+
+      button {
+        background: $mce-active-toolbar-grp-btn !important;
+      }
+
+      .mce-text {
+        color: $active-text-color !important;
+      }
+
+      .mce-ico {
+        color: $active-text-color !important;
+      }
+    }
+  }
+
+  .mce-tab {
+    background: $default-btn-color !important;
+    color: $text-color !important;
+  }
+
+
+  .mce-menubar {
+    border-color: $border-color !important;
+  }
+
+  .mce-btn-group:not(:first-child) {
+    border-color: $border-color !important;
+  }
+
+}
+
+.mce-container {
+  color: $text-color !important;
+
+  .mce-ico {
+    color: $text-color !important;
+  }
+
+  .mce-menu-item:hover,
+  .mce-menu-item:focus {
+    background: $mce-active-background !important;
+    color: $mce-content-text-color !important;
+
+    .mce-ico {
+      color: $mce-content-text-color !important;
+    }
+
+    .mce-text {
+      color: $mce-content-text-color !important;
+    }
+  }
+
+
+  .mce-tabs {
+    color: $text-color !important;
+    background: $default-btn-color !important;
+  }
+
+  .mce-dropzone {
+    span {
+      color: $text-color !important;
+      background: $default-btn-color !important;
+    }
+  }
+
+  .mce-title {
+    color: $text-color !important;
+  }
+
+  .mce-textbox {
+    color: $text-color !important;
+    background: $default-btn-color !important;
+  }
+
+  .mce-label {
+    color: $text-color !important;
+  }
+
+  .mce-abs-layout {
+    background: $default-btn-color !important;
+
+  }
+
+  .mce-dropzone {
+    border-color: $text-color !important;
+
+    .mce-btn {
+      border-color: $active-background-color !important;
+
+      .mce-txt {
+        color: $active-text-color !important;
+      }
+    }
+  }
+
+  .mce-menu-item {
+    .mce-text {
+      color: $text-color !important;
+    }
+  }
+
+  .mce-menu-item.mce-selected {
+    background: $mce-active-background !important;
+    color: $active-text-color !important;
+
+    .mce-text {
+      // color: $active-text-color !important;
+    }
+  }
+
+  .mce-charmap td {
+    color: $text-color !important;
+  }
+
+  i.mce-i-checkbox {
+    background-color: $default-btn-color;
+  }
+
+  .mce-btn button {
+    color: $text-color !important;
+  }
+
+  .mce-btn-flat:hover {
+    background: $active-background-color !important;
+  }
+
+  .mce-text-center {
+    color: $text-color !important;
+  }
+
+  .mce-foot {
+    .mce-first {
+      border-color: $active-background-color !important;
+      background: 0 !important;
+
+      button {
+        background: 0 !important;
+        color: $active-background-color !important;
+      }
+
+      .mce-txt {
+        color: $active-background-color !important;
+      }
+
+      .mce-ico {
+        color: $active-background-color !important;
+      }
+    }
+
+    .mce-last {
+      button {
+        color: $mce-content-text-color !important;
+      }
+    }
+  }
+
+}
+
+/*****************富文本样式end*******************/

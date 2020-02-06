@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pms-web
+  namespace: pms-web
+  labels:
+    name: pms-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: pms-web
+  template:
+    metadata:
+      labels:
+        name: pms-web
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTS
+          value: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+        image: 172.22.3.109/pms/pms-web:1.0.0-RC
+        imagePullPolicy: Always
+        name: pms-web
+        ports:
+        - containerPort: 80
+          name: 80tcp01
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: host-time
+        - mountPath: /usr/share/nginx/html/config.json
+          name: pms-web-config
+          subPath: path/to/config.json
+        - mountPath: /etc/nginx/nginx.conf
+          name: pms-web-config
+          subPath: path/to/nginx.conf
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: /etc/localtime
+          type: ""
+        name: host-time
+      - configMap:
+          defaultMode: 256
+          items:
+          - key: config.json
+            path: path/to/config.json
+          - key: nginx.conf
+            path: path/to/nginx.conf
+          name: pms-web-config
+          optional: false
+        name: pms-web-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    cattle.io/creator: norman
+  name: pms-web-nodeport
+  namespace: pms-web
+spec:
+  type: NodePort
+  ports:
+    - name: 80tcp01
+      port: 80
+      nodePort: 32568
+      protocol: TCP
+  selector:
+    name: pms-web
+---
+apiVersion: v1
+data:
+  config.json: |-
+    {
+      "lang": "zh-CN",
+      "planPreparationUrl": "http://172.22.24.179:32566/api/v1/",
+      "odataUrl":"http://172.22.24.179:32566/OdataService.svc",
+      "system": "pre-plan management system"
+    }
+  nginx.conf: |-
+    user root;
+    worker_processes 1;
+
+    error_log /var/log/nginx/error.log warn;
+    pid /var/run/nginx.pid;
+
+
+    events {
+    worker_connections 1024;
+    }
+
+
+    http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+    '$status $body_bytes_sent "$http_referer" '
+    '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log /var/log/nginx/access.log main;
+
+    sendfile on;
+    #tcp_nopush on;
+
+    keepalive_timeout 65;
+
+    #gzip on;
+
+    include /etc/nginx/conf.d/*.conf;
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-04-02T01:40:22Z"
+  labels:
+    cattle.io/creator: norman
+  name: pms-web-config
+  namespace: pms-web

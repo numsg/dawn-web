@@ -1,0 +1,31 @@
+<div class="settings">
+  <div class="top-area">
+    <el-input class="input-search" size=medium
+      :placeholder="$t('tempMgr.keywords_search_placeholder')" 
+      v-model="keyWords" 
+      suffix-icon="iconfont iconpms-icon_search ">
+    </el-input>
+  </div>
+  
+  <div class="bottom-area">
+    <div class="content-area">
+      <div class="aside">
+          <el-left-navigation
+             :data="data" 
+             :defaultActiveId="defaultActiveId"
+              @on-menu-item="onNavigationItem">
+            </el-left-navigation>
+      </div>
+
+        <div  class="main">
+          <el-right-content 
+          :data="data"
+          :leftClickItemId="leftClickItemId"
+          @on-content-item="onContentItem"
+          :rolePrivilege="rolePrivilege"
+          >
+        </el-right-content>
+        </div>
+     </div> 
+   </div>
+</div>

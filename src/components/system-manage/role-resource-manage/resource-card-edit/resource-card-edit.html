@@ -1,0 +1,70 @@
+<div class="resource-card-edit-container">
+  <div class="res-title">
+    <i></i>
+    <span>{{ $t('role-resource-manage.associate_privilege') }}</span>
+  </div>
+  <div class="resource-card-edit-content">
+    <el-tabs class="resource-card-edit-tab" v-model="activeTabName" @tab-click="handleTabClick">
+      <el-tab-pane class="menu-list-edit" :label="$t('role-resource-manage.function_resource')" name="authorityResource">
+        <div class="menu-list-content">
+          <div class="menu-item" v-for="menuParent in allMenu">
+            <el-tree
+              ref="tree"
+              @check="onCheckedClick"
+              @check-change="onCheckChange"
+              show-checkbox
+              default-expand-all
+              :props="treeProps"
+              node-key="id"
+              :data="menuParent"
+              :default-checked-keys="hasMenuIdList"
+              :check-strictly="true"
+            >
+              <span class="custom-tree-node" slot-scope="{node,data}" @click="() => node_click(node, data)">
+                <span class="node-label" :title="node.label">{{ node.label }}</span>
+              </span>
+            </el-tree>
+          </div>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane :label="$t('resource-manage.api_resource')" name="apiResource">
+        <div class="api-p" style="width:98%">
+          <el-table :data="privilegeList" stripe highlight-current-row>
+            <el-table-column prop="name" :label="$t('common.name')">
+              <template slot-scope="scope">
+                <el-tooltip placement="top" :open-delay="500" effect="light">
+                  <div slot="content">{{ scope.row.name }}</div>
+                  <div class="table-slot-cell">{{ scope.row.name }}</div>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="description" :label="$t('role-resource-manage.api_adress')">
+              <template slot-scope="scope">
+                <el-tooltip placement="top" :open-delay="500" effect="light">
+                  <div slot="content">{{ scope.row.description }}</div>
+                  <div class="table-slot-cell">{{ scope.row.description }}</div>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="expression" :label="$t('system_log.data_type.rule')">
+              <template slot-scope="scope">
+                <el-tooltip placement="top" :open-delay="500" effect="light">
+                  <div slot="content">{{ scope.row.expression }}</div>
+                  <div class="table-slot-cell">{{ scope.row.expression }}</div>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column fixed="right" :label="$t('system_log.operation')">
+              <template slot-scope="scope">
+                <el-checkbox v-model="scope.row.choose"></el-checkbox>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+  <p class="resource-card-edit-save">
+    <el-button class="iconfont iconpms-icon_save primary-btn" type="primary" @click="onSaveMenuEdit">{{ $t('common.save') }}</el-button>
+  </p>
+</div>

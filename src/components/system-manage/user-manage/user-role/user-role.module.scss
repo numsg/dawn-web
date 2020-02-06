@@ -1,0 +1,120 @@
+@import '@/assets/styles/vars.scss';
+.user-role-container {
+  width: 100%;
+  height: 100%;
+  .user-role-header {
+    height: 48px;
+    padding: 0;
+  }
+  .user-role-content {
+    height: 100%;
+    width: 100%;
+  }
+  .user-role-main {
+    width: 100%;
+    height: calc(100% - 48px);
+    .user-role-aside {
+      width: 40%;
+      height: 100%;
+      padding: 10px;
+      border: 1px solid #dcdfe6;
+      float: left;
+      .search-box {
+        height: 36px;
+        margin-bottom: 10px;
+      }
+      ul {
+        height: calc(100% - 46px);
+        overflow: scroll;
+        padding: 10px 0;
+        li {
+          height: 70px;
+          padding: 12px 0 12px 10px;
+          box-sizing: border-box;
+          background: #f6f8fc;
+          margin-bottom: 15px;
+          border: 1px solid #f6f7f8;
+          border-radius: 5px;
+          color: #575757;
+          &.active {
+            border: 1px solid #b8daf2;
+            box-shadow: 3px 3px 5px #dfeff9;
+          }
+          .role-checked {
+            float: left;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            margin-right: 10px;
+            margin-top: -3px;
+          }
+          .role-item {
+            float: left;
+            width: calc(100% - 75px);
+            height: 70px;
+            .role-name {
+              margin-top: 10px;
+              font-weight: 1000;
+              font-size: 16px;
+              color: rgb(75, 75, 75);
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              max-width: 300px;
+            }
+            .role-resource-count {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+    .role-resources {
+      width: calc(60% - 10px);
+      height: 100%;
+      float: right;
+      .role-resource-card {
+        width: 100%;
+        height: calc(100% - 25px);
+        img {
+          padding: 40px;
+          width: 100%;
+          height: 100%;
+        }
+        .pri-null {
+          text-align: center;
+          font-size: 16px;
+          color: #555;
+        }
+      }
+      .user-resource-bottom {
+        position: absolute;
+        top: -55px;
+        right: 0;
+        display: flex;
+      }
+    }
+  }
+  .header-title {
+    height: 25px;
+    line-height: 25px;
+    font-weight: bold;
+    margin-bottom: 9px;
+    i {
+      display: inline-block;
+      width: 4px;
+      height: 15px;
+      background-color: #3498db;
+      margin-right: 10px;
+    }
+    span {
+      font-weight: 1000;
+      font-size: 16px;
+      color: rgb(75, 75, 75);
+      display: block;
+      margin-top: -27px;
+      margin-left: 15px;
+    }
+  }
+}

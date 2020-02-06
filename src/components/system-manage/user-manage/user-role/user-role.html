@@ -1,0 +1,49 @@
+<div class="user-role-container">
+  <div class="user-role-content">
+    <div class="user-role-header">
+      <div class="header-title">
+        <i></i>
+        <span>{{$t('user-manage.add_role')}}</span>
+      </div>
+    </div>
+    <div class="user-role-main">
+      <div class="user-role-aside">
+        <div class="search-box">
+          <el-input class="input-search" :placeholder="$t('tempMgr.keywords_search_placeholder')" v-model="searchValue" suffix-icon="iconfont iconpms-icon_search"></el-input>
+        </div>
+        <ul>
+          <li v-for="role in allRoles" @click="onRoleClick(role)" :class="{active: currentRole.name === role.name}">
+            <div class="role-checked">
+              <el-checkbox v-model="role.choose"></el-checkbox>
+            </div>
+            <div class="role-item">
+              <p class="role-name" :title="role.name">{{role.name}}</p>
+              <!-- <p class="role-resource-count" v-if="currentRole.code === role.code">当前拥有权限:&nbsp;&nbsp;
+                <span>{{count}}</span>
+              </p> -->
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="role-resources">
+        <div v-show='handleMenuFlag' style="height:100%;">
+          <div class="header-title">
+            <i></i>
+            <span>{{$t('user-manage.contact_resource')}}</span>
+          </div>
+          <div class="role-resource-card">
+            <el-resource-card :currentRole="currentRole" :isNewRole="false" :showEdit="false" @on-menu-change="menuChange" @on-menuList='handleMenu'></el-resource-card>
+          </div>
+        </div>
+        <p class="user-resource-bottom">
+          <el-button @click="onBack" size="mini" class="default-btn" icon="iconfont iconpms-icon_cancel">{{$t('common.go_back')}}</el-button>
+          <el-button type="primary" size="mini" @click="onSave" class="primary-btn" icon="iconfont iconpms-icon_save"> {{$t('common.save')}}</el-button>
+        </p>
+        <div :hidden="handleMenuFlag" class="role-resource-card">
+          <img :src='rolePriNull'>
+          <p class='pri-null'>{{$t('user-manage.cur_role_no_privileges')}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,112 @@
+<div class="privilege-resource">
+  <div class="api-table" :class="{tableSlider: formVisible}">
+    <div class="clearfix tab-event">
+      <el-button
+        v-if="rolePrivilege.add"
+        class="add-btn no-text-btn iconfont iconpms-icon_add primary-btn"
+        type="primary"
+        size="medium"
+        :title="$t('resource-manage.add_api_resource')"
+        @click="addPrivilege()"
+      >
+        {{ $t('resource-manage.add_api_resource') }}</el-button
+      >
+      <div class="search-box">
+        <el-input
+          class="input-search"
+          :placeholder="$t('tempMgr.keywords_search_placeholder')"
+          v-model="searchValue"
+          suffix-icon="iconfont iconpms-icon_search"
+        ></el-input>
+      </div>
+    </div>
+    <el-table :data="privilegeList" height="100%" stripe highlight-current-row style="width:100%">
+      <el-table-column prop="name" :label="$t('common.name')">
+        <template slot-scope="scope">
+          <div class="table-slot-cell" :title="scope.row.name">{{ scope.row.name }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="description" :label="$t('role-resource-manage.api_adress')">
+        <template slot-scope="scope">
+          <div class="table-slot-cell" :title="scope.row.description">{{ scope.row.description }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="expression" :label="$t('system_log.data_type.rule')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.expression" class="table-slot-cell">{{ scope.row.expression }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column
+        v-if="rolePrivilege.update || rolePrivilege.delete"
+        fixed="right"
+        :label="$t('system_log.operation')"
+        class="privilege-operate"
+        height="150"
+      >
+        <template slot-scope="scope">
+          <div
+            v-if="rolePrivilege.update"
+            style="display: inline-block;height: 20px;width: 20px;margin-right: 15px;"
+            @click="handleUpdateClick(scope.row)"
+            :title="$t('common.edit')"
+          >
+            <i class="iconfont iconpms-icon_edit table-icon"></i>
+          </div>
+          <i
+            v-if="rolePrivilege.delete"
+            class="iconfont iconpms-icon_delet table-icon"
+            @click="handledeleteClick(scope.row, $event)"
+            @click.stop
+            :title="$t('common.delete')"
+          ></i>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+  <div class="api-form" :class="{formSlider: formVisible}">
+    <div class="api-form-content">
+      <div class="header-title">
+        <i></i>
+        <span>{{ handleApiRes }}</span>
+      </div>
+      <el-form :model="currentPrivilege" :rules="rules" ref="currentPrivilege" size="medium" style="font-size: 15px;">
+        <el-form-item :label="$t('common.name')" prop="name">
+          <el-input
+            v-model="currentPrivilege.name"
+            size="medium"
+            maxlength="64"
+            :placeholder="$t('common.name_length_limit128')"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('role-resource-manage.api_adress')" prop="description">
+          <el-input
+            v-model="currentPrivilege.description"
+            size="medium"
+            maxlength="2000"
+            :placeholder="$t('common.description_length_under_2000')"
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('system_log.data_type.rule')" prop="expression">
+          <el-input
+            v-model="currentPrivilege.expression"
+            size="medium"
+            maxlength="64"
+            :placeholder="$t('common.length_limit64')"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div v-if="rolePrivilege.update || rolePrivilege.add" class="form-btn">
+        <!-- <span>
+          <span class="cancel-btn"> -->
+        <el-button class="default-btn iconfont iconpms-icon_cancel" size="medium" @click="cancelSubmit">
+          {{ $t('common.cancel') }}</el-button
+        >
+        <!-- </span> -->
+        <el-button size="medium" class="primary-btn iconfont iconpms-icon_save" type="primary" @click="savePrivilege">
+          {{ $t('common.save') }}
+        </el-button>
+        <!-- </span> -->
+      </div>
+    </div>
+  </div>
+</div>

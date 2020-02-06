@@ -1,0 +1,150 @@
+<div
+  class="plan-entrance"
+  :class="{'plan-entrance-one': span===3,'plan-entrance-two': span===5,'plan-entrance-three': span===7,'plan-entrance-four': span===10}"
+>
+  <!-- <div class="pre-stage">
+    <div class="title">
+      <i class="iconfont iconpms-icon_Light-bulb"></i>
+      {{ $t('home.is_prepared_plan') }}
+    </div>
+    <div class="content">
+      <ul id="entrance-content" ref="entrance-content">
+        <li class="item">
+          <div class="line"></div>
+        </li>
+        <li class="item">
+          <div class="line"></div>
+          <div
+            class="label iconfont iconpms-icon_Digital-Plan-bg"
+            :class="{'label-one': span===3,'label-two': span===5,'label-three': span===7,'label-four': span===10}"
+            @click="handleNavigator('attribute-manage')"
+          >
+            <i class="iconfont iconpms-icon_Data-Source-Standard"></i>
+            <div
+              class="text"
+              :title="$t('home.standardized_definition_source')"
+              :class="{'text-one': span===3,'text-two': span===5,'text-three': span===7,'text-four': span===10}"
+            >
+              <span
+                class="iconfont"
+                :class="baseDaaCheck.dataSourceCheck ? 'iconpms-icon_Verifying-and-passing': 'iconpms-icon_Verification-failed verification-failed'"
+              ></span>
+              {{ $t('home.standardized_definition_source') }}
+            </div>
+          </div>
+          <div
+            class="arc-box"
+            :class="{'arc-box-one': span===3,'arc-box-two': span===5,'arc-box-three': span===7,'arc-box-four': span===10}"
+          >
+            <div class="arc"></div>
+          </div>
+        </li>
+        <li class="item">
+          <div class="line"></div>
+          <div
+            class="label iconfont iconpms-icon_Digital-Plan-bg"
+            :class="{'label-one': span===3,'label-two': span===5,'label-three': span===7,'label-four': span===10}"
+            @click="handleNavigator('rule-library')"
+          >
+            <i class="iconfont iconpms-icon_Business-Rule-Definition"></i>
+            <div
+              class="text"
+              :title="$t('home.bussiness_rule_definition')"
+              :class="{'text-one': span===3,'text-two': span===5,'text-three': span===7,'text-four': span===10}"
+            >
+              <span
+                class="iconfont"
+                :class="baseDaaCheck.ruleTypeCheck ? 'iconpms-icon_Verifying-and-passing': 'iconpms-icon_Verification-failed verification-failed'"
+              ></span>
+              {{ $t('home.bussiness_rule_definition') }}
+            </div>
+          </div>
+          <div
+            class="arc-box"
+            :class="{'arc-box-one': span===3,'arc-box-two': span===5,'arc-box-three': span===7,'arc-box-four': span===10}"
+          >
+            <div class="arc"></div>
+          </div>
+        </li>
+        <li class="item">
+          <div class="line"></div>
+          <div
+            class="label iconfont iconpms-icon_Digital-Plan-bg"
+            :class="{'label-one': span===3,'label-two': span===5,'label-three': span===7,'label-four': span===10}"
+            @click="handleNavigator('component-manager')"
+          >
+            <i class="iconfont iconpms-icon_Standard-Business-Module"></i>
+            <div
+              class="text"
+              :title="$t('home.standardized_business_module_definition')"
+              :class="{'text-one': span===3,'text-two': span===5,'text-three': span===7,'text-four': span===10}"
+            >
+              <span
+                class="iconfont"
+                :class="baseDaaCheck.cellTypeCheck ? 'iconpms-icon_Verifying-and-passing': 'iconpms-icon_Verification-failed verification-failed'"
+              ></span>
+              {{ $t('home.standardized_business_module_definition') }}
+            </div>
+          </div>
+          <div
+            class="arc-box"
+            :class="{'arc-box-one': span===3,'arc-box-two': span===5,'arc-box-three': span===7,'arc-box-four': span===10}"
+          >
+            <div class="arc"></div>
+          </div>
+        </li>
+        <li class="item">
+          <div class="line"></div>
+          <div
+            class="label iconfont iconpms-icon_Digital-Plan-bg"
+            :class="{'label-one': span===3,'label-two': span===5,'label-three': span===7,'label-four': span===10}"
+            @click="handleNavigator('plan-list')"
+          >
+            <i class="iconfont iconpms-icon_Preplan-template"></i>
+            <div
+              class="text"
+              :title="$t('home.plan_template_definition')"
+              :class="{'text-one': span===3,'text-two': span===5,'text-three': span===7,'text-four': span===10}"
+            >
+              <span
+                class="iconfont"
+                :class="baseDaaCheck.planTemplateCheck ? 'iconpms-icon_Verifying-and-passing': 'iconpms-icon_Verification-failed verification-failed'"
+              ></span>
+              {{ $t('home.plan_template_definition') }}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="pre-complete">
+    <div class="complete-content">
+      <div class="desc">
+        <i class="ready iconfont iconpms-icon_Light-bulb-"></i>
+        <span :title="$t('home.start_compile_plan')" v-if="isAllCheck">
+          {{ $t('home.start_compile_plan') }}
+        </span>
+        <span :title="$t('home.no_preparation_affected_accuracy')" v-else>
+          {{ $t('home.no_preparation_affected_accuracy') }}
+        </span>
+      </div>
+      <div class="quick-edit">
+        <el-button circle type="warning" class="iconfont iconpms-icon_Blow-Up" @click="handleNavigator('new-plan-guidance')"></el-button>
+        <span :title="$t('home.quick_compile_plan')">{{ $t('home.quick_compile_plan') }}</span>
+      </div>
+      <div class="remain">
+        <el-popover ref="popover" width="330" height="190" placement="right-start" v-model="popoverVisible">
+          <div class="tips">
+            <img :src="isAllCheck ? tipsPassingImage : tipsFailedImage" alt="" />
+            <div class="tip-text">
+              <p class="warm">{{ $t('home.warm_prompt') }}</p>
+              <p class="text" v-if="isAllCheck">{{ $t('home.ready_preliminary_work') }}</p>
+              <p class="text" v-else>{{ $t('home.preparation_not_completed') }}</p>
+            </div>
+          </div>
+          <span slot="reference" class="iconfont iconpms-icon_remind" @click="onReminClick"></span>
+        </el-popover>
+      </div>
+    </div>
+  </div> -->
+</div>

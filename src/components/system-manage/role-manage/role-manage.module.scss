@@ -1,0 +1,492 @@
+@import '@/assets/styles/vars.scss';
+
+.role-list-container {
+  margin: 0;
+  padding: 10px;
+  background: #ffffff;
+  margin-right: 5px;
+
+  button:focus {
+    color: white !important;
+    background-color: #3498db !important;
+  }
+
+  .span-button {
+    cursor: pointer;
+  }
+
+  .item-title {
+    font-size: 16px;
+    font-weight: bolder;
+    color: #525151;
+    margin-top: 20px;
+    margin-left: 10px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px;
+  }
+
+  .item-content {
+    font-size: 16px;
+  }
+
+  .item-text {
+    font-size: 15px;
+    color: #6c6c6d;
+  }
+
+  .role-list-header {
+    padding: 0;
+    display: flex;
+    height: 32px !important;
+    margin-bottom: 10px;
+
+    .role-search {
+      flex: 1;
+      // width: 395px;
+      font-size: 14px;
+      margin-right: 20px;
+    }
+
+    .add-role {
+      float: right;
+      color: #fff;
+      // margin-top: 2px !important;
+      // padding: 7px 20px!important;
+      // .add-role-span {
+      //   position: absolute;
+      //   bottom: 4px;
+      // }
+    }
+
+    .add-role-span {
+      position: relative;
+      top: 2px;
+      font-size: 14px;
+    }
+
+    .primary-btn {
+      border: none;
+    }
+  }
+
+  .role-container {
+    height: calc(100% - 60px);
+    overflow: scroll;
+
+    .role-content {
+      height: 70px;
+      border: 1px solid #dcdfe6;
+      border-radius: 5px;
+      margin-bottom: 16px;
+      background: rgb(246, 248, 252);
+      cursor: pointer;
+
+      .role-item {
+        float: left;
+      }
+
+      .role-content-left {
+        width: 86px;
+        line-height: 70px;
+        text-align: center;
+
+        .role-picture {
+          display: block;
+          width: 36px;
+          height: 36px;
+          line-height: 36px;
+          text-align: center;
+          margin: 16px auto;
+          border-radius: 50%;
+          background: #3498db;
+          color: #fff;
+          font-size: 24px;
+        }
+      }
+
+      .role-content-middle {
+        width: calc(100% - 150px);
+        padding: 10px;
+        margin-top: -6px;
+
+        p {
+          margin: 4px 0;
+        }
+      }
+
+      .role-content-right {
+        width: 64px;
+        line-height: 70px;
+
+        .role-right {
+          width: 64px;
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          display: block;
+          margin: 10px auto;
+
+          i {
+            font-size: 20px;
+            text-align: center;
+            color: #555555;
+          }
+
+          .delete-btn {
+            font-size: 22px !important;
+            color: #555555;
+          }
+
+          button:focus {
+            background: rgb(246, 248, 252) !important;
+            color: #555555 !important;
+          }
+        }
+      }
+    }
+
+    .current-role {
+      border: 1px solid #7eadde;
+      // box-shadow: 3px 3px 5px #dfeff9;
+    }
+
+    .select-role {
+      text-align: center;
+    }
+  }
+
+  .ddata-null {
+    position: absolute;
+    color: #909399;
+    top: 50%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+  }
+
+  @media screen and (max-width: 1440px) {
+
+    .no-text-btn {
+      span {
+        display: none !important;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1920px) and (min-width: 1441px) {
+    .no-text-btn {
+      span {
+        display: inline-block !important;
+      }
+    }
+  }
+}
+
+.role-detaile-container {
+  display: flex;
+  flex-direction: column;
+
+  .role-row {
+    padding: 15px 20px;
+    background: #ffffff;
+    margin-bottom: 5px;
+
+    label {
+      margin-bottom: 4px;
+      color: rgb(150, 150, 153);
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    input {
+      font-size: 15px;
+    }
+  }
+
+  .role-resource-row {
+    height: 100%;
+    margin: 0;
+    padding-bottom: 40px;
+
+    .role-resource {
+      height: calc(100% - 20px);
+    }
+  }
+
+  .role-form {
+    .role-authority {
+      height: calc(100% - 425px);
+      overflow: scroll;
+    }
+
+    .role-form-buttom {
+      position: absolute;
+      bottom: 0px;
+    }
+  }
+
+  .release-container {
+    height: 100%;
+    position: relative;
+
+    .release {
+      .on-release-authority {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        background-color: #3498db;
+      }
+
+      button:hover {
+        color: white !important;
+      }
+    }
+
+    .authority-item {
+      position: relative;
+      width: 100%;
+      border: 1px dashed gray;
+      margin: 10px 0;
+      padding: 18px;
+      border-radius: 3px;
+
+      .authority-item-parent {
+        font-size: 16px;
+        color: #555555;
+        font-weight: 600;
+        height: 16px;
+        line-height: 16px;
+      }
+
+      .authority-children {
+        margin-top: 18px;
+        height: 36px;
+        line-height: 36px;
+
+        .authority-children-item {
+          font-size: 16px;
+          color: rgb(52, 152, 255);
+          padding: 9px;
+          margin-right: 18px;
+          background-color: rgb(235, 247, 255);
+          border: 1px solid rgb(159, 205, 236);
+          border-radius: 3px;
+        }
+      }
+
+      .authority-item-delete {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: 0;
+        border: 0;
+        padding: 12px;
+      }
+    }
+
+    .primary-btn {
+      border: 0;
+    }
+  }
+
+  .role-pri-null {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 40px auto;
+
+
+    img {
+      height: 371px;
+      width: 371px;
+    }
+
+    p {
+      color: #969699;
+      font-size: 16px;
+
+      button {
+        background-color: rgb(33, 145, 236);
+        color: white;
+        cursor: pointer;
+        border: none !important;
+        border-radius: 2px;
+        height: 25px;
+        margin-left: 3px;
+        margin-right: 3px;
+      }
+    }
+
+    button:focus {
+      background-color: rgb(33, 145, 236) !important;
+      color: white !important;
+    }
+  }
+}
+
+.click-disabled {
+  pointer-events: none;
+}
+
+.side-frame-container {
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 550px;
+  height: 102%;
+  background: #f7f8fc;
+  padding: 15px;
+  box-shadow: 0 2px 7px -1px rgb(109, 108, 108);
+
+  .side-frame-header {
+    background: 0;
+    border: 0;
+    padding: 0;
+    z-index: 1600;
+    position: absolute;
+    text-align: right;
+    width: 36px;
+    height: 36px;
+    right: 10px;
+    top: 8px;
+    margin: 0;
+
+    .edit-button {
+      border: 0;
+      padding: 8px;
+      background: none;
+      bottom: 10px;
+      font-size: 20px;
+    }
+
+    button {
+      i {
+        font-size: 28px;
+      }
+    }
+  }
+
+  .side-frame-content {
+    height: 100%;
+    overflow: scroll;
+  }
+
+  .side-frame-content-edit {
+    height: calc(100% - 80px);
+    overflow: scroll;
+  }
+
+  .side-frame-contant {
+    box-shadow: -2px 0px 5px #ccc;
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: calc(100% - 40px);
+    overflow: scroll;
+    background-color: #f3f3f3;
+    z-index: 100;
+  }
+}
+
+.user-form-event {
+  position: absolute;
+  top: 12px;
+  right: 0;
+  display: flex;
+  margin-right: 18px;
+}
+
+.form-btn {
+  position: relative !important;
+  margin-top: -45px !important;
+  margin-left: -195px !important;
+  height: 60px;
+
+  button {
+    width: 90px;
+    color: white;
+  }
+
+  button:focus {
+    color: white !important;
+    background-color: #3498db !important;
+  }
+
+  .cancel-btn {
+    button:focus {
+      color: #3498db !important;
+      background-color: white !important;
+    }
+  }
+}
+
+@keyframes start-out {
+  from {
+    right: -100%;
+  }
+
+  to {
+    right: 0;
+  }
+}
+
+@keyframes end-in {
+  from {
+    right: 0;
+  }
+
+  to {
+    right: -100%;
+  }
+}
+
+.start-out {
+  animation: start-out 1s;
+  animation-fill-mode: forwards;
+}
+
+.end-in {
+  animation: end-in 1s;
+  animation-fill-mode: forwards;
+}
+
+.primary-btn-txt {
+  position: relative;
+  top: 1px;
+  font-size: 14px;
+}
+
+.route-leave-dialog {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  >div {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    // width: inherit;
+    margin: 0 auto;
+
+    >div:first-child {
+      padding: 10px;
+    }
+
+    >div:nth-child(2) {
+      padding: 15px 10px;
+      flex: 1;
+      display: flex;
+    }
+
+    >div:last-child {
+      padding: 10px;
+    }
+  }
+}

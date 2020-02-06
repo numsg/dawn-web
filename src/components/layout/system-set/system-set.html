@@ -1,0 +1,61 @@
+<!-- <div v-if="isSystemSet"> -->
+<el-dialog
+  :visible.sync="isSystemSet"
+  append-to-body
+  :close-on-click-modal="false"
+  :close-on-press-escape="true"
+  :show-close="false"
+  width="28%"
+  top="12%"
+  class="system-set"
+>
+  <div>
+    <span class="header-title close-title" style="display: flow-root !important;margin-top: -40px !important;">
+      <i></i>
+      <span class="system-set-title">{{ $t('layout.product_config') }}</span>
+    </span>
+    <i class="close-button-change iconfont iconpms-icon_Close" @click="outsideClose()"></i>
+  </div>
+
+  <!-- <div>
+      <p class="system-option-title">系统名称设置</p>
+      <el-input v-model="systemOptions.systemName" placeholder="系统名称"> </el-input>
+    </div> -->
+
+  <el-form :model="systemOptions" class="system-set-name" :rules="rules" ref="systemOptionsRef">
+    <el-form-item :label="$t('layout.system_name_config')" prop="systemName">
+      <el-input v-model="systemOptions.systemName" :placeholder="$t('common.name_length_limit128')" maxlength="128"> </el-input>
+    </el-form-item>
+  </el-form>
+
+  <div>
+    <p class="system-option-title">{{ $t('layout.system_log_set') }}</p>
+
+    <el-upload
+      class="avatar-uploader"
+      ref="upload"
+      action=""
+      :auto-upload="false"
+      :show-file-list="false"
+      :http-request="resetSystemImage"
+      :on-change="onUploadChange"
+      :before-upload="beforeUpload"
+      accept="image/png,.jpeg,.jpg"
+    >
+      <div class="clearfix">
+        <div class="img-box system-logo">
+          <img :src="systemOptions.systemImg" class="avatar" :alt="$t('layout.upload_or_reset')" :title="$t('layout.upload_or_reset')" />
+        </div>
+      </div>
+    </el-upload>
+  </div>
+
+  <div class="save-cancel-pwd">
+    <el-button @click="outsideClose()" class="default-btn iconfont iconpms-icon_cancel button-pwd">{{ $t('common.cancel') }}</el-button>
+    <el-button @click="saveSystemSet" type="primary" class="primary-btn iconfont iconpms-icon_save button-pwd">{{
+      $t('common.save')
+    }}</el-button>
+  </div>
+</el-dialog>
+
+<!-- </div> -->

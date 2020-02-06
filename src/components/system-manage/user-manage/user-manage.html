@@ -1,0 +1,378 @@
+<div style="display: inline-flex; align-items: stretch;height: 100%;" class="user-manage">
+  <el-container>
+    <el-aside class="user-list-aside">
+      <div class="user-list-container">
+        <div class="clearfix list-top-box">
+          <div class="search-box">
+            <el-input
+              class="input-search"
+              :placeholder="$t('tempMgr.keywords_search_placeholder')"
+              v-model="searchValue"
+              suffix-icon="iconfont iconpms-icon_search"
+            ></el-input>
+          </div>
+          <el-button
+            v-if="rolePrivilege.add"
+            ref="addUser"
+            class="primary-btn no-text-btn adduser-btn iconfont iconpms-icon_add"
+            type="primary"
+            :title="$t('user-manage.add_user')"
+            @click="addUser()"
+            >{{ $t('user-manage.add_user') }}
+          </el-button>
+        </div>
+        <ul id="users_container" class="infinite-list-wrapper">
+          <li
+            class="user-list"
+            v-for="(user,key) in userList"
+            :key="key"
+            :class="{active: selectedUser.id === user.id}"
+            @click="selectUser(user,key)"
+          >
+            <avatar class="avatar" :image="user.image !== null ? user.image : ''" :fullname="user.userName" :size="40"></avatar>
+            <div class="item-title" :title="user.userName">{{ user.userName }}</div>
+            <div
+              class="operate-btn"
+              v-show="selectedUser.id === user.id && rolePrivilege.delete && user.userName !== 'manager_pms' && user.userName !== 'super'"
+            >
+              <i
+                ref="delUser"
+                class="iconfont iconpms-icon_delet"
+                :title="$t('user-manage.delete_user')"
+                @click="deleteUser(user.userName)"
+                @click.stop
+              ></i>
+            </div>
+          </li>
+          <div
+            v-infinite-scroll="infiniteLoad"
+            infinite-scroll-delay="500"
+            infinite-scroll-distance="40"
+            infinite-scroll-immediate="false"
+            infinite-scroll-disable="disabled"
+          ></div>
+        </ul>
+        <div class="list-footer">
+          <span>{{ loadCountStr }}</span>
+          <el-backtop target=".infinite-list-wrapper">
+            <el-divider direction="vertical"></el-divider> {{ $t('system_log.return_top') }}
+          </el-backtop>
+        </div>
+      </div>
+      <p class="ddata-null" v-if="isSearchNull">
+        {{ $t('common.no_data') }}
+      </p>
+    </el-aside>
+
+    <el-main class="user-manage-main">
+      <div class="user-manage-content" v-if="formVisible">
+        <div class="user-image">
+          <!-- :http-request="restImage handleAvatarSuccess" -->
+          <!-- :on-change="restImage" -->
+          <el-upload
+            class="avatar-uploader"
+            ref="upload"
+            action=""
+            :show-file-list="false"
+            :http-request="restImage"
+            :before-upload="beforeAvatarUpload"
+            :disabled="currentUserInfo.userName === 'manager_pms' || currentUserInfo.userName === 'super'"
+            accept="image/png,.jpeg,.jpg"
+          >
+            <div class="clearfix" v-if="currentUserInfo.image">
+              <div class="img-box">
+                <!-- v-if="selectedUser.userName === currentUserInfo.userName" -->
+                <img :src="currentUserInfo.image" class="avatar" :alt="$t('user-manage.upload_or_reset')" />
+              </div>
+            </div>
+            <i v-else class="avatar-uploader-icon iconfont iconpms-icon_User-roles"></i>
+            <!-- <avatar v-else class="avatar " :image="''" :fullname="currentUserInfo.userName" :size="60"></avatar> -->
+          </el-upload>
+          <span class="current-user-name">
+            <span :title="currentUserInfo.userName">{{ currentUserInfo.userName }}</span>
+          </span>
+          <div class="current-user-role" v-if="currentUserInfo.roles">
+            <span class="user-role-name" :title="role.name" v-for="role in currentUserInfo.roles">{{ role.name }}</span>
+          </div>
+        </div>
+
+        <div>
+          <!-- <div class="header-title">
+            <i></i>
+            <span>{{ formTitle }}</span>
+          </div> -->
+          <el-form
+            :model="currentUserInfo"
+            class="clearfix"
+            label-position="top"
+            :rules="rules"
+            ref="currentUserInfo"
+            size="medium"
+            :disabled="(currentUserInfo.userName === 'manager_pms' || currentUserInfo.userName === 'super') && !isNewUser"
+          >
+            <div class="clearfix user-info-content">
+              <el-row :gutter="24">
+                <el-col :span="24">
+                  <div class="user-message">
+                    <el-row :guater="24" class="gutter-row">
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item
+                          class="user-form-item"
+                          :label="$t('user-manage.user_name')"
+                          prop="userName"
+                          :title="currentUserInfo.userName"
+                        >
+                          <el-input
+                            v-model="currentUserInfo.userName"
+                            size="medium"
+                            :disabled="!isFormEdit"
+                            maxlength="64"
+                            :placeholder="$t('user-manage.username_length_between_1_64')"
+                          ></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item class="user-form-item password" :label="$t('user-manage.pwd')" prop="password">
+                          <el-row :guater="24">
+                            <el-col>
+                              <div style="display:flex;">
+                                <el-input
+                                  style="flex:1;margin-right: 10px;"
+                                  :disabled="!isNewUser"
+                                  class="password-input"
+                                  :type="passwordType"
+                                  v-model="currentUserInfo.password"
+                                  size="medium"
+                                  maxlength="64"
+                                >
+                                  <i
+                                    slot="prefix"
+                                    v-if="passwordType === 'password'"
+                                    @click="checkdPassword"
+                                    class="iconfont icon-pwd iconpms-icon_Password-invisible"
+                                  ></i>
+                                  <i
+                                    slot="prefix"
+                                    v-else="passwordType === 'password'"
+                                    @click="checkdPassword"
+                                    class="iconfont icon-pwd iconpms-icon_preview"
+                                  ></i>
+                                </el-input>
+                                <div
+                                  v-show="!isNewUser && rolePrivilege.update && currentUserInfo.userName !== 'manager_pms' && currentUserInfo.userName !== 'super'"
+                                >
+                                  <el-button
+                                    :disabled="userListIsNull"
+                                    ref="resetpwd"
+                                    @click="resetPassword(currentUserInfo.userName)"
+                                    class="reset-pwd iconfont iconpms-icon_Change-Password"
+                                    >{{ $t('user-manage.pwd_reset') }}</el-button
+                                  >
+                                </div>
+                              </div>
+                            </el-col>
+                          </el-row>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+
+                    <el-row :guater="24" class="gutter-row">
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item class="user-form-item" :label="$t('user-manage.name')" prop="name">
+                          <el-input
+                            :title="currentUserInfo.name"
+                            v-model="currentUserInfo.name"
+                            size="medium"
+                            maxlength="64"
+                            :placeholder="$t('user-manage.name_length_between_1_64')"
+                          ></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item class="user-form-item" :label="$t('user-manage.sex')">
+                          <el-radio-group class="user-form-item-content" size="medium" v-model="currentUserInfo.gender">
+                            <el-radio :label="1">{{ $t('user-manage.man') }}</el-radio>
+                            <el-radio :label="2">{{ $t('user-manage.woman') }}</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+
+                    <el-row :guater="24" class="gutter-row">
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item class="user-form-item" :label="$t('user-manage.birthday')">
+                          <div class="data-picker">
+                            <el-date-picker
+                              class="user-form-item-content"
+                              type="date"
+                              size="medium"
+                              v-model="currentUserInfo.birthday"
+                              value-format="timestamp"
+                              :picker-options="datepickerOptions"
+                            >
+                            </el-date-picker>
+                          </div>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item
+                          class="user-form-item"
+                          :label="$t('user-manage.ass_contact')"
+                          :title="currentUserInfo.phone"
+                          prop="phone"
+                        >
+                          <el-input
+                            v-model="currentUserInfo.phone"
+                            :placeholder="$t('user-manage.please_input_tel')"
+                            size="medium"
+                          ></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                    <el-row :guater="24" class="gutter-row">
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item class="user-form-item" :label="$t('user-manage.email')" :title="currentUserInfo.email" prop="email">
+                          <el-input
+                            v-model="currentUserInfo.email"
+                            size="medium"
+                            maxlength="64"
+                            :placeholder="$t('user-manage.please_input_eamil')"
+                          ></el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12" class="gutter-row-col">
+                        <el-form-item
+                          class="user-form-item"
+                          :label="$t('user-manage.address')"
+                          :title="currentUserInfo.address"
+                          prop="address"
+                        >
+                          <el-input
+                            v-model="currentUserInfo.address"
+                            size="medium"
+                            maxlength="512"
+                            :placeholder="$t('user-manage.address_length_limit_512')"
+                          ></el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                  </div>
+
+                  <el-row :guater="24">
+                    <el-col :span="24">
+                      <el-form-item class="user-form-item description" :label="$t('common.description')" prop="description">
+                        <el-input
+                          type="textarea"
+                          v-model="currentUserInfo.description"
+                          resize="none"
+                          size="medium"
+                          maxlength="2000"
+                          :placeholder="$t('user-manage.description_length_limit_2000')"
+                        >
+                        </el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                </el-col>
+              </el-row>
+            </div>
+            <!-- <el-form-item> </el-form-item> -->
+          </el-form>
+        </div>
+
+        <div class="role-zone">
+          <div v-if="currentUserInfo.roles && currentUserInfo.roles.length !== 0 || rolePrivilege.add" class="role-header">
+            <i></i>
+            <span class="role-title">{{ $t('user-manage.user_role') }}</span>
+            <el-button
+              v-if="currentUserInfo.roles && currentUserInfo.roles.length !== 0 && rolePrivilege.update 
+              && currentUserInfo.userName !== 'manager_pms' && currentUserInfo.userName !== 'super'"
+              :disabled="userListIsNull"
+              class="add-role-btn iconfont iconpms-icon_add"
+              @click="onAddRole"
+              >{{ $t('user-manage.add_role') }}
+            </el-button>
+          </div>
+          <div class="pri-null" v-if="currentUserInfo.roles.length === 0">
+            <p v-if="rolePrivilege.add">
+              {{ $t('user-manage.user_no_associate') }}
+              <button :disabled="userListIsNull" ref="addRole" style="border:none!important;border-radius: 2px;" @click="onAddRole">
+                {{ $t('user-manage.add') }}</button
+              >{{ $t('user-manage.role') }}
+            </p>
+          </div>
+          <div class="user-role clearfix">
+            <ul v-if="currentUserInfo.roles">
+              <li class="user-list role-list" v-for="role in currentUserInfo.roles" @click="onCurrentRole(role)">
+                <div class="role-list-inner clearfix">
+                  <!-- <img :src="sysUserAvatar" alt="" /> -->
+                  <i class="photo iconfont iconpms-icon_User-roles"></i>
+                  <div class="user-info">
+                    <div :title="role.name" class="username">{{ role.name }}</div>
+                  </div>
+                  <div
+                    v-if="rolePrivilege.delete && currentUserInfo.userName !== 'manager_pms' && currentUserInfo.userName !== 'super'"
+                    class="operate-btn"
+                  >
+                    <i
+                      class="iconfont iconpms-icon_delet"
+                      :title="$t('common.delete')"
+                      @click="ondeleteRole(currentUserInfo,role)"
+                      @click.stop
+                    ></i>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="user-add-role" v-else="formVisible">
+        <el-user-role :user="selectedUser" @on-cancel-edit-role="closeAddRole" @on-cancel-save="handleCancelSave"></el-user-role>
+      </div>
+    </el-main>
+  </el-container>
+
+  <div class="side-frame-information">
+    <el-side-frame ref="sideFrame">
+      <div class="side-frame-header" slot="header">
+        <div class="header-title">
+          <i></i>
+          <span class="user-role-title">{{ resTitle }}</span>
+        </div>
+      </div>
+      <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+        <el-resource-card :currentRole="currentRole"></el-resource-card>
+      </div>
+    </el-side-frame>
+  </div>
+
+  <div v-if="(showCanSave || !currentUserInfo.id) && formVisible" class="user-form-event">
+    <el-button :disabled="userListIsNull" @click="cancelSubmit" class="default-btn iconfont iconpms-icon_cancel">{{
+      $t('common.cancel')
+    }}</el-button>
+    <el-button
+      :disabled="userListIsNull"
+      v-if="showSave"
+      type="primary"
+      @click="saveUserInfo"
+      class="primary-btn iconfont iconpms-icon_save"
+    >
+      {{ $t('common.save') }}</el-button
+    >
+  </div>
+
+  <el-dialog
+    class="route-leave-dialog clearfix"
+    top="0px"
+    :title="$tc('common.prompt')"
+    :show-close="false"
+    :visible.sync="routerLeaveDialogVisible"
+  >
+    <span>{{ $tc('user-manage.jump_other_page') }}</span>
+    <span slot="footer">
+      <el-button @click="routerLeaveDialogVisible=false">{{ $tc('common.cancel') }}</el-button>
+      <el-button type="primary" @click="routeLeave">{{ $tc('common.determine') }}</el-button>
+    </span>
+  </el-dialog>
+</div>

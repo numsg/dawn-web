@@ -1,0 +1,18 @@
+{
+  "lang": "zh-CN",
+  "planPreparationUrl": "http://116.62.205.14:30001/api/v1/",
+  "baseSupportUrl": "http://116.62.205.14:30003/api/v1/",
+  "planFileUrl": "http://116.62.205.14:30005/api/v1/",
+  "externalAccessUrl": "http://116.62.205.14:30007/api/v1/",
+  "odataUrl": "http://116.62.205.14:30001/OdataService.svc",
+  "baseSupportOdataUrl": "http://116.62.205.14:30003/OdataService.svc",
+  "system": "pre-plan management system",
+  "uapUrl": "http://116.62.205.14:30009",
+  "clientId": "e133660e7e86f6af8ef3m1ni5",
+  "clientSecret": "a36d4a159da571a23eeaym1zh",
+  "scope": "super,userManage,personal",
+  "superToken": "2765ffb1-a686-4e71-9381-10d46f16fd72",
+  "systemSetId": "337b76d8-742d-4f60-ba95-7e143badc305",
+  "superUserName": "super",
+  "storageMode": "server"
+}

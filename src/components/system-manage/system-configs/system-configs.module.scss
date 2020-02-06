@@ -1,0 +1,70 @@
+.settings {
+  background-color: #fff;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  color: #555;
+  display: inline-flex;
+  .top-area {
+    padding: 0 20px;
+    margin-bottom: 20px;
+    text-align: center;
+
+    .input-search {
+      width: 70%;
+    }
+  }
+
+  .bottom-area {
+    width: 100%;
+    display: flex;
+    // flex: 1;
+    height: calc(100% - 36px);
+
+    .content-area {
+      width: 70%;
+      height: 100%;
+      margin: 0 auto;
+
+      .aside {
+        height: 100%;
+        width: 17%;
+        overflow: scroll;
+        float: left;
+        margin-left: 15px;
+        border-right: 1px dotted #eeeeef;
+
+        .c____100____el-menu {
+          border-right: 1px solid #fff;
+          >li {
+            >ul {
+              >li {
+                height: 35px;
+                line-height: 35px;
+                min-width: 190px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+            }
+          }
+        }
+      }
+      .c____100____el-menu-item-group__title {
+        padding: 0 !important;
+        line-height: normal;
+        font-size: 12px;
+      }
+
+      .main {
+        height: 100%;
+        width: 81%;
+        padding: 20px 20px 0 20px;
+        overflow: scroll;
+        float: left;
+      }
+    }
+  }
+}

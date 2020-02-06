@@ -1,0 +1,99 @@
+@import '@/assets/styles/vars.scss';
+
+.tag-box {
+  height: 100%;
+
+  .tag-content {
+    float: left;
+    margin: 8px;
+    display: flex;
+  }
+
+  .tag {
+    height: 36px;
+    display: inline-block;
+    font-size: 14px;
+    color: #555;
+    padding: 0 5px;
+    line-height: 36px;
+    background-color: rgb(235, 247, 255);
+    border: 1px solid rgb(159, 205, 236);
+    border-radius: 3px;
+    max-width: 220px;
+    padding: 0 10px;
+
+    .edit-content {
+      display: flex;
+    }
+
+    .etid-btn {
+      float: right;
+      margin-left: 10px;
+      display: flex;
+      width: 72px;
+    }
+
+    .tag-name {
+      display: flex;
+      flex-direction: row;
+      height: 36px;
+      line-height: 36px;
+
+      .name-content {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 150px;
+
+        .etid-btn {
+          margin-left: 10px !important;
+          display: flex;
+          width: 72px;
+        }
+      }
+    }
+
+    .icon-button {
+      border: 0 !important;
+      background: 0 !important;
+      width: 36px;
+      height: 36px;
+      padding: 0 !important;
+      margin: 0 !important;
+      font-size: 20px;
+    }
+  }
+
+  .add-content {
+    padding: 0 5px;
+    float: left;
+    background: #f7f8fc;
+    border: 1px solid #dcdfe6;
+    margin: 8px;
+  }
+
+  .make-new-btn {
+    line-height: 36px;
+    font-size: 16px;
+    border-radius: 3px;
+
+    padding: 0 10px;
+    height: 36px;
+    color: #555;
+  }
+
+  .c____100____el-form-item {
+    margin: 0 !important;
+
+    .content {
+      display: flex;
+      align-items: center;
+
+    }
+  }
+
+  .no-btn {
+    margin-right: 0 !important;
+  }
+}

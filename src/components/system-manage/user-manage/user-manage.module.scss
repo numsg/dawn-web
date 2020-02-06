@@ -1,0 +1,729 @@
+@import '@/assets/styles/vars.scss';
+
+.user-manage {
+  font-size: 16px;
+  position: relative;
+
+  .user-list-aside {
+    width: 540px !important;
+    background: #ffffff;
+    margin-right: 5px;
+    padding: 20px 25px;
+
+    .user-list-container {
+      height: 100%;
+    }
+
+    .list-top-box {
+      display: flex;
+
+      .search-box {
+        flex: 1;
+        margin-right: 10px;
+
+        .c___4___el-input__icon {
+          height: 100%;
+          width: 25px;
+          text-align: center;
+          -webkit-transition: all 0.3s;
+          transition: all 0.3s;
+          line-height: 40px;
+          font-size: 17px;
+          color: black;
+          font-weight: bold;
+        }
+      }
+
+      .adduser-btn {
+        background-color: #3498db;
+        color: #f7f8fc;
+      }
+    }
+
+    .ddata-null {
+      position: absolute;
+      color: #909399;
+      top: 50%;
+      left: 15%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  ul {
+    height: calc(100% - 67px);
+    overflow: scroll;
+    padding: 10px 0;
+    padding-bottom: 0;
+
+    .user-list {
+      height: 70px;
+      padding: 12px 0 12px 20px;
+      box-sizing: border-box;
+      background: #f6f8fc;
+      margin-bottom: 15px;
+      border: 1px solid #dcdfe6;
+      border-radius: 5px;
+      //box-shadow: 3px 3px 5px #eaf0fc;
+      cursor: pointer;
+
+      &.active {
+        border: 1px solid #7eadde;
+        //box-shadow: 3px 3px 5px #dfeff9;
+      }
+
+      img {
+        float: left;
+        border-radius: 50%;
+        width: 45px;
+      }
+
+      .photo {
+        float: left;
+        display: block;
+        font-size: 40px;
+        color: #555;
+        position: relative;
+        bottom: 3px;
+      }
+
+      .user-info {
+        float: left;
+        padding-left: 20px;
+        line-height: 26px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100% - 105px);
+
+        .username {
+          font-size: 18px;
+          color: rgb(93, 94, 95);
+          font-weight: 600;
+          margin-top: 12px !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 230px;
+        }
+
+        .rolename {
+          font-size: 15px;
+          color: rgb(93, 94, 95);
+        }
+      }
+
+      .operate-btn {
+        width: 65px;
+        height: 50px;
+        border-left: 2px solid #f0f1f2;
+        float: right;
+        text-align: center;
+        line-height: 50px;
+        font-size: 20px;
+
+        i {
+          color: #555;
+          font-size: 20px;
+        }
+
+        .edit {
+          margin-right: 10px;
+          margin-top: 15px;
+          margin-left: 7px;
+        }
+
+        .delete {
+          margin-top: 15px;
+          margin-left: 25px;
+        }
+      }
+
+      .avatar {
+        vertical-align: middle;
+      }
+
+      .role-item {
+        // float: left;
+        // margin-top: -10px;
+        margin-left: 10px;
+        display: inline-block;
+        vertical-align: middle;
+
+        .item-name {
+          margin-left: -7px;
+        }
+      }
+
+      .item-title {
+        font-size: 18px;
+        // line-height: 70px;
+        width: 320px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-weight: bolder;
+        color: #555;
+        // float: left;
+        // margin-top: -2px;
+        margin-left: 10px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .role-content-middle {
+        width: calc(100% - 150px);
+        // padding: 10px;
+        // margin-top: -15px;
+
+        p {
+          margin: 5px 0;
+        }
+      }
+
+      .item-text {
+        font-size: 15px;
+        color: #555;
+        margin: 5px;
+      }
+    }
+
+    .loading {
+      text-align: center;
+      height: 30px;
+      line-height: 30px;
+      font-size: 16px;
+
+      span {
+        font-size: 20px;
+        color: #3498db;
+      }
+    }
+  }
+
+  .list-footer {
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 14px;
+    color: #555555;
+
+    >span {
+      display: inline-block;
+    }
+
+    >div {
+      background: none;
+      position: relative;
+      display: inline-block;
+      font-size: 14px;
+      border-radius: 0%;
+      width: auto;
+      height: auto;
+      right: 0 !important;
+      bottom: 0 !important;
+      box-shadow: none;
+      color: #3498db;
+    }
+  }
+
+  .icon-pwd {
+    font-size: 26px;
+  }
+
+  .user-manage-main {
+    background: #ffffff;
+    font-size: 16px;
+    // position: relative;
+
+    // .avatar-uploader {
+    //   width: 164px;
+    //   height: 164px;
+
+    //   .el-upload {
+    //     border: 1px dashed #d9d9d9;
+    //     border-radius: 6px;
+    //     cursor: pointer;
+    //     position: relative;
+    //     overflow: hidden;
+
+    //     &:hover {
+    //       border-color: #409eff;
+    //     }
+    //   }
+
+    //   .el-upload-dragger {
+    //     width: 164px;
+    //     height: 164px;
+    //   }
+
+    //   .avatar-uploader-icon {
+    //     font-size: 28px;
+    //     color: #8c939d;
+    //     width: 184px;
+    //     height: 184px;
+    //     line-height: 184px;
+    //     text-align: center;
+    //   }
+
+    //   .avatar {
+    //     width: 164px;
+    //     height: 164px;
+    //     display: block;
+    //   }
+
+    //   .default-i {
+    //     // border: 1px solid #c7c7c7 !important;
+    //     // background: #f0f4f8 !important;
+    //     // box-shadow: 2px 3px 3px #c7c7c7, -2px 3px 5px #c7c7c7 !important;
+    //     // border-radius: 5px !important;
+    //   }
+    // }
+
+    // .img-box {
+    //   padding: 8px;
+    //   background: #f0f4f8;
+    //   border-radius: 5px;
+    //   //border: 1px solid #f0f4f8;
+    //   box-shadow: 0px 0px 3px 5px #cccccc, -3px 3px 3px #cccccc;
+    //   float: left;
+
+    //   img {
+    //     width: 155px;
+    //     height: 155px;
+    //     border: 1px solid #eff1f3;
+    //     border-radius: 3px;
+    //   }
+    // }
+
+    .reset-pwd {
+      // margin-left: 30px;
+      // margin-top: 20px;
+
+      color: #f7f8fc;
+      background-color: #3498db;
+      border-color: #3498db !important;
+      border: 0;
+
+      i {
+        display: inline-block;
+        margin-right: 3px;
+        font-size: 20px;
+      }
+    }
+
+    .user-form-item {
+      margin-bottom: 4px;
+      margin-right: 15px;
+      height: 80px;
+
+      .data-picker {
+        i {
+          color: rgb(116, 116, 116) !important;
+        }
+      }
+
+      .user-form-item-content {
+        width: 100%;
+      }
+
+      label {
+        margin-bottom: -9px;
+        color: rgb(150, 150, 153);
+        font-weight: bold;
+      }
+    }
+
+    .role-zone {
+      margin-top: 35px;
+
+      .role-header {
+        height: 42px;
+        line-height: 32px;
+        border-bottom: 1px dashed #ccc;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+
+        i {
+          display: inline-block;
+          width: 4px;
+          height: 15px;
+          background-color: #3498db;
+          margin-right: 10px;
+        }
+
+        .role-title {
+          display: inline-block;
+          font-size: 16px;
+          font-weight: bold;
+          color: #555;
+        }
+
+        .add-role-btn {
+          float: right;
+          color: #fff;
+          margin-right: 25px;
+        }
+      }
+
+      .user-role {
+        padding-left: 25px;
+      }
+
+      .role-list {
+        float: left;
+        height: 70px;
+        width: 33.33%;
+        // margin-right: 20px;
+        background: none;
+        padding: 0;
+        border: none;
+        padding-right: 20px;
+        border-radius: none;
+        box-shadow: none;
+
+        .role-list-inner {
+          background: #f6f8fc;
+          padding: 12px 0 12px 20px;
+          border: 1px solid #dcdfe6;
+          //box-shadow: 3px 3px 5px #eaf0fc;
+          border-radius: 5px;
+          width: 100%;
+          // display: flex;
+
+          &.active {
+            border: 1px solid #7eadde;
+            //box-shadow: 3px 3px 5px #dfeff9;
+          }
+        }
+      }
+
+      .add-role-btn {
+        background-color: #3498db;
+        color: #f7f8fc;
+        border-color: #3498db !important;
+      }
+
+      .pri-null {
+        height: 50px;
+        width: 100%;
+        padding-left: 25px;
+
+        button:focus {
+          background-color: rgb(194, 190, 190) !important;
+        }
+
+        p {
+          display: inline-block !important;
+          margin-top: 20px !important;
+          color: #969699 !important;
+          width: 450px;
+          text-align: center;
+          width: 100%;
+
+          button {
+            color: white;
+            background-color: rgb(33, 145, 236);
+            cursor: pointer;
+            margin-left: 2px;
+            margin-right: 2px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  .user-manage-content {
+    width: 100%;
+    float: left;
+    position: relative;
+
+    .user-image {
+      height: 85px;
+      border-bottom: 1px dashed #ccc;
+      // padding-top: 7px;
+      color: #555;
+
+      .avatar-uploader {
+        width: 70px;
+        height: 70px;
+        display: inline-block;
+
+        .avatar-uploader-icon {
+          width: 70px;
+          height: 70px;
+          line-height: 70px;
+          box-shadow: none;
+          border-radius: 50%;
+          // background: url('../../../assets/img/default-face.png') center center no-repeat;
+          // background-size: contain;.
+          font-size: 70px;
+          display: inline-block;
+        }
+      }
+
+      .img-box {
+        border-radius: 50%;
+        float: left;
+
+        img {
+          width: 70px;
+          height: 70px;
+          // border: 1px solid #eff1f3;
+          // border-radius: 3px;
+          border-radius: 50%;
+        }
+      }
+
+      .current-user-name {
+        line-height: 70px;
+        display: inline-block;
+        vertical-align: top;
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 10px;
+        margin-left: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 300px;
+      }
+
+      .current-user-role {
+        line-height: 75px;
+        display: inline-block;
+        vertical-align: top;
+
+        span {
+          display: inline-block;
+          margin-right: 15px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          max-width: 200px;
+        }
+      }
+    }
+
+    .user-info-content {
+      padding-left: 25px !important;
+      padding-right: 12px !important;
+      padding-top: 15px !important;
+
+      .password {
+        .reset-pwd-box {
+          padding-left: 15px;
+          box-sizing: border-box;
+        }
+      }
+    }
+
+    .description {
+      height: 100px;
+
+      textarea {
+        height: 90px;
+      }
+    }
+  }
+
+  .user-add-role {
+    width: 100%;
+    height: 100%;
+  }
+
+  .form-btn {
+    position: relative !important;
+    margin-top: -45px !important;
+    margin-left: -185px !important;
+    height: 60px;
+  }
+
+  .title {
+    color: rgb(75, 75, 75);
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .resource-card {
+    position: relative !important;
+    margin-top: -500px !important;
+  }
+
+  .user-form-event {
+    position: absolute;
+    top: -46px;
+    right: 0;
+    display: flex;
+  }
+
+  .side-frame-container {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 550px;
+    background: #f7f8fc;
+    margin-top: -20px;
+    margin-right: -20px;
+    height: 108.5%;
+    box-shadow: 0 2px 7px -1px rgb(109, 108, 108);
+    padding: 15px; // 模块标题样式
+
+    .side-frame-header {
+      background: 0;
+      z-index: 1600;
+      position: absolute;
+      border: 0;
+      top: -16px;
+      width: 50px;
+      right: 5px;
+
+      .edit-button {
+        border: 0;
+        padding: 8px;
+        background: none;
+      }
+
+      button {
+        i {
+          font-size: 28px;
+        }
+      }
+    }
+
+    .side-frame-content {
+      height: 96%;
+      overflow: scroll;
+    }
+
+    .side-frame-contant {
+      box-shadow: -2px 0px 5px #ccc;
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: calc(100% - 40px);
+      overflow: scroll;
+      background-color: #f3f3f3;
+      z-index: 100;
+    }
+  }
+
+  @keyframes start-out {
+    from {
+      right: -100%;
+    }
+
+    to {
+      right: 0;
+    }
+  }
+
+  @keyframes end-in {
+    from {
+      right: 0;
+    }
+
+    to {
+      right: -100%;
+    }
+  }
+
+  .start-out {
+    animation: start-out 0.8s;
+    animation-fill-mode: forwards;
+  }
+
+  .end-in {
+    animation: end-in 0.8s;
+    animation-fill-mode: forwards;
+  }
+
+  .header-title {
+    height: 25px;
+    line-height: 25px;
+    font-weight: bold;
+    margin-bottom: 9px;
+
+    i {
+      display: inline-block;
+      width: 4px;
+      height: 15px;
+      background-color: #3498db;
+      margin-right: 10px;
+    }
+
+    span {
+      font-weight: 1000;
+      font-size: 16px;
+      color: rgb(75, 75, 75);
+      display: block;
+      margin-top: -27px;
+      margin-left: 15px;
+    }
+  }
+
+  .user-role-title {
+    overflow: hidden;
+    max-width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .gutter-row {
+    display: flex;
+  }
+
+  .gutter-row-col {
+    width: 50%;
+  }
+
+  .route-leave-dialog {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    >div {
+      width: 420px;
+      display: flex;
+      flex-direction: column;
+      // width: inherit;
+      margin: 0 auto;
+
+      >div:first-child {
+        padding: 10px;
+      }
+
+      >div:nth-child(2) {
+        padding: 15px 10px;
+        flex: 1;
+        display: flex;
+      }
+
+      >div:last-child {
+        padding: 10px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1440px) {
+
+    .no-text-btn {
+      span {
+        display: none !important;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1920px) and (min-width: 1441px) {
+    .no-text-btn {
+      span {
+        display: inline-block !important;
+      }
+    }
+  }
+}
+
+.c____100____el-backtop {
+  color: #555;
+}

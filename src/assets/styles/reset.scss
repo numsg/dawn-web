@@ -1,0 +1,179 @@
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+dl,
+dt,
+dd,
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  outline: none;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+// 清除图片及div点击蓝色边框样式
+img:focus,
+div:focus {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+.clearfix:after {
+  content: '\20';
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+//vue router transition css
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+p {
+  font-weight: normal;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: 'Microsoft YaHei', '微软雅黑', 'PingFang SC', 'Hiragino Sans GB', Helvetica, Arial, sans-serif !important;
+}
+
+// *表单验证
+.validate {
+  label {
+    position: relative;
+
+    &::after {
+      display: block;
+      position: absolute;
+      height: 100%;
+      right: 0;
+      top: 0;
+      content: '*';
+      font-size: 20px;
+      color: #ff2300;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background-color: 0;
+  padding-right: 0px;
+}
+
+//
+
+/*定义滚动条轨道 内阴影+圆角*/
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.2);
+  border-radius: 0px;
+  background-color: 0;
+  padding-right: 0px;
+}
+
+/*定义滑动轨道 内阴影+圆角*/
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  box-shadow: inset 0 0 0px rgba(0, 0, 0, 0.2);
+  background-color: none;
+  padding-right: 0px;
+}
+
+/* 火狐浏览器滚动条隐藏 */
+html,
+body,
+form,
+section,
+aside,
+main,
+ul,
+dl,
+dt,
+dd,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+div {
+  scrollbar-width: none;
+}

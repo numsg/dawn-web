@@ -1,0 +1,23 @@
+<div class="user-list-wrapper">
+  <div class="clearfix">
+    <div class="search-box">
+      <el-input class="input-search role-search" :placeholder="$t('tempMgr.keywords_search_placeholder')" v-model="searchValue"
+        suffix-icon="iconfont iconpms-icon_search"></el-input>
+      </el-input>
+    </div>
+    <el-button class="adduser-btn" size=medium icon="el-icon-circle-plus-outline" @click="addUser()">添加用户</el-button>
+  </div>
+  <ul>
+    <li class="user-list" v-for="user in userList" :class="{active: selectedUser.userName === user.userName}" @click="selectUser(user)">
+      <img :src="sysUserAvatar" alt="">
+      <div class="user-info">
+        <div class="username">{{user.userName}}</div>
+        <div class="rolename">普通用户</div>
+      </div>
+      <div class="operate-btn" v-show="selectedUser.userName === user.userName">
+        <i class="iconfont iconpms-icon_edit " title="修改信息" @click="editUserInfo" @click.stop></i>
+        <i class="iconfont iconpms-icon_delet" title="删除用户" @click="deleteUser(user.userName)" @click.stop></i>
+      </div>
+    </li>
+  </ul>
+</div>

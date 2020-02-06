@@ -1,0 +1,38 @@
+<div class="nav-bar-box">
+  <ul class="nav-bar-container">
+    <li v-for="(item,index) in moduleTitle" v-if="!item.hidden && item.children.length > 0" class="nav-item" :class="{'is-active': stairMenu === item.id}">
+      <div v-if="item.name==='home'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
+        <div class="stair-nav-icon">
+          <img :src="item.iconCls" alt="" />
+        </div>
+        <div class="fll">
+          <span class="stair-name" v-if="stairMenu === item.id">{{ $t('navbar.' + item.name) }}</span>
+        </div>
+      </div>
+      <el-dropdown v-else @command="handleCmomand" trigger="click" placement="bottom-start">
+        <div class="stair-nav" :title="$t('navbar.'+item.name)">
+          <div class="el-dropdown-link">
+            <div class="stair-nav-icon">
+              <img :src="item.iconCls" alt="" />
+            </div>
+            <div class="stair-name-float">
+              <span class="stair-name" v-if="stairMenu === item.id">{{ $t('navbar.' + item.name) }}</span>
+            </div>
+          </div>
+        </div>
+        <el-dropdown-menu class="nav-drop" slot="dropdown">
+          <el-dropdown-item v-for="(child, index) in item.children" :key="index" v-if="!child.hidden" :command="child">
+            <div class="nav-child">
+              <div>
+                <i class="nav-child-icon" :class="'iconfont '+ child.iconCls"></i>
+              </div>
+              <div class="nav-child-name">
+                {{ $t('navbar.' + child.name) }}
+              </div>
+            </div>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </li>
+  </ul>
+</div>

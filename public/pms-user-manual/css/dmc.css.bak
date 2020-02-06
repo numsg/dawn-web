@@ -1,0 +1,1386 @@
+/* Global settings */
+
+html {
+	height: 100%;
+	width: 100%;
+	margin:0px;
+	padding:0px;
+	border:0px;
+	font-size: 12pt;
+}
+
+body {
+	background-color: #ffffff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	height: 100%;
+}
+
+img {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	margin-right: 4px;
+}
+
+a:hover {
+	text-decoration: underline;
+	background: #dddddd;
+}
+
+a:focus {
+	background: #668899;
+	color:HighlightText;
+	width:100%;		
+}
+
+a:active {
+	background: #668899;
+	color:HighlightText;
+	width:100%;		
+}
+
+table.tabs {
+	display: none;
+	border: 0;
+	vspace: 0;
+	margin: 0;
+	cellpadding: 0;
+	cellspacing: 0;
+	width: 100%;
+}
+
+
+iframe.show {
+	display: block; 
+	width: 100%;
+	height: 100%;
+	z-index: 10; 
+}
+
+iframe.hidden {
+	display: none; 
+	width: 0px;
+	height: 0px;
+}
+
+#banner {
+    background-color: #DCDCDC;	
+}
+
+#header {
+	background-image: url(../images/banner.png);
+	background-repeat: no-repeat;	
+	position: absolute;
+	width: 100%;
+	height: 56px;
+	margin: -5px 20px 0px 0px;
+	z-index: 1;	
+}
+
+#header .mainTitle {
+	position: absolute;
+	top: 7px;
+	left: 15px;
+	float: left;
+	font-size: 12pt;	
+	font-family: Helvetica;
+	font-weight: bold;
+	color: #47697F;
+}
+
+#urlLink {
+	position: absolute;
+	bottom: 10px;
+	right: 110px;
+	float: right;
+	font-size: 0.8em;
+}
+
+#logo {
+	float: right;	
+	height: 56px;
+	width: 102px;
+}
+
+#bannernav {
+	float: right;
+	position: relative;
+	z-index: 2;
+}
+
+#bannernav img {
+	cursor: pointer;
+	margin-top: 10px;
+	border: solid 1px #ccc;
+}
+
+#prevButton {
+	margin-right: 20px
+}
+
+#nextButton {
+}
+
+#urlLink a {
+	color: #ffffff;
+}
+
+#embed {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+			
+object, embed{
+	margin: 0;
+	padding: 0;
+	border: 0;	
+	hspace: 0;
+	vspace: 0;
+	width: 100%;
+	height: 100%;
+}
+				
+#footer {
+	display: none;
+}
+
+/* Breadcrumb Style */
+#breadcrumbs {
+	margin-top: 0px;
+	height:15px;
+	line-height: 15px;
+	max-height: 15px;
+	width: 100%;
+	overflow: hidden;
+	background-color: #fff;
+	border: 2px #CCC solid;
+	display:none;
+}
+
+
+#breadcrumbs a{
+	text-decoration: none;
+	font-size:9px;
+	color:black;
+	background:transparent;
+}
+
+#breadcrumbs a:hover{
+	text-decoration:underline;
+	background:transparent;
+	cursor: pointer;
+	color:rgb(13, 164, 223);
+}
+
+.linker{
+	margin-left: -4px;
+	display:inline-block;
+	font-size:12px;
+	font-weight:bold;
+	vertical-align: middle;
+}
+
+.link a{
+	width:auto;
+	text-align: justify;
+	display:inline-block;
+	word-break: break-word;
+	vertical-align: middle;
+}
+/* Start Toolbar Style */
+
+body.tabToolBarBody{
+	font-size: 0.8em;
+	margin:0px;
+	padding:0px;
+	background:#D6DFE4;
+	border: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+body.mainTabToolBarBody{
+	margin:0px;
+	padding:0px;
+	background:#D6DFE4;
+	border: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+.toolBarBody{
+	font-size: 0.8em;
+	margin:0px;
+	padding:0px;
+	background:#D6DFE4;
+	border: 0px;
+}
+
+#titleText {
+	font-weight:bold;
+	font-size: 0.8em;
+}
+
+
+#container {
+	border-bottom:1px solid #808080;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow:auto;
+}
+
+#container li {
+	float: left;
+	margin: 0;
+	padding: 0;		
+	list-style-type: none;rf
+	
+}
+
+#floatleft { 
+	float: left;
+	margin: 0;
+	padding: 0;	
+}
+
+#floatright {
+	float: right;
+	margin: 0;
+	padding: 0;	
+}
+ 
+.buttonOn a { 
+	display:block;
+	margin-left:2px;
+	margin-right:2px;
+	width:20px;
+	height:20px;
+	writing-mode:tb-rl;
+	vertical-align:middle;
+	background:  #668899;
+}
+
+
+.button a { 
+	margin-left:2px;
+	margin-right:2px;
+	width:20px;
+	height:20px;
+	writing-mode:tb-rl;
+	vertical-align:middle;
+}
+
+
+.button { 
+	margin-left:2px;
+	margin-right:2px;
+	width:25px;
+	height:20px;
+	writing-mode:tb-rl;
+	vertical-align:middle;
+}
+
+
+.button a:hover { 
+	background:  #668899;
+}
+.button_toolbar_navpane_on {
+	cursor: pointer;
+	background-image: url('../images/show_nav.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;		
+}
+
+.button_toolbar_navpane_off {
+	cursor: pointer;
+	background-image: url('../images/hide_nav.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;		
+}
+
+.button_toolbar_home_on {
+	cursor: pointer;
+	background-image: url('../images/home.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_synchronize_on {
+	cursor: pointer;
+	background-image: url('../images/e_synch_toc_nav.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_synchronize_off {
+	cursor: default;
+	background-image: url('../images/synch_toc_nav.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_nexttopic_on {
+	cursor: pointer;
+	background-image: url('../images/e_down.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_nexttopic_off {
+	cursor: default;
+	background-image: url('../images/down.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_previoustopic_on {
+	cursor: pointer;
+	background-image: url('../images/e_up.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_previoustopic_off {
+	cursor: default;
+	background-image: url('../images/up.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_bookmark_on {
+	cursor: pointer;
+	background-image: url('../images/e_add_bkmrk.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_bookmark_off {
+	cursor: default;
+	background-image: url('../images/add_bkmrk.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_annotation_on {
+	cursor: pointer;
+	background-image: url('../images/comment.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_annotation_off {
+	cursor: default;
+	background-image: url('../images/comment_disabled.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_annotation_inactive {
+	cursor: pointer;
+	background-image: url('../images/comment_disabled.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_reload_on {
+	cursor: pointer;
+	background-image: url('../images/reload.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_show_hide_bc {
+	cursor: pointer;
+	background-image: url('../images/show_bc.png');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	display:none;
+}
+.button_toolbar_reload_off {
+	cursor: default;
+	background-image: url('../images/reload.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_print_on {
+	cursor: pointer;
+	background-image: url('../images/print.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_print_off {
+	cursor: default;
+	background-image: url('../images/print.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_update_on {
+	cursor: pointer;
+	background-image: url('../images/update.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_update_off {
+	cursor: default;
+	background-image: url('../images/update.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+.button_toolbar_forward_on {
+	cursor: pointer;
+	background-image: url('../images/e_forward.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;		
+}
+
+.button_toolbar_forward_off {
+	cursor: default;
+	background-image: url('../images/forward.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;		
+}
+
+.button_toolbar_back_on {
+	cursor: pointer;
+	background-image: url('../images/e_back.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;		
+}
+
+.button_toolbar_back_off {
+	cursor: default;
+	background-image: url('../images/back.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;		
+}
+
+
+.button_toolbar_toc_collapse_on {
+	cursor: pointer;
+	background-image: url('../images/toc_closed.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+.button_toolbar_toc_expand_on {
+	cursor: pointer;
+	background-image: url('../images/toc_open.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}
+
+.button_toolbar_toc_print_on {
+	cursor: pointer;
+	background-image: url('../images/combine.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+
+.button_toolbar_bkmk_delete_on {
+	cursor: pointer;
+	background-image: url('../images/e_bookmark_rem.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}
+
+.button_toolbar_bkmk_delete_off {
+	cursor: default;
+	background-image: url('../images/bookmark_rem.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}
+
+.button_toolbar_bkmk_delete_all_on {
+	cursor: pointer;
+	background-image: url('../images/e_bookmark_remall.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+.button_toolbar_bkmk_delete_all_off {
+	cursor: default;
+	background-image: url('../images/bookmark_remall.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}
+
+.button_toolbar_config_highlight_on {
+	cursor: pointer;
+	background-image: url('../images/config_pref.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}
+
+.button_toolbar_config_highlight_off {
+	cursor: default;
+	background-image: url('../images/config_pref.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}
+
+.button_toolbar_config_profile_on {
+	cursor: pointer;
+	background-image: url('../images/user_pref.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+.button_toolbar_config_profile_off {
+	cursor: default;
+	background-image: url('../images/user_pref.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+.button_toolbar_config_update_on {
+	cursor: default;
+	background-image: url('../images/update.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+.button_toolbar_config_locale_on {
+	cursor: default;
+	background-image: url('../images/locale.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}
+
+.button_toolbar_help_on {
+	cursor: pointer;
+	background-image: url('../images/help.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+.button_toolbar_about_on {
+	cursor: pointer;
+	background-image: url('../images/about.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;				
+}	
+
+.separator {
+	background-color: #808080  ;
+	height:15px;
+	width: 1px;
+	border-top:2px solid  #D6DFE4;
+	border-bottom:2px solid  #D6DFE4;
+	border-left:3px solid  #D6DFE4;
+	border-right:3px solid  #D6DFE4;
+	
+}
+
+/* End Toolbar Style */
+
+
+td.tabOn {
+	background: #D6DFE4;
+	border-left:1px solid #ffffff;
+	border-right:1px solid #ffffff;
+	border-bottom: 1px solid #D6DFE4;
+	white-space: nowrap;
+	font-size: 6pt;
+	font-weight: bolder;
+	font-stretch: extra-condensed;
+	cursor: pointer;
+}
+
+
+td.tabOff {
+	background: #668899;
+	border-left:1px solid #ffffff;
+	border-right:1px solid #ffffff;
+	border-bottom: 1px solid #ffffff;
+	white-space: nowrap;
+	font-size: 6pt;
+	font-weight: bold;
+	font-stretch: extra-condensed;
+	cursor: pointer;
+}
+
+#toc h1,#searchResults h1,#searchForm h1,#search_toc h1,#succeed h1,#volume h1,#error h1,#indexTerm h1,#configUpdate h1
+	{
+	font-size: 1.2em;
+	color: #555555;
+	font-weight: lighter;
+	margin: 0px 0px 15px 0px;
+}
+
+#toc h2,#searchResults h2,#searchForm h2,#search_toc h2,#succeed h2,#volume h2,#error h2,#indexTerm h2
+	{
+	font-size: 1em;
+	color: #888888;
+	font-weight: lighter;
+	margin: 0px 10px 5px 5px;
+}
+
+
+#searchResults,#searchForm,#bookmark,#config,#toc,#search_toc,#succeed,#volume,#error,#indexTerm
+	{
+	padding: 5px 0 0 10px;
+	font-size: .8em;
+}
+
+
+#succeed li {
+	list-style-image: none;
+	list-style-type: none;
+}
+
+/* Begin of Search Form Format*/
+
+
+.searchInput {
+	white-space: nowrap;
+}
+
+#searchForm select {
+	float: right;
+	width: 60%;
+}
+
+#searchForm form {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	width: 95%;
+}
+
+#searchForm input {
+	display: inline;
+	width: 25%;
+}
+
+#searchForm input[type="text"] {
+	width: 35%;
+}
+
+#searchForm span {
+	float: left;
+	display: block;
+	width: 35%; 
+}
+
+#searchForm div {
+	padding: 2px;
+	float: left;	
+	display: block;
+	width: 100%;
+}
+
+/* End of Search Form format */
+
+
+
+#searchResults ol,#config ol {
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	font-size: .8em;
+	list-style: none;
+}
+
+#searchResults p {
+	font-size: .9em;
+	margin: 0 0 0 0;
+	padding: 2px 0 6px 0;
+}
+
+#searchResults span {
+	font-weight: bold;
+}
+
+#searchResults a:link {
+	text-decoration: none;
+}
+
+#searchResults a:active {
+	text-decoration: none;
+	color: #dddddd;
+}
+
+#searchResults a:hover {
+	text-decoration: none;
+	color: #668899;
+	background: #dddddd;
+	cursor: pointer;
+}
+
+#searchResults a:visited {
+	text-decoration: none;
+}
+/* Begin Style for Error Report */
+
+#throwable ul {
+	width: 360px;
+	margin: 5px 0 0 20px;
+	padding: 0 0 0 0;
+}
+
+#throwable li {
+	width: 24%;
+	line-height: 1.2em;
+	font-size: .8em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	list-style-image: none;
+	list-style-type: none;
+}
+
+#error p {
+	font-size: 1.2em;
+	color: #ff9900;
+}
+
+#throwable p {
+	font-size: .8em;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	color: #888888;
+}
+
+/* End Style for Error Report */
+
+
+/* Begin Table of Contents Styles */
+
+#toc ul {
+	border-width: 0;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+
+#toc li.closed ul, #toc li.closed-hidden ul, #toc li.closed-disabled ul {
+	display: none;
+}
+
+
+
+/*
+loading image using css is an ideal way, but it results extremely
+slow performance in IE. IE loads the image once for every appearance
+in the document, regardless how many times it occurs. So you could end 
+up loading the same image 5000 times if it appears in 5000 places.
+
+#toc li.open {
+	line-height: 18px;
+	list-style-image: url(../images/toc_open.gif);
+	list-style-type: cicle;
+}
+
+#toc li.closed {
+	line-height: 18px;
+	list-style-image: url(../images/toc_closed.gif);
+	list-style-type: disc;
+}
+
+#toc li.item {
+	line-height: 18px;
+	list-style-image: url(../images/topic.gif);
+	list-style-type: square;
+}
+*/
+
+#toc li {
+	line-height: 18px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-left: 4px;
+	padding-left: 4px;	
+	list-style-image: none;
+	list-style-type: none;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+#toc li.item-hidden, #toc li.closed-hidden, #toc li.open-hidden, #toc li.folder-hidden  { 
+        display: none;
+}
+
+#toc li.closed-disabled, #toc li.open-disabled, #toc li.folder-disabled {
+        color: #cccccc;
+}
+
+#toc li.closed-disabled a, #toc li.open-disabled a, #toc li.folder-disabled a {
+        color: #cccccc;
+}
+
+#toc li.closed-disabled a:link, a:hover, a:visited, a:focus, a:active {
+  background: #ffffff;
+  text-decoration: none; 
+  cursor: default;
+}
+
+#toc li.open-disabled a:link, a:hover, a:visited, a:focus, a:active {
+  background: #ffffff;
+  text-decoration: none; 
+  cursor: default;
+}
+
+#toc li.folder-disabled a:link, a:hover, a:visited, a:focus, a:active {
+  background: #ffffff;
+  text-decoration: none; 
+  cursor: default;	
+}
+
+#toc li.item a, #toc li.closed a, #toc li.open a, #toc li.folder a { 
+    text-decoration: none;
+	color: #000000;
+	padding-right: 2px;
+	/* this works in ie5.5, but not in ie5.0  */
+	white-space: nowrap;
+}
+
+
+#toc li.item a:hover, #toc li.closed a:hover, #toc li.open a:hover, #toc li.folder a:hover {
+	text-decoration: none;
+	background: #dddddd;
+    cursor: pointer;
+}
+
+#toc li.item a:focus, #toc li.closed a:focus, #toc li.open a:focus, #toc li.folder a:focus {
+	background: #ffffff;
+	width:100%;		
+	outline: none;
+}
+
+#toc li.item a:active, #toc li.closed a:active, #toc li.open a:active, #toc li.folder a:active {
+	background: #668899;
+	color:HighlightText;
+	width:100%;		
+}
+
+
+#toc a {
+	text-decoration: none;
+	color: #000000;
+	padding-right: 2px;
+	/* this works in ie5.5, but not in ie5.0  */
+	white-space: nowrap;
+}
+
+#toc span.newFolder {
+	width: 2px;
+	background-color: #006600;
+}
+
+#toc span.updatedFolder {
+	width: 2px;
+	background-color: #000066;
+}
+
+#toc span.newFile {
+	width: 2px;
+	background-color: #006600;
+}
+
+#toc span.updatedFile {
+	width: 2px;
+	background-color: #0000ff;
+}
+
+/* End of TOC Style */
+
+/* Begin Table of Contents Styles */
+
+#search_toc ul {
+	border-width: 0;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+#search_toc li.closed ul {
+	display: none;
+}
+
+#search_toc li {
+	line-height: 18px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+	margin-left: 4px;
+	padding-left: 4px;	
+	list-style-image: none;
+	list-style-type: none;
+	white-space: nowrap;
+}
+
+#search_toc a {
+	text-decoration: underline;
+	color: #808080;
+	font-style: italic;
+	padding-right: 2px;
+	/* this works in ie5.5, but not in ie5.0  */
+	white-space: nowrap;
+}
+
+/* End of SEARCH TOC Style */
+
+/* Begin Index Term Style */
+
+
+#indexterm ul {
+	line-height: 11pt;
+	margin-left: 0px;
+	padding-left: 0px;
+	background: #ffffff;
+	color: #000000;	
+	width:100%;	
+}
+
+
+#indexterm ul.index_root {
+	list-style-image: none;
+	list-style-type: none;	
+	font-size: 0.8em;
+}
+
+#indexterm li {
+	list-style-image: none;	
+	list-style-type: none;
+	margin-left: 4px; 
+	padding-left: 2px;
+	line-height: 11pt;
+}
+
+
+#indexterm li.folder {
+	font-size: 0.9em;
+	font-weight: bold;
+	color: #888888;
+}
+
+#indexterm li.item {
+	font-weight: normal;
+	background: #ffffff;
+	color: #000000;
+}
+
+#indexterm #selected__ {
+	background: #668899;
+	color:HighlightText;
+}
+
+#indexterm span.index_bucket {
+	display: none;
+}
+
+#indexterm a {
+	text-decoration: none; 
+	color: #000000;
+	padding-right: 2px;
+	font-size: 0.95em;
+	/* this works in ie5.5, but not in ie5.0  */
+	white-space: nowrap;
+}
+
+#indexterm a:active {
+	color: #000000;
+	background: #ffffff;
+}
+
+#indexterm a:focus {
+	color: #000000;
+	background: #ffffff;
+}
+
+#indexterm li.item-hidden, li.folder-hidden {
+	display: none; 		
+}
+
+#indexterm div.multidx-hidden {
+	display: none;	
+}
+
+#indexterm div.multidx-show {
+	display: block;	
+}
+
+
+
+/* End Index Term Style */
+
+/* Begin Bookmark Styles */
+
+.TocLink {
+	background-color: #6699FF !important;
+}
+#bookmark ul {
+	border-width: 0;
+	margin: 0px 0px 0px 10px;
+	padding: 0px 0px 0px 10px;
+}
+
+
+#bookmark li.closed ul {
+	display: none;
+}
+
+#bookmark li.bookmark {
+	line-height: 18px;
+	list-style-image: url(../images/bookmark_obj.gif);
+	list-style-type: cicle;
+}
+
+#bookmark li.annotation {
+	line-height: 18px;
+	list-style-image: url(../images/comment.gif);
+	list-style-type: cicle;
+}
+
+#bookmark li {
+	margin-top: 3px;
+	margin-bottom: 3px;
+	list-style-image: none;
+	list-style-type: none;
+	white-space: nowrap;
+}
+
+#bookmark a {
+	cursor: pointer;
+	text-decoration: underline;
+	color: #000000;
+	padding-right: 2px;
+	/* this works in ie5.5, but not in ie5.0  */
+	white-space: nowrap;
+}
+
+#bookmark #selected__ {
+	background: #668899;
+	color:HighlightText;
+}
+
+#bookmark p {
+	font-size: .8em;
+	margin: 0 0 0 0;
+	padding: 2px 0 8px 0;
+}
+/* End of Bookmark Style */
+
+/* Config Style */
+
+#config ul {
+	border-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#config li {
+	list-style-image: none;
+	list-style-type: none;
+}
+
+#config span.configHeader {
+	font-weight: bold;
+	margin: 0px 0px 0px 10px;
+	padding: 0px 0px 0px 10px;
+	width: 13em;
+}
+
+#config span.configField {
+	margin: 0px 0px 0px 20px;
+	padding: 0px 0px 0px 20px;
+	width: 13em;
+}
+
+#config span.configHeader2 {
+	font-weight: normal;
+	margin: 0px 0px 0px 10px;
+	padding: 0px 0px 0px 10px;
+	width: 13em;
+}
+
+#config h1{
+	font-size: 1.2em;
+	color: #000;
+	font-weight: bold;
+	margin: 0px 0px 15px 0px;
+}
+
+#config h2{
+	font-size: 1.1em;
+	color: #ooo;
+	font-weight: normal;
+	margin: 0px 10px 5px 5px;
+}
+
+
+/* Config Style */
+#configUpdate {
+	font-size: 0.8em;	
+}	
+
+#configUpdate ul {
+	border-width: 0;
+	margin: 5px;
+	padding: 0;
+}
+
+#configUpdate li {
+	list-style-image: none;
+	list-style-type: none;
+	margin: 3px;
+	padding: 0;
+}
+
+#configUpdate span.configHeader {
+	font-weight: bold;
+	margin: 0px 0px 0px 3px;
+	padding: 0px 0px 0px 3px;
+	width: 13em;
+}
+
+#configUpdate span.configField {
+	margin: 0px 0px 0px 5px;
+	padding: 0px 0px 0px 5px;
+}
+
+#configUpdate span.configHeader2 {
+	font-weight: normal;
+	margin: 0px 0px 0px 3px;
+	padding: 0px 0px 0px 3px;
+	width: 13em;
+}
+
+
+/* Update Style */
+#update ul {
+	border-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#update li {
+	list-style-image: none;
+	list-style-type: none;
+}
+
+#in-progress span {
+	margin-left: 20px;
+	padding-left: 10px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	z-index: 2;
+	font-style: italic;
+	font-size: 0.9em;
+	color: #999999;
+	
+}
+
+#in-progress span.completed {
+	background-image: url('../images/completed.gif');
+	float: left;
+}
+
+#in-progress span.stopped {
+	background-image: url('../images/stop.gif');
+	float: left;	
+}
+
+#in-progress span.finished {
+	background-image: url('../images/completed.gif');
+	float: left;	
+}
+
+#in-progress span.progressing {
+	background-image: url('../images/progressing.gif');
+	float: left;	
+}
+
+#in-progress span.failed {
+	background-image: url('../images/failed.gif');
+	float: left;	
+}
+
+#in-progress span.cancelled {
+	background-image: url('../images/failed.gif');
+	float: left;
+}
+
+#in-progress span.first {
+	color: #627081;
+	margin-left: 45px;	
+	font-style: normal;
+	font-size: 1em;
+}	
+
+#in-progress span.FATAL {
+	margin-left: 50px;
+	width: 500px;
+	float: right;
+}
+
+#in-progress span.INFO {
+	margin-left: 50px;
+	width: 500px;
+	float: right;
+}
+
+#in-progress span.WARN {
+	margin-left: 50px;
+	width: 500px;
+	float: right;
+}
+
+#in-progress div {
+	width: 600px;
+	float: left;	
+}
+
+#updatelog {
+	
+	
+}
+
+#updatelog h3 {
+	font-size: 1.2em;
+	color: #222222;
+	font-weight: lighter;
+	margin: 5px 5px 5px 10px;	
+}
+
+#updatelog h4 {
+	font-size: 1.0em;
+	color: #555555;
+	font-weight: lighter;
+	margin: 5px 5px 5px 15px;	
+}
+
+#updatelog ul {
+	border-width: 0;
+	font-size: 0.8em;
+	margin: 3px 3px 10px 30px;
+}
+
+#updatelog li {
+	list-style-image: none;
+	list-style-type: none;
+}
+
+#updatelog .new li.topic {
+	color: #006600;
+}
+
+#updatelog .updated li.topic {
+	color: #000066;
+}
+
+#updatelog .obsolete li.topic {
+	color: #660000;
+}
+
+#updatelog span.hidden {
+	color: #888888;	
+}
+
+div.refresh {
+	margin: 10px;
+	clear: both;
+	float: left;	
+	display: block;
+}
+
+div.norefresh {
+	display: none;
+}
+
+span.updateHeader {
+	font-weight: bold;
+	margin: 0px 0px 0px 10px;
+	padding: 0px 0px 0px 10px;
+}
+
+span.updateField {
+	margin: 0px 0px 0px 20px;
+	padding: 0px 0px 0px 20px;
+}

@@ -1,0 +1,150 @@
+<div class="header-container">
+  <div class="nav-content">
+    <span class="logo" :title="systemSetOptions.systemName">
+      <img @click="goHome" :src="systemSetOptions.systemImg" />
+      <!-- <span @click="goHome" class="system-name">{{ systemSetOptions.systemName }}</span> -->
+      <span @click="goHome" class="system-name">社区管理系统</span>
+    </span>
+    <nav-bar></nav-bar>
+  </div>
+  <div class="header-right">
+    <!-- 用户中心 -->
+    <el-popover trigger="click" placement="bottom" width="420" popper-class="user-detail-popover">
+      <div class="user-detail">
+        <div class="user-detail-body">
+          <div class="user-info">
+            <div class="user-detail-name">
+              <div class="operate">
+                <el-button
+                  class="iconfont iconpms-icon_configuration-management-icon"
+                  :title="$t('layout.product_config')"
+                  @click.native="systemSet"
+                ></el-button>
+                <el-button
+                  class="iconfont iconpms-icon_Change-Password"
+                  v-if="!isSuperUser"
+                  :title="$t('layOut.changePassword')"
+                  @click.native="changePassword"
+                ></el-button>
+                <el-button class="iconfont iconpms-icon_Sign-out" @click.native="logout" :title="$t('layOut.loginOut')"> </el-button>
+              </div>
+            </div>
+            <div class="content">
+              <div class="user-detail-image">
+                <img v-if="userInfo.image" :src="userInfo.image" />
+                <i v-else class="iconfont iconpms-icon_User-roles header-icon"></i>
+              </div>
+              <div class="userInfoName" :title="userInfo.name">{{ userInfo.name }}</div>
+            </div>
+          </div>
+          <div class="role-info">
+            <div class="name">
+              <span
+                class="name-title"
+                :class="{'zh-lang':currentLange === 'zh','en-lang' : currentLange === 'en', 'es-lang' : currentLange === 'es'}"
+                >{{ $t('user_setting.userName') }}</span
+              >
+              <span
+                class="names"
+                :class="{'zh-lang-name':currentLange === 'zh','en-lang-name' : currentLange === 'en', 'es-lang-name' : currentLange === 'es'}"
+                :title="userInfo.userName"
+                >{{ userInfo.userName }}</span
+              >
+            </div>
+            <div class="name">
+              <span
+                :class="{'zh-lang':currentLange === 'zh','en-lang' : currentLange === 'en', 'es-lang' : currentLange === 'es'}"
+                class="name-title"
+                >{{ $t('role-manage.role_name') }}</span
+              >
+              <span
+                class="names"
+                :class="{'zh-lang-name':currentLange === 'zh','en-lang-name' : currentLange === 'en', 'es-lang-name' : currentLange === 'es'}"
+                :title="curRole.name"
+                >{{ curRole.name }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="user-info" slot="reference"> -->
+      <img v-if="userInfo.image" slot="reference" :src="userInfo.image" class="header-icon-img" />
+      <i v-else class="iconfont  iconpms-icon_User-roles header-icon user-icon" slot="reference"></i>
+      <!-- </div> -->
+    </el-popover>
+    <!-- 用户手册 -->
+    <!-- <div class="header-item message-notice-box">
+      <span class="el-dropdown-link message-notice" :title="$t('navbar.user_manual')">
+        <i class="iconfont iconpms-icon_Preview-document header-icon" @click="userManual"></i>
+      </span>
+    </div> -->
+    <!-- 换肤 -->
+    <el-dropdown trigger="hover" class="header-item" @command="handleCommandSkin">
+      <span class="el-dropdown-link">
+        <i class="iconfont iconpms-icon_Skin-peeler header-icon"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown" class="nav-drop">
+        <el-dropdown-item v-for="(item,index) in skins" :key="index" :command="item.name"> {{ item.label }} </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+    <!-- 切换语言 -->
+    <el-dropdown trigger="hover" class="header-item" @command="handleCommandLanguage">
+      <span class="el-dropdown-link">
+        <i class="header-icon iconfont iconpms-icon_en"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown" class="nav-drop">
+        <el-dropdown-item v-for="(item,index) in languages" :key="index" :command="item.name"> {{ item.label }} </el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </div>
+
+  <el-dialog
+    :visible.sync="isChangePassword"
+    append-to-body
+    :close-on-click-modal="false"
+    :close-on-press-escape="true"
+    :show-close="false"
+    width="28%"
+    top="12%"
+    id="change-pwd-dialog"
+  >
+    <span class="header-title close-title" style="display: flow-root !important;margin-top: -40px !important;">
+      <i></i>
+      <span class="change-pwd-title">{{ $t('user_setting.change_pwd') }}</span>
+    </span>
+    <i class="close-button-change iconfont iconpms-icon_Close" @click="closeChangePwd"></i>
+    <el-form
+      label-position="top"
+      :model="changePwdForm"
+      ref="changePwdForm"
+      :rules="changePwdRules"
+      label-width="100px"
+      class="demo-ruleForm change-form"
+    >
+      <el-form-item :label="$t('user_setting.userName')" class="change-pwd-label" prop="userName">
+        <el-input disabled v-model="changePwdForm.userName"></el-input>
+      </el-form-item>
+      <el-form-item :label="$t('user_setting.old_pwd')" class="change-pwd-label" prop="oldPwd">
+        <el-input type="password" v-model="changePwdForm.oldPwd" :placeholder="$t('layout.length_limit6_18')" maxlength="18" show-password>
+        </el-input>
+      </el-form-item>
+      <el-form-item :label="$t('user_setting.new_pwd')" class="change-pwd-label" prop="newPwd1">
+        <el-input type="password" v-model="changePwdForm.newPwd1" :placeholder="$t('layout.length_limit6_18')" maxlength="18" show-password>
+        </el-input>
+      </el-form-item>
+      <el-form-item :label="$t('user_setting.new_pwd')" class="change-pwd-label" prop="newPwd2">
+        <el-input type="password" v-model="changePwdForm.newPwd2" :placeholder="$t('layout.length_limit6_18')" maxlength="18" show-password>
+        </el-input>
+      </el-form-item>
+    </el-form>
+    <div class="save-cancel-pwd">
+      <el-button @click="closeChangePwd" class="default-btn iconfont iconpms-icon_cancel button-pwd">{{ $t('common.cancel') }} </el-button>
+      <el-button type="primary" @click="submitPwd('changePwdForm')" class="primary-btn iconfont iconpms-icon_save button-pwd">{{
+        $t('common.save')
+      }}</el-button>
+    </div>
+  </el-dialog>
+
+  <!-- 系统配置表 -->
+  <system-set :systemSetVisible="systemSetVisible" @on-close-system-set="onCloseSystemSet"></system-set>
+</div>

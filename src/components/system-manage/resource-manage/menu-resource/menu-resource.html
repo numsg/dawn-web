@@ -1,0 +1,111 @@
+<div class="menu-resource">
+    <div class="menu-tree-container">
+      <div  class="clearfix header">
+        <span>{{$t('resource-manage.plan_menu_config')}}</span>
+        <el-button v-if='rolePrivilege.add' :title="$t('resource-manage.add_first_menu')" class="no-text-btn iconfont iconpms-icon_add primary-btn flr"  @click="addRootMenu"><span class="btn-content">{{$t('resource-manage.add_first_menu')}}</span></el-button>
+      </div>
+      <div class="menu-tree">
+        <!-- default-expand-all -->
+        <el-tree ref="menuTree" :data="dataSource" node-key="id" :props="defaultProps" 
+           :highlight-current="isHighLight" :expand-on-click-node="true" :default-expand-all="false">
+          <!-- :default-expanded-keys="currentExpandedKeys" accordion auto-expand-parent render-after-expand -->
+          <span class="custom-tree-node" @click="handleNodeClick(data,node)" slot-scope="{node, data}">
+            <span class="pri-icon" v-if="node.data.icon && !node.data.visible">
+              <i class="res-child-icon" :class="'iconfont '+ node.data.icon"></i>
+            </span>
+            <span class="pri-icon" v-if="node.data.icon && !node.data.visible && data.parentId === ''">
+                <img :src='node.data.icon' />
+            </span>
+            <!-- <span class="pri-text" style="display: flexbox;margin-top:-2px;">{{node.data.title}}</span> -->
+            <span class="source-tree-span" style='margin-left: 5px!important;' :title="node.data.title">{{node.data.title}}</span>
+            <span class="operator-btn" v-if='currentMenuInfo.code === node.data.code '>
+              <i  v-if='rolePrivilege.add'  class="iconfont iconpms-icon_add" @click="append(data,node)" :title="$t('system_log.ADD')" @click.stop></i>
+              <i  v-if='rolePrivilege.delete' class="iconfont iconpms-icon_delet" @click="deleteMenu(data)" :title="$t('common.delete')" @click.stop></i>
+            </span>
+          </span>
+        </el-tree>
+      </div>
+    </div>
+    <div class="menu-form">
+      <div  class="form-content">
+
+      <el-form :model="currentMenuInfo" :rules="rules" ref="currentMenuInfo" size=medium>
+        <div class="header-title">
+          <i></i>
+          <span class="source-title" :title="currentMenuInfo.title">{{currentMenuInfo.title}}</span>
+        </div>
+        <el-form-item class="res-form-item" :label="$t('resource-manage.privilege_name')" prop="title">
+          <el-input :disabled="isNotSuper" v-model="currentMenuInfo.title" size=medium maxlength="64" :placeholder="$t('resource-manage.privilege_name_length_1_64')"></el-input>
+        </el-form-item>
+        <el-form-item class="res-form-item" :label="$t('resource-manage.route_name')" prop="name">
+          <el-input :disabled="isNotSuper" v-model="currentMenuInfo.name" size=medium maxlength="64" :placeholder="$t('resource-manage.router_name_length_1_64')"></el-input>
+        </el-form-item>
+        <el-form-item class="res-form-item" :label="$t('resource-manage.route_address')" prop="expression">
+          <el-input :disabled="isNotSuper" v-model="currentMenuInfo.expression" size=medium maxlength="64" :placeholder="$t('resource-manage.route_address_name_length_1_64')"></el-input>
+        </el-form-item>
+        <el-form-item class="res-form-item" :label="$t('resource-manage.component_path')" prop="description">
+          <el-input :disabled="isNotSuper" v-model="currentMenuInfo.description" size=medium maxlength="64" :placeholder="$t('resource-manage.component_path_length_1_64')"></el-input>
+        </el-form-item>
+
+      <el-form-item class="res-form-item" :label="$t('resource-manage.privilege_icon')" prop="icon" v-if="!currentMenuInfo.visible"><br>
+        <!-- 顶级节点 -->
+        <el-upload
+          v-if="currentMenuInfo.parentId === ''"
+          class="avatar-uploader"
+          ref="upload"
+          action=""
+          :show-file-list="false"
+          :http-request="uploadImage"
+          :before-upload="beforeAvatarUpload"
+          accept="image/png,.jpeg,.jpg"
+        >
+         <div class="clearfix">
+          <div v-if="currentMenuInfo.icon" class="img-box">
+            <img :src="currentMenuInfo.icon" class="avatar" :alt="$t('user-manage.upload_or_reset')" />
+          </div>
+          <div v-else class="img-box" >
+            <img class="avatar" :src="images.defaultImg">
+          </div>
+         </div>
+        </el-upload>
+        <!-- 非顶级节点 -->
+        <div v-else class="avatar-uploader">
+          <i v-if="currentMenuInfo.icon" class="res-child-icon-play" :class="'iconfont ' + currentMenuInfo.icon" @click="isShowImgBox = true"></i>
+          <div v-else class="img-box" >
+            <img class="avatar" :src="images.defaultImg"  @click="isShowImgBox = true">
+          </div>
+        </div>
+
+      </el-form-item>
+      </el-form>
+    </div>
+
+      <div v-if='isChanged &&  (rolePrivilege.update || rolePrivilege.add)' class="form-btn">
+        <el-button  class='iconfont iconpms-icon_cancel default-btn' @click="cancelSubmit">{{$t('common.cancel')}}</el-button>
+        <el-button  class="iconfont iconpms-icon_save primary-btn" type=primary @click="saveMenuInfo"> {{$t('common.save')}}</el-button></el-button>
+      </div>
+    </div>
+
+    <el-dialog 
+      :title="$t('base_data_manage.select_icon')" 
+      :visible.sync="isShowImgBox" 
+      append-to-body 
+      :close-on-click-modal="false" 
+      :close-on-press-escape="true"
+      :show-close="false" 
+      class="upload-container"
+      width="26%">
+    <div class="upload-box">
+      <div class="ddata-source-image" >
+        <div v-for="(img,index) in images.vectorIcon" :key='index' class="default-img-content"
+        :class="{'current-background-img-dsource' : currentMenuInfo.icon === img.className}">
+          <i :class="'iconfont '+ img.className" class="data-icon" @click="onImgClick(img, index)"></i>
+        </div>
+      </div>
+      <div class="image-save" style="text-align: right;">
+        <el-button @click="onCancel" size="mini" type="primary" class="primary-btn"> {{$t('common.cancel')}}</el-button>
+        <el-button @click="onSavebackground" size="mini" type="primary" class="primary-btn">{{$t('common.confirm')}}</el-button>
+      </div>
+    </div>
+   </el-dialog>
+  </div>

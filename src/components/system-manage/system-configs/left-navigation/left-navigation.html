@@ -1,0 +1,14 @@
+<div class="left-navigation">
+  <el-menu :default-active="defaultActiveId" :unique-opened="true" >
+    <el-submenu class="submenu" v-for="(item,key) in data" :key="item.id" :index="item.id">
+      <template slot="title">
+        <div class="menu-name" :title="$t(item.name)">{{ $t( item.name) }}</div>
+      </template>
+      <el-menu-item-group v-for="(child,index) in item.children" :key="child.id">
+        <el-menu-item class="menu-item" :title="$t(child.name)" :index="child.id" @click="onMenuItem(child)">
+          {{ $t(child.name) }}
+        </el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
+  </el-menu>
+</div>

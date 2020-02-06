@@ -1,0 +1,66 @@
+@import '@/assets/styles/vars.scss';
+.user-list-wrapper {
+    .search-box {
+        float:left;
+        width: 350px;
+    }
+    .adduser-btn {
+        float:right;
+        background-color: $color-primary;
+        color: #fff;
+    }
+
+    ul {
+        padding: 10px 0;
+        .user-list {
+            height: 70px;
+            // line-height: 40px;
+            padding: 12px 0 12px 20px;
+            box-sizing: border-box;
+            background: #f6f8fc;
+            margin-bottom: 15px;
+            border: 1px solid #f6f7f8;
+            border-radius: 5px;
+            box-shadow: 3px 3px 5px #eaf0fc;
+            &.active {
+                // background: #dadada;
+                border: 1px solid #b8daf2;
+                box-shadow: 3px 3px 5px #dfeff9;
+            }
+            img {
+                float: left;
+                border-radius: 50%;
+                width: 45px;
+            }
+            .user-info {
+                float: left;
+                padding-left: 20px;
+                .username {
+                    font-size: 18px;
+                }
+                .rolename {
+                    font-size: 16px;
+                }
+            }
+            .operate-btn {
+                width: 65px;
+                height: 45px;
+                border-left: 2px solid #f0f1f2;
+                i {
+                    cursor: pointer;
+                }
+                float: right;
+                .edit {
+                    margin-right: 10px;
+                    margin-top: 15px;
+                    margin-left: 7px;
+                }
+                .delete {
+                    margin-top: 15px;
+                    margin-left: 25px;
+                }
+            }
+        }
+        
+    }
+}

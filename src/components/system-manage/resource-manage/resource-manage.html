@@ -1,0 +1,11 @@
+<div style="flex: 1; display: inline-flex; align-items: stretch;" class="resource-manage">
+    <el-tabs v-model="activeName" class="resource-tabs">
+        <el-tab-pane :label='menu.funcList' class="resource-tab-pane" name="first">
+            <menu-resource></menu-resource>
+        </el-tab-pane>
+        <el-tab-pane :label='menu.apiRes' class="resource-tab-pane" name="second">
+            <privilege-resource></privilege-resource>
+        </el-tab-pane>
+    </el-tabs>
+
+</div>

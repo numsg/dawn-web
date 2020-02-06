@@ -1,0 +1,74 @@
+@import '@/assets/styles/vars.scss';
+
+.system-set {
+  .system-set-title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .close-button-change {
+    cursor: pointer;
+    position: relative;
+    right: -480px;
+    margin-top: -45px;
+    font-size: 26px !important;
+    display: block;
+  }
+
+  .save-cancel-pwd {
+    display: flex;
+    margin-left: calc(100% - 190px);
+    margin-top: 15px;
+    margin-bottom: -15px;
+    .button-pwd {
+      height: 30px;
+      width: 89px;
+      display: flex;
+    }
+  }
+
+  .system-option-title {
+    line-height: 36px;
+    font-weight: 600;
+    height: 36px;
+    font-size: 14px;
+    color: #ffba00;
+  }
+
+  .system-set-name {
+    margin-top: 20px;
+  }
+
+  .c____100____el-form-item__label {
+    font-weight: 600;
+    margin-bottom: 10px;
+    height: 36px;
+    font-size: 14px;
+    color: #ffba00;
+  }
+
+  .system-option-title::before {
+    content: '*';
+    color: #f56c6c;
+    margin-right: 4px;
+  }
+
+  .system-logo {
+    text-align: center;
+
+    img {
+      transition: all 0.5s;
+      object-fit: contain;
+      width: 58px;
+      height: 58px;
+    }
+
+    img:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .avatar-uploader {
+    text-align: center;
+  }
+}

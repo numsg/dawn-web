@@ -1,0 +1,41 @@
+.route-leave-dialog {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  >div {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+    >div:first-child {
+      padding: 10px;
+    }
+
+    >div:nth-child(2) {
+      padding: 10px 15px;
+      flex: 1;
+      display: flex;
+      position: relative;
+    }
+
+    >div:last-child {
+      padding: 10px;
+    }
+
+    .status {
+      color: #e6a23c;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+    }
+
+    .message {
+      padding-left: 36px;
+      padding-right: 12px;
+      line-height: 24px;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Tabs</title><script language="JavaScript">
+				var viewFrameName = "viewsFrame"; var
+				tabFrameName = "tabs"; var tabToolbarFrameName =
+				"tabToolbarFrame";
+			</script><script src="javascript/utils.js" language="JavaScript">
+				// leave some space, so that the serializer
+				won't collapse element // which could cause
+				browser to mis-behave
+			</script><script src="javascript/tab.js" language="JavaScript">
+				// leave some space, so that the serializer
+				won't collapse element // which could cause
+				browser to mis-behave
+			</script><link media="all" href="css/dmc.css" type="text/css" rel="stylesheet">
+   </head>
+   <body onload="_clickOnTab(0, tabFrameName, viewFrameName, 'view_toc.html', 'TOC', tabToolbarFrameName, 'toolbar_toc.html', 'TOC_TOOLBAR')">
+      <table class="tabs">
+         <tr height="20">
+            <td onClick="_clickOnTab(0, tabFrameName, viewFrameName, 'view_toc.html', 'TOC', tabToolbarFrameName, 'toolbar_toc.html', 'TOC_TOOLBAR')" class="tabOn" id="0"><img title="Tabla de contenido" alt="Tabla de contenido" src="images/outline.gif"></td>
+            <td onClick="_clickOnTab(1, tabFrameName, viewFrameName, 'view_index_term.html', 'INDEX_TERM', tabToolbarFrameName, 'toolbar_index_term.html', 'INDEX_TERM_TOOLBAR')" class="tabOff" id="1"><img title="Términos de índice" alt="Términos de índice" src="images/indexterm.gif"></td>
+         </tr>
+      </table>
+   </body>
+</html>

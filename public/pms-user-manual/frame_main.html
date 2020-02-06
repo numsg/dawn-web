@@ -1,0 +1,11 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html401/frameset.dtd">
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Main Frame</title><script language="JavaScript" src="javascript/utils.js"></script><script language="JavaScript" src="javascript/profile.js"></script><script language="JavaScript" src="javascript/tree.js"></script></head>
+   <frameset cols="300,*" id="mainFrameset">
+      <frame noresize="yes" scrolling="no" src="frame_tabs.html" title="Tabs Frame" id="tabsFrame">
+      <frame id="content" title="Content" name="content" src="common/homepage.html#styler-id1.1.1.2.1" onload="filterFrameContent('profileFrame', 'profile');showCurrentDocument();">
+   </frameset>
+</html>

@@ -1,0 +1,54 @@
+<div class="resource-card-container">
+  <el-tabs style="height: 100%;overflow: scroll;" v-model="activeReleaseName">
+    <el-tab-pane :label="$t('role-resource-manage.function_resource')" name="authorityResource">
+      <div class="no-data" v-if="menuList.length <= 0">{{ $t('common.no_data') }}</div>
+      <div class="resource-content" v-for="(menu,key) in menuList" :key="key">
+        <p class="item-edit" v-if="showEdit">
+          <el-button v-if="rolePrivilege.update" :title="$t('system_log.EDIT')" class="iconfont iconpms-icon_edit edit-button" @click="onMenuEdit(menu)"></el-button>
+          <el-button v-if="rolePrivilege.delete" :title="$t('system_log.DELETE')" class="iconfont iconpms-icon_delet edit-button" @click="onMenuDelete(menu)"></el-button>
+        </p>
+        <p :title="menu.title" class="resource-item-parent">{{ menu.title }}</p>
+        <div v-if="menu.children " class="resource-children">
+          <span class="resource-children-item" v-for="(child,key) in menu.children" :key="key" v-if="child.description !== '1'"
+            >{{ child.title }}
+          </span>
+        </div>
+      </div>
+    </el-tab-pane>
+    <el-tab-pane :label="$t('resource-manage.api_resource')" name="apiResource">
+      <div style="width:100%">
+        <el-table :data="privilegeList" stripe highlight-current-row style="width:100%">
+          <el-table-column prop="name" :label="$t('common.name')">
+            <template slot-scope="scope">
+              <el-tooltip placement="top" :open-delay="500" effect="light">
+                <div slot="content">{{ scope.row.name }}</div>
+                <div class="table-slot-cell">{{ scope.row.name }}</div>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="description" :label="$t('role-resource-manage.api_adress')">
+            <template slot-scope="scope">
+              <el-tooltip placement="top" :open-delay="500" effect="light">
+                <div slot="content">{{ scope.row.description }}</div>
+                <div class="table-slot-cell">{{ scope.row.description }}</div>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column prop="expression" :label="$t('system_log.data_type.rule')">
+            <template slot-scope="scope">
+              <el-tooltip placement="top" :open-delay="500" effect="light">
+                <div slot="content">{{ scope.row.expression }}</div>
+                <div class="table-slot-cell">{{ scope.row.expression }}</div>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" v-if="showEdit && rolePrivilege.delete" :label="$t('system_log.operation')">
+            <template slot-scope="scope">
+              <i class="iconfont iconpms-icon_delet" @click="onPriDelete(scope.row, $event)" :title="$t('common.delete')"></i>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-tab-pane>
+  </el-tabs>
+</div>
