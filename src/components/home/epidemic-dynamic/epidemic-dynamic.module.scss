@@ -1,0 +1,32 @@
+.epidemic-dynamic {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  .epidemic {
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+  }
+  .county,
+  .community {
+    flex: 1;
+  }
+  .name {
+    line-height: 50px;
+    font-size: 22px;
+  }
+  .detail {
+    display: flex;
+    flex-direction: row;
+    .confirmed,
+    .suspected {
+      flex: 1;
+    }
+    .count {
+      line-height: 25px;
+      font-size: 18px;
+    }
+  }
+}

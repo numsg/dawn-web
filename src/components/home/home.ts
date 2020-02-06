@@ -10,11 +10,9 @@ import { PlanEntranceComponent } from '@/components/home/plan-entrance/plan-entr
 
 import TWEEN from 'three-tween';
 import WebglService from './webgl/webgl.service';
-// import { PlanCoverageComponent } from '../plan-census/plan-coverage/plan-coverage';
 import { Getter, Action } from 'vuex-class';
 import Plan from '@/models/plan-manage/plan';
 import eventNames from '@/common/events/store-events';
-// import { PlanRadarComponent } from '../plan-census/plan-system-construction/plan-radar/plan-radar';
 import homePageService from '@/api/home-page/home-page.service';
 import { HomePageConfig } from '@/models/home/home-page-config';
 import SessionStorage from '@/utils/session-storage';
@@ -27,9 +25,10 @@ import { ConfigHelper } from '@gsafety/whatever/dist/util/config-helper';
 import homeStyle from './home.module.scss';
 import homeBlackStyle from './home.black.module.scss';
 import i18n from '@/i18n';
-// import { PlanCoverageMapComponent } from '../plan-census/plan-coverage-map/plan-coverage-map';
-import { OrganzationPlanSetupComponent } from './organzation-plan-setup/organzation-plan-setup';
-import { UnloadKnowledgeModelComponent } from './unload-knowledge-model/unload-knowledge-model';
+import { EpidemicDynamicComponent } from './epidemic-dynamic/epidemic-dynamic';
+import { ServiceManageComponent } from './service-manage/service-manage';
+import { ResourceManageComponent } from './resource-manage/resource-manage';
+import { EmergencyResponseComponent } from './emergency-response/emergency-response';
 
 @Component({
   template: HomeHtml,
@@ -41,8 +40,10 @@ import { UnloadKnowledgeModelComponent } from './unload-knowledge-model/unload-k
     RecentWorkListComponent,
     NavigationGuidanceComponent,
     PlanEntranceComponent,
-    OrganzationPlanSetupComponent,
-    UnloadKnowledgeModelComponent
+    EpidemicDynamicComponent,
+    ServiceManageComponent,
+    ResourceManageComponent,
+    EmergencyResponseComponent
   },
   beforeRouteLeave(to: any, from: any, next: any) {
     const el: any = this;
@@ -175,28 +176,28 @@ export class HomeComponent extends Vue {
   moduleList = [
     {
       id: '1',
-      title: '值守',
+      title: '疫情动态',
       added: false,
       image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
-      componentName: 'navigation-guidance',
+      componentName: 'epidemic-dynamic',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
     },
     {
       id: '2',
-      title: '勤务管理',
+      title: '资源管理',
       added: false,
       image: require('@/assets/img/home/quick-entrance-' + i18n.locale + '.png'),
-      componentName: 'plan-entrance',
+      componentName: 'resource-manage',
       privilege: this.rolePrivilege.rapidPreparation,
       desc: 'home.repid_preparation_preplan_description'
     },
     {
       id: '3',
-      title: '资源管理',
+      title: '勤务管理',
       added: false,
       image: require('@/assets/img/home/work-list-' + i18n.locale + '.png'),
-      componentName: 'recent-work-list',
+      componentName: 'service-manage',
       privilege: this.rolePrivilege.workRecently,
       desc: 'home.work_log_description'
     },
@@ -205,18 +206,9 @@ export class HomeComponent extends Vue {
       title: '应急响应',
       added: false,
       image: require('@/assets/img/home/coveage.png'),
-      componentName: 'plan-coverage-map',
+      componentName: 'emergency-response',
       privilege: this.rolePrivilege.planCoverage,
       desc: 'home.original_coverage_statistics_description'
-    },
-    {
-      id: '5',
-      title: '预案指导',
-      added: false,
-      image: require('@/assets/img/home/system-construction-' + i18n.locale + '.png'),
-      componentName: 'organzation-plan-setup',
-      privilege: this.rolePrivilege.planSystem,
-      desc: 'home.build_contingency_plan_description'
     },
   ];
 

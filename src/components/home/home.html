@@ -139,6 +139,10 @@
               ></span>
             </div>
             <div class="item-content" :class="draggableItem.span < 7 ? 'style-one': 'style-two'">
+              <EpidemicDynamicComponent :span="draggableItem.span" v-if="data.componentName==='epidemic-dynamic'"></EpidemicDynamicComponent>
+              <ServiceManageComponent :span="draggableItem.span" v-if="data.componentName==='service-manage'"></ServiceManageComponent>
+              <ResourceManageComponent :span="draggableItem.span" v-if="data.componentName==='resource-manage'"></ResourceManageComponent>
+              <EmergencyResponseComponent :span="draggableItem.span" v-if="data.componentName==='emergency-response'"></EmergencyResponseComponent>
               <NavigationGuidanceComponent :span="draggableItem.span" v-if="data.componentName==='navigation-guidance'">
               </NavigationGuidanceComponent>
               <RecentWorkListComponent :span="draggableItem.span" v-if="data.componentName==='recent-work-list'"> </RecentWorkListComponent>
@@ -164,10 +168,6 @@
                 :span="draggableItem.span"
                 v-if="data.componentName==='organzation-plan-setup'"
               ></OrganzationPlanSetupComponent>
-              <UnloadKnowledgeModelComponent
-                :span="draggableItem.span"
-                v-if="data.componentName==='unload-knowledge-model'"
-              ></UnloadKnowledgeModelComponent>
             </div>
           </div>
         </div>
