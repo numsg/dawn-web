@@ -7,7 +7,7 @@
   "odataUrl": "http://116.62.205.14:30001/OdataService.svc",
   "baseSupportOdataUrl": "http://116.62.205.14:30003/OdataService.svc",
   "system": "pre-plan management system",
-  "uapUrl": "http://116.62.205.14:30009",
+  "uapUrl": "http://116.62.205.14:30022",
   "clientId": "e133660e7e86f6af8ef3m1ni5",
   "clientSecret": "a36d4a159da571a23eeaym1zh",
   "scope": "super,userManage,personal",

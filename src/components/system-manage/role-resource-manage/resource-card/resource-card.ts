@@ -57,7 +57,7 @@ export class ResourceCardComponent extends Vue {
 
   private async initRoleMenus() {
     const menus = await menuManageService.queryMenuNodes();
-    const roleMenu = await roleManageService.roleCodeQueryMenuNodes(this.currentRole.code, Url.ROLES) + '/';
+    const roleMenu = await roleManageService.roleCodeQueryMenuNodes(this.currentRole.code, Url.ROLES);
     this.$emit('on-count-change', roleMenu.length + this.privilegeList.length);
     if (menus && Array.isArray(menus) && menus.length > 0) {
       this.$data._twoStageMenus = roleManageService.getNewList(menus);

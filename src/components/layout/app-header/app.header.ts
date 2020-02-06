@@ -94,8 +94,8 @@ export class AppHeaderComponent extends Vue {
   oldTime!: number;
   timer: any;
 
-  @Config('globalConfig.timeOut')
-  timeOut!: number;
+  // @Config('globalConfig.timeOut')
+  timeOut: number = 3000;
 
   @Watch('isCurUserUpdate')
   onCurUserUpdate() {

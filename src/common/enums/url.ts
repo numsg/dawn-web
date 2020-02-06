@@ -9,5 +9,5 @@ export enum Url {
   SITUATIONPLANDEDUCE = 'situations/plans/deduce',
   PLANSITUATIONPAGING = 'plan-situations/paging',
   USERROLES = '/user/roles/',
-  ROLES = '/roles'
+  ROLES = '/roles/'
 }
