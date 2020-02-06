@@ -389,11 +389,11 @@
 
           .item-content {
             &.style-one {
-              height: calc((100vh - 170px) / 2 - 45px);
+              height: calc((100vh - 110px) / 2 - 45px);
             }
 
             &.style-two {
-              height: calc((100vh - 170px) - 40px);
+              height: calc((100vh - 110px) - 40px);
             }
           }
         }

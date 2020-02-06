@@ -1,0 +1,24 @@
+<component-editor-launcher
+  ref="componentEditor"
+  :component="editor.component"
+  :model="editor.data"
+  :extraInfo="componentExtraInfo"
+  :sideControlMode="true"
+  :target="editor.target"
+  :category="editor.category"
+  :saveToLocalCache="saveToLocalCache"
+  @on-finished="editor.handleEditFinished"
+  @on-undo="editor.handleEditCancel"
+>
+  <template #previewRegion="previewer">
+    <transition name="fade">
+      <pms-component-previewer
+        :previewer="previewer"
+        :target="editor.target"
+        :options="options"
+        :componentExtraInfo="componentExtraInfo"
+        @on-info-validated="handlePreviewValidation"
+      ></pms-component-previewer>
+    </transition>
+  </template>
+</component-editor-launcher>

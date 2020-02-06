@@ -1,0 +1,44 @@
+.c____100____expand-all-filter {
+  height: 463px !important;
+}
+
+.c____100____more-filter-region {
+  padding: 12px;
+  background: #335082;
+  margin-top: 0.7em;
+  margin-bottom: 1em;
+  padding-bottom: 23px;
+  text-align: left;
+  border-radius: 5px;
+  max-height: 363px;
+  overflow-y: auto;
+  -webkit-box-shadow: #1e3763 0px 2px 5px 0px;
+  box-shadow: #1e3763 0px 2px 5px 0px;
+
+  input {
+    background: #243d69;
+  }
+
+  p {
+    color: #ffba00;
+  }
+}
+
+.template-p {
+  color: #ffba00;
+}
+
+.c____100____event-type-cascader {
+  .c____100____el-cascader-node__label {
+    max-width: 300px !important;
+    flex: 1;
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.c____100____cell-type-select {
+  max-width: 440px;
+}

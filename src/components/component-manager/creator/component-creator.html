@@ -1,0 +1,16 @@
+<component-creator
+  v-if="creator.initialCreator"
+  :startCreate.sync="creator.startCreate"
+  :startEdit.sync="creator.startEdit"
+  :editComponent="creator.editComponent"
+  @on-finished="creator.onFinished"
+  @on-cancel="creator.onCancel"
+  @on-destroy="creator.onDestroy"
+>
+  <template #editor="editor">
+    <pms-component-editor :editor="editor"></pms-component-editor>
+  </template>
+  <!-- <template #templatePage="templatePage">
+    <pms-comp-template-manager :instance="templatePage"></pms-comp-template-manager>
+  </template> -->
+</component-creator>

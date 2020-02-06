@@ -1,0 +1,31 @@
+<dynamic-page
+  :name="name"
+  :dataSource="dataSource"
+  :operationOptions="operationOptions"
+  :contentOptions="contentOptions"
+  :showComponentSelector.sync="showSelectorFlag"
+  :displayContentType="displayContentType"
+  @on-start-component-edit="handleComponentEdit"
+  @on-undo-component-edit="handleComponentEditUndo"
+  @on-inserted-to-page="handleInsertContent"
+  @on-clone-finished="handleCloneFinished"
+  @on-removed-from-page="handleRemoveContent"
+  @on-clear-page="handleClearContent"
+>
+  <template #contentItem="content">
+    <pms-component-previewer :previewer="content" :options="contentDataOptions"></pms-component-previewer>
+  </template>
+  <template #editor="editor">
+    <pms-component-editor :editor="editor" :componentExtraInfo="componentExtraInfo" :saveToLocalCache="true"> </pms-component-editor>
+  </template>
+  <template #componentSelector="selector">
+    <pms-component-list
+      :instance="selector"
+      :options="componentSelectorOptions"
+      :filter="filter"
+      :filterOptions="componentSelectorOptions.filterOptions"
+      :disableExtraFilter="disableComponentExtraFilter"
+      :enableSelfDataLoad="componentSelectorOptions.enableSelfDataLoad"
+    ></pms-component-list>
+  </template>
+</dynamic-page>

@@ -185,7 +185,7 @@ export class HomeComponent extends Vue {
     },
     {
       id: '2',
-      title: '资源管理',
+      title: '资源信息',
       added: false,
       image: require('@/assets/img/home/quick-entrance-' + i18n.locale + '.png'),
       componentName: 'resource-manage',
@@ -194,7 +194,7 @@ export class HomeComponent extends Vue {
     },
     {
       id: '3',
-      title: '勤务管理',
+      title: '预案指导',
       added: false,
       image: require('@/assets/img/home/work-list-' + i18n.locale + '.png'),
       componentName: 'service-manage',
@@ -203,7 +203,7 @@ export class HomeComponent extends Vue {
     },
     {
       id: '4',
-      title: '应急响应',
+      title: '任务响应',
       added: false,
       image: require('@/assets/img/home/coveage.png'),
       componentName: 'emergency-response',
@@ -250,12 +250,6 @@ export class HomeComponent extends Vue {
 
   @Getter('planCensus_plans')
   allPlans!: Plan[];
-
-  @Action('SetStatisticsData')
-  setStatisticsData: any;
-
-  @Action('ResetCensusData')
-  resetCensusData: any;
 
   pageConfig: HomePageConfig = new HomePageConfig();
 
@@ -319,9 +313,7 @@ export class HomeComponent extends Vue {
   }
 
   async mounted() {
-    await this.$store.dispatch(eventNames.planCensus.LoadDistricts);
-    await this.$store.dispatch(eventNames.planCensus.LoadStatisticsPlans);
-    this.setStatisticsData();
+
   }
 
   /**
@@ -531,11 +523,8 @@ export class HomeComponent extends Vue {
 
   beforeDestroy() {
     // this.savePageConfig();
-    this.resetCensusData();
     // this.composingWebgl = null;
     // this.moduleWebgl = null;
-    this.setStatisticsData = null;
-    this.resetCensusData = null;
     this.handleDialogClose();
   }
 }

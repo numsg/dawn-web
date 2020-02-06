@@ -1,0 +1,63 @@
+<component-list
+  @on-selection-change="handleSelectChange"
+  @on-begin-component-edit="handleEdit"
+  @on-sure-to-display="handlePush"
+  :enablePopPreview="instance.enablePopPreview"
+  :enableSelfDataLoad="enableSelfDataLoad"
+  :miniMode="options.miniMode"
+  :choosenItems="options.choosenItems"
+>
+  <template #filter="instance">
+    <pms-component-filter
+      :instance="instance"
+      :extraFilter="filter"
+      :options="filterOptions"
+      :disableExtraFilter="disableExtraFilter"
+    ></pms-component-filter>
+  </template>
+  <template #componentIntro="component">
+    <p class="title">
+      {{ component.intro.name }}
+      <el-dropdown v-if="component.intro.extraInfo.multiTenancy" trigger="click" placement="bottom-start" class="multi-dropdown">
+        <span class="multi-name" @click="loadMultiTenancy(component.intro.extraInfo.multiTenancy)">{{$t('base_data_manage.model')}}</span>
+        <el-dropdown-menu class="multiTenancy-drop" slot="dropdown">
+          <el-dropdown-item v-for="(mul, index) in multiTenancys" :key="index" :command="mul">
+            <div class="multiTenancy-child">
+              <div class="mul-icon">
+                <img v-if="mul.image && !mul.image.isIcon && mul.image.iconfont" :src="mul.image.iconfont" />
+                <i v-if="mul.image && mul.image.isIcon && mul.image.iconfont" :class="mul.image.iconfont" class="iconfont event-btn"></i>
+              </div>
+              <div class="multiTenancy-name">{{ mul.name }}</div>
+            </div>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </p>
+    <div class="list-item-content">
+      <span class="content-item">
+        <b>{{$t('component_manager.event_description')}}</b>
+        <i
+          :title="component.intro.extraInfo && component.intro.extraInfo.eventTypeName !== ''
+              ? component.intro.extraInfo.eventTypeName
+              : $t('component_manager.unknown_type')"
+        >
+          {{ component.intro.extraInfo && component.intro.extraInfo.eventTypeName && component.intro.extraInfo.eventTypeName !== '' ?
+          component.intro.extraInfo.eventTypeName : $t('component_manager.unknown_type') }}
+        </i>
+      </span>
+      <span class="content-item">
+        <b>{{$t('component_manager.cell_type')}}</b>
+        <i
+          :title="component.intro.extraInfo && component.intro.extraInfo.cellTypeName !== '' ? component.intro.extraInfo.cellTypeName : $t('component_manager.unknown_type')"
+        >
+          {{ component.intro.extraInfo && component.intro.extraInfo.cellTypeName !== '' ? component.intro.extraInfo.cellTypeName :
+          $t('component_manager.unknown_type') }}
+        </i>
+      </span>
+      <span class="content-item">
+        <b>{{$t('tempMgr.edit_time.label')}}</b>
+        {{ component.intro.editTime }}
+      </span>
+    </div>
+  </template>
+</component-list>

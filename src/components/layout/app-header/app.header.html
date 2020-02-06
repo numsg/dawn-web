@@ -3,9 +3,9 @@
     <span class="logo" :title="systemSetOptions.systemName">
       <img @click="goHome" :src="systemSetOptions.systemImg" />
       <!-- <span @click="goHome" class="system-name">{{ systemSetOptions.systemName }}</span> -->
-      <span @click="goHome" class="system-name">社区管理系统</span>
+      <span @click="goHome" class="system-name">社区数政通应急管理平台</span>
     </span>
-    <nav-bar></nav-bar>
+    <!-- <nav-bar></nav-bar> -->
   </div>
   <div class="header-right">
     <!-- 用户中心 -->
@@ -68,7 +68,7 @@
         </div>
       </div>
       <!-- <div class="user-info" slot="reference"> -->
-      <img v-if="userInfo.image" slot="reference" :src="userInfo.image" class="header-icon-img" />
+      <img v-if="userInfo.image"  :src="userInfo.image" class="header-icon-img" slot="reference"/>
       <i v-else class="iconfont  iconpms-icon_User-roles header-icon user-icon" slot="reference"></i>
       <!-- </div> -->
     </el-popover>
@@ -79,23 +79,24 @@
       </span>
     </div> -->
     <!-- 换肤 -->
-    <el-dropdown trigger="hover" class="header-item" @command="handleCommandSkin">
+    <!-- <el-dropdown trigger="hover" class="header-item" @command="handleCommandSkin">
       <span class="el-dropdown-link">
         <i class="iconfont iconpms-icon_Skin-peeler header-icon"></i>
       </span>
       <el-dropdown-menu slot="dropdown" class="nav-drop">
         <el-dropdown-item v-for="(item,index) in skins" :key="index" :command="item.name"> {{ item.label }} </el-dropdown-item>
       </el-dropdown-menu>
-    </el-dropdown>
+    </!--> 
+
     <!-- 切换语言 -->
-    <el-dropdown trigger="hover" class="header-item" @command="handleCommandLanguage">
+    <!-- <el-dropdown trigger="hover" class="header-item" @command="handleCommandLanguage">
       <span class="el-dropdown-link">
         <i class="header-icon iconfont iconpms-icon_en"></i>
       </span>
       <el-dropdown-menu slot="dropdown" class="nav-drop">
         <el-dropdown-item v-for="(item,index) in languages" :key="index" :command="item.name"> {{ item.label }} </el-dropdown-item>
       </el-dropdown-menu>
-    </el-dropdown>
+    </el-dropdown> -->
   </div>
 
   <el-dialog

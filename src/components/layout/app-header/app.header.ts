@@ -16,7 +16,7 @@ import i18n from '@/i18n';
 import Config from '@/utils/config-decorator';
 import { asyncConfirm } from '@/common/utils/confirmUtil';
 import eventNames from '@/common/events/store-events';
-
+import moment from 'moment';
 @Component({
   template: require('./app.header.html'),
   style: appHeaderStyle,
@@ -96,6 +96,7 @@ export class AppHeaderComponent extends Vue {
 
   // @Config('globalConfig.timeOut')
   timeOut: number = 3000;
+
 
   @Watch('isCurUserUpdate')
   onCurUserUpdate() {
@@ -233,8 +234,8 @@ export class AppHeaderComponent extends Vue {
     //   changePwd.children[0].style.background = '#ecedf1';
     // }
     this.oldTime = Date.now();
-    this.registerEvent();
-    this.timeOutTimer();
+    // this.registerEvent();
+    // this.timeOutTimer();
     window.onbeforeunload = () => {
       this.beforeUnloadTime = new Date().getTime();
     };

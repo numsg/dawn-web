@@ -1,0 +1,11 @@
+.outline-col {
+  .component-previewer {
+    flex: 1;
+  }
+}
+
+.side-frame-container {
+  position: fixed !important;
+  top: 80px !important;
+  height: calc(100% - 80px) !important;
+}
