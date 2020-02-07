@@ -11,7 +11,6 @@ import { dependencyData } from '@gsafety/whatever/dist/store/modules/dependency-
 import { templateStore } from '@gsafety/whatever/dist/store/modules/templates';
 import { systemConfig } from '@gsafety/whatever/dist/store/modules/system-config';
 import { PMSComponentManager } from './modules/component-manage';
-import epidemicType from './modules/epidemic-type';
 import layout from './modules/layout';
 import systemSet from './modules/system-set';
 import PMSystemConfig from './modules/system-config';
@@ -26,7 +25,6 @@ const store = new Vuex.Store({
     templateStore,
     dependencyData,
     PMSComponentManager,
-    epidemicType,
     eventType,
     app,
     login,

@@ -7,8 +7,23 @@
   @on-start-searching="instance.handleSearch"
 >
   <template #filter-options="options">
-    <p class="template-p">{{ $t('component_manager.epidemic_type_filter') }}</p>
+    <p class="template-p">{{ $t('component_manager.cell_type_filter') }}</p>
+    <el-select
+      popper-class="cell-type-select"
+      v-model="selectComponentType"
+      :clearable="true"
+      :placeholder="$t('component_manager.select_cell_type')"
+      style="width: 100%"
+      @change="handleComponentTypeChange"
+      :disabled="disableExtraFilter"
+    >
+      <el-option v-for="item in componentTypes" :key="item.id" :value="item.id" :label="item.name">
+        <span :title="item.name">{{ item.name }}</span>
+      </el-option>
+    </el-select>
+    <p class="template-p" v-if="displayEpidemicTypeSelector">{{ $t('component_manager.epidemic_type_filter') }}</p>
     <el-cascader
+      v-if="displayEpidemicTypeSelector"
       popper-class="event-type-cascader"
       v-model="selectEpidemicTypes"
       :clearable="true"
@@ -22,6 +37,36 @@
         <span :title="data.label">{{ data.label }}</span>
       </template>
     </el-cascader>
+    <p class="template-p" v-if="displayResourceTypeSelector">{{ $t('component_manager.resource_type_filter') }}</p>
+    <el-cascader
+      v-if="displayResourceTypeSelector"
+      popper-class="event-type-cascader"
+      v-model="selectResourceType"
+      :clearable="true"
+      :placeholder="$t('component_manager.select_resource_type')"
+      style="width: 100%"
+      :options="resourceTypes"
+      :props="{expandTrigger: 'hover', value: 'id', 'checkStrictly':true}"
+      @change="handleResourceTypeChange"
+    >
+      <template slot-scope="{node,data}">
+        <span :title="data.label">{{ data.label }}</span>
+      </template>
+    </el-cascader>
+    <!-- <p class="template-p">{{ $t('component_manager.human_info_filter') }}</p>
+    <el-select
+      popper-class="cell-type-select"
+      v-model="selectHumanInfo"
+      :clearable="true"
+      :placeholder="$t('component_manager.select_cell_type')"
+      style="width: 100%"
+      @change="handleHumanInfoChange"
+      :disabled="disableExtraFilter"
+    >
+      <el-option v-for="item in componentTypes" :key="item.id" :value="item.id" :label="item.name">
+        <span :title="item.name">{{ item.name }}</span>
+      </el-option>
+    </el-select> -->
     <!-- <p class="template-p">{{ $t('component_manager.event_type_filter') }}</p>
     <el-cascader
       popper-class="event-type-cascader"
@@ -37,20 +82,6 @@
         <span :title="data.label">{{ data.label }}</span>
       </template>
     </el-cascader> -->
-    <p class="template-p">{{ $t('component_manager.cell_type_filter') }}</p>
-    <el-select
-      popper-class="cell-type-select"
-      v-model="selectComponentType"
-      :clearable="true"
-      :placeholder="$t('component_manager.select_cell_type')"
-      style="width: 100%"
-      @change="handleComponentTypeChange"
-      :disabled="disableExtraFilter"
-    >
-      <el-option v-for="item in componentTypes" :key="item.id" :value="item.id" :label="item.name">
-        <span :title="item.name">{{ item.name }}</span>
-      </el-option>
-    </el-select>
   </template>
   <template #extra-options-detail>
     <div v-if="selectEventTypeName!==''">

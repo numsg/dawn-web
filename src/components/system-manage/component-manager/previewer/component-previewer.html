@@ -37,15 +37,31 @@
           :label="item.name"
         ></el-option>
       </el-select>
-      <p>{{ $t('component_manager.epidemic_type') }}</p>
+      <p v-if="displayEpidemicTypeSelector">{{ $t('component_manager.epidemic_type') }}</p>
       <el-cascader
-        v-model="selectEventTypes"
+        v-if="displayEpidemicTypeSelector"
+        v-model="selectEpidemicTypes"
         :clearable="true"
         :options="eventTypes"
         :props="{expandTrigger: 'hover', value: 'id', 'checkStrictly':true}"
         :placeholder="$t('component_manager.select_epidemic_type')"
         style="width: 100%"
         @change="handleEpidemicTypeChange"
+      >
+        <template slot-scope="{node,data}">
+          <span :title="data.label" class="event-type-name">{{ data.label }}</span>
+        </template>
+      </el-cascader>
+      <p v-if="displayResourceTypeSelector">{{ $t('component_manager.resource_type') }}</p>
+      <el-cascader
+        v-if="displayResourceTypeSelector"
+        v-model="selectResourceTypes"
+        :clearable="true"
+        :options="resourceTypes"
+        :props="{expandTrigger: 'hover', value: 'id', 'checkStrictly':true}"
+        :placeholder="$t('component_manager.select_resource_type')"
+        style="width: 100%"
+        @change="handleResourceTypeChange"
       >
         <template slot-scope="{node,data}">
           <span :title="data.label" class="event-type-name">{{ data.label }}</span>

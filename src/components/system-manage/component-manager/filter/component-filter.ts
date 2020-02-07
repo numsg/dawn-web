@@ -57,7 +57,7 @@ export class PmsComponentFilter extends Vue {
    * @memberof PmsComponentPreviewer
    */
   @State((state: any) => {
-    return state.epidemicType.epidemicTypes.data;
+    return state.PMSComponentManager.componentProps.epidemicTypes;
   })
   epidemicTypes!: Array<any>;
   /**
@@ -70,6 +70,16 @@ export class PmsComponentFilter extends Vue {
     return state.PMSComponentManager.componentProps.componentTypes;
   })
   componentTypes!: Array<any>;
+  /**
+   * 所有资源类型列表
+   *
+   * @type {Array<any>}
+   * @memberof PmsComponentFilter
+   */
+  @State((state: any) => {
+    return state.PMSComponentManager.componentProps.resourceTypes;
+  })
+  resourceTypes!: Array<any>;
   /**
    * 为元件所选的事件类型
    *
@@ -94,6 +104,14 @@ export class PmsComponentFilter extends Vue {
    */
   selectComponentType: any = '';
   selectComponentTypeName: any = '';
+  /**
+   * 所选资源类型
+   *
+   * @type {*}
+   * @memberof PmsComponentFilter
+   */
+  selectResourceType: any = '';
+  selectResourceTypeName: any = '';
 
   /**
    * 级联控件默认绑定字段
@@ -109,6 +127,9 @@ export class PmsComponentFilter extends Vue {
    * @memberof PmsComponentFilter
    */
   extraFilterData: any = [];
+  displayResourceTypeSelector: boolean = false;
+  displayEpidemicTypeSelector: boolean = false;
+  displayHumanInfoSelector: boolean = false;
 
   @Watch('extraFilter', { deep: true })
   handleExtraFilterChange(val: any) {
@@ -123,6 +144,20 @@ export class PmsComponentFilter extends Vue {
     }
     if (val.eventTypeId) {
       this.handleEventTypeChange(val.eventTypeId);
+    }
+  }
+
+  @Watch('selectComponentType')
+  handleSelectComponentTypeChanged(val: any) {
+    if (!verifyArrayEmptyOrUndefined(this.componentTypes)) {
+      const result = this.componentTypes.filter((type: any) => {
+        return type.id === val;
+      });
+      if (result.length > 0) {
+        this.displayResourceTypeSelector = result[0].name.indexOf('物资信息') >= 0;
+        this.displayEpidemicTypeSelector = result[0].name.indexOf('疫情信息') >= 0;
+        this.displayHumanInfoSelector = result[0].name.indexOf('人员信息') >= 0;
+      }
     }
   }
 
@@ -191,6 +226,42 @@ export class PmsComponentFilter extends Vue {
       const filter = {
         field: 'extraInfo',
         tag: 'eventType',
+        searchContent: finalType
+      };
+      if (!verifyArrayEmptyOrUndefined(this.extraFilterData) && matchIndex >= 0) {
+        this.extraFilterData.splice(matchIndex, 1, filter);
+        return;
+      }
+      this.extraFilterData.push(filter);
+    } else {
+      this.selectEventTypes = null;
+      this.selectEventTypeName = '';
+      this.extraFilterData.splice(matchIndex, 1);
+    }
+  }
+  /**
+   * 处理事件类型的切换
+   *
+   * @param {*} val
+   * @memberof PmsComponentFilter
+   */
+  handleResourceTypeChange(val: any) {
+    this.selectResourceType = val;
+    // 拿到最终的叶子节点id
+    const finalType = val[val.length - 1];
+    // 在事件类型集合中筛选正确的事件类型对象
+    const resourceTypeData = this.filterEventType(finalType, this.resourceTypes);
+    const matchResourceTypeFilter = this.extraFilterData.filter((s: any) => {
+      return s.field === 'extraInfo' && s.tag === 'resourceType';
+    });
+    const matchIndex = !verifyArrayEmptyOrUndefined(matchResourceTypeFilter)
+      ? this.extraFilterData.indexOf(matchResourceTypeFilter[0])
+      : -1;
+    if (!verifyStringPropEmpty(resourceTypeData, 'id')) {
+      this.selectEventTypeName = resourceTypeData.name;
+      const filter = {
+        field: 'extraInfo',
+        tag: 'resourceType',
         searchContent: finalType
       };
       if (!verifyArrayEmptyOrUndefined(this.extraFilterData) && matchIndex >= 0) {
