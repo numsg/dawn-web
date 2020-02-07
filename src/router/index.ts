@@ -1,11 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import { UserManageComponent } from '@/components/system-manage/user-manage/user-manage';
 import { LoginComponent } from '@/components/login';
 import { ErrorComponent } from '@/components/error';
-
-import { PmsComponentManager } from '@/components/component-manager/component-manager';
 
 import RouterElement from '@/models/router-element/router-element';
 import Component from 'vue-class-component';

@@ -4,7 +4,6 @@ import styles from './component-previewer.module.scss';
 import blackStyle from './component-previewer.black.module.scss';
 import { State } from 'vuex-class';
 import { ComponentPreviewer } from '@gsafety/whatever/dist';
-import { TagComponent } from '../../share/tag-component/tag-component';
 import './overwrite.scss';
 
 @Component({
@@ -15,7 +14,7 @@ import './overwrite.scss';
     { name: 'white', style: styles },
     { name: 'black', style: blackStyle }
   ],
-  components: { ComponentPreviewer, TagComponent }
+  components: { ComponentPreviewer }
 })
 export class PmsComponentPreviewer extends Vue {
   /**
