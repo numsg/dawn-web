@@ -58,7 +58,7 @@ export default {
       .top(1000)
       .get(null)
       .then((response: any) => {
-        return JSON.parse(JSON.parse(response.body)).value;
+        return JSON.parse(response.body).value;
       })
       .catch((err: any) => {
         return false;

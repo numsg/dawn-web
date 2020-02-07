@@ -18,7 +18,7 @@ const systemSet = {
     async SystemSetData({ commit }: any) {
       const result = await systemSetService.querySystemSet();
       if (result) {
-        commit('SYSTEM_SET_DAT', JSON.parse(JSON.parse(result.body)).value[0] );
+        commit('SYSTEM_SET_DAT', JSON.parse(result.body).value[0]);
       }
     },
   },
