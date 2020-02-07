@@ -5,7 +5,7 @@ import resourceEditHtml from './resource-edit.html';
 @Component({
   template: resourceEditHtml,
   style: resourceEditStyle,
-  themes: [{ name: 'white', style: resourceEditHtml }],
+  themes: [{ name: 'white', style: resourceEditStyle }],
   components: {
   }
 })

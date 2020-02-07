@@ -24,7 +24,7 @@ export class ResourceManage extends Vue {
   private pageSizes = [4, 8, 12];
   private resourceDate = [
     {
-      resId: '1111111111111111',
+      resId: 'YJ1001',
       resName: '口罩',
       resType: 'N95',
       resSpec: '1片',
@@ -33,7 +33,7 @@ export class ResourceManage extends Vue {
       resUpdateTime: '2020.2.1'
     },
     {
-      resId: '1111111111111111',
+      resId: 'YJ1001',
       resName: '口罩',
       resType: 'N95',
       resSpec: '1片',
@@ -42,7 +42,25 @@ export class ResourceManage extends Vue {
       resUpdateTime: '2020.2.1'
     },
     {
-      resId: '1111111111111111',
+      resId: 'YJ1001',
+      resName: '口罩',
+      resType: 'N95',
+      resSpec: '1片',
+      resCount: 200,
+      resunit: '片',
+      resUpdateTime: '2020.2.1'
+    },
+    {
+      resId: 'YJ1001',
+      resName: '口罩',
+      resType: 'N95',
+      resSpec: '1片',
+      resCount: 200,
+      resunit: '片',
+      resUpdateTime: '2020.2.1'
+    },
+    {
+      resId: 'YJ1001',
       resName: '口罩',
       resType: 'N95',
       resSpec: '1片',
@@ -52,10 +70,6 @@ export class ResourceManage extends Vue {
     },
   ];
   private currentFrame = '';
-  // // 调派物资弹框
-  // private transfersVisible = false;
-  // // 物资编辑
-  // private editVisible = false;
   // // 打开调派物资弹框
   showTransfersDialog() {
     this.currentFrame = 'ResourceTransfers';
@@ -69,14 +83,6 @@ export class ResourceManage extends Vue {
     this.currentFrame = 'ResourceRecords';
     this.frameOpen();
   }
-  // // 调派物资弹框状态改变
-  // transfersVisibleChange(value: boolean) {
-  //   this.transfersVisible = value;
-  // }
-
-  // showEditVisible() {
-  //   this.editVisible = true;
-  // }
 
   frameColse() {
     const sideFrame: any = this.$refs['ResourceSideFrame'];
