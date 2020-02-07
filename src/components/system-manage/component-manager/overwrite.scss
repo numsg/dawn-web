@@ -1,9 +1,9 @@
 .empty-region {
-  margin: 0 1em 0.85em 1em;
-  left: 20px;
-  right: 20px;
-  top: 5.6em;
-  bottom: 1.5em;
+  // margin: 0 1em 0.85em 1em;
+  left: 15px;
+  right: 15px;
+  top: 6.8em;
+  bottom: 1.1em;
   position: fixed;
   background: white;
   z-index: 1999;
@@ -12,10 +12,10 @@
 }
 
 .editor-launcher-popover {
-  left: 20px !important;
-  right: 20px !important;
-  top: 5.6em !important;
-  bottom: 1.5em !important;
+  left: 15px !important;
+  right: 15px !important;
+  top: 6.8em !important;
+  bottom: 1.1em !important;
   position: fixed;
   z-index: 2002;
   //background: #f4f6fc;

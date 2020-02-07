@@ -42,7 +42,6 @@
     "three-tween": "^1.0.0",
     "tinymce": "^4.9.2",
     "ts-md5": "^1.2.4",
-    "typescript": "^3.5.1",
     "v-viewer": "^1.5.1",
     "vue": "^2.6.10",
     "vue-avatar-component": "^1.2.6",
@@ -102,6 +101,7 @@
     "sonarqube-scanner": "^2.5.0",
     "tslint": "^5.14.0",
     "tslint-loader": "^3.5.4",
+    "typescript": "^3.5.1",
     "validate-commit-msg": "^2.14.0",
     "vue-template-compiler": "^2.6.10"
   },

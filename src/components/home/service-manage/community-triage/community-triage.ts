@@ -10,5 +10,4 @@ import CommunityTriageHtml from './community-triage.html';
 })
 export class CommunityTriageComponent extends Vue {
   private activeName = 'first';
-  
 }
