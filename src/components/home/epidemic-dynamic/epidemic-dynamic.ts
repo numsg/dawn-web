@@ -88,18 +88,81 @@ export class EpidemicDynamicComponent extends Vue {
   }
 
   setOption() {
+    // this.option = {
+    //   xAxis: {
+    //     type: 'category',
+    //     data: ['关山春小', '关南小区', '软件园', '曙光新城']
+    //   },
+    //   yAxis: {
+    //     type: 'value'
+    //   },
+    //   series: [
+    //     {
+    //       data: [120, 200, 150, 80, 70],
+    //       type: 'bar'
+    //     }
+    //   ]
+    // };
     this.option = {
-      xAxis: {
-        type: 'category',
-        data: ['关山春小', '关南小区', '软件园', '曙光新城']
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
       },
-      yAxis: {
-        type: 'value'
+      legend: {
+        orient: 'vertical',
+        left: 10,
+        data: ['1-12岁', '12-18岁', '18-30岁', '30-40岁', '40-50岁', '50-60岁', '60岁以上']
       },
       series: [
         {
-          data: [120, 200, 150, 80, 70],
-          type: 'bar'
+          name: '确诊数量',
+          type: 'pie',
+          // radius: ['50%', '70%'],
+          // avoidLabelOverlap: false,
+          // label: {
+          //     normal: {
+          //         show: false,
+          //         position: 'left'
+          //     },
+          //     emphasis: {
+          //         show: true,
+          //         textStyle: {
+          //             fontSize: '20',
+          //             fontWeight: 'bold'
+          //         }
+          //     }
+          // },
+          // labelLine: {
+          //     normal: {
+          //         show: false
+          //     }
+          // },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              textStyle: {
+                fontSize: '16',
+                fontWeight: 'bold'
+              }
+            },
+            label: {
+              fontSize: '16',
+              fontWeight: 'bold'
+            }
+          },
+          radius: '50%',
+          center: ['50%', '50%'],
+          data: [
+            { value: 3, name: '1-12岁' },
+            { value: 10, name: '12-18岁' },
+            { value: 22, name: '18-30岁' },
+            { value: 201, name: '30-40岁' },
+            { value: 301, name: '40-50岁' },
+            { value: 99, name: '50-60岁' },
+            { value: 89, name: '60岁以上' }
+          ]
         }
       ]
     };

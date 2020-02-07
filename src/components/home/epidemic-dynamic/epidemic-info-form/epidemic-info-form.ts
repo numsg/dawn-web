@@ -45,12 +45,12 @@ export class EpidemicInfoFormComponent extends Vue {
               this.resetForm('ruleForm');
               this.curEpidemicPerson = new EpidemicPerson();
             } else {
-              notifyUtil.success('添加失败');
+              notifyUtil.error('添加失败');
             }
           })
           .catch(err => {
             console.log(err);
-            notifyUtil.success('添加失败');
+            notifyUtil.error('添加失败');
           });
       } else {
         console.log('error submit!!');

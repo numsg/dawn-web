@@ -40,33 +40,54 @@ export default {
    * @param page
    * @param count
    */
-  queryEpidemicPersons(page: number, count: number) {
-    const filterStr = '';
+  queryEpidemicPersons(page: number, count: number, keyowrds?: string) {
     const q = odataClient({
-      service: store.getters.configs.baseSupportOdataUrl,
-      resources: 'EpidemicPersonEntity'
-    });
-    return (
-      q
+        service: store.getters.configs.baseSupportOdataUrl,
+        resources: 'EpidemicPersonEntity'
+      });
+      if (keyowrds) {
+        // tslint:disable-next-line:max-line-length
+        const filterStr = 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or  contains( medicalCondition, \'' + keyowrds + '\') or contains( specialSituation, \'' + keyowrds + '\')';
+        return q
         .skip(count * page)
         .top(count)
-        //   .filter(filterStr)
+        .filter(filterStr)
         .orderby('submitTime', 'desc')
         .count(true)
         .get(null)
         .then((response: any) => {
-          const result = {
+            const result = {
             count: JSON.parse(response.body)['@odata.count'],
             value: JSON.parse(response.body).value
-          };
-          result.value.forEach((e: EpidemicPerson) => {
+            };
+            result.value.forEach((e: EpidemicPerson) => {
             e.submitTime = moment(e.submitTime).format('YYYY-MM-DD HH:mm:ss');
             e.diseaseTime = moment(e.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
-          });
-          return result;
+            });
+            return result;
         })
-        .catch((error: any) => {})
-    );
+        .catch((error: any) => {});
+    } else {
+        return q
+          .skip(count * page)
+          .top(count)
+          .orderby('submitTime', 'desc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: JSON.parse(response.body).value
+            };
+            result.value.forEach((e: EpidemicPerson) => {
+              e.submitTime = moment(e.submitTime).format('YYYY-MM-DD HH:mm:ss');
+              e.diseaseTime = moment(e.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
+            });
+            return result;
+          })
+          .catch((error: any) => {});
+    }
+
   },
 
   /**
