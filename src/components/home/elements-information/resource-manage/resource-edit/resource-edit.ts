@@ -6,8 +6,7 @@ import resourceEditHtml from './resource-edit.html';
   template: resourceEditHtml,
   style: resourceEditStyle,
   themes: [{ name: 'white', style: resourceEditStyle }],
-  components: {
-  }
+  components: {}
 })
 export class ResourceEdit extends Vue {
   private resformEdit = {
