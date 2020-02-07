@@ -1,17 +1,23 @@
-.resource-add{
+.access-control-add{
     display: inline-block;
-    text-align: left;
-}
-
+    text-align: left !important;
+    height: 100%;
+    overflow-y: auto;
+    
 .res-form {
     border: 1px dashed #dcdfe6;
     padding: 10px;
     background: #fff;
     margin-bottom: 20px;
 }
+
 .header-title{
-    text-align: left;
+    text-align: left !important;
 }
 .btn-box{
     text-align: right;
+}
+}
+.el-form--label-top .el-form-item__label{
+    float: left !important;
 }

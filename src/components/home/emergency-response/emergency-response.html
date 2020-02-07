@@ -12,7 +12,7 @@
                 suffix-icon="el-icon-search"
                 v-model="serchValue">
           </el-input>
-          <AccessControlAdd v-if="activeName === 'resource'"/>
+          <AccessControlAdd class="flr" v-if="activeName === 'accessControl'"/>
         </div>
     </div>
     <AccessControl  v-if="activeName === 'accessControl'"/>

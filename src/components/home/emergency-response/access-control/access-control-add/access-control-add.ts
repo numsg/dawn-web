@@ -14,13 +14,6 @@ import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 })
 export class AccessControlAdd extends Vue {
   private resform = {
-    resId: '1111111111111111',
-    resName: '口罩',
-    resType: 'N95',
-    resSpec: '1片',
-    resCount: 200,
-    resunit: '片',
-    resUpdateTime: '2020.2.1'
   };
   resourceAdd() {
     const sideFrame: any = this.$refs['sideFrame'];

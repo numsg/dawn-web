@@ -1,35 +1,41 @@
-<div class="resource-add">
-        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="resourceAdd">新增入库</el-button>
+<div class="access-control-add">
+        <el-button type="primary" icon="el-icon-circle-plus-outline" @click="resourceAdd">新增</el-button>
         <el-side-frame ref="sideFrame">
           <div class="side-frame-header" slot="header">
             <div class="header-title">
               <i></i>
-              <span class="user-role-title">新增入库</span>
+              <span class="user-role-title">新增出入记录</span>
             </div>
           </div>
           <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
             <el-form class="res-form" ref="resform" :model="resform" label-width="80px" label-position="top">
-            <el-form-item label="物资编号" required>
-              <el-input v-model="resform.resId"></el-input>
+            <el-form-item label="时间" required>
+              <el-input v-model="resform.time"></el-input>
             </el-form-item>
-            <el-form-item label="名称" required>
-                <el-input v-model="resform.resName"></el-input>
+            <el-form-item label="房号" required>
+                <el-input v-model="resform.room"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名" required>
+                <el-input v-model="resform.name"></el-input>
+            </el-form-item>
+            <el-form-item label="手机" required>
+                <el-input v-model="resform.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="测温" required>
+                <el-input v-model="resform.temperature"></el-input>
             </el-form-item>
             <el-form-item label="类型" required>
-                <el-input v-model="resform.resType"></el-input>
+                <el-input v-model="resform.type"></el-input>
             </el-form-item>
-            <el-form-item label="规格" required>
-                <el-input v-model="resform.resSpec"></el-input>
+            <el-form-item label="方式" required>
+                <el-input v-model="resform.method"></el-input>
             </el-form-item>
-            <el-form-item label="数量" required>
-                <el-input v-model="resform.resCount"></el-input>
-            </el-form-item>
-            <el-form-item label="单位" required>
-                <el-input v-model="resform.resunit"></el-input>
-            </el-form-item>
-            <el-form-item label="更新时间" required>
-                <el-input v-model="resform.resUpdateTime"></el-input>
-            </el-form-item>
+            <el-form-item label="原因" >
+                    <el-input v-model="resform.reason"></el-input>
+                </el-form-item>
+                <el-form-item label="方式" >
+                        <el-input v-model="resform.note"></el-input>
+                    </el-form-item>
           </el-form>
           <div class="btn-box">
               <el-button @click="close">取 消</el-button>
