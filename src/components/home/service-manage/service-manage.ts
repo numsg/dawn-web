@@ -13,5 +13,7 @@ import { CommunityTriageComponent } from '@/components/home/service-manage/commu
 })
 export class ServiceManageComponent extends Vue {
   private activeName = 'first';
+  handleClick() {
 
+  }
 }
