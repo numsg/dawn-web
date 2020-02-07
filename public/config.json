@@ -6,6 +6,8 @@
   "externalAccessUrl": "http://116.62.205.14:30007/api/v1/",
   "odataUrl": "http://116.62.205.14:30001/OdataService.svc",
   "baseSupportOdataUrl": "http://116.62.205.14:30003/OdataService.svc",
+  "communityManagerUrl": "http://116.62.205.14:30013/api/v1/",
+  "communityManagerOdataUrl": "http://116.62.205.14:30013/OdataService.svc",
   "system": "pre-plan management system",
   "uapUrl": "http://116.62.205.14:30012",
   "clientId": "e133660e7e86f6af8ef3m1ni5",

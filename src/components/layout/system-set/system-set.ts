@@ -121,11 +121,9 @@ export class SystemSetComponent extends Vue {
       if (result && result > 0) {
         this.$store.dispatch(eventNames.systemSet.SystemSetData);
         notifyUtil.success(this.$tc('common.update_success'));
-        // LimitMessage.showMessage({ type: 'error', message: this.$tc('common.update_success') });
         this.outsideClose();
       } else {
         notifyUtil.error(this.$tc('common.update_fail'));
-        // LimitMessage.showMessage({ type: 'error', message: this.$tc('common.update_success') });
       }
     });
   }

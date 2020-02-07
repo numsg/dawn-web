@@ -184,7 +184,7 @@
   position: relative;
   right: 2px;
   cursor: pointer;
-  margin-right: 2em;
+  margin-right: .5em;
 
   .logo-name {
     font-weight: bolder;
@@ -193,11 +193,10 @@
 
   img {
     float: left;
-    margin: 0 0px 10px 0;
     object-fit: contain;
-    width: 48px;
-    height: 48px;
-    margin: 16px 10px 19px 10px;
+    width: 75px;
+    height: 75px;
+    margin-right: -5px;
   }
 
   .txt {
@@ -206,7 +205,7 @@
 
   .system-name {
     position: relative;
-    left: 10px;
+    // left: 10px;
     // text-align: center;
 
   }
@@ -217,7 +216,7 @@
     text-overflow: ellipsis;
     word-break: break-all;
     white-space: nowrap;
-    // max-width: 350px;
+    max-width: 365px;
   }
 
   @media screen and (max-width: 1440px) {

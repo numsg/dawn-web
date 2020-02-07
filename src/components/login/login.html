@@ -4,7 +4,7 @@
     <div class="system-logo">
       <img :src="systemOptions.systemImg" />
       <!-- <p class="log-txt" :class="{ 'text-spacing':language !== 'zh'}">{{ systemOptions.systemName }}</p> -->
-      <p class="log-txt" :class="{ 'text-spacing':language !== 'zh'}">社区管理系统</p>
+      <p class="log-txt" :class="{ 'text-spacing':language !== 'zh'}">{{systemOptions.systemName}}</p>
     </div>
     <div
       v-if="!loginFlag"

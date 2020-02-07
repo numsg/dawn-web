@@ -79,6 +79,7 @@ export class NavbarComponent extends Vue {
     // await this.$store.dispatch(eventNames.baseData.SetResponseSubs);
     // await this.$store.dispatch(eventNames.baseData.SetDistricts);
     // await this.$store.dispatch(eventNames.EventTypes.LoadAllEventTypes);
+
     await this.$store.dispatch(eventNames.systemSet.SystemSetData);
   }
 

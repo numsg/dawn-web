@@ -1,9 +1,10 @@
 <div class="header-container">
   <div class="nav-content">
     <span class="logo" :title="systemSetOptions.systemName">
-      <img @click="goHome" :src="systemSetOptions.systemImg" />
+      <img @click="goHome" :src="systemLogo1" />
+      <!-- systemSetOptions.systemImg -->
       <!-- <span @click="goHome" class="system-name">{{ systemSetOptions.systemName }}</span> -->
-      <span @click="goHome" class="system-name">社区数政通应急管理平台</span>
+      <span @click="goHome" class="system-name">{{systemSetOptions.systemName}}</span>
     </span>
     <nav-bar></nav-bar>
   </div>
@@ -86,8 +87,11 @@
       <el-dropdown-menu slot="dropdown" class="nav-drop">
         <el-dropdown-item v-for="(item,index) in skins" :key="index" :command="item.name"> {{ item.label }} </el-dropdown-item>
       </el-dropdown-menu>
+<<<<<<< Updated upstream
     </!-->
 
+    <!-- </!-->  -->
+    <!-- </el-dropdown>  -->
     <!-- 切换语言 -->
     <!-- <el-dropdown trigger="hover" class="header-item" @command="handleCommandLanguage">
       <span class="el-dropdown-link">

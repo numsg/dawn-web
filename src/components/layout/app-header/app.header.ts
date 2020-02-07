@@ -83,6 +83,9 @@ export class AppHeaderComponent extends Vue {
   @Getter('menuStatus') menuStatus: any;
   @Action('MenuStatus') menuStatusAction: any;
 
+  // 系统图标
+  systemLogo1: any = require('@/assets/img/dawn-logo.png');
+
   // 系统设置
   @Getter('systemSetOptions') systemSetOptions: any;
 
