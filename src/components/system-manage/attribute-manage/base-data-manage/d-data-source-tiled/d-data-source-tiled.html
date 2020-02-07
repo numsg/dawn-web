@@ -1,0 +1,206 @@
+<div class="level-define-container">
+  <div class="container-header">
+    <div v-if="showTitle" class="header-title d-data-name">
+      <i></i>
+      <span class="title" :title="title">{{ title }}</span>
+      <el-button
+        circle
+        v-if="currentData.id !== '104' && rolePrivilege.operate && !isDrag"
+        class="iconfont iconpms-icon_Blow-Up drag default-btn"
+        :title="$t('base_data_manage.new_top_node')"
+        @click.stop="onNew"
+      >
+      </el-button>
+      <el-button
+        circle
+        class="iconfont drag default-btn iconpms-icon_configuration-management-icon icon-btn"
+        :class="{'active':isDrag}"
+        @click="drag"
+        :title="dragTitile"
+        v-if="rolePrivilege.operate"
+      ></el-button>
+    </div>
+    <div v-if="showTitle" class="search-box">
+      <el-input
+        :placeholder="$t('common.input_key_word')"
+        class="input-search"
+        v-model="searchValue"
+        suffix-icon="iconfont iconpms-icon_search"
+        maxlength="128"
+      >
+      </el-input>
+    </div>
+  </div>
+  <div class="level-define-content">
+    <draggable
+      :options="{animation:150,ghostClass:'sortable-ghost',chosenClass:'chosenClass',scroll:true,scrollSensitivity:200}"
+      v-model="dataArr"
+      @change="change"
+      :disabled="!isDrag"
+    >
+      <div class="level-content" v-for="(item, i) in dataArr" :class="{'level-item-edit': isEdit &&  currentItem.id === item.id }">
+        <div v-if="isEdit  && currentItem.id === item.id" class="level-edit">
+          <!-- 编辑 -->
+          <div class="type-editor">
+            <!-- <span v-if="item.image"> -->
+            <span v-if="item.image.iconfont">
+              <img v-if="!item.image.isIcon && item.image.iconfont" :src="item.image.iconfont" @click="selectIcon(item)" />
+              <i
+                v-if="item.image.isIcon && item.image.iconfont"
+                class="edit-image event-btn icon-color"
+                :class="'iconfont ' + item.image.iconfont"
+                @click="selectIcon(item)"
+              ></i>
+            </span>
+            <i v-else="item.image.iconfont" class="iconfont iconpms-icon_picture event-btn" @click="selectIcon(item)"></i>
+            <!-- </span> -->
+            <span v-else="item.image">
+              <i class="iconfont iconpms-icon_picture event-btn" @click="selectIcon(item)"></i>
+            </span>
+            <el-input size="mini" class="editor-tag" :disabled="item.disabled" maxlength="128" style="padding-top: 3px;" v-model="item.name"> </el-input>
+          </div>
+          <div class="type-editor">
+            <i class="iconfont iconpms-icon_save event-btn"  :title="$t('common.save')" @click="onSaveEdit(item)"></i>
+            <span class="color-picker">
+              <el-color-picker
+                v-model="defaultColor"
+                @active-change="activeColor"
+                :predefine="predefineColors"
+                size="mini"
+                @change="changeColor"
+              >
+              </el-color-picker>
+            </span>
+            <i class="iconfont iconpms-icon_cancel event-btn" :title="$t('common.cancel')" @click="onCloseEdit(item)"></i>
+          </div>
+        </div>
+        <!-- 正常展示 -->
+        <div v-else="isEdit && currentItem.id === item.id ? true : false" class="level-item" :style="{borderColor: item.imgColor }">
+          <div v-if="item.image" class="d-data-name" :title="item.name">
+            <img v-if="!item.image.isIcon &&　item.image.iconfont" :src="item.image.iconfont" />
+            <i v-if="item.image.isIcon &&　item.image.iconfont " :class="'iconfont ' + item.image.iconfont" class="event-btn"></i>
+          </div>
+          <span class="show-content" style=" position: relative; left:5px;" :title="item.name">
+            {{ item.name }}
+          </span>
+          <el-dropdown v-if="item.multiTenancy && item.multiTenancyData" trigger="hover" placement="bottom-start">
+            <span class="multi-name">{{ $t('base_data_manage.model') }}</span>
+            <el-dropdown-menu class="multiTenancy-drop" slot="dropdown">
+              <el-dropdown-item v-for="(mul, index) in item.multiTenancyData" :key="index" :command="mul">
+                <div class="multiTenancy-child">
+                  <div class="mul-icon">
+                    <img v-if="mul.image && !mul.image.isIcon && mul.image.iconfont" :src="mul.image.iconfont" />
+                    <i
+                      v-if="mul.image && mul.image.isIcon && mul.image.iconfont"
+                      :class="mul.image.iconfont"
+                      class="iconfont event-btn"
+                    ></i>
+                  </div>
+                  <div class="multiTenancy-name">{{ mul.name }}</div>
+                </div>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <div class="etid-delete-btn">
+            <i v-if="rolePrivilege.operate && !isDrag" class="iconfont iconpms-icon_edit event-btn" :title="$t('common.edit')" @click="onEdit(item)"></i>
+            <i
+              v-if="currentData.id !== '104' && rolePrivilege.operate && !isDrag"
+              class="iconfont iconpms-icon_delet event-btn"
+              @click="onDelete(item, i)"
+              :title="$t('common.delete')"
+            ></i>
+          </div>
+        </div>
+      </div>
+      <!-- add -->
+      <div class="level-content add-content" v-if="isAdd && !isDrag">
+        <div class="level-edit">
+          <div class="add-input">
+            <i
+              v-if="isAdd && addModel.image instanceof Object"
+              :class="'iconfont ' + addModel.image.iconfont"
+              :style="{color:addModel.image.iconColor}"
+              class="event-btn"
+              @click="selectIcon"
+            ></i>
+            <i
+              v-else="isAdd && addModel.image instanceof Object"
+              class="iconfont iconpms-icon_Event-type  event-btn"
+              @click="selectIcon"
+            ></i>
+            <el-input size="mini" style="padding-top: 3px;" maxlength="128" v-model="addModel.name"></el-input>
+          </div>
+          <div class="add-input">
+            <i class="iconfont iconpms-icon_save event-btn" :title="$t('common.save')" @click="onSaveAdd"></i>
+            <div class="color-picker">
+              <el-color-picker v-model="defaultColor" :predefine="predefineColors" size="mini" @change="changeColor"> </el-color-picker>
+            </div>
+            <i class="iconfont iconpms-icon_cancel event-btn" :title="$t('common.cancel')" @click="onCloseAdd"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div v-if="currentData.id !== '104' && rolePrivilege.add && !isDrag" class="new-level-btn">
+        <el-button size="small" @click="onNew">+ New </el-button>
+      </div> -->
+    </draggable>
+  </div>
+  <div v-if="isDrag" class="form-btn clearfix">
+    <el-button class=" iconfont iconpms-icon_save primary-btn  flr" @click="saveDragSort()"> {{ $t('common.save') }}</el-button>
+    <el-button class=" iconfont iconpms-icon_cancel default-btn flr" @click="cancelDragSort()"> {{ $t('common.cancel') }}</el-button>
+  </div>
+  <el-dialog
+    :title="$t('base_data_manage.select_icon')"
+    :visible.sync="isShowImgBox"
+    append-to-body
+    :close-on-click-modal="false"
+    :close-on-press-escape="true"
+    :show-close="false"
+    class="upload-container"
+  >
+    <div class="upload-box">
+      <div class="upload-image">
+        <el-upload
+          action=""
+          ref="upload"
+          :show-file-list="false"
+          :auto-upload="false"
+          :on-change="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+          class="upload-shadow"
+          accept="image/png,.jpeg,.jpg"
+        >
+          <el-button size="mini">{{ $t('common.select_file') }}</el-button
+          >&nbsp;&nbsp;&nbsp;&nbsp;
+          <span slot="tip" class="el-upload_tip">{{ $t('common.upload_image_description') }}</span>
+        </el-upload>
+      </div>
+      <div class="ddata-source-image" style="display:flex;flex-wrap:wrap;  width: 100%;height: 500px;overflow: scroll;">
+        <div
+          v-for="(img,index) in vectorIcon"
+          :key="index"
+          class="default-img-content"
+          style="margin:14px;margin-top:8px;"
+          :class="{'current-background-img-dsource' : currentBackIndex === index}"
+          :style="{color:img.fontColor}"
+        >
+          <div
+            v-if="currentBackIndex === index && img.upload && img.id === ''"
+            class="remove-background el-icon-error"
+            @click="removeImg(img,index)"
+            @click.stop
+          ></div>
+          <i v-if="img.isVector" class="data-icon" :class="'iconfont '+img.className" @click="onImgClick(img, index)"></i>
+          <img v-else="img.isVector" :src="img.className" style="width:50px;height: 50px;" @click="onImgClick(img, index)" />
+        </div>
+      </div>
+      <div class="image-save" style="text-align: right;">
+        <el-button :disabled="disableRemoveImg" @click="onRemoveImg" size="mini" type="primary" class="primary-btn">{{
+          $t('base_data_manage.move_icon')
+        }}</el-button>
+        <el-button @click="onCancel" size="mini" type="primary" class="primary-btn"> {{ $t('common.cancel') }}</el-button>
+        <el-button @click="onSavebackground" size="mini" type="primary" class="primary-btn">{{ $t('common.confirm') }}</el-button>
+      </div>
+    </div>
+  </el-dialog>
+</div>

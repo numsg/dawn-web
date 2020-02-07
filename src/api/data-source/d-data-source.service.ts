@@ -16,7 +16,7 @@ export default {
    * @returns {Promise<any>}
    */
   addDDataSource(data: DSourceDataModel): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-source-data';
+    const url = store.getters.configs.communityManagerUrl + 'data-source-data';
     return httpClient.postPromise(url, data).catch(error => {
       return error;
     });
@@ -29,7 +29,7 @@ export default {
    * @returns {Promise<any>}
    */
   deleteDDataSource(dSourceDataId: string): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-source-data/' + dSourceDataId;
+    const url = store.getters.configs.communityManagerUrl + 'data-source-data/' + dSourceDataId;
     return httpClient.deletePromise(url);
   },
 
@@ -40,7 +40,7 @@ export default {
    * @returns {Promise<any>}
    */
   modifyDDataSource(data: DSourceDataModel): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-source-data';
+    const url = store.getters.configs.communityManagerUrl + 'data-source-data';
     return httpClient.putPromise(url, data);
   },
 
@@ -51,7 +51,7 @@ export default {
    * @returns {Promise<any>}
    */
   findDSourceDataByIds(dSourceDataIds: string[]): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-source-data/ids';
+    const url = store.getters.configs.communityManagerUrl + 'data-source-data/ids';
     return httpClient.postPromise(url, dSourceDataIds);
   },
 
@@ -61,19 +61,19 @@ export default {
    * @returns {Promise<any>}
    */
   findDSourceDataById(id: string): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-source-data/id/' + id;
+    const url = store.getters.configs.communityManagerUrl + 'data-source-data/id/' + id;
     return httpClient.getPromise(url);
   },
 
   findDDataSourceByDataSourceId(dataSourceId: string): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-source-data/data-source-id/' + dataSourceId;
+    const url = store.getters.configs.communityManagerUrl + 'data-source-data/data-source-id/' + dataSourceId;
     return httpClient.getPromise(url);
   },
 
   // 通过数据源id查询数据源数据的id、name
   queryDDataSourceIdAndName(dataSourceId: any): Promise<any> {
     const q = odataClient({
-      service: store.getters.configs.baseSupportOdataUrl,
+      service: store.getters.configs.communityManagerOdataUrl,
       resources: 'DSourceDataEntity',
       format: 'json'
     });
@@ -137,7 +137,7 @@ export default {
 
   TemplateBasicQuery(dataSourceId: string): any {
     const q = odataClient({
-      service: store.getters.configs.baseSupportOdataUrl,
+      service: store.getters.configs.communityManagerOdataUrl,
       resources: 'DSourceDataEntity'
     });
     return q.skip(0).expand('dataSourceEntity');
@@ -182,7 +182,7 @@ export default {
 
   // 修改数据源数据的顺序
   UpdateDSourceDataSort(DSourceDatas: any, type: any): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + '/data-source-data/sort';
+    const url = store.getters.configs.communityManagerUrl + '/data-source-data/sort';
     let temp = DSourceDatas;
     if (type === 1) {
       // 树形

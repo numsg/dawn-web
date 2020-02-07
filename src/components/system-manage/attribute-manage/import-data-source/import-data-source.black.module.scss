@@ -1,0 +1,130 @@
+@import '@/assets/styles/vars.scss';
+.import-data-source-box {
+  .c____100____el-dialog__header {
+    background: #2e4773 !important;
+    padding: 45px 20px 10px !important;
+  }
+
+  .c____100____el-dialog__body {
+    background: #2e4773 !important;
+    padding: 0 20px 50px 20px;
+  }
+  .import-data-source-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .header-title {
+      position: absolute;
+      top: 14px;
+      font-weight: bold;
+      font-size: 18px;
+      height: 36px;
+      line-height: 36px;
+      color: #ffba00;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 4px;
+      top: 7px;
+      border: 0;
+      background: 0;
+      font-size: 26px;
+    }
+  }
+  .choose-data-str {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      width: 45%;
+      height: 200px;
+
+      .radio-structure {
+        display: flex;
+        flex-direction: 200px;
+
+        .c____100____el-radio__input {
+          line-height: 200px;
+        }
+      }
+    }
+    .left-structure {
+      margin-left: 60px;
+    }
+    img {
+      width: 250px;
+      height: 180px;
+    }
+  }
+  .choose-title {
+    height: 36px;
+    font-size: 16px;
+    color: #ffba00;
+    line-height: 36px;
+    font-weight: 600;
+  }
+  .import-data-source {
+    .import-data-upload {
+      margin-left: 90px;
+    }
+
+    .click-upload {
+      color: #3fa9f0;
+      word-break: keep-all;
+    }
+
+    .down-template {
+      height: 30px;
+      margin-top: 1px;
+      line-height: 10px;
+      width: 10px;
+      border-radius: 3px;
+      margin-right: 10px;
+    }
+
+    .download-template {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #335082;
+      box-shadow: #1e3763 65px -15px 0 -5px, #1e3763 25px -25px, #1e3763 30px 10px, #1e3763 60px 15px 0 -10px, #1e3763 85px 5px 0 -5px;
+    }
+
+    .data-source-template {
+      margin-left: -60px;
+      cursor: pointer;
+    }
+  }
+
+  .c____100____el-upload-dragger {
+    background-color: #335082;
+    border: 1px dashed #a0d6f9;
+    border-radius: 6px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 236px;
+    height: 135px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    i {
+      color: #a0d6f9;
+      font-size: 50px;
+      margin-top: 20px;
+    }
+  }
+  .error-log {
+    p {
+      margin: 0px;
+      span {
+        display: inline-block;
+        margin-left: 10px;
+      }
+    }
+    .error-log-textarea {
+      margin-top: 10px;
+    }
+  }
+}

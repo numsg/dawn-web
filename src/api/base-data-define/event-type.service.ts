@@ -16,7 +16,7 @@ export default {
    *
    */
   async HttpLoadEventTypes(): Promise<any> {
-    if (store.getters.configs.rmsConfig.useResourceServer) {
+    if (false) {  // store.getters.configs.rmsConfig.useResourceServer
       const result = await externalResourceService.queryEventTypes();
       result.forEach((e: any) => {
         e.image = e.image ? JSON.parse(e.image.replace(/\'/g, '"')) : {};
@@ -35,7 +35,7 @@ export default {
    * @returns {Promise<any>}
    */
   async LoadEventTypes(): Promise<any> {
-    if (store.getters.configs.rmsConfig.useResourceServer) {
+    if (false) { // store.getters.configs.rmsConfig.useResourceServer
       const result = await externalResourceService.queryEventTypes();
       return this.generateTree(result);
     } else {

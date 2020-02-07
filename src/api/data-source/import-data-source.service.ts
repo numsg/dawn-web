@@ -43,7 +43,7 @@ export default {
    * 批量导入
    */
   imporDataSourceBatch(dataSource: any): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-sources/batch/' + false;
+    const url = store.getters.configs.communityManagerUrl + 'data-sources/batch/' + false;
     return httpClient.postPromise(url, dataSource);
   }
 };

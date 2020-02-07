@@ -7,7 +7,7 @@ import odataClient from '@gsafety/odata-client/dist';
 export default {
 
   queryAllDataSources(): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-sources/' + store.getters.configs.rmsConfig.useResourceServer;
+    const url = store.getters.configs.communityManagerUrl + 'data-sources/' + store.getters.configs.rmsConfig.useResourceServer;
     return httpClient.getPromise(url);
   },
 
@@ -19,7 +19,7 @@ export default {
    * @returns {Promise<any>}
    */
   addDataSource(data: DataSource): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-sources';
+    const url = store.getters.configs.communityManagerUrl + 'data-sources';
     return httpClient.postPromise(url, data);
   },
 
@@ -30,7 +30,7 @@ export default {
    * @returns {Promise<any>}
    */
   deleteDataSource(dataSourceId: string): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-sources/' + dataSourceId;
+    const url = store.getters.configs.communityManagerUrl + 'data-sources/' + dataSourceId;
     return httpClient.deletePromise(url);
   },
 
@@ -41,7 +41,7 @@ export default {
    * @returns {Promise<any>}
    */
   modifyDataSource(dataSource: DataSource): Promise<any> {
-    const url = store.getters.configs.baseSupportUrl + 'data-sources';
+    const url = store.getters.configs.communityManagerUrl + 'data-sources';
     return httpClient.putPromise(url, dataSource);
   },
 
@@ -51,14 +51,14 @@ export default {
    */
   queryDataSource(): Promise<any> {
     const q = odataClient({
-      service: store.getters.configs.baseSupportOdataUrl,
+      service: store.getters.configs.communityManagerOdataUrl,
       resources: 'DataSourceEntity'
     });
     return q
       .top(1000)
       .get(null)
       .then((response: any) => {
-        return JSON.parse(response.body).value;
+        return JSON.parse(JSON.parse(response.body)).value;
       })
       .catch((err: any) => {
         return false;
@@ -73,7 +73,7 @@ export default {
    */
   queryOneDataSource(dataSourceId: string): Promise<any> {
     const q = odataClient({
-      service: store.getters.configs.baseSupportOdataUrl,
+      service: store.getters.configs.communityManagerOdataUrl,
       resources: 'DataSourceEntity',
       format: 'json'
     });
@@ -93,7 +93,7 @@ export default {
    */
   queryOneDataSourceNameAndId(dataSourceId: string): Promise<any> {
     const q = odataClient({
-      service: store.getters.configs.baseSupportOdataUrl,
+      service: store.getters.configs.communityManagerOdataUrl,
       resources: 'DataSourceEntity',
       format: 'json'
     });

@@ -1,0 +1,90 @@
+<!-- 导入窗口 -->
+<el-dialog
+  v-if="dialogVisible"
+  class="import-data-source-box"
+  :close-on-click-modal="false"
+  :show-close="false"
+  :before-close="onCloseDialog"
+  :visible.sync="dialogVisible"
+  width="46%"
+  v-loading="loading"
+  :v-loading.lock="true"
+  :element-loading-text="loadingText"
+  :element-loading-spinner="loadingSpinner"
+  :element-loading-background="loadingBackground"
+>
+  <div class="import-data-source-container">
+    <div class="header-title">
+      <i></i><span>{{ $t('data_source.data_source_import.import_data_source') }}</span>
+    </div>
+    <el-button class="iconfont iconpms-icon_Close close-btn" @click="outsideClose" :title="$t('common.close')"></el-button>
+  </div>
+
+  <el-tabs v-model="dataSourcePrompt.activeName">
+    <el-tab-pane :label="$t('common.select_file')" name="selectFile">
+      <p class="choose-title">{{ $t('data_source.data_source_import.select_structure') }}</p>
+      <div class="choose-data-str">
+        <div class="left-structure">
+          <el-radio v-model="structure" label="1" class="radio-structure">
+            <img :src="images.treeStage" />
+          </el-radio>
+        </div>
+        <div>
+          <el-radio v-model="structure" label="2" class="radio-structure">
+            <img :src="images.singleStage" />
+          </el-radio>
+        </div>
+      </div>
+      <p class="choose-title">{{ $t('data_source.data_source_import.select_excel') }}</p>
+      <div class="import-data-source">
+        <el-upload
+          class="upload-demo import-data-upload"
+          drag
+          action=""
+          :multiple="false"
+          :data="uploadData"
+          :show-file-list="false"
+          :on-change="onUploadChange"
+          :auto-upload="false"
+          :before-upload="beforeUpload"
+          :on-error="onUploadError"
+        >
+          <i class="el-icon-upload"></i>
+          <div class="el-upload_text">
+            {{ $t('data_source.data_source_import.drag_file')
+            }}<em class="click-upload">{{ $t('data_source.data_source_import.click_upload') }}</em>
+          </div>
+          <div class="el-upload_tip" slot="tip">{{ $t('data_source.data_source_import.upload_excel') }}</div>
+          <!-- <em class="click-upload"  @click="downloadtmp" title="下载数据源导入模板">,点击下载数据源导入模板</em> -->
+        </el-upload>
+        <!-- <i class="iconfont iconpms-icon_Batch-import primary-btn  down-template" @click="downloadtmp" title="下载数据源导入模板"></i> -->
+        <!-- <div class="download-template"></div> -->
+      </div>
+    </el-tab-pane>
+
+    <el-tab-pane :label="$t('data_source.message_log')" name="errorLog" class="error-log" :disabled="dataSourcePrompt.errorLogDisabled">
+      <p>
+        {{ $t('data_source.import_total') }}<span>{{ dataSourcePrompt.toatal }}</span>
+      </p>
+      <p>
+        {{ $t('data_source.import_success') }}<span>{{ dataSourcePrompt.success }}</span>
+      </p>
+      <p>
+        {{ $t('data_source.repeat') }}<span class="ret-log">{{ dataSourcePrompt.repeat }}</span>
+      </p>
+      <p>
+        {{ $t('data_source.error') }}<span class="ret-log">{{ dataSourcePrompt.error }}</span>
+      </p>
+
+      <el-input
+        v-model="dataSourcePrompt.errorLog"
+        type="textarea"
+        :rows="12"
+        :placeholder="$t('data_source.import_log')"
+        class="error-log-textarea"
+        readonly
+      >
+      </el-input>
+    </el-tab-pane>
+  </el-tabs>
+</el-dialog>

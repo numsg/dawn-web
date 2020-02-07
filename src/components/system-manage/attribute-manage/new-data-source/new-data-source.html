@@ -1,0 +1,203 @@
+<!-- 新增弹窗 -->
+<el-dialog
+  v-if="dialogVisible"
+  class="new-data-source-box"
+  :close-on-click-modal="false"
+  :show-close="false"
+  @close="onCloseDialog"
+  :visible.sync="dialogVisible"
+>
+  <div class="new-data-source-container">
+    <div class="header-title">
+      <i></i><span>{{ headerTitle }}</span>
+    </div>
+    <el-button class="iconfont iconpms-icon_Close close-btn" @click="outsideClose"></el-button>
+    <div class="new-data-source-left">
+      <div @click="onBack" :class="{'current-step': currentStep === 'select_data_structure', 'disabled-click': isEdit}" @click.stop>
+        <span class="el-icon-menu"></span>
+      </div>
+      <div @click="onNextStep" :class="{'current-step': currentStep === 'new_data_source'}" @click.stop>
+        <span class="el-icon-document"></span>
+      </div>
+    </div>
+    <div class="new-data-source-right">
+      <div class="first-step-box" v-show="currentStep === 'select_data_structure' && !isEdit">
+        <p class="choose-title">{{ $t('data_source.select_structure') }}</p>
+        <div class="first-step">
+          <div class="choose-data-str">
+            <div>
+              <el-radio v-model="structure" label="1" class="radio-structure">
+                <img :src="images.treeStage" />
+              </el-radio>
+            </div>
+            <div>
+              <el-radio v-model="structure" label="2" class="radio-structure">
+                <img :src="images.singleStage" />
+              </el-radio>
+            </div>
+          </div>
+          <p class="choose-title">{{ $t('data_source.edit_data_content') }}</p>
+
+          <!-- <el-button class="iconfont iconpms-icon_add" @click="onAddTreeNode" ></el-button> -->
+          <div v-if="structure === '1'" class="tree-str">
+            <el-detail-tree
+              :showSearch="true"
+              @confirm-input="confirmInput"
+              :treeModelList="treeModel"
+              :isAttribute="isAttribute"
+              @delete-node="deleteNode"
+              @edit-node="editNode"
+            ></el-detail-tree>
+          </div>
+          <div v-if="structure === '2'" class="list-str">
+            <d-data-source-tiled
+              :showTitle="false"
+              :data="tiledArray"
+              @on-add-item="onAddDDataSource"
+              @on-delete-item="onDelDDataSource"
+              :isAttribute="isAttribute"
+            ></d-data-source-tiled>
+          </div>
+        </div>
+        <div class="next-step">
+          <el-button size="mini" @click="onNextStep" class=" primary-btn" type="primary" icon="el-icon-arrow-right"
+            >{{ $t('data_source.next_step') }}
+          </el-button>
+        </div>
+      </div>
+      <div class="second-step-box" v-show="currentStep === 'new_data_source'">
+        <el-form ref="newDataSource" :rules="rules" :model="newDataSource">
+          <el-form-item :label="$t('common.name')" prop="name">
+            <el-input
+              :placeholder="$t('common.name_length_limit128')"
+              maxlength="128"
+              v-model="newDataSource.name"
+              @change="replaceLikeValue"
+            ></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('common.description')" prop="description">
+            <el-input
+              v-model="newDataSource.description"
+              :placeholder="$t('common.description_length_under_2000')"
+              :rows="3"
+              resize="none"
+              maxlength="2000"
+              type="textarea"
+            ></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('common.tag')">
+            <div class="tag-container">
+              <div class="tag-item" v-for="(tag, index) in tags">
+                <span class="tag-name" :title="tag.name">{{ tag.name }}</span>
+                <div style="float: right;margin-left: 10px;">
+                  <el-button
+                    class="iconfont iconpms-icon_delet icon-button"
+                    :title="$t('common.delete')"
+                    @click="deleteTagItem(index)"
+                  ></el-button>
+                </div>
+              </div>
+              <div class="level-content add-content" v-if="isAddtag">
+                <div class="level-edit">
+                  <div style="float:left;margin-top: -1px;">
+                    <el-input size="mini" maxlength="256" v-model="newTagModel.name"></el-input>
+                  </div>
+                  <div style="float:left;">
+                    <el-button
+                      class="icon-button"
+                      :title="$t('common.save')"
+                      @click="onSaveAddTag"
+                      icon="iconfont iconpms-icon_save"
+                    ></el-button>
+                    <el-button class="icon-button" @click="onCloseAddTag" :title="$t('common.cancel')" icon="iconfont iconpms-icon_cancel">
+                    </el-button>
+                  </div>
+                </div>
+              </div>
+              <div class="new-tag-btn">
+                <el-button circle class="iconfont iconpms-icon_Blow-Up drag default-btn" :title="$t('system_log.ADD')" @click="onNewTag">
+                </el-button>
+                <!-- <el-button size="small" @click="onNewTag">+ New </el-button> -->
+              </div>
+            </div>
+          </el-form-item>
+          <el-form-item>
+            <div class="background-picture">
+              <div class="upload-button">
+                <el-button @click="innerVisible = true" size="mini">{{ $t('data_source.select_data_source_background') }}</el-button>
+              </div>
+              <br />
+              <div class="current-image-url">
+                <img v-if="imageUrl === ''" class="radio-img" :src="temp.url" ref="defaultBackground" style="margin-bottom: -10px;" />
+                <img v-else="imageUrl === ''" class="radio-img" :src="'data:image/png;base64,' + imageUrl" style="margin-bottom: -10px;" />
+              </div>
+            </div>
+          </el-form-item>
+        </el-form>
+        <div class="form-save">
+          <el-button v-if="!isEdit" type="primary" class=" primary-btn" @click="onBack" size="mini" icon="el-icon-arrow-left"
+            >{{ $t('data_source.before_step') }}
+          </el-button>
+          <el-button @click="onSaveNewDataSource" class=" primary-btn" size="mini" icon="el-icon-check" type="primary" :disabled="!isCompletedAdd">
+            {{ $t('common.save') }}</el-button
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 弹窗 -->
+  <el-dialog
+    :title="$t('data_source.select_background')"
+    :visible.sync="innerVisible"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    :show-close="false"
+    class="upload-container"
+    append-to-body
+  >
+    <div class="upload-box">
+      <div class="upload-image">
+        <el-upload
+          action=""
+          ref="upload"
+          :show-file-list="false"
+          :auto-upload="false"
+          :on-change="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+          class="upload-box-shadow"
+          accept="image/png,.jpg,.jpeg"
+        >
+          <el-button size="mini">{{ $t('common.select_file') }}</el-button
+          >&nbsp;&nbsp;&nbsp;&nbsp;
+          <span slot="tip" class="el-upload_tip">{{ $t('common.upload_image_description') }}</span>
+        </el-upload>
+      </div>
+      <div class="default-background-container" style="display:flex;flex-wrap:wrap;  width: 100%;overflow: scroll;">
+        <div
+          v-for="(img, index) in backgroundImgs"
+          class="default-img-content"
+          :class="{'current-background-img':currentBackIndex === index}"
+          style="width:200px;height:200px; margin: 10px;"
+          @click="onImgClick(img, index)"
+        >
+          <div
+            v-if="currentBackIndex === index && img.upload && img.id === ''"
+            class="el-icon-error remove-background"
+            @click="removeImg(img,index)"
+            @click.stop
+          ></div>
+          <img v-if="img.upload" :id="'img_target' + index" class="radio-img" :src="'data:image/png;base64,' + img.url" />
+          <img v-else="img.upload" :id="'img_target' + index" class="radio-img" :src="img.url" :ref="img.id" />
+        </div>
+      </div>
+      <div class="image-save" style="text-align: right;">
+        <el-button @click="onRemoveImg" size="mini" class=" primary-btn" icon="el-icon-back" type="primary">
+          {{ $t('common.cancel') }}</el-button
+        >
+        <el-button @click="onSavebackground" class=" primary-btn" size="mini" icon="el-icon-check" type="primary">{{
+          $t('common.confirm')
+        }}</el-button>
+      </div>
+    </div>
+  </el-dialog>
+</el-dialog>

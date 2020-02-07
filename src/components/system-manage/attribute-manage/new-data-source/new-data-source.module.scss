@@ -1,0 +1,403 @@
+@import '@/assets/styles/vars.scss';
+
+.new-data-source-box {
+  .c____100____el-dialog__header {
+    background: #f7f8fc !important;
+    padding: 45px 20px 10px !important;
+  }
+
+  .c____100____el-dialog__body {
+    background: #f7f8fc !important;
+    padding: 0 20px 50px 20px;
+  }
+
+  .new-data-source-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 300px);
+
+    .header-title {
+      position: absolute;
+      top: 14px;
+      font-weight: bold;
+      font-size: 16px;
+      height: 36px;
+      line-height: 36px;
+      color: #555;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 4px;
+      top: 7px;
+      border: 0;
+      background: 0;
+      font-size: 26px;
+    }
+
+    .new-data-source-left {
+      width: 56px;
+      height: 100%;
+      font-size: 20px;
+
+      div {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        margin: 15px 0;
+        border: 1px dashed lightgray;
+        cursor: pointer;
+      }
+
+      .current-step {
+        color: #409eff;
+        border: 1px dashed #409eff;
+      }
+    }
+
+    .new-data-source-right {
+      height: 100%;
+      overflow: scroll;
+      width: 95%;
+      background: #fff;
+
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+
+      .choose-title {
+        height: 36px;
+        font-size: 16px;
+        color: #555;
+        line-height: 36px;
+        font-weight: 600;
+      }
+
+      .first-step-box {
+        padding: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .first-step {
+        height: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .choose-data-str {
+          display: flex;
+          justify-content: space-between;
+
+          div {
+            width: 45%;
+            height: 200px;
+
+            .radio-structure {
+              display: flex;
+              flex-direction: 200px;
+
+              .c____100____el-radio__input {
+                line-height: 200px;
+              }
+            }
+          }
+        }
+      }
+
+      .next-step {
+        position: absolute;
+        right: 20px;
+        bottom: 10px;
+      }
+
+      .tree-str {
+        // height: 200px;
+        padding: 8px;
+        overflow: scroll;
+        flex: 1;
+        border: 1px dashed lightgray;
+      }
+
+      .list-str {
+        overflow: scroll;
+        border: 1px dashed lightgray;
+        position: relative;
+        flex: 1;
+
+      }
+
+      .background-picture {
+        clear: both;
+
+        .upload-button {
+          float: left;
+        }
+
+        .current-image-url {
+          width: 35%;
+          // height: 100%;
+          float: left;
+          // margin-left: 20px;
+          margin-top: 20px;
+          border: 1px solid #b8daf2;
+          // box-shadow: 3px 3px 3px #dfeff9;
+          padding: 10px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            margin-bottom: -10px;
+          }
+        }
+
+        // display: flex;
+        // justify-content: space-between;
+        .c____100____el-radio__input {
+          line-height: 150px;
+        }
+
+        .upload-radio {
+          display: flex;
+          flex-direction: row;
+          line-height: 200px;
+        }
+
+        .default-background-image {
+          width: 45%;
+          height: 150px;
+          background: lightgrey;
+          display: flex;
+          flex-direction: row;
+
+          .img {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+          }
+        }
+      }
+
+      .img-picture {
+        width: 150px;
+        height: 150px;
+        position: relative;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+
+        .image-upload {
+          width: 0;
+          height: 0;
+          border-width: 0 40px 40px 0;
+          border-style: solid;
+          border-color: transparent #6c6 transparent transparent; //   position: relative;
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          .upload-check {
+            position: absolute;
+            top: 6px;
+            right: -34px;
+            color: #fff;
+          }
+        }
+      }
+
+      .second-step-box {
+        padding: 15px;
+        // height: 560px;
+        height: 100%;
+        overflow: scroll;
+
+        .tag-container {
+          clear: both;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          .tag-item {
+            height: 36px;
+            max-width: 250px;
+            font-size: 14px;
+            color: #3a8ee6;
+            padding: 0 7px 0 20px;
+            line-height: 36px;
+            background-color: rgb(235, 247, 255);
+            border: 1px dashed rgb(159, 205, 236);
+            border-radius: 3px;
+            margin-right: 15px;
+            margin-bottom: 15px;
+
+            .tag-name {
+              display: inline-block;
+              max-width: 150px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+
+      .form-save {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+      }
+    }
+
+    .add-content {
+      padding: 0 8px;
+      background: #ffffff;
+      border: 1px dashed lightgray;
+      height: 36px;
+      line-height: 36px;
+      margin-right: 8px;
+    }
+
+    .new-tag-btn {
+      float: left;
+      height: 38px;
+      line-height: 38px;
+    }
+  }
+
+  .disabled-click {
+    pointer-events: none;
+    color: lightgray;
+  }
+}
+
+.icon-button {
+  border: 0 !important;
+  background: 0 !important;
+  width: 36px;
+  height: 36px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.vertical-navigation-container {
+  width: calc(100% - 50px);
+  height: 100%;
+}
+
+.upload-container {
+  .image-save {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+  }
+
+  .c____100____el-dialog__header {
+    background: #f7f8fc !important;
+  }
+
+  .c____100____el-dialog__body {
+    background: #f7f8fc !important;
+    padding: 0 20px 50px 20px;
+  }
+
+  .upload-box {
+    height: 100%;
+    background: #fff;
+
+    .upload-image {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      background: #fff;
+
+      .remove-image {
+        text-align: center;
+        width: 150px;
+        height: 36px;
+        line-height: 36px;
+        margin: 8px 0;
+      }
+
+      .upload-box-shadow {
+        box-shadow: -2px 10px 6px -8px lightgrey;
+        height: 50px;
+      }
+    }
+
+    .default-background-container {
+      width: 100%;
+      height: calc(100vh - 350px);
+      overflow: scroll;
+      padding-top: 15px;
+
+      .default-img-content {
+        width: 200px;
+        height: 200px;
+        float: left;
+        margin: 10px;
+        position: relative;
+
+        .radio-img {
+          width: auto;
+          height: auto;
+          max-width: 100%;
+          max-height: 100%;
+        }
+
+        .remove-background {
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          top: -5px;
+          right: -14px;
+        }
+
+        .default-radio {
+          height: 300px;
+          line-height: 300px;
+          margin: 0;
+          float: left;
+          margin-right: 15px;
+        }
+      }
+
+      .image-container {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        border: 1px solid #e4e3e3;
+        height: 102px;
+        border-radius: 3px;
+        overflow: hidden;
+
+        .img-name {
+          width: calc(100% - 140px);
+          line-height: 98px;
+          text-indent: 15px;
+        }
+      }
+    }
+
+    .current-background-img {
+      border: 1px solid #b8daf2;
+      box-shadow: 3px 3px 5px #dfeff9;
+      padding: 10px;
+    }
+  }
+
+  .event-btn {
+    cursor: pointer;
+    font-size: 20px !important;
+    line-height: 36px;
+    width: 36px;
+    text-align: center;
+    margin: 0 5px;
+  }
+}

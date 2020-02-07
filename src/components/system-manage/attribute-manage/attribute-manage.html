@@ -1,0 +1,88 @@
+<div class="attribute-manage-box" style="display: inline-flex; align-items: stretch;">
+  <div class="attribute-manage-container">
+    <div class="new-data-source-box">
+      <div class="new-source-header">
+        <div v-if="rolePrivilege.add" class="new-source">
+          <!-- <el-button
+            type="primary"
+            class="iconfont iconpms-icon_Batch-import primary-btn btn-new"
+            @click="downloadtmp"
+            :title="$t('data_source.download_data_source_template')"
+          >
+            {{ $t('common.download_template') }}</el-button
+          >
+          <el-button
+            type="primary"
+            class="iconfont iconpms-icon_Batch-import primary-btn btn-new"
+            @click="onImportDataSource"
+            :title="$t('data_source.import_data_source')"
+            >{{ $t('data_source.import_data_source') }}</el-button
+          > -->
+        </div>
+        <!-- <div class="search-box">
+          <el-input
+            class="input-search"
+            v-model="searchValue"
+            :placeholder="$t('tempMgr.keywords_search_placeholder')"
+            suffix-icon="iconfont iconpms-icon_search"
+          ></el-input>
+        </div> -->
+      </div>
+      <el-button
+      type="primary"
+      class="iconfont iconpms-icon_add primary-btn btn-new dawn-data-source-btn"
+      @click="onMakeNewDataSource"
+      :title="$t('data_source.add_data_source')"
+      >{{ $t('data_source.add_data_source') }}</el-button
+    >
+      <new-data-source
+        :addDataSourceVisible="newSourceVisible"
+        @on-close-new-dialog="onCloseNewDialog"
+        :editStatus="editStatus"
+        :editData="currentSource"
+        :isEdit="isEditSource"
+        @on-success="onSuccess"
+        :headerTitle="headerTitle"
+      ></new-data-source>
+      <!-- <import-data-source :importDataSourceVisible="importVisible" @on-close-import="onCloseImport" @on-close-load="onCloseLoad">
+      </import-data-source> -->
+    </div>
+    <div class="data-source-detail-box">
+      <div class="data-source-detail-container" ref="scrollWrapper" @scroll="onScroll($event)">
+        <div class="data-source-detail-content">
+          <el-level-define-content
+            :showTitle="true"
+            :data="dataSourceArr"
+            @on-source-item-edit="onSourceEdit"
+            @on-delete-source-success="onDeleteSource"
+            :currentItem="currentSource"
+            :currentIndex="currentIndex"
+            :eventTypes="eventTypes"
+          ></el-level-define-content>
+        </div>
+      </div>
+      <div class="anchor-nav-box">
+        <div class="top-shelter-first"></div>
+        <div class="top-shelter-second"></div>
+        <div class="bottom-shelter-first"></div>
+        <div class="bottom-shelter-second"></div>
+        <div class="nav-height" ref="navWrapper">
+          <!-- @scroll="onNavScroll($event, '2')" 滚动到指定位置时候显示该数据源 -->
+          <div class="top-empty empty"></div>
+          <!-- <div class="current-source-mark" ref="sourceMark"><span class="iconfont iconpms-icon_Navigation"></span></div> -->
+          <el-anchor-nav
+            :scrollTo="currentIndex"
+            :data="dataSourceArr"
+            @on-index-change="onIndexChange"
+            @on-anchor-nav-click="onAnchorNavclick"
+            @on-search-change="onSearchChange"
+          ></el-anchor-nav>
+          <div class="bottom-empty empty"></div>
+        </div>
+      </div>
+      <p class="ddata-null" v-if="isDataBull || dataSourceArr.length === 0">
+        {{ $t('common.no_data') }}
+      </p>
+    </div>
+  </div>
+</div>

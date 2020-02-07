@@ -1,0 +1,131 @@
+<div class="tree-container">
+ <div class="tree-body">
+   <div class="tree-content">
+    <el-tree ref='detailTree' 
+       :data="treeModelList" 
+       :filter-node-method="filterTree" 
+       node-key="id"
+       :default-expand-all="false" 
+       :expand-on-click-node="false" 
+       :highlight-current="isHighLight" 
+       :draggable="isDrag"
+       :allow-drop="allowDrop"
+        :allow-drag="allowDrag"
+       class="tree-detail">
+      <span  class="custom-tree-node" @dblclick="() => showInput(node, data, true)" @click="() => node_click(node, data)" slot-scope="{ node, data }"
+       @click.stop>
+        <!-- 显示 -->
+        <span v-if="data.hiddenInput">
+          <span v-if="data.image" class="attribute-icon">
+            <i v-if="data.image.isIcon &&　data.image.iconfont" class="edit-image" :class="'iconfont ' + data.image.iconfont" :style="{color:data.image.iconColor}"></i>
+            <img v-if="!data.image.isIcon && data.image.iconfont" :src="data.image.iconfont">
+          </span>
+          <span v-if="data.imgColor">
+            <i class="detail-tree-icon" :style="{background:data.imgColor}"></i>
+          </span>
+          <span class="node-label" :title="node.label" >
+            <span>{{ node.label }}</span>
+            <!-- <span v-if="node.data.multiTenancy && node.data.multiTenancyData" v-for="mul in node.data.multiTenancyData">
+              <img v-if="!mul.image.isIcon && mul.image.iconfont":src="mul.image.iconfont"/>
+              <i v-if="mul.image.isIcon && mul.image.iconfont" :class="'iconfont ' + mul.image.iconfont"class="event-btn" ></i>
+            </span> -->
+            <el-dropdown v-if="node.data.multiTenancy && node.data.multiTenancyData" trigger="hover" placement="bottom-start">
+                <span class="multi-name">{{$t('base_data_manage.model')}}</span>
+                <el-dropdown-menu class="multiTenancy-drop" slot="dropdown">
+                  <el-dropdown-item v-for="(mul, index) in node.data.multiTenancyData" :key="index" :command="mul">
+                    <div class="multiTenancy-child">
+                      <div class="mul-icon">
+                        <img v-if="mul.image && !mul.image.isIcon && mul.image.iconfont" :src="mul.image.iconfont" />
+                        <i
+                          v-if="mul.image && mul.image.isIcon && mul.image.iconfont"
+                          :class="mul.image.iconfont"
+                          class="iconfont event-btn"
+                        ></i>
+                      </div>
+                      <div class="multiTenancy-name">{{ mul.name }}</div>
+                    </div>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+          </span>
+          <!-- <span class="node-label" :title="node.label" :style="{color:data.imgColor}"><span >{{ node.label }}</span></span> -->
+        </span>
+        <!-- 编辑 -->
+        <span v-if="!data.hiddenInput && data.id !== online_component && !isDrag"   class="edit-icon">
+          <span v-if="data.image">
+            <img v-if="!data.image.isIcon &&　data.image.iconfont" :src="data.image.iconfont" @click="selectIcon(data)" @click.stop>
+            <i v-else-if="data.image.isIcon　&&　data.image.iconfont" class="edit-image icon-btn" :class="'iconfont ' + data.image.iconfont" :style="{color:data.image.iconColor}"
+              @click="selectIcon(data)" @click.stop></i>
+            <i　v-else-if="!data.image.isIcon && !data.image.iconfont" class='iconfont iconpms-icon_picture icon-btn' @click="selectIcon(data)"
+              @click.stop></i>
+          </span>
+          <span v-if="!data.image && !addStatus && !isAttribute">
+            <i class='iconfont iconpms-icon_picture' @click="selectIcon(data)" @click.stop></i>
+          </span>
+          <el-input  v-model="inputValue" ref="saveInput" size="middle" maxlength="128" @keyup.enter.native="handleContentInputConfirm(node, data)"
+            @change="replaceLikeValue(inputValue)"
+            @focus="()=> onfocus(node, data)">
+          </el-input>
+        </span>
+        <!-- 操作按钮 -->
+        <span :hidden="data.hidden" v-if="data.id !== online_component && ( rolePrivilege && rolePrivilege.operate || showSearch) && !isDrag" 
+        style="height: 48px;line-height: 48px;">
+          <span v-if="!editor && !addStatus">
+            <i size="mini" class="iconfont iconpms-icon_add icon-btn" :title="$t('base_data_manage.new_top_node')"  @click="append(data,node)" @click.stop></i>
+          </span>
+          <span v-if="handleEditSave">
+            <i size="mini" class="iconfont iconpms-icon_edit icon-btn" :title="$t('common.edit')" @click="showInput(node,data,true)" @click.stop></i>
+          </span>
+          <span v-if="!handleEditSave">
+            <i size="mini"  class="iconfont iconpms-icon_save icon-btn" :title="$t('common.save')"  @click="handleContentInputConfirm(node, data)" @click.stop></i>
+          </span>
+          <span v-if="editor">
+            <i size="mini" class="iconfont iconpms-icon_cancel icon-btn" :title="$t('common.cancel')" @click="cancelEdit(node,data)" @click.stop></i>
+          </span>
+          <span :hidden="data.hiddenDelButton" v-if="!editor && !data.topNode && data.id !== text_component">  
+            <i v-if="!addStatus" size="mini" class="iconfont iconpms-icon_delet icon-btn" :title="$t('common.delete')" @click="remove(node,data)" @click.stop></i>
+            <i v-else size="mini" class="iconfont iconpms-icon_cancel icon-btn" :title="$t('common.cancel')" @click="remove(node,data)" @click.stop></i>
+          </span>
+          <span v-if='!handleEditSave && !addStatus && editor && !isAttribute' class='color-picker'>
+            <el-color-picker v-model="defaultColor" :predefine="predefineColors" size='mini' @change="changeColor">
+            </el-color-picker>
+          </span>
+        </span>
+      </span>
+    </el-tree>
+   </div>
+ 
+   <el-dialog :title="$t('base_data_manage.select_icon')" :visible.sync="isShowImgBox" append-to-body :close-on-click-modal="false" :close-on-press-escape="true"
+    :show-close="false" class="upload-container">
+    <div class="upload-box">
+      <div class="upload-image">
+        <el-upload action="" ref="upload" :show-file-list="false"  
+        accept="image/png,.jpeg,.jpg"
+        :auto-upload="false" :on-change="handleAvatarSuccess" :before-upload="beforeAvatarUpload"
+         class="upload-shadow">
+          <el-button size="mini">{{$t('common.select_file')}}</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span slot="tip" class="el-upload_tip">{{$t('common.upload_image_description')}}</span>
+        </el-upload>
+      </div>
+      <div class="ddata-source-image" >
+        <div v-for="(img,index) in vectorIcon" :key='index' class="default-img-content" 
+          :style="{color:img.fontColor}" :class="{'current-background-img-dsource' : currentBackIndex === index}">
+          <div v-if="currentBackIndex === index && img.upload && img.id === ''" class="remove-background el-icon-error" @click="removeImg(img,index)"
+            @click.stop></div>
+          <i v-if='img.isVector && img.className'  :class="'iconfont '+ img.className" class="data-icon" @click="onImgClick(img, index)"></i>
+          <img v-if='!img.isVector && img.className' :src="img.className"  @click="onImgClick(img, index)">
+        </div>
+      </div>
+      <div class="image-save" style="text-align: right;">
+        <el-button :disabled="disableRemoveImg" class="primary-btn" @click="onRemoveImg" size="mini" type="primary">{{$t('base_data_manage.move_icon')}}</el-button>
+        <el-button @click="onCancel" size="mini" type="primary" class="primary-btn"> {{$t('common.cancel')}}</el-button>
+        <el-button @click="onSavebackground" size="mini" type="primary" class="primary-btn">{{$t('common.confirm')}}</el-button>
+      </div>
+    </div>
+   </el-dialog>
+ </div> 
+ <div v-if="isDrag" class="form-btn clearfix">
+    <el-button  class=" iconfont iconpms-icon_save primary-btn  flr" @click="saveDragSort(treeModelList)" > {{$t('common.save')}}</el-button>
+    <el-button  class=" iconfont iconpms-icon_cancel default-btn flr" @click="cancelDragSort()" > {{$t('common.cancel')}}</el-button>
+  </div>
+</div>

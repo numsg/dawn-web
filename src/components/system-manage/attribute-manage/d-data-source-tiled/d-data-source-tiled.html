@@ -1,0 +1,133 @@
+<!-- 此模块没有被使用 -->
+<div class="level-define-container">
+  <div v-if="showTitle" class="header-title d-data-name">
+    <span class="iconfont icon-wenben"></span>
+    <span :title="title">{{title}</span>
+  </div>
+  <div v-if="showTitle" class="search-box">
+    <el-input placeholder="请输入关键字" v-model="searchValue" suffix-icon="el-icon-search" size="mini"> </el-input>
+  </div>
+  <div class="level-define-content">
+    <div class="level-content" v-for="(item, i) in dataArr" :class="{'level-item-edit': isEdit &&  currentItem.id === item.id }">
+      <div v-if="isEdit  && currentItem.id === item.id" class="level-edit">
+        <!-- 编辑 -->
+        <div class="type-editor">
+          <span v-if="item.image">
+            <img v-if="!item.image.isIcon && item.image.iconfont" :src="item.image.iconfont" @click="selectIcon(item)" />
+            <i
+              v-if="item.image.isIcon && item.image.iconfont"
+              class="edit-image"
+              :class="'iconfont ' + item.image.iconfont"
+              :style="{color:item.image.iconColor}"
+              @click="selectIcon(item)"
+            ></i>
+            <i v-if="!item.image.isIcon && !item.image.iconfont" class="iconfont iconpms-icon_picture" @click="selectIcon(item)"></i>
+          </span>
+          <span v-if="!item.image && !isAttribute">
+            <i class="iconfont iconpms-icon_picture" @click="selectIcon(item)"></i>
+          </span>
+          <el-input size="mini" v-model="item.name"> </el-input>
+        </div>
+        <div class="type-editor">
+          <el-button class="icon-button" @click="onSaveEdit(item)" icon="iconfont iconpms-icon_save"></el-button>
+          <div v-if="!isAttribute" class="color-picker">
+            <el-color-picker v-model=" defaultColor" :predefine="predefineColors" size="mini" @change="changeColor"> </el-color-picker>
+          </div>
+          <el-button class="icon-button" @click="onCloseEdit(item)" icon="iconfont iconpms-icon_cancel"></el-button>
+        </div>
+      </div>
+      <!-- 正常展示 -->
+      <div v-else="isEdit && currentItem.id === item.id ? true : false" class="level-item" :style="{background: item.imgColor}">
+        <div v-if="item.image" class="d-data-name" :title="item.name">
+          <img v-if="!item.image.isIcon &&　item.image.iconfont" :src="item.image.iconfont" />
+          <i
+            v-if="item.image.isIcon &&　item.image.iconfont"
+            :class="'iconfont ' + item.image.iconfont"
+            :style="{color:item.image.iconColor}"
+          ></i>
+        </div>
+        <span class="show-content">{{ item.name }}</span>
+        <div class="etid-delete-btn">
+          <el-button class="icon-button" @click="onEdit(item)" icon="el-icon-edit"></el-button>
+          <el-button class="icon-button" @click="onDelete(item, i)" icon="el-icon-delete"></el-button>
+        </div>
+      </div>
+    </div>
+    <!-- add -->
+    <div class="level-content add-content" v-if="isAdd">
+      <div class="level-edit">
+        <div class="add-input">
+          <i v-if="!isAttribute" class="iconfont iconpms-icon_Event-type" @click="selectIcon"></i>
+          <el-input size="mini" v-model="addModel.name"></el-input>
+        </div>
+        <div class="add-input">
+          <el-button class="icon-button" @click="onSaveAdd" icon="iconfont iconpms-icon_save"></el-button>
+          <div v-if="!isAttribute" class="color-picker">
+            <el-color-picker v-model=" defaultColor" :predefine="predefineColors" size="mini" @change="changeColor"> </el-color-picker>
+          </div>
+          <el-button class="icon-button" @click="onCloseAdd" icon="iconfont iconpms-icon_cancel"></el-button>
+        </div>
+      </div>
+    </div>
+    <div class="new-level-btn">
+      <el-button circle class="iconfont iconpms-icon_Blow-Up drag default-btn" :title="$t('system_log.ADD')" @click="onNew"> </el-button>
+    </div>
+  </div>
+  <el-dialog
+    title="选择图标"
+    :visible.sync="isShowImgBox"
+    append-to-body
+    :close-on-click-modal="false"
+    :close-on-press-escape="true"
+    :show-close="false"
+    class="upload-container"
+  >
+    <div class="upload-box">
+      <div class="upload-image">
+        <el-upload
+          action=""
+          ref="upload"
+          :show-file-list="false"
+          :auto-upload="false"
+          :on-change="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+          class="upload-box"
+          style="box-shadow: -2px 10px 6px -8px lightgrey;height: 50px;"
+        >
+          <el-button size="mini">选取文件</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <span slot="tip" class="el-upload_tip">只能上传格式为jpg/png的图片文件</span>
+        </el-upload>
+      </div>
+      <div class="ddata-source-image" style="display:flex;flex-wrap:wrap;  width: 100%;height: 500px;overflow: scroll;">
+        <div
+          v-for="(img,index) in vectorIcon"
+          :key="index"
+          class="default-img-content"
+          style="height:60px;margin:14px;margin-top:8px;"
+          :class="{'current-background-img-dsource' : currentBackIndex === index}"
+          :style="{color:img.fontColor}"
+        >
+          <div
+            v-if="currentBackIndex === index && img.upload && img.id === ''"
+            class="remove-background el-icon-error"
+            @click="removeImg(img,index)"
+            @click.stop
+          ></div>
+          <i
+            v-if="img.isVector"
+            :class="'iconfont '+img.className"
+            @click="onImgClick(img, index)"
+            class="select-icon"
+            style="font-size:58px;"
+          ></i>
+          <img v-else="img.isVector" :src="img.className" style="width:58px;height: 58px;" @click="onImgClick(img, index)" />
+        </div>
+      </div>
+      <div class="image-save" style="text-align: right;">
+        <el-button :disabled="disableRemoveImg" @click="onRemoveImg" class="primary-btn" size="mini" type="primary">移除图标</el-button>
+        <el-button @click="onCancel" size="mini" type="primary" class="primary-btn">取消</el-button>
+        <el-button @click="onSavebackground" size="mini" type="primary" class="primary-btn">确认</el-button>
+      </div>
+    </div>
+  </el-dialog>
+</div>

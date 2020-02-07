@@ -1,0 +1,145 @@
+<div ref="scrollWrapper" class="level-content-container">
+  <div
+    v-for="(item,index) in dataSource"
+    :id="'ddata' + index"
+    class="level-type-content"
+    :class="{'show-data-box':dDataSourceVisible && currentSource.id===item.id }"
+  >
+    <div class="level-type-detail" :ref="item.id" :class="{'show-source-data': dDataSourceVisible &&　currentSource.id===item.id}">
+      <transition name="slide-fade">
+        <div class="data-source-detail" :class="{'odd-item' : index%2 === 0, 'even-item' :index%2 === 1}">
+          <div
+            class="level-content-item"
+            :class="{'content-left': index%2 === 0, 'content-right': index%2 === 1, 'fadeIn': currentIndex === index }"
+          >
+            <div class="item-container animated" :class="{'fadeIn': currentIndex === index, 'fadeOut': currentIndex !== index}">
+              <div class="level-type-name content-item-inner">
+                <div class="source-name" :title="item.name">
+                  {{ item.name }}
+                </div>
+                <div class="source-edit">
+                  <el-button
+                    class="iconfont iconpms-icon_edit button-no-border"
+                    v-if="rolePrivilege.update"
+                    @click="onEdit(item)"
+                    :title="$t('common.edit')"
+                  ></el-button>
+                  <el-button
+                    class="iconfont iconpms-icon_delet button-no-border"
+                    v-if="idResourceDelete && rolePrivilege.delete"
+                    @click="onDelete(item)"
+                    :title="$t('common.delete')"
+                  ></el-button>
+                </div>
+              </div>
+              <p class="level-type-describe" :title="item.description">{{ item.description }}</p>
+              <div class="tag-container">
+                <div class="tag-item" v-for="(tag, index) in item.tags" :title="tag.name">
+                  {{ tag.name }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="level-content-img ">
+            <el-image
+              class="animated"
+              :class="{'zoomIn': currentIndex === index, 'zoomOut': currentIndex !== index}"
+              :src="item.image === '' || item.image === null ? defaultImage : 'data:image/png;base64,' + item.image"
+              alt=""
+            ></el-image>
+          </div>
+        </div>
+      </transition>
+    </div>
+    <!-- :src=" 'data:image/png;base64,' + item.image" -->
+    <!-- :src="item.image === '' || null ?  defaultImage : 'data:image/png;base64,' + item.iamge" -->
+    <div
+      v-if="dDataSourceVisible && currentSource.type===2 &&　currentSource.id === item.id"
+      class="define-tiled-detail clearfix animated"
+      :class="{'fadeInUp': currentIndex === index}"
+    >
+      <!-- <p class="close-tree-ddata">
+        <i size="mini" class="el-icon-circle-close-outline icon-btn" @click="onCloseDDataSource" @click.stop></i>
+      </p> -->
+      <div>
+        <d-data-source-tiled
+          :showTitle="true"
+          :title="currentSource.name"
+          :data="dDataSources"
+          @on-delete-item="onDeleteLeveItem"
+          @on-edit-save="onEditSaveItem"
+          @on-add-item="onAddDDataItem"
+          @on-sort-item="onDragSort"
+          :currentData="currentSource"
+          :rolePrivilege="rolePrivilege"
+          @on-search-null="onSearchNull"
+        ></d-data-source-tiled>
+      </div>
+      <p v-if="isNullSearch" class="ddata-null">
+        {{ $t('common.no_data') }}
+      </p>
+    </div>
+    <div
+      v-if="currentSource.type=== 1 && dDataSourceVisible && currentSource.id === item.id"
+      class="define-tree-detail  clearfix animated"
+      :class="{'fadeInUp': currentIndex === index}"
+    >
+      <div class="detail-wrapper">
+        <div class="tree-box-top">
+          <div class="header-title tree-title">
+            <i></i>
+            <span class="title" :title="currentSource.name">{{ currentSource.name }}</span>
+            <el-button
+              circle
+              v-if="rolePrivilege.operate && !isDrag"
+              class="iconfont iconpms-icon_Blow-Up drag default-btn"
+              :title="$t('base_data_manage.new_top_node')"
+              @click.stop="onMakeNewNode"
+            >
+            </el-button>
+
+            <el-button
+              circle
+              v-if="rolePrivilege.operate"
+              class="iconfont drag default-btn iconpms-icon_configuration-management-icon icon-btn"
+              :class="{'active':isDrag}"
+              @click="drag"
+              :title="dragTitile"
+            ></el-button>
+          </div>
+
+          <!-- <p class="close-tree-ddata">
+            <i size="mini" class="el-icon-circle-close-outline icon-btn" @click="onCloseDDataSource" @click.stop></i>
+          </p> -->
+          <div class="search-box">
+            <el-input
+              class="input-search"
+              v-model="searchTreeValue"
+              :placeholder="$t('tempMgr.keywords_search_placeholder')"
+              suffix-icon="iconfont iconpms-icon_search "
+            >
+            </el-input>
+          </div>
+        </div>
+        <div class="tree-box">
+          <el-detail-tree
+            :filterText="searchTreeValue"
+            :showSearch="true"
+            :isDrag="isDrag"
+            :currentSource="currentSource"
+            @on-edit="onDDataTreeEdit"
+            @on-add="onAddDDataTree"
+            @on-delete="onDeleteLeveTree"
+            @on-sort-item="onDragSort"
+            @on-cancel-sort="cancelDrag"
+            :isEdit="true"
+            :treeModelList="dDataSources"
+            :makeNewSource="makeNewSource"
+            :rolePrivilege="rolePrivilege"
+            :externalDataSource="externalDataSource"
+          ></el-detail-tree>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
