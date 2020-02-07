@@ -3,30 +3,139 @@
   flex-direction: column;
   height: 100%;
   position: relative;
+  overflow: hidden;
   .epidemic {
-    height: 100px;
     display: flex;
     flex-direction: row;
-    text-align: center;
-  }
-  .county,
-  .community {
     flex: 1;
+    text-align: center;
+    .county,
+    .community {
+      // height: 100px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .name {
+      line-height: 50px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .detail {
+      display: flex;
+      flex-direction: row;
+      .confirmed,
+      .suspected,
+      .fever {
+        flex: 1;
+        .txt {
+          span {
+            display: inline-block;
+            line-height: 26px;
+            background: #f6f6f6;
+            padding: 0 10px;
+          }
+        }
+      }
+      .count {
+        line-height: 25px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .confirmed {
+        .count {
+          color: #db3838;
+        }
+        .comparison {
+          .num {
+            color: #db3838;
+          }
+        }
+      }
+
+      .suspected {
+        .count {
+          color: #9b9b9b;
+        }
+        .comparison {
+          .num {
+            color: #9b9b9b;
+          }
+        }
+      }
+
+      .fever {
+        .count {
+          color: #eea61c;
+        }
+        .comparison {
+          .num {
+            color: #eea61c;
+          }
+        }
+      }
+    }
+    .diagram {
+      flex: 1;
+      .doughnut,
+      .map {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
-  .name {
-    line-height: 50px;
-    font-size: 22px;
-  }
-  .detail {
+  .grid {
+    // flex: 1;
+    position: absolute;
     display: flex;
     flex-direction: row;
-    .confirmed,
-    .suspected {
-      flex: 1;
+    background: #eae7e7;
+    width: 100%;
+    height: calc(100% - 120px);
+    top: 100%;
+    margin-top: -40px;
+    left: 0;
+    transition: all ease-in-out 0.5s;
+    &.grid-up {
+      top: 120px;
+      margin-top: 0;
     }
-    .count {
-      line-height: 25px;
-      font-size: 18px;
+    // top: -40px;
+    .c____100____el-tabs {
+      background: #fff;
+      border: 1px solid #dcdfe6;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+      width: 100%;
+      .c____100____el-tabs__content {
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+      }
+    }
+    .operate {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 40px;
+      z-index: 2;
+      .add {
+        vertical-align: middle;
+        margin-top: 6px;
+        padding: 5px;
+      }
+      .arrow {
+        color: #fff;
+        background: #ddd;
+        font-size: 22px;
+        vertical-align: middle;
+        margin-top: 9px;
+        margin-right: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        &:hover {
+          color: #3a9ee1;
+        }
+      }
     }
   }
 }

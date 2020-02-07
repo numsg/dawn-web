@@ -1,31 +1,85 @@
 <div class="epidemic-dynamic">
-    <div class="epidemic">
-        <div class="county">
-            <div class="name">江夏区</div>
-            <div class="detail">
-                <div class="confirmed">
-                    <div class="count">500</div>
-                    <div class="txt">确诊病例</div>
-                </div>
-                <div class="suspected">
-                    <div class="count">60</div>
-                    <div class="txt">疑似病例</div>
-                </div>
-            </div>
+  <!-- <div class="title"></div> -->
+  <div class="epidemic">
+    <div class="county">
+      <div class="name">关南社区</div>
+      <div class="detail">
+        <div class="confirmed">
+          <div class="count">500</div>
+          <div class="txt"><span>确诊病例</span></div>
+          <div class="comparison">昨日<span class="num">+10</span></div>
         </div>
-        <div class="community">
-            <div class="name">本社区</div>
-            <div class="detail">
-                <div class="confirmed">
-                    <div class="count">10</div>
-                    <div class="txt">确诊病例</div>
-                </div>
-                <div class="suspected">
-                    <div class="count">15</div>
-                    <div class="txt">疑似病例</div>
-                </div>
-            </div>
+        <div class="suspected">
+          <div class="count">60</div>
+          <div class="txt"><span>疑似病例</span></div>
+          <div class="comparison">昨日<span class="num">+10</span></div>
         </div>
+        <div class="fever">
+          <div class="count">60</div>
+          <div class="txt"><span>发热者</span> </div>
+          <div class="comparison">昨日<span class="num">+10</span></div>
+        </div>
+      </div>
+      <div class="diagram">
+        <div ref="doughnut" class="doughnut" id="doughnut"></div>
+      </div>
     </div>
-    <div class="Duty"></div>
+    <div class="community">
+      <div class="name">湖北省</div>
+      <div class="detail">
+        <div class="confirmed">
+          <div class="count">22112</div>
+          <div class="txt"><span>确诊病例</span></div>
+          <div class="comparison">昨日<span class="num">+3152</span></div>
+
+        </div>
+        <div class="suspected">
+          <div class="count">21215</div>
+          <div class="txt"><span>疑似病例</span></div>
+          <div class="comparison">昨日<span class="num">+2310</span></div>
+        </div>
+      </div>
+      <div class="diagram">
+        <div ref="map" class="map" id="map"></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid" :class="{'grid-up': isShowTabs}">
+    <!-- <div class="header">
+            <el-button class="duty-btn default-btn">疫情值守</el-button>
+            <el-button class="key-person-btn default-btn">重点人员服务</el-button>
+        </div> -->
+    <div class="operate">
+      <!-- <el-button class="duty-btn default-btn">疫情值守</el-button> -->
+      <!-- <i  class="add iconfont iconpms-icon_Blow-Up"></i> -->
+      <el-button v-if="isShowTabs" circle class="add iconfont primary-btn iconpms-icon_Blow-Up"></el-button>
+      <i class="arrow el-icon-arrow-up" @click="showTabs" :class="{'el-icon-arrow-down': isShowTabs}"></i>
+      <!-- <el-button class="key-person-btn default-btn">重点人员服务</el-button> -->
+    </div>
+    <el-tabs type="border-card">
+      <el-tab-pane label="疫情值守">
+        <el-table :data="tableData" height="250" border style="width: 100%">
+          <el-table-column prop="date" label="日期" width="180">
+          </el-table-column>
+          <el-table-column prop="name" label="姓名" width="180">
+          </el-table-column>
+          <el-table-column prop="address" label="地址">
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                class="iconfont iconpms-icon_edit"
+                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <el-button
+                size="mini"
+                class="el-icon-info"
+                @click="handleDelete(scope.$index, scope.row)">详情</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="重要需求物资登记">重要需求物资登记</el-tab-pane>
+    </el-tabs>
+  </div>
 </div>
