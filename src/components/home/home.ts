@@ -203,7 +203,7 @@ export class HomeComponent extends Vue {
     },
     {
       id: '4',
-      title: '任务响应',
+      title: '防消措施',
       added: false,
       image: require('@/assets/img/home/coveage.png'),
       componentName: 'emergency-response',

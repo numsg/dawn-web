@@ -1,3 +1,21 @@
 <div class="emergency-response">
-    任务响应
+    <div class="active-container">
+        <el-radio-group v-model="activeName" @change="handleClick">
+            <el-radio-button label="accessControl">{{'出入管控'}}</el-radio-button>
+            <el-radio-button label="dailyDisinfection">{{'每日消毒'}}</el-radio-button>
+            <el-radio-button label="communityPatrol">{{'社区巡逻'}}</el-radio-button>
+          </el-radio-group>
+        <div class="search-add">
+            <el-input
+                class="search-input"
+                placeholder="请输入内容"
+                suffix-icon="el-icon-search"
+                v-model="serchValue">
+          </el-input>
+          <AccessControlAdd v-if="activeName === 'resource'"/>
+        </div>
+    </div>
+    <AccessControl  v-if="activeName === 'accessControl'"/>
+    <DailyDisinfection v-if="activeName === 'dailyDisinfection'"/>
+    <CommunityPatrol v-if="activeName === 'communityPatrol'"/>
 </div>

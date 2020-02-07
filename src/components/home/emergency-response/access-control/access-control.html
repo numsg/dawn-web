@@ -1,0 +1,90 @@
+<div class="access-control">
+        <div class="table-box">
+            <el-table class="table" :data="tableData" height="100%" stripe highlight-current-row style="width:100%">
+              <el-table-column prop="time" :label="$t('时间')">
+                <template slot-scope="scope">
+                  <div class="table-slot-cell" :title="scope.row.time">{{ scope.row.time }}</div>
+                </template>
+             </el-table-column>
+              <el-table-column prop="room" :label="$t('房号')">
+                <template slot-scope="scope">
+                  <div class="table-slot-cell" :title="scope.row.room">{{ scope.row.room }}</div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="name" :label="$t('姓名')" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <div :title="scope.row.name" class="table-slot-cell">{{ scope.row.name }}</div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="phone" :label="$t('手机')" :show-overflow-tooltip="true">
+                  <template slot-scope="scope">
+                    <div :title="scope.row.phone" class="table-slot-cell">{{ scope.row.phone }}</div>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="temperature" :label="$t('测温')" :show-overflow-tooltip="true">
+                  <template slot-scope="scope">
+                    <div :title="scope.row.temperature" class="table-slot-cell">{{ scope.row.temperature }}</div>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="type" :label="$t('类型')" :show-overflow-tooltip="true">
+                  <template slot-scope="scope">
+                    <div :title="scope.row.type" class="table-slot-cell">{{ scope.row.type }}</div>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="method" :label="$t('方式')" :show-overflow-tooltip="true">
+                  <template slot-scope="scope">
+                    <div :title="scope.row.method" class="table-slot-cell">{{ scope.row.method }}</div>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="reason" :label="$t('原因')" :show-overflow-tooltip="true">
+                    <template slot-scope="scope">
+                      <div :title="scope.row.reason" class="table-slot-cell">{{ scope.row.reason }}</div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="note" :label="$t('备注')" :show-overflow-tooltip="true">
+                      <template slot-scope="scope">
+                        <div :title="scope.row.note" class="table-slot-cell">{{ scope.row.note }}</div>
+                      </template>
+                    </el-table-column>
+              <el-table-column
+                fixed="right"
+                :label="$t('system_log.operation')"
+                class="privilege-operate"
+                width="200"
+              >
+                <template slot-scope="scope">
+                  <div class="operation">
+                          <el-button type="primary" icon="el-icon-edit" @click="handleEdit" title="编辑"></el-button>
+                          <el-button type="primary" icon="el-icon-document" @click="handleCheck" title="查看详情"></el-button>
+                          <el-button type="danger" icon="el-icon-delete" title="删除"></el-button>
+                  </div>
+                </template>
+              </el-table-column>
+            </el-table>
+        </div>
+          <el-pagination
+            class="pagination"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-sizes="pageSizes"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="tableData.length">
+        </el-pagination>
+        <el-side-frame ref="ResourceSideFrame">
+          <div class="side-frame-header" slot="header">
+            <div class="header-title">
+              <i></i>
+              <span v-if="currentFrame === 'ResourceTransfers'" class="user-role-title">出库</span>
+              <span v-if="currentFrame === 'ResourceEdit'">编辑</span>
+              <span v-if="currentFrame === 'ResourceRecords'" class="user-role-title">出入库记录</span>
+            </div>
+          </div>
+          <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+               <ResourceTransfers  v-if="currentFrame === 'ResourceTransfers'" @colse="frameColse" />
+               <ResourceEdit v-if="currentFrame === 'ResourceEdit'" @colse="frameColse"/>
+               <ResourceRecords v-if="currentFrame === 'ResourceRecords'"/>
+          </div>
+        </el-side-frame>
+    </div>
