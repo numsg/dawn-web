@@ -176,7 +176,7 @@ const routerMap: any = [];
 const routerLogin = new RouterElement();
 const routerError = new RouterElement();
 const routerAnyError = new RouterElement();
-const routerComponentMgr = new RouterElement();
+// const routerComponentMgr = new RouterElement();
 /**
  * login
  */
@@ -204,13 +204,11 @@ routerAnyError.component = ErrorComponent;
 routerAnyError.hidden = true;
 routerMap.push(routerAnyError);
 
-
-routerComponentMgr.path = '/component-manager';
-routerComponentMgr.name = 'component-manager';
-routerComponentMgr.component = PmsComponentManager;
-routerComponentMgr.hidden = true;
-routerMap.push(routerComponentMgr);
-
+// routerComponentMgr.path = '/component-manager';
+// routerComponentMgr.name = 'component-manager';
+// routerComponentMgr.component = PmsComponentManager;
+// routerComponentMgr.hidden = true;
+// routerMap.push(routerComponentMgr);
 
 export let constRouterMap = routerMap;
 

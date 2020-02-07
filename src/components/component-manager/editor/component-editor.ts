@@ -40,8 +40,8 @@ export class PmsComponentEditor extends Vue {
     printMode: true
   };
   created() {
-    this.$store.dispatch(StoreEvents.PMSComponentManage.onLoadComponentTypes);
-    this.$store.dispatch(StoreEvents.EventTypes.LoadEventTypes);
+    // this.$store.dispatch(StoreEvents.PMSComponentManage.onLoadComponentTypes);
+    // this.$store.dispatch(StoreEvents.EventTypes.LoadEventTypes);
     this.$store.dispatch(StoreEvents.EpidemicTypes.OnLoadEpidemicTypes);
   }
 
