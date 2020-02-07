@@ -147,7 +147,7 @@
     "thematic": "夜间主题",
     "length_limit6_18": "长度在6-18之间",
     "new_pwd_same_old": "输入的新密码和输入的原密码不能一样",
-    "user_detail":"人员信息"
+    "user_detail": "人员信息"
   },
   "home": {
     "layout_1": "布局一",
@@ -503,13 +503,13 @@
       "limit_authorization_code_16": "授权码长度为16位",
       "authorization_code_error": "授权码有误",
       "data_error": "数据有误",
-      "no_active_unable_upload":"当前知识模型尚未激活, 无法上传",
-      "importing":"导入中",
-      "select_imported_data":"请选择需导入的数据",
-      "activa_wait":"正在激活,请稍等",
-      "unload_confirm":"卸载知识模型需重新导入才能继续使用,是否确定",
-      "wait_exporting":"导出中,请稍等",
-      "select_least_one_data":"请至少选择一条数据"
+      "no_active_unable_upload": "当前知识模型尚未激活, 无法上传",
+      "importing": "导入中",
+      "select_imported_data": "请选择需导入的数据",
+      "activa_wait": "正在激活,请稍等",
+      "unload_confirm": "卸载知识模型需重新导入才能继续使用,是否确定",
+      "wait_exporting": "导出中,请稍等",
+      "select_least_one_data": "请至少选择一条数据"
     },
     "data_load_error": "数据加载失败",
     "file_load_error": "文件加载失败",
@@ -657,12 +657,12 @@
       "drag_file": "将文件拖拽到此处或",
       "click_upload": "点击上传",
       "total_number_limit": "excel文件总行数不超过2000行",
-      "duplicate_data_source":"重复数据源：",
-      "bad_data":"错误数据：数据源",
-      "no_data_source":"无数据源数据，无法导入"
+      "duplicate_data_source": "重复数据源：",
+      "bad_data": "错误数据：数据源",
+      "no_data_source": "无数据源数据，无法导入"
     },
-    "edit_attribute":"编辑属性",
-    "attribute_set":"属性设置"
+    "edit_attribute": "编辑属性",
+    "attribute_set": "属性设置"
   },
   "component_manager": {
     "manage_component_template": "管理元件模板",
@@ -672,10 +672,13 @@
     "return_component_manage": "返回元件管理",
     "select_cell_type": "请选择元件类型",
     "event_description": "事件类型",
+    "epidemic_type": "疫情种类",
+    "select_epidemic_type": "请选择疫情种类",
     "cell_type": "元件类型",
     "select_event_type": "请选择事件类型",
     "tag": "标签",
     "unknown_type": "未知类型",
+    "epidemic_type_filter": "按疫情种类过滤",
     "event_type_filter": "按事件类型过滤",
     "cell_type_filter": "按元件类型过滤"
   },
@@ -922,8 +925,8 @@
       "rule_type": "规则类型",
       "cell": "元件",
       "plan_template": "预案模板",
-      "menu_resource":"菜单资源",
-      "api_resource":"api资源",
+      "menu_resource": "菜单资源",
+      "api_resource": "api资源",
       "system-config": "系统配置"
     },
     "abnormal": "异常",
@@ -955,7 +958,7 @@
     "upload_error": "上传失败",
     "upload_image_format": "上传头像图片只能是jpg、png、jpeg格式",
     "upload_image_size": "上传头像图片大小不能超过500kb",
-    "upload_image_size_100":"上传头像图片大小不能超过100kb",
+    "upload_image_size_100": "上传头像图片大小不能超过100kb",
     "add_user": "添加用户",
     "save_then_add": "当前新增用户未保存，请保存之后在添加",
     "modify_user_success": "修改用户成功",
@@ -1001,14 +1004,14 @@
     "role_list_null": "角色列表为空",
     "add_role_success": "添加角色成功",
     "add_role_error": "添加角色失败",
-    "address_length_limit_512":"地址最长可输入512字符",
-    "description_length_limit_2000":"描述最长可输入2000个字符",
-    "name_length_between_1_64":"姓名长度在1-64之间",
-    "username_length_between_1_64":"用户名长度在1-64之间",
-    "role_name_length_between_1_64":"角色名称长度长度在1-64之间",
-    "user_aleady_ass":"该用户已存在或已存在于相关联的系统",
+    "address_length_limit_512": "地址最长可输入512字符",
+    "description_length_limit_2000": "描述最长可输入2000个字符",
+    "name_length_between_1_64": "姓名长度在1-64之间",
+    "username_length_between_1_64": "用户名长度在1-64之间",
+    "role_name_length_between_1_64": "角色名称长度长度在1-64之间",
+    "user_aleady_ass": "该用户已存在或已存在于相关联的系统",
     "save_then_leave": "当前新增用户未保存,是否确认离开",
-    "jump_other_page":"当前用户尚未保存,是否跳转到其它页面?"
+    "jump_other_page": "当前用户尚未保存,是否跳转到其它页面?"
   },
   "role-manage": {
     "role_name_not_null": "角色名称不能为空",
@@ -1039,7 +1042,7 @@
     "plan_config_privilege": "配置角色权限",
     "role_name": "角色名称",
     "jump_other_page": "当前角色尚未保存,是否跳转到其它页面?",
-    "save_cur_edit":"请先保存或取消当前修改"
+    "save_cur_edit": "请先保存或取消当前修改"
   },
   "role-resource-manage": {
     "config_delete_resource": "是否确认删除当前权限资源",
@@ -1094,16 +1097,15 @@
     "cancel_delete": "取消删除",
     "add_no_save_leave": "新增功能未保存是否离开",
     "privilege_icon": "权限图标",
-    "privilege_name_length_1_64":"权限名称长度在1-64之间",
-    "router_name_length_1_64":"路由名称长度在1-64之间",
-    "route_address_name_length_1_64":"路由地址长度在1-64之间",
-    "component_path_length_1_64":"组件路径长度在1-64之间",
-    "permission_icons_length":"权限图标最长可输入4000个字符",
-    "name_limit_64":"名称长度在1-64之间",
-    "api_limit_2000":"Api地址最长可输入2000个字符",
-    "rule_limit_64":"规则长度在1-64之间",
-    "image_exceed_specified":"图片超过规定大小"
-
+    "privilege_name_length_1_64": "权限名称长度在1-64之间",
+    "router_name_length_1_64": "路由名称长度在1-64之间",
+    "route_address_name_length_1_64": "路由地址长度在1-64之间",
+    "component_path_length_1_64": "组件路径长度在1-64之间",
+    "permission_icons_length": "权限图标最长可输入4000个字符",
+    "name_limit_64": "名称长度在1-64之间",
+    "api_limit_2000": "Api地址最长可输入2000个字符",
+    "rule_limit_64": "规则长度在1-64之间",
+    "image_exceed_specified": "图片超过规定大小"
   },
   "share": {
     "tag_no_null": "标签名称不能为空",

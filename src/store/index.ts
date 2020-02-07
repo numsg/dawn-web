@@ -5,10 +5,13 @@ import getters from '@/store/getters';
 
 import app from './modules/app';
 import login from './modules/login';
+import eventType from './modules/event-type';
 import { whatever } from '@gsafety/whatever/dist/store/modules/whatever';
 import { dependencyData } from '@gsafety/whatever/dist/store/modules/dependency-data';
 import { templateStore } from '@gsafety/whatever/dist/store/modules/templates';
 import { systemConfig } from '@gsafety/whatever/dist/store/modules/system-config';
+import { PMSComponentManager } from './modules/component-manage';
+import epidemicType from './modules/epidemic-type';
 import layout from './modules/layout';
 import systemSet from './modules/system-set';
 import PMSystemConfig from './modules/system-config';
@@ -22,6 +25,9 @@ const store = new Vuex.Store({
     systemConfig,
     templateStore,
     dependencyData,
+    PMSComponentManager,
+    epidemicType,
+    eventType,
     app,
     login,
     layout,

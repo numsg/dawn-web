@@ -13,6 +13,9 @@
   :normalDisplay="options.normalDisplay"
   @on-info-validated="handlePreviewValidation"
 >
+  <template #config-region="configRegion">
+    <div></div>
+  </template>
   <template #basic-info="basicInfo">
     <div class="preview-basic-info">
       <!-- <p>名称</p>
@@ -25,9 +28,30 @@
         @change="handleComponentTypeChange"
         class="select-component-type"
       >
-        <el-option v-for="item in componentTypes" :key="item.id" class="select-component-type" :title="item.name" :value="item.id" :label="item.name"></el-option>
+        <el-option
+          v-for="item in componentTypes"
+          :key="item.id"
+          class="select-component-type"
+          :title="item.name"
+          :value="item.id"
+          :label="item.name"
+        ></el-option>
       </el-select>
-      <p>{{ $t('component_manager.event_description') }}</p>
+      <p>{{ $t('component_manager.epidemic_type') }}</p>
+      <el-cascader
+        v-model="selectEventTypes"
+        :clearable="true"
+        :options="eventTypes"
+        :props="{expandTrigger: 'hover', value: 'id', 'checkStrictly':true}"
+        :placeholder="$t('component_manager.select_epidemic_type')"
+        style="width: 100%"
+        @change="handleEpidemicTypeChange"
+      >
+        <template slot-scope="{node,data}">
+          <span :title="data.label" class="event-type-name">{{ data.label }}</span>
+        </template>
+      </el-cascader>
+      <!-- <p>{{ $t('component_manager.event_description') }}</p>
       <el-cascader
         v-model="selectEventTypes"
         :clearable="true"
@@ -40,9 +64,9 @@
         <template slot-scope="{node,data}">
           <span :title="data.label" class="event-type-name">{{ data.label }}</span>
         </template>
-      </el-cascader>
-      <p>{{ $t('component_manager.tag') }}</p>
-      <tag-component :dataSource="tags" @on-tags-change="handleTagsChange" :isStringTags="true"></tag-component>
+      </el-cascader> -->
+      <!-- <p>{{ $t('component_manager.tag') }}</p> -->
+      <!-- <tag-component :dataSource="tags" @on-tags-change="handleTagsChange" :isStringTags="true"></tag-component> -->
     </div>
   </template>
 </component-previewer>

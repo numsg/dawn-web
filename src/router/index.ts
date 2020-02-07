@@ -5,6 +5,8 @@ import { UserManageComponent } from '@/components/system-manage/user-manage/user
 import { LoginComponent } from '@/components/login';
 import { ErrorComponent } from '@/components/error';
 
+import { PmsComponentManager } from '@/components/component-manager/component-manager';
+
 import RouterElement from '@/models/router-element/router-element';
 import Component from 'vue-class-component';
 Component.registerHooks(['beforeRouteEnter', 'beforeRouteUpdate', 'beforeRouteLeave']);
@@ -174,6 +176,7 @@ const routerMap: any = [];
 const routerLogin = new RouterElement();
 const routerError = new RouterElement();
 const routerAnyError = new RouterElement();
+const routerComponentMgr = new RouterElement();
 /**
  * login
  */
@@ -200,6 +203,14 @@ routerAnyError.name = 'error';
 routerAnyError.component = ErrorComponent;
 routerAnyError.hidden = true;
 routerMap.push(routerAnyError);
+
+
+routerComponentMgr.path = '/component-manager';
+routerComponentMgr.name = 'component-manager';
+routerComponentMgr.component = PmsComponentManager;
+routerComponentMgr.hidden = true;
+routerMap.push(routerComponentMgr);
+
 
 export let constRouterMap = routerMap;
 

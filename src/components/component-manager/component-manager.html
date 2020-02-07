@@ -18,13 +18,13 @@
       <pms-component-creator :creator="componentCreator"></pms-component-creator>
     </template>
   </component-manager>
-  <el-button
+  <!-- <el-button
     type="primary"
     v-if="!inComponentEditState"
     @click="handleNavigateToTemplateMgr"
     style="position: fixed; top: 7.7em; right: 3em;"
     plain
     >{{ $t('component_manager.manage_component_template') }}</el-button
-  >
+  > -->
   <RouteLeaveDialog :visible.sync="dialogVisible" @route-leave="handleRouteLeave"></RouteLeaveDialog>
 </div>

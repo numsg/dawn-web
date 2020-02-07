@@ -7,7 +7,22 @@
   @on-start-searching="instance.handleSearch"
 >
   <template #filter-options="options">
-    <p class="template-p">{{ $t('component_manager.event_type_filter') }}</p>
+    <p class="template-p">{{ $t('component_manager.epidemic_type_filter') }}</p>
+    <el-cascader
+      popper-class="event-type-cascader"
+      v-model="selectEpidemicTypes"
+      :clearable="true"
+      :placeholder="$t('component_manager.select_epidemic_type')"
+      style="width: 100%"
+      :options="epidemicTypes"
+      :props="{expandTrigger: 'hover', value: 'id', 'checkStrictly':true}"
+      @change="handleEpidemicTypeChange"
+    >
+      <template slot-scope="{node,data}">
+        <span :title="data.label">{{ data.label }}</span>
+      </template>
+    </el-cascader>
+    <!-- <p class="template-p">{{ $t('component_manager.event_type_filter') }}</p>
     <el-cascader
       popper-class="event-type-cascader"
       v-model="selectEventTypes"
@@ -21,7 +36,7 @@
       <template slot-scope="{node,data}">
         <span :title="data.label">{{ data.label }}</span>
       </template>
-    </el-cascader>
+    </el-cascader> -->
     <p class="template-p">{{ $t('component_manager.cell_type_filter') }}</p>
     <el-select
       popper-class="cell-type-select"

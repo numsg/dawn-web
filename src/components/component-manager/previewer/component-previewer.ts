@@ -63,6 +63,16 @@ export class PmsComponentPreviewer extends Vue {
   })
   eventTypes!: Array<any>;
   /**
+   * 所有疫情种类列表
+   *
+   * @type {Array<any>}
+   * @memberof PmsComponentPreviewer
+   */
+  @State((state: any) => {
+    return state.epidemicType.epidemicTypes.data;
+  })
+  epidemicTypes!: Array<any>;
+  /**
    * 所有元件类型列表
    *
    * @type {Array<any>}
@@ -133,7 +143,23 @@ export class PmsComponentPreviewer extends Vue {
    * @param {*} val
    * @memberof PmsComponentPreviewer
    */
-  handleEventTypeChange(val: any) {
+  handleEpidemicTypeChange(val: any) {
+    const finalType = val[val.length - 1];
+    const epidemicTypeData = this.filterEventType(finalType, this.epidemicTypes);
+    if (epidemicTypeData && Object.keys(epidemicTypeData).indexOf('id') >= 0) {
+      this.$set(this.componentExtraInfo, 'epidemicTypeId', epidemicTypeData.id);
+      this.$set(this.componentExtraInfo, 'epidemicName', epidemicTypeData.name);
+    }
+    this.selectEventTypes = val;
+  }
+
+  /**
+   * 处理事件类型的切换
+   *
+   * @param {*} val
+   * @memberof PmsComponentPreviewer
+   */
+  handleTypeChange(val: any) {
     const finalType = val[val.length - 1];
     const eventTypeData = this.filterEventType(finalType, this.eventTypes);
     if (eventTypeData && Object.keys(eventTypeData).indexOf('id') >= 0) {

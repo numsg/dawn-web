@@ -12,7 +12,10 @@ import filterBlackStyle from './component-filter.black.module.scss';
 @Component({
   template: template,
   style: style,
-  themes: [{ name: 'white', style: style }, { name: 'black', style: filterBlackStyle }],
+  themes: [
+    { name: 'white', style: style },
+    { name: 'black', style: filterBlackStyle }
+  ],
   components: {
     ComponentFilter
   }
@@ -48,6 +51,16 @@ export class PmsComponentFilter extends Vue {
   })
   eventTypes!: Array<any>;
   /**
+   * 所有疫情种类列表
+   *
+   * @type {Array<any>}
+   * @memberof PmsComponentPreviewer
+   */
+  @State((state: any) => {
+    return state.epidemicType.epidemicTypes.data;
+  })
+  epidemicTypes!: Array<any>;
+  /**
    * 所有元件类型列表
    *
    * @type {Array<any>}
@@ -65,6 +78,14 @@ export class PmsComponentFilter extends Vue {
    */
   selectEventTypes: any = [];
   selectEventTypeName: any = '';
+  /**
+   * 为元件所选的疫情种类
+   *
+   * @type {Array<any>}
+   * @memberof PmsComponentFilter
+   */
+  selectEpidemicTypes: any = [];
+  selectEpidemicTypeName: any = '';
   /**
    * 所选元件类型
    *
@@ -94,6 +115,9 @@ export class PmsComponentFilter extends Vue {
     if (!val) {
       return;
     }
+    if (val.epidemicTypeId) {
+      this.handleEpidemicTypeChange(val.epidemicTypeId);
+    }
     if (val.componentTypeId) {
       this.handleComponentTypeChange(val.componentTypeId);
     }
@@ -104,12 +128,48 @@ export class PmsComponentFilter extends Vue {
 
   created() {
     this.$store.dispatch(StoreEvents.PMSComponentManage.onLoadComponentTypes);
-    this.$store.dispatch(StoreEvents.EventTypes.LoadEventTypes);
+    // this.$store.dispatch(StoreEvents.EventTypes.LoadEventTypes);
     setTimeout(() => {
       this.handleExtraFilterChange(this.extraFilter);
     }, 200);
   }
 
+  /**
+   * 处理疫情种类的切换
+   *
+   * @param {*} val
+   * @memberof PmsComponentFilter
+   */
+  handleEpidemicTypeChange(val: any) {
+    this.selectEpidemicTypes = val;
+    // 拿到最终的叶子节点id
+    const finalType = val[val.length - 1];
+    // 在事件类型集合中筛选正确的事件类型对象
+    const epidemicTypeData = this.filterEpidemicType(finalType, this.epidemicTypes);
+    const matchEpidemicTypeFilter = this.extraFilterData.filter((s: any) => {
+      return s.field === 'extraInfo' && s.tag === 'epidemicType';
+    });
+    const matchIndex = !verifyArrayEmptyOrUndefined(matchEpidemicTypeFilter)
+      ? this.extraFilterData.indexOf(matchEpidemicTypeFilter[0])
+      : -1;
+    if (!verifyStringPropEmpty(epidemicTypeData, 'id')) {
+      this.selectEventTypeName = epidemicTypeData.name;
+      const filter = {
+        field: 'extraInfo',
+        tag: 'epidemicType',
+        searchContent: finalType
+      };
+      if (!verifyArrayEmptyOrUndefined(this.extraFilterData) && matchIndex >= 0) {
+        this.extraFilterData.splice(matchIndex, 1, filter);
+        return;
+      }
+      this.extraFilterData.push(filter);
+    } else {
+      this.selectEpidemicTypes = null;
+      this.selectEpidemicTypeName = '';
+      this.extraFilterData.splice(matchIndex, 1);
+    }
+  }
   /**
    * 处理事件类型的切换
    *
@@ -207,6 +267,35 @@ export class PmsComponentFilter extends Vue {
         const type = eventTypes[index];
         if (Array.isArray(type.children) && type.children.length > 0) {
           data = this.filterEventType(eventTypeId, type.children);
+          if (data) {
+            break;
+          }
+        }
+      }
+    }
+    return data;
+  }
+
+  /**
+   * 根据所选事件类型ID返回对应的事件类型数据
+   *
+   * @param {string} epidemicTypeId
+   * @param {Array<any>} epidemicTypes
+   * @returns {*}
+   * @memberof PmsComponentFilter
+   */
+  filterEpidemicType(epidemicTypeId: string, epidemicTypes: Array<any>): any {
+    let data;
+    const result = epidemicTypes.filter((type: any) => {
+      return type.id === epidemicTypeId;
+    });
+    if (result.length > 0) {
+      data = result[0];
+    } else {
+      for (let index = 0; index < epidemicTypes.length; index++) {
+        const type = epidemicTypes[index];
+        if (Array.isArray(type.children) && type.children.length > 0) {
+          data = this.filterEpidemicType(epidemicTypeId, type.children);
           if (data) {
             break;
           }

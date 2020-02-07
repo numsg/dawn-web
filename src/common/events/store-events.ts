@@ -1,4 +1,3 @@
-
 const StoreEvents = {
   // vuex 相关actions 事件定义
   TemplatesMgr: {
@@ -14,6 +13,9 @@ const StoreEvents = {
     LoadEventTypes: 'LoadEventTypes',
     LoadEventNode: 'LoadEventNode',
     LoadAllEventTypes: 'LoadAllEventTypes'
+  },
+  EpidemicTypes: {
+    OnLoadEpidemicTypes: 'onLoadEpidemicTypes'
   },
   planManager: {
     LoadPlans: 'LoadPlans',

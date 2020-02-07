@@ -5,7 +5,7 @@
       <!-- <span @click="goHome" class="system-name">{{ systemSetOptions.systemName }}</span> -->
       <span @click="goHome" class="system-name">社区数政通应急管理平台</span>
     </span>
-    <!-- <nav-bar></nav-bar> -->
+    <nav-bar></nav-bar>
   </div>
   <div class="header-right">
     <!-- 用户中心 -->
@@ -68,7 +68,7 @@
         </div>
       </div>
       <!-- <div class="user-info" slot="reference"> -->
-      <img v-if="userInfo.image"  :src="userInfo.image" class="header-icon-img" slot="reference"/>
+      <img v-if="userInfo.image" :src="userInfo.image" class="header-icon-img" slot="reference" />
       <i v-else class="iconfont  iconpms-icon_User-roles header-icon user-icon" slot="reference"></i>
       <!-- </div> -->
     </el-popover>
@@ -86,7 +86,7 @@
       <el-dropdown-menu slot="dropdown" class="nav-drop">
         <el-dropdown-item v-for="(item,index) in skins" :key="index" :command="item.name"> {{ item.label }} </el-dropdown-item>
       </el-dropdown-menu>
-    </!--> 
+    </!-->
 
     <!-- 切换语言 -->
     <!-- <el-dropdown trigger="hover" class="header-item" @command="handleCommandLanguage">
@@ -140,9 +140,9 @@
     </el-form>
     <div class="save-cancel-pwd">
       <el-button @click="closeChangePwd" class="default-btn iconfont iconpms-icon_cancel button-pwd">{{ $t('common.cancel') }} </el-button>
-      <el-button type="primary" @click="submitPwd('changePwdForm')" class="primary-btn iconfont iconpms-icon_save button-pwd">{{
-        $t('common.save')
-      }}</el-button>
+      <el-button type="primary" @click="submitPwd('changePwdForm')" class="primary-btn iconfont iconpms-icon_save button-pwd"
+        >{{ $t('common.save') }}</el-button
+      >
     </div>
   </el-dialog>
 
