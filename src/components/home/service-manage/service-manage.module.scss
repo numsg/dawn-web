@@ -1,0 +1,9 @@
+.service-manage{
+    height: 100%;
+    /deep/.el-tabs{
+        height: 100%;
+    }
+    /deep/ .el-tabs__content{
+        height: calc(100% - 45px );
+    }
+}

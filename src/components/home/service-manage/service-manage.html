@@ -1,3 +1,11 @@
 <div class="service-manage">
-    预案指导
+    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+        <el-tab-pane label="社区逐级分诊" name="first">
+            <CommunityTriageComponent />
+        </el-tab-pane>
+        <el-tab-pane label="常用通讯录" name="second">常用通讯录</el-tab-pane>
+        <el-tab-pane label="防空指南" name="third">防空指南</el-tab-pane>
+        <el-tab-pane label="疫情应对预案" name="fourth">疫情应对预案</el-tab-pane>
+        <el-tab-pane label="信息发布" name="fifth">信息发布</el-tab-pane>
+    </el-tabs>
 </div>
