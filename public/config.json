@@ -34,5 +34,6 @@
     "ruleResponseDataUrl": "/rules/rule-types/{ruleTypeId}/true",
     "dataSourceDetailUrl": "/data-source-data/data-source-id/external/{originalId}/true"
   },
-  "storageMode": "server"
+  "storageMode": "server",
+  "ncovUrl": "http://39.105.209.108:3001/ncov/"
 }

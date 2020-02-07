@@ -20,13 +20,20 @@
       line-height: 50px;
       font-size: 22px;
       font-weight: bold;
+      .time {
+        font-size: 16px;
+        color: #9b9b9b;
+        font-weight: normal;
+      }
     }
     .detail {
       display: flex;
       flex-direction: row;
       .confirmed,
       .suspected,
-      .fever {
+      .fever,
+      .dead,
+      .cure {
         flex: 1;
         .txt {
           span {
@@ -55,11 +62,11 @@
 
       .suspected {
         .count {
-          color: #9b9b9b;
+          color: #d76b32;
         }
         .comparison {
           .num {
-            color: #9b9b9b;
+            color: #d76b32;
           }
         }
       }
@@ -71,6 +78,26 @@
         .comparison {
           .num {
             color: #eea61c;
+          }
+        }
+      }
+      .dead {
+        .count {
+          color: #212D47;
+        }
+        .comparison {
+          .num {
+            color: #212D47;
+          }
+        }
+      }
+      .cure {
+        .count {
+          color: #3EBEC9;
+        }
+        .comparison {
+          .num {
+            color: #3EBEC9;
           }
         }
       }
@@ -112,30 +139,33 @@
         position: relative;
       }
     }
-    .operate {
+    .operation {
       position: absolute;
       right: 0;
       top: 0;
       height: 40px;
       z-index: 2;
+      display: flex;
+      padding: 5px 0px;
+      .search {
+        display: inline-block;
+        flex: 1;
+        margin-right: 10px;
+      }
       .add {
         vertical-align: middle;
-        margin-top: 6px;
         padding: 5px;
       }
       .arrow {
-        color: #fff;
-        background: #ddd;
-        font-size: 22px;
         vertical-align: middle;
-        margin-top: 9px;
+        padding: 5px 7px;
         margin-right: 5px;
+        font-size: 18px;
         font-weight: bold;
-        cursor: pointer;
-        &:hover {
-          color: #3a9ee1;
-        }
       }
+    }
+    .pagination {
+      text-align: right;
     }
   }
 }
