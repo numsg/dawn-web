@@ -1,0 +1,19 @@
+<div class="elments-information-module">
+    <div class="active-container">
+        <el-radio-group v-model="activeName" @change="handleClick">
+            <el-radio-button label="resource">{{'应急物资'}}</el-radio-button>
+            <el-radio-button label="person">{{'社区居民'}}</el-radio-button>
+          </el-radio-group>
+        <div class="search-add">
+            <el-input
+                class="search-input"
+                placeholder="请输入内容"
+                suffix-icon="el-icon-search"
+                v-model="serchValue">
+          </el-input>
+          <ResourceAdd v-if="activeName === 'resource'"/>
+        </div>
+    </div>
+    <PersonManage  v-if="activeName === 'person'"/>
+    <ResourceManage v-if="activeName === 'resource'"/>
+</div>

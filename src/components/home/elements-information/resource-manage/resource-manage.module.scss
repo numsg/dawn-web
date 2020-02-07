@@ -1,0 +1,25 @@
+
+.resource-manage{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.table-box{
+    flex: 1;
+    position: relative;
+    .table{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.operation{
+    white-space: nowrap;
+}
+
+.pagination{
+    text-align: right;
+}

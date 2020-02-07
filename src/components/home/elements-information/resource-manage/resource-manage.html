@@ -1,0 +1,81 @@
+<div class="resource-manage">
+    <div class="table-box">
+        <el-table class="table" :data="resourceDate" height="100%" stripe highlight-current-row style="width:100%">
+          <el-table-column prop="resId" :label="$t('物资编号')">
+            <template slot-scope="scope">
+              <div class="table-slot-cell" :title="scope.row.resId">{{ scope.row.resId }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="resName" :label="$t('名称')">
+            <template slot-scope="scope">
+              <div class="table-slot-cell" :title="scope.row.resName">{{ scope.row.resName }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="resType" :label="$t('类型')" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <div :title="scope.row.resType" class="table-slot-cell">{{ scope.row.resType }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="resSpec" :label="$t('规格')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.resSpec" class="table-slot-cell">{{ scope.row.resSpec }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="resCount" :label="$t('数量')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.resCount" class="table-slot-cell">{{ scope.row.resCount }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="resunit" :label="$t('单位')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.resunit" class="table-slot-cell">{{ scope.row.resunit }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="resUpdateTime" :label="$t('更新时间')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.resUpdateTime" class="table-slot-cell">{{ scope.row.resUpdateTime }}</div>
+              </template>
+            </el-table-column>
+          <el-table-column
+            fixed="right"
+            :label="$t('system_log.operation')"
+            class="privilege-operate"
+            width="350"
+          >
+            <template slot-scope="scope">
+              <div class="operation">
+                <el-button type="primary" @click="showTransfersDialog">出库</el-button>
+                <el-button type="primary" @click="showEditDialog">编辑</el-button>
+                <el-button type="primary" @click="showRecordsDialog">出入库记录</el-button>
+                <el-button type="danger">删除</el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+    </div>
+      <el-pagination
+        class="pagination"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-sizes="pageSizes"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="resourceDate.length">
+    </el-pagination>
+    <el-side-frame ref="ResourceSideFrame">
+      <div class="side-frame-header" slot="header">
+        <div class="header-title">
+          <i></i>
+          <span v-if="currentFrame === 'ResourceTransfers'" class="user-role-title">出库</span>
+          <span v-if="currentFrame === 'ResourceEdit'">编辑</span>
+          <span v-if="currentFrame === 'ResourceRecords'" class="user-role-title">出入库记录</span>
+        </div>
+      </div>
+      <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+           <ResourceTransfers  v-if="currentFrame === 'ResourceTransfers'" @colse="frameColse" />
+           <ResourceEdit v-if="currentFrame === 'ResourceEdit'" @colse="frameColse"/>
+           <ResourceRecords v-if="currentFrame === 'ResourceRecords'"/>
+      </div>
+    </el-side-frame>
+</div>

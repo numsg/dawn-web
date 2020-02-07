@@ -1,0 +1,29 @@
+<div class="resource-edit">
+    <el-form class="res-form" ref="resformEdit" :model="resformEdit" label-width="80px" label-position="top">
+      <el-form-item label="物资编号" required>
+        <el-input v-model="resformEdit.resId"></el-input>
+      </el-form-item>
+      <el-form-item label="名称" required>
+          <el-input v-model="resformEdit.resName"></el-input>
+      </el-form-item>
+      <el-form-item label="类型" required>
+          <el-input v-model="resformEdit.resType"></el-input>
+      </el-form-item>
+      <el-form-item label="规格" required>
+          <el-input v-model="resformEdit.resSpec"></el-input>
+      </el-form-item>
+      <el-form-item label="数量" required>
+          <el-input v-model="resformEdit.resCount"></el-input>
+      </el-form-item>
+      <el-form-item label="单位" required>
+          <el-input v-model="resformEdit.resunit"></el-input>
+      </el-form-item>
+      <el-form-item label="更新时间" required>
+          <el-input v-model="resformEdit.resUpdateTime"></el-input>
+      </el-form-item>
+    </el-form>
+    <div class="btn-box"> 
+      <el-button @click="colse">取 消</el-button>
+      <el-button type="primary" @click="submit">确 定</el-button>
+    </div>
+</div>

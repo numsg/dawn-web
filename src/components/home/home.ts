@@ -27,7 +27,7 @@ import homeBlackStyle from './home.black.module.scss';
 import i18n from '@/i18n';
 import { EpidemicDynamicComponent } from './epidemic-dynamic/epidemic-dynamic';
 import { ServiceManageComponent } from './service-manage/service-manage';
-import { ResourceManageComponent } from './resource-manage/resource-manage';
+import { ElementsInformation } from './elements-information/elements-information';
 import { EmergencyResponseComponent } from './emergency-response/emergency-response';
 
 @Component({
@@ -42,7 +42,7 @@ import { EmergencyResponseComponent } from './emergency-response/emergency-respo
     PlanEntranceComponent,
     EpidemicDynamicComponent,
     ServiceManageComponent,
-    ResourceManageComponent,
+    ElementsInformation,
     EmergencyResponseComponent
   },
   beforeRouteLeave(to: any, from: any, next: any) {
@@ -185,10 +185,10 @@ export class HomeComponent extends Vue {
     },
     {
       id: '2',
-      title: '资源信息',
+      title: '社区要素信息',
       added: false,
       image: require('@/assets/img/home/quick-entrance-' + i18n.locale + '.png'),
-      componentName: 'resource-manage',
+      componentName: 'elements-information',
       privilege: this.rolePrivilege.rapidPreparation,
       desc: 'home.repid_preparation_preplan_description'
     },

@@ -1,0 +1,10 @@
+<div class="resource-transfers">
+    <div class="content">
+        <p>您确定需要调派物资XXX？</p>
+        <el-input-number v-model="resCount" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+    </div>
+    <div class="btn-box">
+        <el-button @click="close">取 消</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
+    </div>
+</div>

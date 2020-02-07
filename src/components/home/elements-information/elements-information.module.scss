@@ -1,0 +1,18 @@
+.elments-information-module{
+    height: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.active-container{
+    display: flex;
+}
+
+.search-add{
+    flex: 1;
+    text-align: right;
+    .search-input{
+        width: 50%;
+    }
+}
