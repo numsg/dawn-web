@@ -30,161 +30,17 @@ export class EpidemicDynamicComponent extends Vue {
 
   isShowTabs: boolean = false;
 
-  epidemicPersonList: EpidemicPerson[] = [
-    {
-      id: getGuid32(),
-      name: '王小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '赵小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '啊小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '徐小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '郭小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '六小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '黄小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '普小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '王大小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    },
-    {
-      id: getGuid32(),
-      name: '抢小虎',
-      gender: '1',
-      district: '213',
-      address: '上海市普陀区金沙江路 1518 弄',
-      medicalCondition: '确诊',
-      specialSituation: 'sss',
-      submitTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      note: '',
-      diseaseTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      multiTenancy: 'zd',
-      expendProperty: '213312'
-    }
-  ];
+  epidemicPersonList: EpidemicPerson[] = [];
 
   currentPage: number = 1;
+  pageSize: number = 10;
+  totalCount: number = 0;
   keyWords: string = '';
 
   // 当前省疫情数据
   curProEpidemicData: any = {};
 
   citiesEpidemicData: any[] = [];
-
-  async creted() {
-    // await this.queryProvinceEpidemicData();
-    // await this.queryCityEpidemicData();
-  }
 
   async mounted() {
     console.log(this.epidemicPersonList);
@@ -199,6 +55,8 @@ export class EpidemicDynamicComponent extends Vue {
     const mapEle: HTMLDivElement = document.querySelector('#map') || document.createElement('div');
     this.mapChart = echarts.init(mapEle);
     this.setMapOption();
+    this.queryEpidemicPersons();
+    this.intervalQueryEpidemicData();
   }
 
   async queryProvinceEpidemicData() {
@@ -207,6 +65,26 @@ export class EpidemicDynamicComponent extends Vue {
 
   async queryCityEpidemicData() {
     this.citiesEpidemicData = await epidemicDynamicService.queryCityEpidemicData();
+  }
+
+  /**
+   * 间断获取疫情数据
+   */
+  intervalQueryEpidemicData() {
+    setInterval(() => {
+      this.queryProvinceEpidemicData();
+      this.queryCityEpidemicData().then(() => {
+        this.setMapOption();
+      });
+    }, 60000);
+  }
+
+  async queryEpidemicPersons() {
+    const data = await epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize);
+    console.log('---queryEpidemicPersons---');
+    this.totalCount = data.count;
+    this.epidemicPersonList = data.value;
+    console.log(data);
   }
 
   setOption() {
@@ -233,7 +111,7 @@ export class EpidemicDynamicComponent extends Vue {
     this.citiesEpidemicData.forEach(e => {
       if (e.name === '神农架地区') {
         e.name = '神农架林区';
-      } else if (e.name.startsWith( '恩施')) {
+      } else if (e.name.startsWith('恩施')) {
         e.name = '恩施土家族苗族自治州';
       } else {
         e.name = e.name + '市';
@@ -253,19 +131,19 @@ export class EpidemicDynamicComponent extends Vue {
       visualMap: {
         type: 'piecewise',
         pieces: [
-          {min: 10000, label: '>10000', color: '#660208'},
-          {min: 1000, max: 9999, label: '1000-9999', color: '#8C0D0D'},
-          {min: 100, max: 999, label: '100-999', color: '#CC2929'},
-          {min: 10, max: 99, label: '10-99', color: '#FF7B69'},
-          {min: 1, max: 9, label: '1-9', color: '#FFAA85'}
-      ],
+          { min: 10000, label: '>10000', color: '#660208' },
+          { min: 1000, max: 9999, label: '1000-9999', color: '#8C0D0D' },
+          { min: 100, max: 999, label: '100-999', color: '#CC2929' },
+          { min: 10, max: 99, label: '10-99', color: '#FF7B69' },
+          { min: 1, max: 9, label: '1-9', color: '#FFAA85' }
+        ],
         min: 1,
         max: 20000,
         bottom: 20,
         calculable: true,
         inRange: {
           color: ['#eea61c', '#d76b32', '#db3838']
-        },
+        }
         // textStyle: {
         //   color: '#fff'
         // }
@@ -294,24 +172,6 @@ export class EpidemicDynamicComponent extends Vue {
           },
           zoom: 1,
           data: citiesData
-          // data: [
-          //   { name: '十堰市', value: Math.round(Math.random() * 500) },
-          //   { name: '神农架林区', value: Math.round(Math.random() * 500) },
-          //   { name: '恩施土家族苗族自治州', value: Math.round(Math.random() * 500) },
-          //   { name: '宜昌市', value: Math.round(Math.random() * 500) },
-          //   { name: '襄阳市', value: Math.round(Math.random() * 500) },
-          //   { name: '荆门市', value: Math.round(Math.random() * 500) },
-          //   { name: '荆州市', value: Math.round(Math.random() * 500) },
-          //   { name: '潜江市', value: Math.round(Math.random() * 500) },
-          //   { name: '天门市', value: Math.round(Math.random() * 500) },
-          //   { name: '仙桃市', value: Math.round(Math.random() * 500) },
-          //   { name: '随州市', value: Math.round(Math.random() * 500) },
-          //   { name: '孝感市', value: Math.round(Math.random() * 500) },
-          //   { name: '咸宁市', value: Math.round(Math.random() * 500) },
-          //   { name: '武汉市', value: Math.round(Math.random() * 500) },
-          //   { name: '黄冈市', value: Math.round(Math.random() * 500) },
-          //   { name: '黄石市', value: Math.round(Math.random() * 500) }
-          // ]
         }
       ]
     };
@@ -320,6 +180,9 @@ export class EpidemicDynamicComponent extends Vue {
 
   showTabs() {
     this.isShowTabs = !this.isShowTabs;
+    if (this.isShowTabs) {
+      this.queryEpidemicPersons();
+    }
   }
 
   addEpidemicPersion() {
@@ -330,12 +193,17 @@ export class EpidemicDynamicComponent extends Vue {
   savePersonSuccess() {
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.close();
+    this.queryEpidemicPersons();
   }
 
   handleSizeChange(val: any) {
+    this.pageSize = val;
+    this.queryEpidemicPersons();
     console.log(`每页 ${val} 条`);
   }
   handleCurrentChange(val: any) {
+    this.currentPage = val;
+    this.queryEpidemicPersons();
     console.log(`当前页: ${val}`);
   }
 }

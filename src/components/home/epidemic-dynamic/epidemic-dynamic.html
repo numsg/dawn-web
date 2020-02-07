@@ -2,7 +2,7 @@
   <!-- <div class="title"></div> -->
   <div class="epidemic">
     <div class="county">
-      <div class="name">关南社区</div>
+      <div class="name">本社区</div>
       <div class="detail">
         <div class="confirmed">
           <div class="count">500</div>
@@ -71,9 +71,9 @@
           </el-table-column>
           <el-table-column prop="medicalCondition" label="医疗情况" width="120">
           </el-table-column>
-          <el-table-column prop="specialSituation" label="特殊情况">
+          <el-table-column prop="specialSituation" label="特殊情况" width="120">
           </el-table-column>
-          <el-table-column prop="submitTime" label="报送时间" width="120">
+          <el-table-column prop="submitTime" label="报送时间" width="160">
           </el-table-column>
           <el-table-column label="操作" width="190">
             <template slot-scope="scope">
@@ -84,8 +84,8 @@
           </el-table-column>
         </el-table>
         <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          :current-page="currentPage" :page-sizes="[10, 20, 30]" :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper" :total="30">
+          :current-page="currentPage" :page-sizes="[10, 20, 30]" :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
         </el-pagination>
       </el-tab-pane>
       <el-tab-pane label="重要需求物资登记">重要需求物资登记</el-tab-pane>

@@ -12,16 +12,6 @@ import * as format from 'dateformat';
   components: {}
 })
 export class EpidemicInfoFormComponent extends Vue {
-  ruleForm = {
-    name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: ''
-  };
 
   curEpidemicPerson: EpidemicPerson = new EpidemicPerson();
 

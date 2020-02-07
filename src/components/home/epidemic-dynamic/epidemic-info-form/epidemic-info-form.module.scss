@@ -1,7 +1,14 @@
 .epidemic-info-form {
+//   padding: 15px;
+  overflow: auto;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  form {
     padding: 15px;
-    overflow: auto;
-    background: #fff;
-    width: 100%;
-    height: 100%;
+    border: 1px dashed #dcdfe6;
+    .operation {
+        text-align: right;
+    }
+  }
 }

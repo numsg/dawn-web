@@ -4,6 +4,7 @@ import { treeToArray } from '@/common/utils/utils';
 import mapperManager from '@/common/odata/mapper-manager.service';
 import EpidemicPerson from '@/models/home/epidemic-persion';
 import odataClient from '@gsafety/odata-client/dist';
+import moment from 'moment';
 
 export default {
   /**
@@ -43,23 +44,29 @@ export default {
     const filterStr = '';
     const q = odataClient({
       service: store.getters.configs.baseSupportOdataUrl,
-      resources: 'RuleEntity'
+      resources: 'EpidemicPersonEntity'
     });
-    return q
-      .skip(count * page)
-      .top(count)
-      .filter(filterStr)
-      .orderby('submitTime', 'desc')
-      .count(true)
-      .get(null)
-      .then((response: any) => {
-        const result = {
-          count: JSON.parse(response.body)['@odata.count'],
-          value: JSON.parse(response.body).value
-        };
-        return result;
-      })
-      .catch((error: any) => {});
+    return (
+      q
+        .skip(count * page)
+        .top(count)
+        //   .filter(filterStr)
+        .orderby('submitTime', 'desc')
+        .count(true)
+        .get(null)
+        .then((response: any) => {
+          const result = {
+            count: JSON.parse(response.body)['@odata.count'],
+            value: JSON.parse(response.body).value
+          };
+          result.value.forEach((e: EpidemicPerson) => {
+            e.submitTime = moment(e.submitTime).format('YYYY-MM-DD HH:mm:ss');
+            e.diseaseTime = moment(e.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
+          });
+          return result;
+        })
+        .catch((error: any) => {})
+    );
   },
 
   /**
