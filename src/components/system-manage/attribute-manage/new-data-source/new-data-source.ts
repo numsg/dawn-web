@@ -637,12 +637,12 @@ export class NewDataSourceComponent extends Vue {
    * @memberof NewDataSourceComponent
    */
   async modifyDataSource(dataSource: DataSource) {
-    const flag = this.isResourceServer(dataSource);
-    if (flag) {
-      return await externalResourceService.modifyDataSource(dataSource);
-    } else {
+    // const flag = this.isResourceServer(dataSource);
+    // if (flag) {
+    //   return await externalResourceService.modifyDataSource(dataSource);
+    // } else {
       return await dataSourceService.modifyDataSource(dataSource);
-    }
+    // }
   }
 
   // 是否来自资源系统
