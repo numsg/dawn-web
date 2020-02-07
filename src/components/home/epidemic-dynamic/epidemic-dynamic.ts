@@ -43,19 +43,15 @@ export class EpidemicDynamicComponent extends Vue {
   citiesEpidemicData: any[] = [];
 
   async mounted() {
-    console.log(this.epidemicPersonList);
-    await this.queryProvinceEpidemicData();
-    await this.queryCityEpidemicData();
-    console.log(this.curProEpidemicData);
-    console.log(this.citiesEpidemicData);
     const ele: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
     this.chart = echarts.init(ele);
     this.setOption();
-
+    this.queryEpidemicPersons();
+    await this.queryProvinceEpidemicData();
+    await this.queryCityEpidemicData();
     const mapEle: HTMLDivElement = document.querySelector('#map') || document.createElement('div');
     this.mapChart = echarts.init(mapEle);
     this.setMapOption();
-    this.queryEpidemicPersons();
     this.intervalQueryEpidemicData();
   }
 
@@ -81,10 +77,8 @@ export class EpidemicDynamicComponent extends Vue {
 
   async queryEpidemicPersons() {
     const data = await epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize);
-    console.log('---queryEpidemicPersons---');
     this.totalCount = data.count;
     this.epidemicPersonList = data.value;
-    console.log(data);
   }
 
   setOption() {
@@ -185,7 +179,6 @@ export class EpidemicDynamicComponent extends Vue {
       };
       citiesData.push(data);
     });
-    console.log(citiesData);
     this.mapOption = {
       // backgroundColor: '#404a59',
       tooltip: {
