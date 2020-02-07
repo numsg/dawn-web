@@ -36,18 +36,15 @@
 }
 
 @media screen and (max-width: 1440px) {
-
-  .select-component-type  {
+  .select-component-type {
     width: 370px !important;
   }
-
 }
 
+// @media screen and (max-width: 1920px) {
 
-@media screen and (max-width: 1920px) {
+//   .select-component-type  {
+//     width: 500px;
+//   }
 
-  .select-component-type  {
-    width: 500px;
-  }
-
-}
+// }
