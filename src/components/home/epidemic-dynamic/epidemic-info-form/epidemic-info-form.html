@@ -31,7 +31,7 @@
     <el-form-item label="备注" prop="note">
       <el-input type="textarea" v-model="curEpidemicPerson.note"></el-input>
     </el-form-item>
-    <el-form-item>
+    <el-form-item class="operation">
       <el-button @click="resetForm('ruleForm')">取消</el-button>
       <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
     </el-form-item>
