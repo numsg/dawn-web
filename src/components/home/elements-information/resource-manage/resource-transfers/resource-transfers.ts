@@ -14,6 +14,7 @@ import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 })
 export class ResourceTransfers extends Vue {
   private resCount = 1;
+  private remask = '';
 
   created() {
     console.log('ResourceTransfers') ;

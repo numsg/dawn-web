@@ -11,3 +11,16 @@
 .btn-box{
     text-align: right;
 }
+.label-before::before{
+    content: '*';
+    color: #f56c6c;
+    margin-right: 4px;
+}
+.label{
+    display: block;
+    margin-bottom: 10px;
+}
+.item{
+    text-align: left;
+    margin-bottom: 20px;
+}

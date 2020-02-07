@@ -18,6 +18,15 @@ export class ResourceEdit extends Vue {
     resunit: '片',
     resUpdateTime: '2020.2.1'
   };
+
+  private resTypes = [{
+    value: 'KN95',
+    label: 'KN95'
+  }, {
+    value: 'N90',
+    label: 'N90'
+  }];
+
   created() {
     console.log('ResourceEdit') ;
   }

@@ -14,14 +14,23 @@ import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 })
 export class ResourceAdd extends Vue {
   private resform = {
-    resId: '1111111111111111',
-    resName: '口罩',
-    resType: 'N95',
-    resSpec: '1片',
-    resCount: 200,
-    resunit: '片',
-    resUpdateTime: '2020.2.1'
+    resId: '',
+    resName: '',
+    resType: '',
+    resSpec: '',
+    resCount: 0,
+    resunit: '',
+    resUpdateTime: ''
   };
+
+  private resTypes = [{
+    value: 'KN95',
+    label: 'KN95'
+  }, {
+    value: 'N90',
+    label: 'N90'
+  }];
+
   resourceAdd() {
     const sideFrame: any = this.$refs['sideFrame'];
     if ( sideFrame ) {

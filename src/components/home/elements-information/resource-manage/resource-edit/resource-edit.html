@@ -7,7 +7,14 @@
           <el-input v-model="resformEdit.resName"></el-input>
       </el-form-item>
       <el-form-item label="类型" required>
-          <el-input v-model="resformEdit.resType"></el-input>
+        <el-select class="select-input" v-model="resformEdit.resType" placeholder="请选择">
+            <el-option
+              v-for="type in resTypes"
+              :key="type.value"
+              :label="type.label"
+              :value="type.value">
+            </el-option>
+          </el-select>
       </el-form-item>
       <el-form-item label="规格" required>
           <el-input v-model="resformEdit.resSpec"></el-input>
@@ -17,9 +24,6 @@
       </el-form-item>
       <el-form-item label="单位" required>
           <el-input v-model="resformEdit.resunit"></el-input>
-      </el-form-item>
-      <el-form-item label="更新时间" required>
-          <el-input v-model="resformEdit.resUpdateTime"></el-input>
       </el-form-item>
     </el-form>
     <div class="btn-box"> 

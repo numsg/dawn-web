@@ -1,7 +1,19 @@
 <div class="resource-transfers">
     <div class="content">
-        <p>您确定需要调派物资XXX？</p>
-        <el-input-number v-model="resCount" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+        <p>您确定需要调派物资 口罩 ？</p>
+        <div class="item">
+            <span class="label label-before">数量</span>
+            <el-input-number v-model="resCount" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+        </div>
+        <div class="item">
+            <span class="label">备注</span>
+            <el-input
+                type="textarea"
+                :rows="2"
+                placeholder="请输入内容"
+                v-model="remask">
+            </el-input>
+        </div>
     </div>
     <div class="btn-box">
         <el-button @click="close">取 消</el-button>
