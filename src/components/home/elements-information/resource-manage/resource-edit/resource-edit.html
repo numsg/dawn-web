@@ -1,13 +1,13 @@
 <div class="resource-edit">
     <el-form class="res-form" ref="resformEdit" :model="resformEdit" label-width="80px" label-position="top">
       <el-form-item label="物资编号" required>
-        <el-input v-model="resformEdit.resId"></el-input>
+        <el-input v-model="resformEdit.resId" disabled></el-input>
       </el-form-item>
       <el-form-item label="名称" required>
-          <el-input v-model="resformEdit.resName"></el-input>
+          <el-input v-model="resformEdit.resName" disabled></el-input>
       </el-form-item>
       <el-form-item label="类型" required>
-        <el-select class="select-input" v-model="resformEdit.resType" placeholder="请选择">
+        <el-select class="select-input" v-model="resformEdit.resType" placeholder="请选择" disabled>
             <el-option
               v-for="type in resTypes"
               :key="type.value"
@@ -17,13 +17,13 @@
           </el-select>
       </el-form-item>
       <el-form-item label="规格" required>
-          <el-input v-model="resformEdit.resSpec"></el-input>
+          <el-input v-model="resformEdit.resSpec" disabled></el-input>
       </el-form-item>
       <el-form-item label="数量" required>
           <el-input v-model="resformEdit.resCount"></el-input>
       </el-form-item>
       <el-form-item label="单位" required>
-          <el-input v-model="resformEdit.resunit"></el-input>
+          <el-input v-model="resformEdit.resunit" disabled></el-input>
       </el-form-item>
     </el-form>
     <div class="btn-box"> 
