@@ -41,18 +41,22 @@ export default {
         let building = '';
         let unitNumber = '';
         let roomNo = '';
+        let filterStr = '';
         if ( keywordList.length > 0 ) {
           building =  keywordList[0];
+          filterStr += 'contains( building, \'' + building + '\')';
         }
         if ( keywordList.length > 1 ) {
           unitNumber =  keywordList[1];
+          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
         }
         if ( keywordList.length > 2 ) {
           roomNo =  keywordList[2];
+          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
         }
 
         // tslint:disable-next-line:max-line-length
-        const filterStr = 'contains( building, \'' + building + '\') or contains( unitNumber, \'' + unitNumber + '\') or  contains( roomNo, \'' + roomNo + '\')';
+        // const filterStr = 'contains( building, \'' + building + '\') or contains( unitNumber, \'' + unitNumber + '\') or  contains( roomNo, \'' + roomNo + '\')';
         return q
           .skip(count * (page - 1 ))
           .top(count)
