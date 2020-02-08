@@ -1,0 +1,69 @@
+<div class="epidemic-info-form">
+  <el-form :model="curEpidemicPerson" :rules="rules" label-position="top" size="mini" ref="ruleForm" label-width="100px"
+    class="demo-ruleForm">
+    <el-form-item label="姓名" prop="name">
+      <el-input v-model="curEpidemicPerson.name" :disabled="isEdit"></el-input>
+    </el-form-item>
+
+    <div class="row-one">
+      <div class="flex-one">
+        <el-form-item label="性别" prop="gender">
+          <el-radio-group v-model="curEpidemicPerson.gender">
+            <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </div>
+      <div class="flex-one">
+        <el-form-item label="年龄" prop="age">
+          <el-input-number v-model="curEpidemicPerson.age" :min="1" :max="150"></el-input-number>
+        </el-form-item>
+      </div>
+    </div>
+    <el-form-item label="手机号" prop="mobileNumber">
+      <el-input v-model="curEpidemicPerson.mobileNumber"></el-input>
+    </el-form-item>
+    <el-form-item label="小区 " prop="villageId" class="select-item">
+      <!-- <el-input v-model="curEpidemicPerson.villageId"></el-input> -->
+      <el-select v-model="curEpidemicPerson.villageId" clearable placeholder="请选择小区">
+        <el-option v-for="item in communities" :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="确诊情况" prop="diagnosisSituation" class="select-item">
+      <el-select v-model="curEpidemicPerson.diagnosisSituation" clearable placeholder="请选择确诊情况">
+        <el-option v-for="item in diagnosisSituations" :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="医疗情况" prop="medicalCondition" class="select-item">
+      <el-select v-model="curEpidemicPerson.medicalCondition" clearable placeholder="请选择医疗情况">
+        <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="特殊情况" prop="specialSituation" class="select-item">
+      <el-select v-model="curEpidemicPerson.specialSituation" clearable placeholder="请选择特殊情况">
+        <el-option v-for="item in specialSituations" :key="item.id" :label="item.name" :value="item.id">
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <!-- <el-form-item label="行政区划" prop="district">
+      <el-input v-model="curEpidemicPerson.district"></el-input>
+    </el-form-item> -->
+    <el-form-item label="报送时间" prop="submitTime">
+      <el-date-picker type="datetime" placeholder="选择日期" default-time="12:00:00" v-model="curEpidemicPerson.submitTime"
+        style="width: 100%;"></el-date-picker>
+    </el-form-item>
+    <el-form-item label="发病时间" prop="diseaseTime">
+      <el-date-picker type="datetime" placeholder="选择日期" default-time="12:00:00" v-model="curEpidemicPerson.diseaseTime"
+        style="width: 100%;"></el-date-picker>
+    </el-form-item>
+    <el-form-item label="备注" prop="note">
+      <el-input type="textarea" v-model="curEpidemicPerson.note"></el-input>
+    </el-form-item>
+    <el-form-item class="operation">
+      <el-button @click="resetForm('ruleForm')">取消</el-button>
+      <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
+    </el-form-item>
+  </el-form>
+</div>

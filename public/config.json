@@ -35,5 +35,10 @@
     "dataSourceDetailUrl": "/data-source-data/data-source-id/external/{originalId}/true"
   },
   "storageMode": "server",
-  "ncovUrl": "http://39.105.209.108:3001/ncov/"
+  "ncovUrl": "http://39.105.209.108:3001/ncov/",
+  "communityDataSourceId": "a2e01f0e-6c86-4a41-bcf3-c07c1ffa2f82",
+  "diagnosisDataSourceId": "97629e08-cb68-489d-8f62-8c8467358d69",
+  "medicalConditionDataSourceId": "311e9950-3a98-4b5d-b17a-98263803bf80",
+  "specialCaseDataSourceId": "21f19133-a103-4a31-9b96-fc7c045b37aa",
+  "genderDataSourceId": "d92014f0-b8ae-4d04-b4f3-3850a5c40330"
 }

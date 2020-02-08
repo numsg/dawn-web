@@ -17,10 +17,10 @@
       <span>{{$t('plan_manage.major_event')}}</span>
     </div>
     <div class="diagram clearfix">
-      <div class="circle" @click="handleStatisticsClick(data.id)" v-for="data of epidemicData">
+      <div class="circle" @click="handleStatisticsClick(data.id)" v-for="data of epidemicStaticalData">
         <epidemic-diagram width="150" :strokeStyle="data.strokeStyle" height="150"
           lineWidth="12" type="circle" :text="data.name" :count="data.count"
-          :percentage="data.count/currentTotalCount">
+          :percentage="data.count/totalCount">
         </epidemic-diagram>
         <div class="line" :class="{ 'active': data.selected }"
           :style="{'background-color': data.strokeStyle}"></div>

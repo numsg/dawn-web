@@ -10,6 +10,7 @@ import { generateUUID } from '@gsafety/whatever/dist/util';
 import EpidemicDiagram from '../epidemic-diagram/epidemic-diagram';
 import statisticsStyleBlackStyle from './epidemic-statistics.black.module.scss';
 import transformToColor from '@/common/filters/colorformat';
+import eventNames from '@/common/events/store-events';
 
 @Component({
   name: 'epidemic-statistics',
@@ -86,9 +87,13 @@ export class EpidemicStatisticsComponent extends Vue {
       name: '发热人员',
       count: 50,
       strokeStyle: '#990000'
-    },
+    }
   ];
-  currentTotalCount = 87;
+
+  @Getter('outbreakDuty_epidemicStaticalData')
+  epidemicStaticalData: any;
+
+  totalCount = 1;
   constructor() {
     super();
     // const startDate = moment()
@@ -101,9 +106,19 @@ export class EpidemicStatisticsComponent extends Vue {
   async mounted() {
     const doughnut: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
     this.chart = echarts.init(doughnut);
-    this.setOption();
+    await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
     this.addEventListener();
   }
+
+  @Watch('epidemicStaticalData')
+  onStaticalDataLoad(val: any) {
+    console.log(val);
+    this.totalCount = val.reduce((prev: any, cur: any) => {
+      return Number(cur.count) + Number(prev);
+    }, 0);
+    this.setOption();
+  }
+
   setOption() {
     this.option = {
       tooltip: {
@@ -113,7 +128,8 @@ export class EpidemicStatisticsComponent extends Vue {
       legend: {
         orient: 'vertical',
         left: 10,
-        data: ['确诊病例', '疑似病例', '死亡病例', '治愈病例', '发热人员']
+        // data: ['确诊病例', '疑似病例', '死亡病例', '治愈病例', '发热人员']
+        data: this.epidemicStaticalData.map((e: any) => e.name)
       },
       series: [
         {
@@ -134,15 +150,23 @@ export class EpidemicStatisticsComponent extends Vue {
               fontWeight: 'bold'
             }
           },
-          radius: '50%',
+          radius: '60%',
           center: ['50%', '50%'],
-          data: [
-            { value: 20, name: '确诊病例' },
-            { value: 15, name: '疑似病例' },
-            { value: 1, name: '死亡病例' },
-            { value: 1, name: '治愈病例' },
-            { value: 50, name: '发热人员' }
-          ]
+          data: this.epidemicStaticalData,
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: `rgba(0, 0, 0, 0.5)`
+            },
+            normal: {
+              color: (params: any) => {
+                const data = this.epidemicStaticalData[params.dataIndex];
+                console.log(data);
+                return data.strokeStyle;
+              }
+            }
+          }
         }
       ]
     };
@@ -152,17 +176,13 @@ export class EpidemicStatisticsComponent extends Vue {
    * 处理下方 pie 图点击事件
    * @param id 事件类型id
    */
-  handleStatisticsClick(id: string) {
-
-  }
+  handleStatisticsClick(id: string) {}
 
   /**
    * 监听事件
    */
   addEventListener() {
-    this.chart.on('pieselectchanged', (evt: any) => {
-
-    });
+    this.chart.on('pieselectchanged', (evt: any) => {});
   }
 
   beforeDestroy() {

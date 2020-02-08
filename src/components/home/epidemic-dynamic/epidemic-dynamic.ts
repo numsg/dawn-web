@@ -6,12 +6,12 @@ import { ECharts, EChartOption } from 'echarts';
 import * as echarts from 'echarts';
 import 'echarts/map/js/china.js';
 import 'echarts/map/js/province/hubei.js';
-import { EpidemicInfoFormComponent } from './epidemic-info-form/epidemic-info-form';
 import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 import EpidemicPerson from '@/models/home/epidemic-persion';
 import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.service';
 import moment from 'moment';
 import { debounce } from 'lodash';
+import { EpidemicInfoFormComponent } from '@/components/outbreak-duty/epidemic-info-form/epidemic-info-form';
 
 @Component({
   template: epidemicDynamicHtml,

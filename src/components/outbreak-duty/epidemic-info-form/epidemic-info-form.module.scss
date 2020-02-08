@@ -1,0 +1,33 @@
+.epidemic-info-form {
+//   padding: 15px;
+  overflow: auto;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  form {
+    padding: 15px;
+    border: 1px dashed #dcdfe6;
+    .operation {
+        text-align: right;
+    }
+
+    .row-one {
+      display: flex;
+      flex-direction: row;
+      .flex-one {
+        flex: 1;
+      }
+    }
+    .select-item {
+      > div {
+        width: 100%;
+        >div {
+          width: 100%;
+        }
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
+}

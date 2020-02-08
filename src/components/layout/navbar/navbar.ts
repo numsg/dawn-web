@@ -73,12 +73,12 @@ export class NavbarComponent extends Vue {
   }
 
   async created() {
-    // await this.$store.dispatch(eventNames.baseData.SetEventTypes);
-    // await this.$store.dispatch(eventNames.baseData.SetDistrictLevels);
-    // await this.$store.dispatch(eventNames.baseData.SetPlanUses);
-    // await this.$store.dispatch(eventNames.baseData.SetResponseSubs);
-    // await this.$store.dispatch(eventNames.baseData.SetDistricts);
-    // await this.$store.dispatch(eventNames.EventTypes.LoadAllEventTypes);
+    await this.$store.dispatch(eventNames.baseData.SetCommunities);
+    await this.$store.dispatch(eventNames.baseData.SetDiagnosisSituations);
+    await this.$store.dispatch(eventNames.baseData.SetMedicalSituations);
+    await this.$store.dispatch(eventNames.baseData.SetSpecialSituations);
+    await this.$store.dispatch(eventNames.baseData.SetGenderClassification);
+    await this.$store.dispatch(eventNames.EventTypes.LoadAllEventTypes);
 
     await this.$store.dispatch(eventNames.systemSet.SystemSetData);
   }

@@ -35,11 +35,11 @@ const StoreEvents = {
     DeletePlan: 'DeletePlan'
   },
   baseData: {
-    SetEventTypes: 'SetEventTypes',
-    SetDistrictLevels: 'SetDistrictLevels',
-    SetPlanUses: 'SetPlanUses',
-    SetResponseSubs: 'SetResponseSubs',
-    SetDistricts: 'SetDistricts'
+    SetCommunities: 'SetCommunities',
+    SetDiagnosisSituations: 'SetDiagnosisSituations',
+    SetMedicalSituations: 'SetMedicalSituations',
+    SetSpecialSituations: 'SetSpecialSituations',
+    SetGenderClassification: 'SetGenderClassification'
   },
 
   Login: {
@@ -92,6 +92,9 @@ const StoreEvents = {
   },
   UserManage: {
     OnCurChange: 'OnCurChange'
+  },
+  OutbreakDuty: {
+    SetEpidemicStaticalData: 'SetEpidemicStaticalData',
   }
 };
 

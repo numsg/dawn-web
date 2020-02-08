@@ -8,7 +8,7 @@ import EpidemicPerson from '@/models/home/epidemic-persion';
 import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.service';
 import moment from 'moment';
 import { debounce } from 'lodash';
-import { EpidemicInfoFormComponent } from '@/components/home/epidemic-dynamic/epidemic-info-form/epidemic-info-form';
+import { EpidemicInfoFormComponent } from '../epidemic-info-form/epidemic-info-form';
 
 @Component({
   template: epidemicListHtml,
@@ -34,6 +34,8 @@ export class EpidemicListComponent extends Vue {
   curProEpidemicData: any = {};
 
   citiesEpidemicData: any[] = [];
+
+  editEpidemicPerson: EpidemicPerson = new EpidemicPerson;
 
   /**
    * 搜索防抖
@@ -67,6 +69,7 @@ export class EpidemicListComponent extends Vue {
   }
 
   addEpidemicPersion() {
+    this.editEpidemicPerson = new EpidemicPerson;
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.open();
   }
@@ -86,5 +89,14 @@ export class EpidemicListComponent extends Vue {
     this.currentPage = val;
     this.queryEpidemicPersons();
     console.log(`当前页: ${val}`);
+  }
+
+  /**
+   * 编辑
+   */
+  handleEdit(data: EpidemicPerson) {
+    this.editEpidemicPerson = data;
+    const sideFrame: any = this.$refs['sideFrame'];
+    sideFrame.open();
   }
 }

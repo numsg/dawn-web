@@ -30,9 +30,11 @@
               :style="{'background-color': transformEventBgColor(data.eventType)}">
               <img :src="data.eventType.image.iconfont" alt="" />
             </i> -->
-            <span class="name" :title="data.name">{{ data.name }} &nbsp; {{data.address}}</span>
-            <!-- <span class="prev-color isplan" v-if="data.isDefault"> {{ $t('plan_manage.template') }}</span>
-            <span class="prev-color istemplate" v-else>{{ $t('system_log.plan') }}</span> -->
+            <span class="name" :title="data.name">{{ data.name }} &nbsp; <span class="community-name">{{data.communityModel.name}}</span></span>
+            <span class="prev-color diagnosis" :style="{'background': data.diagnosisSituationModel.imgColor}"> {{ data.diagnosisSituationModel.name }}</span>
+            <!-- <span class="prev-color diagnosis" > {{ data.diagnosisSituationModel.name }}</span> -->
+            <!-- <span class="prev-color istemplate" v-else>{{ $t('system_log.plan') }}</span> -->
+            <span class="submit-time">报送时间:{{data.submitTime}}</span>
           </div>
           <div class="body">
             <div class="item plan-type">
@@ -40,27 +42,27 @@
                 <i class="iconfont iconpms-icon_txt"></i>
                 <span>手机号</span>
               </div>
-              <div class="name">13212321232</div>
+              <div class="name">{{data.mobileNumber}}</div>
             </div>
             <div class="item plan-type">
               <div class="title">
                 <i class="iconfont iconpms-icon_txt"></i>
                 <span>医疗情况</span>
               </div>
-              <div class="name">{{ data.medicalCondition }}</div>
+              <div class="name">{{ data.medicalConditionModel.name }}</div>
             </div>
             <div class="item event-type">
               <div class="title">
                 <i class="iconfont iconpms-icon_Event-type"></i>
                 <span>特殊情况</span>
               </div>
-              <div class="name">{{ data.specialSituation }}</div>
+              <div class="name">{{ data.specialSituationModel.name }}</div>
             </div>
             <div class="card-btn">
               <div class="flr">
                 <el-button :title="$t('plan_manage.history_vision')" size="small" type="primary"
                   icon="iconfont iconpms-icon_File" round></el-button>
-                <el-button size="small" icon="iconfont iconpms-icon_edit" :title=" $t('common.edit')" type="primary"
+                <el-button @click=handleEdit(data) size="small" icon="iconfont iconpms-icon_edit" :title=" $t('common.edit')" type="primary"
                   round>
                 </el-button>
                 <el-button :title="$t('common.delete')" size="small" type="danger" icon="iconfont iconpms-icon_delet"
@@ -88,7 +90,7 @@
       </div>
     </div>
     <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
-      <epidemic-info-form @save-person-success="savePersonSuccess"></epidemic-info-form>
+      <epidemic-info-form :editEpidemicPerson="editEpidemicPerson" @save-person-success="savePersonSuccess"></epidemic-info-form>
     </div>
   </side-frame>
 </div>

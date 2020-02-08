@@ -5,6 +5,7 @@ import mapperManager from '@/common/odata/mapper-manager.service';
 import EpidemicPerson from '@/models/home/epidemic-persion';
 import odataClient from '@gsafety/odata-client/dist';
 import moment from 'moment';
+import mapperManagerService from '@/common/odata/mapper-manager.service';
 
 export default {
   /**
@@ -14,6 +15,15 @@ export default {
   addEpidemicPerson(epidemicPerson: EpidemicPerson) {
     const url = store.getters.configs.communityManagerUrl + `epidemic-person`;
     return httpClient.postPromise(url, epidemicPerson);
+  },
+
+  /**
+   * 编辑人员
+   * @param epidemicPerson
+   */
+  editEpidemicPerson(epidemicPerson: EpidemicPerson) {
+    const url = store.getters.configs.communityManagerUrl + `epidemic-person/${epidemicPerson.id}`;
+    return httpClient.putPromise(url, epidemicPerson);
   },
 
   /**
@@ -42,13 +52,13 @@ export default {
    */
   queryEpidemicPersons(page: number, count: number, keyowrds?: string) {
     const q = odataClient({
-        service: store.getters.configs.baseSupportOdataUrl,
-        resources: 'EpidemicPersonEntity'
-      });
-      if (keyowrds) {
-        // tslint:disable-next-line:max-line-length
-        const filterStr = 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or  contains( medicalCondition, \'' + keyowrds + '\') or contains( specialSituation, \'' + keyowrds + '\')';
-        return q
+      service: store.getters.configs.baseSupportOdataUrl,
+      resources: 'EpidemicPersonEntity'
+    });
+    if (keyowrds) {
+      // tslint:disable-next-line:max-line-length
+      const filterStr = 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or  contains( medicalCondition, \'' + keyowrds + '\') or contains( specialSituation, \'' + keyowrds + '\')';
+      return q
         .skip(count * page)
         .top(count)
         .filter(filterStr)
@@ -56,38 +66,56 @@ export default {
         .count(true)
         .get(null)
         .then((response: any) => {
-            const result = {
+          const result = {
             count: JSON.parse(response.body)['@odata.count'],
-            value: JSON.parse(response.body).value
-            };
-            result.value.forEach((e: EpidemicPerson) => {
-            e.submitTime = moment(e.submitTime).format('YYYY-MM-DD HH:mm:ss');
-            e.diseaseTime = moment(e.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
-            });
-            return result;
+            value: this.buildEpidemicPersons(JSON.parse(response.toJSON().body).value)
+          };
+          return result;
         })
         .catch((error: any) => {});
     } else {
-        return q
-          .skip(count * page)
-          .top(count)
-          .orderby('submitTime', 'desc')
-          .count(true)
-          .get(null)
-          .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: JSON.parse(response.body).value
-            };
-            result.value.forEach((e: EpidemicPerson) => {
-              e.submitTime = moment(e.submitTime).format('YYYY-MM-DD HH:mm:ss');
-              e.diseaseTime = moment(e.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
-            });
-            return result;
-          })
-          .catch((error: any) => {});
+      return q
+        .skip(count * page)
+        .top(count)
+        .orderby('submitTime', 'desc')
+        .count(true)
+        .get(null)
+        .then((response: any) => {
+          const result = {
+            count: JSON.parse(response.body)['@odata.count'],
+            value: this.buildEpidemicPersons(JSON.parse(response.toJSON().body).value)
+          };
+          return result;
+        })
+        .catch((error: any) => {});
     }
+  },
 
+  buildEpidemicPersons(result: any[]) {
+    const res: any[] = [];
+    if (Array.isArray(result) && result.length > 0) {
+      result.forEach((data: any) => {
+        const ep = new EpidemicPerson();
+        Object.assign(ep, data);
+        ep.submitTime = moment(data.submitTime).format('YYYY-MM-DD HH:mm:ss');
+        ep.diseaseTime = moment(data.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
+        ep.updateTime = moment(data.updateTime).format('YYYY-MM-DD HH:mm:ss');
+        const communities: any[] = store.getters.baseData_communities;
+        const diagnosisSituations: any[] = store.getters.baseData_diagnosisSituations;
+        const medicalSituations: any[] = store.getters.baseData_medicalSituations;
+        const specialSituations: any[] = store.getters.baseData_specialSituations;
+        const genderClassification: any[] = store.getters.baseData_genderClassification;
+        ep.communityModel = communities.find(k => k.id === ep.villageId) || {};
+        ep.diagnosisSituationModel = diagnosisSituations.find(k => k.id === ep.diagnosisSituation) || {};
+        ep.medicalConditionModel = medicalSituations.find(k => k.id === ep.medicalCondition) || {};
+        ep.specialSituationModel = specialSituations.find(k => k.id === ep.specialSituation) || {};
+        ep.genderModel = genderClassification.find(k => k.id === ep.gender) || {};
+        res.push(ep);
+      });
+    }
+    console.log('---buildEpidemicPersons---');
+    console.log(res);
+    return res;
   },
 
   /**
@@ -104,5 +132,14 @@ export default {
   queryCityEpidemicData() {
     const url = store.getters.configs.ncovUrl + `common/runtime_patient_area_list?parentNo=420000`;
     return httpClient.getPromise(url);
+  },
+
+  /**
+   * 获取统计数据
+   */
+  getEpidemicStaticalData() {
+    const url = store.getters.configs.communityManagerUrl + `epidemic-person`;
+    return httpClient.getPromise(url);
   }
+
 };
