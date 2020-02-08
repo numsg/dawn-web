@@ -73,6 +73,18 @@ export class EpidemicDeathTrends extends Vue {
           lineStyle: {
             opacity: 0.5
           }
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#555',
+            opacity: 0.2
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: '#555',
+            opacity: 0.2
+          }
         }
       },
       yAxis: {

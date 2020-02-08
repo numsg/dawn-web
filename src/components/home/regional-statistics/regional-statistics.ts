@@ -101,11 +101,11 @@ export class RegionalStatistics extends Vue {
       visualMap: {
         type: 'piecewise',
         pieces: [
-          { min: 10000, label: '人数大于10000', color: '#660208' },
-          { min: 1000, max: 9999, label: '人数在1000-9999之间', color: '#8e3726' },
-          { min: 100, max: 999, label: '人数在100-999之间', color: '#b9742c' },
-          { min: 10, max: 99, label: '人数在10-99之间', color: '#f7bf32' },
-          { min: 1, max: 9, label: '人数在1-9之间', color: '#fef5bc' }
+          { min: 10000, label: '大于 10000 例', color: '#660208' },
+          { min: 1000, max: 9999, label: '1000-9999 例', color: '#8e3726' },
+          { min: 100, max: 999, label: '100-999 例', color: '#b9742c' },
+          { min: 10, max: 99, label: '10-99 例', color: '#f7bf32' },
+          { min: 1, max: 9, label: '1-9 例', color: '#fef5bc' }
         ],
         min: 1,
         max: 20000,
@@ -118,14 +118,14 @@ export class RegionalStatistics extends Vue {
       series: [
         {
           label: {
-            show: true,
             normal: {
-              show: true
+              show: true,
+              // formatter: (param: object | Array<any>) => {}
+              formatter: '{b} \r\n \r\n {a} : {c}'
             },
             emphasis: {
               show: false
-            },
-            formatter: '{b}:{c}'
+            }
           },
           itemStyle: {
             emphasis: {
@@ -139,15 +139,11 @@ export class RegionalStatistics extends Vue {
           type: 'map',
           map: 'JIANGXIA',
           roam: true,
-          center: [114.3020754347939, 30.328670308003957],
+          center: [114.2952965814168, 30.318273403997726],
           data: mapDatas
         }
       ]
     };
     this.mapChart.setOption(this.commonMapOptions);
   }
-
-  private intialCumulativeCaseTrends() {}
-
-  private intialCumulativeDeathTrends() {}
 }
