@@ -25,7 +25,7 @@ export class PersonInfo {
     // 确诊情况
     confirmed_diagnosis!: string;
     // 填报时间
-    createTime!: string;
+    createTime!: string | null;
     // 多租户
     multiTenancy!: string;
     // 年龄

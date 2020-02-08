@@ -125,6 +125,7 @@ export class TroubleshootingInfoForm extends Vue {
         console.log(this.troublePerson);
         this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
+        this.troublePerson.createTime = null;
         DailyTroubleshootingService
           .editDailyTroubleshooting(this.troublePerson)
           .then(res => {
