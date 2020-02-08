@@ -9,8 +9,6 @@ const dailyTroubleshooting = {
   },
   mutations: {
     SET_STATISTICS_DATA: (state: any, result: any) => {
-      console.log('---SET_STATISTICS_DATA---');
-      console.log(result);
         if (result && Array.isArray(result)) {
             result.forEach(e => {
                 e.name = e.dSourceDataModel.name;
@@ -19,7 +17,6 @@ const dailyTroubleshooting = {
                 e.strokeStyle = e.dSourceDataModel.imgColor ? e.dSourceDataModel.imgColor : transformToColor(e.dSourceDataModel.name);
                 e.value = e.count;
             });
-            console.log(result);
             state.statisticsData = result;
         }
     },

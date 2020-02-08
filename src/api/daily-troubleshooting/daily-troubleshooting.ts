@@ -75,7 +75,11 @@ export default {
                 str += '(plot eq \'' + id + '\') or ';
             } else {
                 str = '(' + str + '(plot eq \'' + id + '\')' + ')';
-                filterStr += str;
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
             }
         }
       }
@@ -170,7 +174,6 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            console.log(response.body);
             const result = {
               count: JSON.parse(response.body)['@odata.count'],
               value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -201,8 +204,6 @@ export default {
       //     res.push(ep);
       //   });
       // }
-      console.log('---buildDailyRecord---');
-      console.log(result);
       return result;
     },
 

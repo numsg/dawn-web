@@ -59,7 +59,6 @@ export default {
     let filterStr = '';
     if (conditions.keyowrds) {
       filterStr += 'contains( name, \'' + conditions.keyowrds + '\') or contains( mobileNumber, \'' + conditions.keyowrds + '\')';
-
     }
     if (conditions.diagnosisIds && conditions.diagnosisIds.length > 0) {
       let str = '';
@@ -69,7 +68,11 @@ export default {
               str += '(diagnosisSituation eq \'' + id + '\') or ';
           } else {
               str = '(' + str + '(diagnosisSituation eq \'' + id + '\')' + ')';
-              filterStr += str;
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
           }
       }
     }
@@ -136,8 +139,6 @@ export default {
         res.push(ep);
       });
     }
-    console.log('---buildEpidemicPersons---');
-    console.log(res);
     return res;
   },
 

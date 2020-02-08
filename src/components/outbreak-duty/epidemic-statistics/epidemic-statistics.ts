@@ -109,7 +109,6 @@ export class EpidemicStatisticsComponent extends Vue {
 
   @Watch('epidemicStaticalData')
   onStaticalDataLoad(val: any) {
-    console.log(val);
     this.totalCount = val.reduce((prev: any, cur: any) => {
       return Number(cur.count) + Number(prev);
     }, 0);
