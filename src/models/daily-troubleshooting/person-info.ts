@@ -66,8 +66,6 @@ export class PersonInfo {
         // this.leaveArea = false;
         // 确诊情况
         this.confirmed_diagnosis = '';
-        // 填报时间
-        this.createTime = '--:--:--';
 
         this.age = null;
         // 体温大于37.7

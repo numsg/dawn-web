@@ -90,7 +90,6 @@ export class TroubleshootingInfoForm extends Vue {
     const form: any = this.$refs[formName];
     form.validate((valid: any) => {
       if (valid) {
-        this.troublePerson.createTime = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
         this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         DailyTroubleshootingService
@@ -124,7 +123,6 @@ export class TroubleshootingInfoForm extends Vue {
       if (valid) {
         // alert('submit!');
         console.log(this.troublePerson);
-        this.troublePerson.createTime = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
         this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         DailyTroubleshootingService

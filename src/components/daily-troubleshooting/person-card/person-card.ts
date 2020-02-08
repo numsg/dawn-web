@@ -2,6 +2,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator';
 import Html from './person-card.html';
 import Style from './person-card.module.scss';
 
+import { Getter } from 'vuex-class';
+
 import eventNames from '@/common/events/store-events';
 
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
@@ -21,6 +23,10 @@ export class PersonCard extends Vue {
     currentPage = 1;
     pageSizes = [10, 20, 30];
     pageSize = 0;
+
+      // 本社区小区
+    @Getter('baseData_communities')
+    communities!: any[];
 
     @Prop({default: []})
     private personData!: PersonInfo[];
@@ -105,5 +111,10 @@ export class PersonCard extends Vue {
     colse() {
         const sideFrame: any = this.$refs['sideFrameCard'];
         sideFrame.close();
+    }
+
+    replacePlot(plot: any) {
+        const plotItem = this.communities.find( (item: any) => item.id ===  plot );
+        return plotItem ? plotItem.name : '';
     }
 }

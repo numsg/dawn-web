@@ -1,7 +1,9 @@
 <div class="epidemic-info-form">
   <el-form :model="troublePerson" :rules="rules" label-position="top" size="mini" ref="ruleForm" label-width="100px"
     class="demo-ruleForm">
-    
+    <el-form-item label="姓名" prop="name">
+      <el-input v-model="troublePerson.name"></el-input>
+    </el-form-item>
     <el-form-item label="电话" prop="phone">
       <el-input v-model="troublePerson.phone"></el-input>
     </el-form-item>
@@ -26,9 +28,7 @@
     <el-form-item label="房间号" prop="roomNo">
       <el-input v-model="troublePerson.roomNo"></el-input>
     </el-form-item>
-    <el-form-item label="姓名" prop="name">
-      <el-input v-model="troublePerson.name"></el-input>
-    </el-form-item>
+
     <el-form-item label="性别" prop="sex">
       <el-radio-group v-model="troublePerson.sex">
           <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>

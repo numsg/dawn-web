@@ -8,9 +8,11 @@
                 :style="{'background-color': '#eee'}"
                 :class="['confont event-type-icon']"
               ></i> -->
-              <span class="name" :title="person.name">
+              <span class="name">
                 <!-- {{person.plot}}  {{person.name}} -->
+                
                 {{ person.building }} - {{person.unitNumber}} - {{person.roomNo}}
+                <span class="person-name">{{person.name}}</span>
               </span>
               <!-- <span class="version">plan</span> -->
               <span class="prev-color confirmed_diagnosis" v-if="person.isExceedTemp" >
@@ -27,9 +29,9 @@
               <div class="item event-type">
                 <div class="title">
                   <i class="iconfont iconpms-icon_Event-type"></i>
-                  <span>姓名</span>
+                  <span>小区名称</span>
                 </div>
-                <div class="name">{{person.name}}</div>
+                <div class="name">{{replacePlot(person.polt)}}</div>
               </div>
               <div class="item plan-type">
                 <div class="title">
