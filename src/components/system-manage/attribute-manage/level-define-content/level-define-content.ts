@@ -227,12 +227,12 @@ export class LevelDefinecontentComponent extends Vue {
    * @memberof LevelDefinecontentComponent
    */
   async onDelete(item: any) {
-    const isUse = await this.isRuleTypeUse(item.id);
-    if (isUse !== -1) {
+    // const isUse = await this.isRuleTypeUse(item.id);
+    // if (isUse !== -1) {
       // LimitMessage.showMessage({ type: 'warning', message: this.$tc('data_source.data_is_associated_ban') });
-      notifyUtil.warning(this.$tc('data_source.data_is_associated_ban'));
-      return;
-    }
+    //   notifyUtil.warning(this.$tc('data_source.data_is_associated_ban'));
+    //   return;
+    // }
     this.$confirm(this.$tc('data_source.delete_unrecoverable'), {
       confirmButtonText: this.$tc('common.determine'),
       cancelButtonText: this.$tc('common.cancel'),

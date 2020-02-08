@@ -60,7 +60,8 @@
     "troubleshoot":"日常排查",
     "daily-troubleshooting":"日常排查",
     "emergency":"应急物资",
-    "emergency-supplies":"应急物资"
+    "emergency-supplies":"应急物资",
+    "community-qr-manage":"社区二维码管理"
   },
   "notice": {
     "info": "消息",
