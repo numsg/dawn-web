@@ -20,6 +20,7 @@ import i18n from '@/i18n';
 import UserBlackStyle from './user-manage.black.module.scss';
 import notifyUtil from '@/common/utils/notifyUtil';
 import { InputType } from '@/common/enums/input-type';
+import dDataSourceService from '@/api/data-source/d-data-source.service';
 
 @Component({
   template: Html,
@@ -136,6 +137,12 @@ export class UserManageComponent extends Vue {
   public loadding: boolean = false;
 
   public totalCount: number = 0;
+  // 社区信息
+  communityInformation: any = [];
+  // 当前社区id
+  currentCommunityId: any = 'a2e01f0e-6c86-4a41-bcf3-c07c1ffa2f82';
+  // 管辖区域
+  manageArea: any = [];
 
   @Getter('privileges')
   rolePrivileges: any;
@@ -163,7 +170,7 @@ export class UserManageComponent extends Vue {
       { min: 1, max: 64, message: i18n.t('common.length_limit64'), trigger: ['blur', 'change'] },
       { validator: this.valiadateEmail, trigger: ['blur', 'change'] }
     ],
-    address: [{ min: 0, max: 512, message: i18n.t('common.length_limit512'), trigger: ['blur', 'change'] }],
+    // address: [{ min: 0, max: 512, message: i18n.t('common.length_limit512'), trigger: ['blur', 'change'] }],
     description: [{ min: 0, max: 2000, message: i18n.t('common.length_limit4000'), trigger: ['blur', 'change'] }]
   };
 
@@ -222,7 +229,9 @@ export class UserManageComponent extends Vue {
       callback();
     }
   }
-
+  created() {
+    this.getCommunityInformationById(this.currentCommunityId);
+  }
   mounted() {
     this.router = this.$router.currentRoute;
     this.loginUser = sessionStorage.getItem('userInfo');
@@ -357,6 +366,7 @@ export class UserManageComponent extends Vue {
    * 添加用户
    */
   addUser() {
+    this.manageArea = [];
     this.isNewUser = !this.isNewUser;
     this.isFormEdit = true;
     this.isEditUserInfo = false;
@@ -381,6 +391,7 @@ export class UserManageComponent extends Vue {
    */
   async saveUserInfo() {
     const form: any = this.$refs['currentUserInfo'];
+    this.$set(this.currentUserInfo, 'address', JSON.stringify(this.manageArea)); // 将管辖区域转换成字符串
     const userTemp = Object.assign({}, this.currentUserInfo);
 
     form.validate(async (valid: any, object: any) => {
@@ -570,6 +581,7 @@ export class UserManageComponent extends Vue {
    * @memberof UserManageComponent
    */
   async selectUser(userinfo: UserInfo, index: any) {
+    this.manageArea = [];
     this.clearValidate();
     if (this.isNewUser && this.currentUserInfo.name === userinfo.name) {
       return;
@@ -610,6 +622,10 @@ export class UserManageComponent extends Vue {
           showClose: false
         })
           .then(() => {
+            if (userinfo.address !== '') {
+              const address: any = userinfo.address;
+              this.manageArea = JSON.parse(address);
+            }
             this.isFormEdit = false;
             this.selectedUser = userinfo;
             this.currentUserInfo.roles.length = 0;
@@ -623,6 +639,10 @@ export class UserManageComponent extends Vue {
       } else {
         // this.currentUserInfo = JSON.parse(JSON.stringify(this._beforeEditUserInfo));
         // this.selectedUser = userinfo;
+        if (userinfo.address !== '') {
+          const address: any = userinfo.address;
+          this.manageArea = JSON.parse(address);
+        }
         this.selectedUser = Object.assign({}, userinfo);
         this.currentUserInfo.roles.length = 0;
         this.$store.dispatch(eventNames.layout.SetLoading, true);
@@ -882,6 +902,19 @@ export class UserManageComponent extends Vue {
       this.passwordType = InputType.TEXT;
     } else {
       this.passwordType = InputType.PASSWORD;
+    }
+  }
+  /**
+   * 根据id获取社区信息
+   * @param id
+   *
+   */
+  async getCommunityInformationById(id: any) {
+    const res = await dDataSourceService.findDDataSourceByDataSourceId(id);
+    if (res) {
+      this.communityInformation = res;
+    } else {
+      this.communityInformation = [];
     }
   }
 }

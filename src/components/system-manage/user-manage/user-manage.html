@@ -243,16 +243,19 @@
                       <el-col :span="12" class="gutter-row-col">
                         <el-form-item
                           class="user-form-item"
-                          :label="$t('user-manage.address')"
+                          :label="$t('user-manage.manage_area')"
                           :title="currentUserInfo.address"
                           prop="address"
                         >
-                          <el-input
+                          <!-- <el-input
                             v-model="currentUserInfo.address"
                             size="medium"
                             maxlength="512"
                             :placeholder="$t('user-manage.address_length_limit_512')"
-                          ></el-input>
+                          ></el-input> -->
+                          <el-select class="address" v-model="manageArea" multiple collapse-tags :placeholder="$t('user-manage.please_select_area')">
+                            <el-option v-for="item in communityInformation" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+                          </el-select>
                         </el-form-item>
                       </el-col>
                     </el-row>
