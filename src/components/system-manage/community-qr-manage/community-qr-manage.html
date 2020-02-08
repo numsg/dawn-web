@@ -1,3 +1,42 @@
-<div>
-  community-qr-manage
+<div class="community-qr-manage">
+  <div class="top">
+    <div class="search">
+      <el-input
+        class="keywords-search"
+        :placeholder="$t('tempMgr.keywords_search_placeholder')"
+        v-model="keywords"
+        suffix-icon="iconfont iconpms-icon_search"
+      ></el-input>
+      <el-button
+        class="iconfont no-text-btn iconpms-icon_add primary-btn"
+        size="mini"
+        type="primary"
+        @click="batchGenerationQRCode"
+        >批量生成二维码</el-button
+      >
+    </div>
+  </div>
+  <div class="content">
+    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column label="小区名称">
+        <template slot-scope="scope">{{ scope.row.name }}</template>
+      </el-table-column>
+      <el-table-column prop="QRCode" label="二维码" show-overflow-tooltip> </el-table-column>
+      <el-table-column prop="note" label="备注" > </el-table-column>
+      <el-table-column
+      fixed="right"
+      :label="$t('system_log.operation')"
+      class="privilege-operate"
+      width="300"
+    >
+      <template slot-scope="scope">
+        <div class="operation">
+                <el-button  icon="el-icon-delete" @click="generateQRCode" title="生成二维码 ">生成二维码</el-button>
+                <el-button  icon="el-icon-delete" @click="exportInfo" title="导出">导出</el-button>
+        </div>
+      </template>
+    </el-table-column>
+    </el-table>
+  </div>
 </div>
