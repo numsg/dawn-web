@@ -182,6 +182,9 @@ export class EpidemicStatisticsComponent extends Vue {
   handleStatisticsClick(id: string) {
     this.epidemicStaticalData.forEach((item, index) => {
       if (item.id === id) {
+        if (item.count === 0) {
+          return;
+        }
         item.selected = !item.selected;
         this.filterEpidemicPersons();
         this.chart.dispatchAction({

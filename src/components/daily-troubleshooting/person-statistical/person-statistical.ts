@@ -121,7 +121,7 @@ export class PersonStatistical extends Vue {
   async mounted() {
     const doughnut: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
     this.chart = echarts.init(doughnut);
-    this.setOption();
+    // this.setOption();
     this.addEventListener();
     await this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
   }
@@ -144,7 +144,16 @@ export class PersonStatistical extends Vue {
       legend: {
         orient: 'vertical',
         left: 10,
-        data: ['卡梅尔小镇', '水晶丽都', '惠丰同庆-蜜糖镇', '藏龙新城二期-梁山头商业门面房一栋', '藏龙新城', '中海', '东城华府']
+        data: this.statisticsData.map((e: any) => e.name),
+        tooltip: {
+          show: true
+        },
+        formatter: (value: string) => {
+          if (value.length > 8) {
+            return value.slice(0, 8) + '...';
+          }
+          return value;
+        },
       },
       series: [
         {
@@ -163,25 +172,30 @@ export class PersonStatistical extends Vue {
             label: {
               fontSize: '16',
               fontWeight: 'bold',
-              formatter: '{b}: {d}'
+              // formatter: '{b}: {d}'
+              formatter: (val: any) => {
+                let name = val.name;
+                if (name.length > 8) {
+                  name = name.slice(0, 8) + '...';
+                }
+                return name + ': ' + val.value + '(' + val.percent + '%)';
+              }
             }
           },
           label: {
             fontSize: '14',
-            formatter: '{b}: {d}%'
+            formatter: (val: any) => {
+              let name = val.name;
+              if (name.length > 8) {
+                name = name.slice(0, 8) + '...';
+              }
+              return name + ': ' + val.value + '(' + val.percent + '%)';
+            }
           },
           radius: ['40%', '60%'],
           center: ['50%', '50%'],
           selectedMode: true,
-          data: [
-            { value: 20, name: '卡梅尔小镇' },
-            { value: 15, name: '水晶丽都' },
-            { value: 1, name: '惠丰同庆-蜜糖镇' },
-            { value: 1, name: '藏龙新城二期-梁山头商业门面房一栋' },
-            { value: 11, name: '藏龙新城' },
-            { value: 22, name: '中海' },
-            { value: 12, name: '东城华府' }
-          ],
+          data: this.statisticsData,
           itemStyle: {
             emphasis: {
               shadowBlur: 10,
@@ -189,10 +203,10 @@ export class PersonStatistical extends Vue {
               shadowColor: `rgba(0, 0, 0, 0.5)`
             },
             normal: {
-              // color: (params: any) => {
-              //   const data = this.statisticsData[params.dataIndex];
-              //   return data.strokeStyle;
-              // }
+              color: (params: any) => {
+                const data = this.statisticsData[params.dataIndex];
+                return data.strokeStyle;
+              }
             }
           }
         }
@@ -207,6 +221,9 @@ export class PersonStatistical extends Vue {
   handleStatisticsClick(id: string) {
     this.statisticsData.forEach((item, index) => {
       if (item.id === id) {
+        if (item.count === 0) {
+          return;
+        }
         item.selected = !item.selected;
         this.emitStatisticsEvent();
         this.chart.dispatchAction({

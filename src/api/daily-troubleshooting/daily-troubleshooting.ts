@@ -229,7 +229,7 @@ export default {
   },
 
   getStatisticsData() {
-    const url = store.getters.configs.planPreparationUrl + 'daily-troubleshoot-record';
+    const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/statistics';
     return httpClient
       .getPromise(url)
       .then(res => {

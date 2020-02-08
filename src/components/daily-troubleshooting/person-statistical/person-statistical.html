@@ -5,7 +5,7 @@
         <div class="totalcount">
           <span>
             <!-- <span>累计: {{totalCount}}</span> -->
-            <span><span class="txt">累计:</span> 72</span>
+            <span><span class="txt">累计:</span> {{totalCount}}</span>
           </span>
         </div>
         <div ref="doughnut" class="doughnut" id="doughnut"></div>
@@ -18,10 +18,10 @@
       <span>小区填报人数</span>
     </div>
     <div class="diagram clearfix">
-      <div class="circle" @click="handleStatisticsClick(data.id)" v-for="data of epidemicData">
+      <div class="circle" @click="handleStatisticsClick(data.id)" v-for="data of statisticsData">
         <epidemic-diagram width="150" :strokeStyle="data.strokeStyle" height="150"
           lineWidth="12" type="circle" :text="data.name" :count="data.count"
-          :percentage="100">
+          :percentage="data.count/totalCount">
         </epidemic-diagram>
         <div class="line" :class="{ 'active': data.selected }"
           :style="{'background-color': data.strokeStyle}"></div>

@@ -55,6 +55,7 @@ export class DailyTroubleshootingComponent extends Vue {
   @Getter('baseData_medicalOpinions')
   medicalOpinions!: any[];
 
+  selectedIds: string[] = [];
   async created() {
     const result = await DailyTroubleshootingService.queryAllDailyRecord( this.currentPage, this.pageSize);
     this.personData = result.value;
@@ -80,7 +81,7 @@ export class DailyTroubleshootingComponent extends Vue {
 
   async  searchQuery(keyWord: string) {
     this.keyWord = keyWord;
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize, keyWord);
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize, keyWord, this.selectedIds);
     this.personData = result.value;
     this.totalCount = result.count;
   }
@@ -97,6 +98,14 @@ export class DailyTroubleshootingComponent extends Vue {
     this.totalCount = result.count;
     this.currentPage = pagination.currentPage;
     this.pageSize = pagination.pageSize;
+  }
+
+  async handleStatisticsClick(ids: string[]) {
+    this.selectedIds = ids;
+    this.currentPage = 1;
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize, this.keyWord, ids);
+    this.personData = result.value;
+    this.totalCount = result.count;
   }
 
   // 导出excel

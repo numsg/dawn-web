@@ -1,6 +1,6 @@
 <div class="daily-troublesshooting">
   <div class="left">
-    <PersonStatistical  v-if="leftActive==='statistic'"/>
+    <PersonStatistical @statistics-click="handleStatisticsClick" v-if="leftActive==='statistic'"/>
     <!-- <FilterPanelComponent v-if="leftActive==='more_filter'"/> -->
     <!-- <div class="filter">
       <el-button
