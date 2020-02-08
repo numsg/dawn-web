@@ -17,7 +17,7 @@ export class PersonCard extends Vue {
     pageSize = 0;
 
     @Prop({default: []})
-    private personData!: PersonInfo;
+    private personData!: PersonInfo[];
 
     @Prop({default: 0})
     private totalCount!: number;
@@ -51,6 +51,10 @@ export class PersonCard extends Vue {
     //         return person;
     //     });
     // }
+    colorBodyTemperature(temperature: string) {
+        // const tem = 
+    }
+
     showDetail() {
 
     }

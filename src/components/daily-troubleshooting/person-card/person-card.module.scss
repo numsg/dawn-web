@@ -9,9 +9,20 @@ $danger-color: #f8662f;
     .card-content{
         height: calc( 100% - 32px );
         overflow: auto;
+        position: relative;
     }
     .pagination{
         text-align: right;
+    }
+    .bodyTemperature{
+      left: 400px;
+      position: absolute;
+    }
+    .phone{
+      position: absolute;
+      right: 10px;
+      font-size: 14px;
+      color: #6f6f6f
     }
     .box-card {
       border: 1px solid #eee;

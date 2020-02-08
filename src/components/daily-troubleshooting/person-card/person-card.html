@@ -3,18 +3,38 @@
         <div v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
           <el-card class="box-card" :class="{isDefault: false}">
             <div slot="header" class="card-header">
-              <i
+              <!-- <i
                 class="iconfont event-type-icon"
                 :style="{'background-color': '#eee'}"
                 :class="['confont event-type-icon']"
-              ></i>
-              <span class="name" :title="person.name">{{person.plot}}  {{person.name}}</span>
+              ></i> -->
+              <span class="name" :title="person.name">
+                <!-- {{person.plot}}  {{person.name}} -->
+                {{ person.building }}栋 {{person.unitNumber}}单元{{person.roomNo}}号
+              </span>
               <!-- <span class="version">plan</span> -->
-              <span class="prev-color isplan" v-if="person.confirmed_diagnosis">{{person.confirmed_diagnosis}}</span>
+              <span class="prev-color isplan" v-if="person.confirmed_diagnosis">
+                {{person.confirmed_diagnosis}}
+              </span>
+              <span class="prev-color isplan bodyTemperature">
+                <span>体温</span>
+                <span>{{person.bodyTemperature}}</span>
+              </span>
+              <span class="phone">
+                <span>电话:</span>
+                <span>{{person.phone}}</span>
+              </span>
               <!-- <span class="prev-color istemplate" v-else>plan</span>
               <span class="prev-color isMultiTenancy" v-if="plan"> model</span> -->
             </div>
             <div class="body">
+              <div class="item event-type">
+                <div class="title">
+                  <i class="iconfont iconpms-icon_Event-type"></i>
+                  <span>姓名</span>
+                </div>
+                <div class="name">{{person.name}}</div>
+              </div>
               <div class="item plan-type">
                 <div class="title">
                   <i class="iconfont iconpms-icon_txt"></i>
@@ -22,13 +42,7 @@
                 </div>
                 <div class="name">{{person.leaveArea ? '是' : '否' }}</div>
               </div>
-              <div class="item event-type">
-                <div class="title">
-                  <i class="iconfont iconpms-icon_Event-type"></i>
-                  <span>体温</span>
-                </div>
-                <div class="name">{{person.bodyTemperature}}</div>
-              </div>
+              
               <div class="item create-time">
                 <div class="title">
                   <i class="iconfont iconpms-icon_time"></i>

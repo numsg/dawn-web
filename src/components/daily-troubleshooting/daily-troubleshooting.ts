@@ -38,8 +38,8 @@ export class DailyTroubleshootingComponent extends Vue {
     this.currentType = type;
   }
 
-  paginationChange(pagination: {pageSize: number, currentPage: number}) {
-    const result = DailyTroubleshootingService.queryAllDailyRecord(pagination.currentPage, pagination.pageSize);
+  async paginationChange(pagination: {pageSize: number, currentPage: number}) {
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(pagination.currentPage, pagination.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
   }
