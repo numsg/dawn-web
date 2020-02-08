@@ -51,7 +51,7 @@ export class PersonStatistical extends Vue {
   allPersonData = {
     id: getUuid32(),
     selected: false,
-    name: '幸福里社区',
+    name: '杨桥湖社区',
     count: 300,
     strokeStyle: '#990000'
   };
@@ -60,37 +60,51 @@ export class PersonStatistical extends Vue {
     {
       id: getUuid32(),
       selected: false,
-      name: '春桥小区',
+      name: '卡梅尔小镇',
       count: 20,
       strokeStyle: '#990000'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '夏桥小区',
+      name: '水晶丽都',
       count: 15,
       strokeStyle: '#CC9934'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '冬桥小区',
+      name: '惠丰同庆-蜜糖镇',
       count: 1,
       strokeStyle: '#9494A6'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '秋桥小区',
+      name: '藏龙新城二期-梁山头商业门面房一栋',
       count: 1,
       strokeStyle: '#00CC34'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '夏里小区',
-      count: 50,
+      name: '藏龙新城',
+      count: 11,
       strokeStyle: '#990000'
+    },
+    {
+      id: getUuid32(),
+      selected: false,
+      name: '中海',
+      count: 22,
+      strokeStyle: '#CC9934'
+    },
+    {
+      id: getUuid32(),
+      selected: false,
+      name: '东城华府',
+      count: 12,
+      strokeStyle: '#CC9934'
     },
   ];
   constructor() {
@@ -117,7 +131,7 @@ export class PersonStatistical extends Vue {
       legend: {
         orient: 'vertical',
         left: 10,
-        data: ['春桥小区', '夏桥小区', '冬桥小区', '秋桥小区', '夏里小区']
+        data: ['卡梅尔小镇', '水晶丽都', '惠丰同庆-蜜糖镇', '藏龙新城二期-梁山头商业门面房一栋', '藏龙新城', '中海', '东城华府']
       },
       series: [
         {
@@ -141,11 +155,13 @@ export class PersonStatistical extends Vue {
           radius: '50%',
           center: ['50%', '50%'],
           data: [
-            { value: 20, name: '春桥小区' },
-            { value: 15, name: '夏桥小区' },
-            { value: 1, name: '冬桥小区' },
-            { value: 1, name: '秋桥小区' },
-            { value: 50, name: '夏里小区' }
+            { value: 20, name: '卡梅尔小镇' },
+            { value: 15, name: '水晶丽都' },
+            { value: 1, name: '惠丰同庆-蜜糖镇' },
+            { value: 1, name: '藏龙新城二期-梁山头商业门面房一栋' },
+            { value: 11, name: '藏龙新城' },
+            { value: 22, name: '中海' },
+            { value: 12, name: '东城华府' }
           ]
         }
       ]
