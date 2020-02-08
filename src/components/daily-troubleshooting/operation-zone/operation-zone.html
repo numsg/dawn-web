@@ -2,15 +2,16 @@
     <div class="btn-group">
         <div class="top-operation">
             <div class="top-operation-left">
-                <el-button  :disabled="currentModelType === modelType.ALL" @click="currentModelType = modelType.ALL" class="iconfont type-btn iconfont iconpms-icon_Time-descending">
+                <el-button  :disabled="currentModelType === modelType.ALL" @click="currentModelType = modelType.ALL" class=" type-btn el-icon-document-copy">
                     所有填报人员
                     <!-- <span class="btn-p"> 时间排序 </span> -->
                   </el-button>
-                  <el-button  :disabled="currentModelType === modelType.unWrite"  @click="currentModelType = modelType.unWrite" class="iconfont type-btn iconfont iconpms-icon_Chronological-ascent">
+                  <el-button  :disabled="currentModelType === modelType.unWrite"  @click="currentModelType = modelType.unWrite" class="type-btn el-icon-document">
                     未填报人员
                     <!-- <span class="btn-p">时间排序</span> -->
                   </el-button>
-                  <el-button :disabled="currentModelType === modelType.fever" @click="currentModelType = modelType.fever" class="iconfont type-btn iconfont iconpms-icon_Chronological-ascent">
+                  <el-button :disabled="currentModelType === modelType.fever" @click="currentModelType = modelType.fever" class=" type-btn el-icon-sunrise-1
+                  ">
                     发热人员
                     <!-- <span class="btn-p">时间排序</span> -->
                   </el-button>

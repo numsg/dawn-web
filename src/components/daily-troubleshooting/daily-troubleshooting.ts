@@ -11,6 +11,7 @@ import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troub
 import * as format from 'dateformat';
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
+import { Getter } from 'vuex-class';
 
 import * as XLSX from 'xlsx';
 @Component({
@@ -31,6 +32,28 @@ export class DailyTroubleshootingComponent extends Vue {
   currentPage = 1;
   pageSize = 10;
   keyWord = '';
+
+  // 本社区小区
+  @Getter('baseData_communities')
+  communities!: any[];
+  // 确诊情况
+  @Getter('baseData_diagnosisSituations')
+  diagnosisSituations!: any[];
+  // 医疗情况
+  @Getter('baseData_medicalSituations')
+  medicalSituations!: any[];
+  // 特殊情况
+  @Getter('baseData_specialSituations')
+  specialSituations!: any[];
+  // 性别
+  @Getter('baseData_genderClassification')
+  genderClassification!: any[];
+  // 其他症状
+  @Getter('baseData_otherSymptoms')
+  otherSymptoms!: any[];
+  // 医疗意见
+  @Getter('baseData_medicalOpinions')
+  medicalOpinions!: any[];
 
   async created() {
     const result = await DailyTroubleshootingService.queryAllDailyRecord( this.currentPage, this.pageSize);
@@ -104,18 +127,18 @@ export class DailyTroubleshootingComponent extends Vue {
       const tableTr = [
         person.name,
         person.identificationNumber,
-        person.sex, // ?
+        this.replaceSex(person.sex), // ?
         person.age,
         person.phone,
         person.address,
-        person.plot, // ?
+        this.replacePlot(person.plot), // ?
         person.building,
         person.unitNumber,
         person.roomNo,
-        person.isExceedTemp,
-        person.isContact,
-        person.otherSymptoms, // ?
-        person.medicalOpinion, // ?
+        person.isExceedTemp ? 't' : 'f',
+        person.isContact ? 't' : 'f',
+        this.replaceOtherSymptoms(person.otherSymptoms), // ?
+        this.replaceMedicalOpinion(person.medicalOpinion), // ?
         person.note,
       ];
       data.push(tableTr);
@@ -128,7 +151,28 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   replaceSex(sex: any) {
-    
+    const sexItem = this.genderClassification.find( (item: any) => item.id ===  sex );
+    return sexItem ? sexItem.name : '';
   }
 
+  replacePlot(plot: any) {
+    const plotItem = this.communities.find( (item: any) => item.id ===  plot );
+    return plotItem ? plotItem.name : '';
+  }
+
+  replaceOtherSymptoms(OtherSymptoms: string) {
+    console.log(OtherSymptoms, 'OtherSymptoms');
+    if (!OtherSymptoms) {
+      return '';
+    }
+    const otherSymptomsItemList = this.otherSymptoms.filter( (item: any) => OtherSymptoms.includes(item.id));
+    console.log(otherSymptomsItemList, 'otherSymptomsItemList');
+    return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
+  }
+
+  replaceMedicalOpinion(medicalOpinion: any) {
+    const otherSymptomsItem = this.medicalOpinions.find( (item: any) => item.id ===  medicalOpinion );
+    console.log(otherSymptomsItem, 'otherSymptomsItem');
+    return otherSymptomsItem ? otherSymptomsItem.name : '';
+  }
 }
