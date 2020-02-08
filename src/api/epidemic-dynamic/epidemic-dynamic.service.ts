@@ -50,7 +50,48 @@ export default {
    * @param page
    * @param count
    */
-  queryEpidemicPersons(page: number, count: number, keyowrds?: string) {
+  // queryEpidemicPersons(page: number, count: number, diagnosisIds?: string[], keyowrds?: string) {
+  //   const q = odataClient({
+  //     service: store.getters.configs.baseSupportOdataUrl,
+  //     resources: 'EpidemicPersonEntity'
+  //   });
+  //   if (keyowrds) {
+  //     // tslint:disable-next-line:max-line-length
+  //     const filterStr = 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or  contains( medicalCondition, \'' + keyowrds + '\') or contains( specialSituation, \'' + keyowrds + '\')';
+  //     return q
+  //       .skip(count * page)
+  //       .top(count)
+  //       .filter(filterStr)
+  //       .orderby('submitTime', 'desc')
+  //       .count(true)
+  //       .get(null)
+  //       .then((response: any) => {
+  //         const result = {
+  //           count: JSON.parse(response.body)['@odata.count'],
+  //           value: this.buildEpidemicPersons(JSON.parse(response.toJSON().body).value)
+  //         };
+  //         return result;
+  //       })
+  //       .catch((error: any) => {});
+  //   } else {
+  //     return q
+  //       .skip(count * page)
+  //       .top(count)
+  //       .orderby('submitTime', 'desc')
+  //       .count(true)
+  //       .get(null)
+  //       .then((response: any) => {
+  //         const result = {
+  //           count: JSON.parse(response.body)['@odata.count'],
+  //           value: this.buildEpidemicPersons(JSON.parse(response.toJSON().body).value)
+  //         };
+  //         return result;
+  //       })
+  //       .catch((error: any) => {});
+  //   }
+  // },
+
+  queryEpidemicPersons(page: number, count: number, diagnosisIds?: string[], keyowrds?: string) {
     const q = odataClient({
       service: store.getters.configs.baseSupportOdataUrl,
       resources: 'EpidemicPersonEntity'
@@ -90,6 +131,7 @@ export default {
         .catch((error: any) => {});
     }
   },
+
 
   buildEpidemicPersons(result: any[]) {
     const res: any[] = [];

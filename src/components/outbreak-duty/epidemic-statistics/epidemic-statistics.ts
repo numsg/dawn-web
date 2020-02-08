@@ -91,7 +91,7 @@ export class EpidemicStatisticsComponent extends Vue {
   ];
 
   @Getter('outbreakDuty_epidemicStaticalData')
-  epidemicStaticalData: any;
+  epidemicStaticalData!: any[];
 
   totalCount = 1;
   constructor() {
@@ -106,8 +106,8 @@ export class EpidemicStatisticsComponent extends Vue {
   async mounted() {
     const doughnut: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
     this.chart = echarts.init(doughnut);
-    await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
     this.addEventListener();
+    await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
   }
 
   @Watch('epidemicStaticalData')
@@ -147,12 +147,19 @@ export class EpidemicStatisticsComponent extends Vue {
             },
             label: {
               fontSize: '16',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              formatter: '{b}: {d}'
             }
           },
-          radius: '60%',
+          label: {
+            fontSize: '14',
+            formatter: '{b}: {d}%'
+          },
+          // radius: '60%',
+          radius: ['40%', '60%'],
           center: ['50%', '50%'],
           data: this.epidemicStaticalData,
+          selectedMode: true,
           itemStyle: {
             emphasis: {
               shadowBlur: 10,
@@ -162,7 +169,6 @@ export class EpidemicStatisticsComponent extends Vue {
             normal: {
               color: (params: any) => {
                 const data = this.epidemicStaticalData[params.dataIndex];
-                console.log(data);
                 return data.strokeStyle;
               }
             }
@@ -176,13 +182,37 @@ export class EpidemicStatisticsComponent extends Vue {
    * 处理下方 pie 图点击事件
    * @param id 事件类型id
    */
-  handleStatisticsClick(id: string) {}
+  handleStatisticsClick(id: string) {
+    this.epidemicStaticalData.forEach((item, index) => {
+      if (item.id === id) {
+        item.selected = !item.selected;
+        this.chart.dispatchAction({
+          type: 'pieToggleSelect',
+          seriesIndex: 0,
+          dataIndex: index
+        });
+        this.chart.dispatchAction({
+          type: item.selected ? 'highlight' : 'downplay',
+          seriesIndex: 0,
+          dataIndex: index
+        });
+      }
+    });
+  }
 
   /**
    * 监听事件
    */
   addEventListener() {
-    this.chart.on('pieselectchanged', (evt: any) => {});
+    this.chart.on('pieselectchanged', (evt: any) => {
+      console.log('---pieselectchanged---');
+      console.log(evt);
+      this.epidemicStaticalData.forEach((item, index) => {
+        if (item.name === evt.name) {
+          item.selected = !item.selected;
+        }
+      });
+    });
   }
 
   beforeDestroy() {

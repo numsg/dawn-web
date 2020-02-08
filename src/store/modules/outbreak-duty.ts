@@ -3,7 +3,9 @@ import systemConfigService from '@/api/system-config/system-config.service';
 
 const outbreakDuty = {
   state: {
-    epidemicStaticalData: []
+    epidemicStaticalData: [],
+    totalCount: 0,
+    epidemicPersonList: [],
   },
   mutations: {
     SET_PIDEMIC_STATICAL_DATA: (state: any, result: any) => {
@@ -23,7 +25,11 @@ const outbreakDuty = {
     async SetEpidemicStaticalData({ commit }: any) {
       const result = await epidemicDynamicService.getEpidemicStaticalData();
       commit('SET_PIDEMIC_STATICAL_DATA', result);
-    }
+    },
+    async SetEpidemicPersons({ commit }: any, payloads: any) {
+        // const result = await epidemicDynamicService.queryEpidemicPersons(payloads);
+        // commit('SET_PIDEMIC_STATICAL_DATA', result);
+      },
   },
   getters: {
     outbreakDuty_epidemicStaticalData: (state: any) => state.epidemicStaticalData

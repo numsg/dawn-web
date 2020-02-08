@@ -62,7 +62,7 @@ export class EpidemicListComponent extends Vue {
   }
 
   handleSearch() {
-    epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize, this.keyWords).then((data: any) => {
+    epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize, [], this.keyWords).then((data: any) => {
       this.totalCount = data.count;
       this.epidemicPersonList = data.value;
     });
