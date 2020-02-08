@@ -52,7 +52,7 @@ export default {
         }
 
         // tslint:disable-next-line:max-line-length
-        const filterStr = 'contains( building, \'' + keyowrds + '\') or contains( unitNumber, \'' + keyowrds + '\') or  contains( roomNo, \'' + keyowrds + '\')';
+        const filterStr = 'contains( building, \'' + building + '\') or contains( unitNumber, \'' + unitNumber + '\') or  contains( roomNo, \'' + roomNo + '\')';
         return q
           .skip(count * (page - 1 ))
           .top(count)
