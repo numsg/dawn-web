@@ -60,35 +60,35 @@ export class PersonStatistical extends Vue {
     {
       id: getUuid32(),
       selected: false,
-      name: '幸福里1社区',
+      name: '春桥小区',
       count: 20,
       strokeStyle: '#990000'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '幸福里2社区',
+      name: '夏桥小区',
       count: 15,
       strokeStyle: '#CC9934'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '幸福里3社区',
+      name: '冬桥小区',
       count: 1,
       strokeStyle: '#9494A6'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '幸福里4社区',
+      name: '秋桥小区',
       count: 1,
       strokeStyle: '#00CC34'
     },
     {
       id: getUuid32(),
       selected: false,
-      name: '幸福里5社区',
+      name: '夏里小区',
       count: 50,
       strokeStyle: '#990000'
     },
@@ -117,7 +117,7 @@ export class PersonStatistical extends Vue {
       legend: {
         orient: 'vertical',
         left: 10,
-        data: ['幸福里1社区', '幸福里2社区', '幸福里3社区', '幸福里4社区', '幸福里5社区']
+        data: ['春桥小区', '夏桥小区', '冬桥小区', '秋桥小区', '夏里小区']
       },
       series: [
         {
@@ -141,11 +141,11 @@ export class PersonStatistical extends Vue {
           radius: '50%',
           center: ['50%', '50%'],
           data: [
-            { value: 20, name: '幸福里1社区' },
-            { value: 15, name: '幸福里2社区' },
-            { value: 1, name: '幸福里3社区' },
-            { value: 1, name: '幸福里4社区' },
-            { value: 50, name: '幸福里5社区' }
+            { value: 20, name: '春桥小区' },
+            { value: 15, name: '夏桥小区' },
+            { value: 1, name: '冬桥小区' },
+            { value: 1, name: '秋桥小区' },
+            { value: 50, name: '夏里小区' }
           ]
         }
       ]

@@ -15,10 +15,12 @@ export class PersonCard extends Vue {
     currentPage = 1;
     pageSizes = [10, 20, 30];
     pageSize = 0;
-    totalCount = 10;
 
     @Prop({default: []})
     private personData!: PersonInfo;
+
+    @Prop({default: 0})
+    private totalCount!: number;
 
     private currentPerson = new PersonInfo();
     private plans = [1111, 123, 1231, 1231, 1231,  1231, 1231, 1231];

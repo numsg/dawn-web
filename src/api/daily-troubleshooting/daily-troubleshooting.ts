@@ -40,7 +40,7 @@ export default {
         // tslint:disable-next-line:max-line-length
         const filterStr = 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or  contains( medicalCondition, \'' + keyowrds + '\')';
         return q
-          .skip(count * page)
+          .skip(count * (page - 1 ))
           .top(count)
           .filter(filterStr)
           .orderby('createTime', 'desc')
@@ -57,7 +57,7 @@ export default {
           .catch((error: any) => {});
       } else {
         return q
-          .skip(count * page)
+          .skip(count * (page - 1 ))
           .top(count)
           .orderby('createTime', 'desc')
           .count(true)

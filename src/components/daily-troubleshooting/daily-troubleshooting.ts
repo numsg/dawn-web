@@ -25,10 +25,12 @@ export class DailyTroubleshootingComponent extends Vue {
   private leftActive = 'statistic';
   currentType = ModelType.ALL;
   personData: any = [];
+  totalCount = 0;
 
   async created() {
     const result = await DailyTroubleshootingService.queryAllDailyRecord( 1, 10);
     this.personData = result.value;
+    this.totalCount = result.count;
     console.log(this.personData, '----------------------------');
   }
 
@@ -37,6 +39,8 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   paginationChange(pagination: {pageSize: number, currentPage: number}) {
-    DailyTroubleshootingService.queryAllDailyRecord(pagination.currentPage, pagination.pageSize);
+    const result = DailyTroubleshootingService.queryAllDailyRecord(pagination.currentPage, pagination.pageSize);
+    this.personData = result.value;
+    this.totalCount = result.count;
   }
 }
