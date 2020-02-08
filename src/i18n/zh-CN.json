@@ -1020,7 +1020,10 @@
     "role_name_length_between_1_64": "角色名称长度长度在1-64之间",
     "user_aleady_ass": "该用户已存在或已存在于相关联的系统",
     "save_then_leave": "当前新增用户未保存,是否确认离开",
-    "jump_other_page": "当前用户尚未保存,是否跳转到其它页面?"
+    "jump_other_page": "当前用户尚未保存,是否跳转到其它页面?",
+    "manage_area": "负责区域",
+    "please_select_area": "请选择负责区域"
+
   },
   "role-manage": {
     "role_name_not_null": "角色名称不能为空",
