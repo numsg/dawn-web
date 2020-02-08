@@ -139,7 +139,7 @@ export class RegionalStatistics extends Vue {
           type: 'map',
           map: 'JIANGXIA',
           roam: true,
-          center: [114.28561358925757, 30.33573652449078],
+          center: [114.3020754347939, 30.328670308003957],
           data: mapDatas
         }
       ]
