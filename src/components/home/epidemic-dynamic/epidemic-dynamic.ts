@@ -11,6 +11,7 @@ import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 import EpidemicPerson from '@/models/home/epidemic-persion';
 import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.service';
 import moment from 'moment';
+import { debounce } from 'lodash';
 
 @Component({
   template: epidemicDynamicHtml,
@@ -41,6 +42,13 @@ export class EpidemicDynamicComponent extends Vue {
   curProEpidemicData: any = {};
 
   citiesEpidemicData: any[] = [];
+
+  /**
+   * 搜索防抖
+   *
+   * @memberof ComponentFilter
+   */
+  debounceSearch = debounce(this.handleSearch, 500);
 
   async mounted() {
     const ele: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
@@ -239,6 +247,13 @@ export class EpidemicDynamicComponent extends Vue {
     if (this.isShowTabs) {
       this.queryEpidemicPersons();
     }
+  }
+
+  handleSearch() {
+    epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize, this.keyWords).then((data: any) => {
+      this.totalCount = data.count;
+      this.epidemicPersonList = data.value;
+    });
   }
 
   addEpidemicPersion() {

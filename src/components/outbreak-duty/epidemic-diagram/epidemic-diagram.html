@@ -1,0 +1,11 @@
+<div class="plan-diagram" :title="text">
+  <div class="desc" v-if="type==='circle' || type==='dashboard'">
+    <div class="text">{{ text }}</div>
+    <div class="count">{{ count }}</div>
+  </div>
+  <div class="line-desc" v-else="type==='line'">
+    <div class="text">{{ text }}</div>
+    <div class="count">({{ count }})</div>
+  </div>
+  <canvas ref="canvas" class="canvas"></canvas>
+</div>

@@ -1,0 +1,55 @@
+.plan-diagram {
+  position: relative;
+  // display: inline-block;
+  margin: 0 auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  .desc {
+    position: absolute;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    max-width: 100px;
+  }
+
+  .text {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+    max-width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .count {
+    font-size: 16px;
+    color: #333;
+  }
+
+  .line-desc {
+    display: inline-block;
+    width: 95px;
+    line-height: 30px;
+
+    .text,
+    .count {
+      float: left;
+      // padding-right: 10px;
+    }
+  }
+
+  .canvas {
+    z-index: 2;
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+  }
+
+}

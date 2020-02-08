@@ -55,7 +55,9 @@
   </div>
   <div class="grid" :class="{'grid-up': isShowTabs}">
     <div class="operation">
-      <el-input class="search" v-if="isShowTabs" suffix-icon="el-icon-search" v-model="keyWords">
+      <el-input class="search" v-if="isShowTabs" 
+      @input="debounceSearch"
+       suffix-icon="el-icon-search" v-model="keyWords">
       </el-input>
       <el-button v-if="isShowTabs" @click="addEpidemicPersion" circle
         class="add iconfont primary-btn iconpms-icon_Blow-Up"></el-button>
