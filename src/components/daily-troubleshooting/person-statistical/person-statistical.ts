@@ -154,6 +154,7 @@ export class PersonStatistical extends Vue {
           },
           radius: ['40%', '60%'],
           center: ['50%', '50%'],
+          selectedMode: true,
           data: [
             { value: 20, name: '卡梅尔小镇' },
             { value: 15, name: '水晶丽都' },
