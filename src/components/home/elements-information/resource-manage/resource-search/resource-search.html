@@ -1,0 +1,11 @@
+<div class="search-add">
+  <el-input
+        class="search-input"
+        placeholder="请输入内容"
+        v-model="serchValue">
+        <template slot="append" >
+          <i class="el-icon-search icon" @click="search"></i>
+        </template>
+  </el-input>
+  <ResourceAdd :addSuccess="addSuccess"/>
+</div>

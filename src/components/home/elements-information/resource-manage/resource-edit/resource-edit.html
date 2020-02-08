@@ -1,5 +1,5 @@
 <div class="resource-edit">
-    <el-form class="res-form" ref="resformEdit" :model="resformEdit" label-width="80px" label-position="top">
+    <el-form class="res-form" :rules="resourceRules" ref="resformEdit" :model="resformEdit" label-width="80px" label-position="top">
       <el-form-item label="物资编号" required>
         <el-input v-model="resformEdit.resId" disabled></el-input>
       </el-form-item>
@@ -19,7 +19,7 @@
       <el-form-item label="规格" required>
           <el-input v-model="resformEdit.resSpec" disabled></el-input>
       </el-form-item>
-      <el-form-item label="数量" required>
+      <el-form-item label="数量" prop="resCount" required>
           <el-input v-model="resformEdit.resCount"></el-input>
       </el-form-item>
       <el-form-item label="单位" required>

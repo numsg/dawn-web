@@ -4,8 +4,14 @@
     display: flex;
     flex-direction: column;
     padding-top: 20px;
+    position: relative;
 }
 
+.resource-search{
+    position: absolute;
+    top: -32px;
+    right: 0;
+}
 
 .table-box{
     flex: 1;

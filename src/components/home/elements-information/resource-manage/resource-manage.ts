@@ -5,6 +5,7 @@ import resourceManageHtml from './resource-manage.html';
 import { ResourceTransfers } from '@/components/home/elements-information/resource-manage/resource-transfers/resource-transfers';
 import { ResourceEdit } from '@/components/home/elements-information/resource-manage/resource-edit/resource-edit';
 import { ResourceRecords } from '@/components/home/elements-information/resource-manage/resource-records/resource-records';
+import { ResourceSearch } from '@/components/home/elements-information/resource-manage/resource-search/resource-search';
 
 import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 @Component({
@@ -15,6 +16,7 @@ import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
     ResourceTransfers,
     ResourceEdit,
     ResourceRecords,
+    ResourceSearch,
     'el-side-frame': SideFrameComponent,
    }
 })
@@ -69,19 +71,43 @@ export class ResourceManage extends Vue {
       resUpdateTime: '2020.2.1'
     },
   ];
+  private currentRes = {
+    resId: '',
+    resName: '',
+    resType: '',
+    resSpec: '',
+    resCount: 0,
+    resunit: '',
+    resUpdateTime: ''
+  };
+
   private currentFrame = '';
+
+  // 刷新列表
+  refresh() {
+
+  }
+
+
+
   // // 打开调派物资弹框
-  showTransfersDialog() {
+  showTransfersDialog(res: any) {
     this.currentFrame = 'ResourceTransfers';
+    this.currentRes = res;
     this.frameOpen();
   }
-  showEditDialog() {
+  showEditDialog(res: any) {
     this.currentFrame = 'ResourceEdit';
+    this.currentRes = res;
     this.frameOpen();
   }
-  showRecordsDialog() {
+  showRecordsDialog(res: any) {
     this.currentFrame = 'ResourceRecords';
+    this.currentRes = res;
     this.frameOpen();
+  }
+  deleteDialog(res: any) {
+    this.currentRes = res;
   }
 
   frameColse() {
@@ -105,4 +131,6 @@ export class ResourceManage extends Vue {
   handleCurrentChange() {
 
   }
+
+
 }

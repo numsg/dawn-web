@@ -8,14 +8,14 @@
         </div>
       </div>
       <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
-        <el-form class="res-form" ref="resform" :model="resform" label-width="80px" label-position="top">
-        <el-form-item label="物资编号" required>
+        <el-form class="res-form" :rules="resourceRules" ref="resform" :model="resform" label-width="80px" label-position="top">
+        <!-- <el-form-item label="物资编号" required>
           <el-input v-model="resform.resId"></el-input>
-        </el-form-item>
-        <el-form-item label="名称" required>
+        </el-form-item> -->
+        <el-form-item label="名称" prop="resName" required>
             <el-input v-model="resform.resName"></el-input>
         </el-form-item>
-        <el-form-item label="类型" required class="select-input-box">
+        <el-form-item label="类型"  prop="resType" required class="select-input-box">
             <el-select class="select-input" v-model="resform.resType" placeholder="请选择">
               <el-option
                 v-for="type in resTypes"
@@ -25,13 +25,13 @@
               </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="规格" required>
+        <el-form-item label="规格" prop="resSpec" required>
             <el-input v-model="resform.resSpec"></el-input>
         </el-form-item>
-        <el-form-item label="数量" required>
+        <el-form-item label="数量" prop="resCount" required>
             <el-input v-model="resform.resCount"></el-input>
         </el-form-item>
-        <el-form-item label="单位" required>
+        <el-form-item label="单位"  prop="resunit" required>
             <el-input v-model="resform.resunit"></el-input>
         </el-form-item>
       </el-form>

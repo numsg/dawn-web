@@ -1,4 +1,5 @@
 <div class="resource-manage">
+    <ResourceSearch :refresh="refresh" class="resource-search" />  
     <div class="table-box">
         <el-table class="table" border :data="resourceDate" height="100%" stripe highlight-current-row style="width:100%">
           <el-table-column prop="resId" :label="$t('物资编号')">
@@ -45,16 +46,16 @@
             <template slot-scope="scope">
               <div class="operation">
                 <!-- <el-tooltip  effect="dark" content=出库" placement="top"> -->
-                  <el-button  icon="el-icon-shopping-cart-1" @click="showTransfersDialog" title="出库"></el-button>
+                  <el-button  icon="el-icon-shopping-cart-1" @click="showTransfersDialog(scope.row)" title="出库"></el-button>
                 <!-- </el-tooltip> -->
                 <!-- <el-tooltip effect="dark" content=编辑" placement="top"> -->
-                  <el-button  icon="el-icon-edit" @click="showEditDialog" title="编辑"></el-button>
+                  <el-button  icon="el-icon-edit" @click="showEditDialog(scope.row)" title="编辑"></el-button>
                 <!-- </el-tooltip> -->
                 <!-- <el-tooltip  effect="dark" content=出入库记录" placement="top"> -->
-                  <el-button  icon="el-icon-document" @click="showRecordsDialog" title="出入库记录"></el-button>
+                  <el-button  icon="el-icon-document" @click="showRecordsDialog(scope.row)" title="出入库记录"></el-button>
                 <!-- </el-tooltip> -->
                 <!-- <el-tooltip  effect="dark" content=删除" placement="top"> -->
-                  <el-button  icon="el-icon-delete" title="删除"></el-button>
+                  <el-button  icon="el-icon-delete" @click="deleteDialog(scope.row)" title="删除"></el-button>
                 <!-- </el-tooltip> -->
               </div>
             </template>
@@ -81,9 +82,9 @@
         </div>
       </div>
       <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
-           <ResourceTransfers  v-if="currentFrame === 'ResourceTransfers'" @colse="frameColse" />
-           <ResourceEdit v-if="currentFrame === 'ResourceEdit'" @colse="frameColse"/>
-           <ResourceRecords v-if="currentFrame === 'ResourceRecords'"/>
+           <ResourceTransfers :currentRes="currentRes" @refresh="refresh" v-if="currentFrame === 'ResourceTransfers'" @colse="frameColse" />
+           <ResourceEdit :currentRes="currentRes" v-if="currentFrame === 'ResourceEdit'" @colse="frameColse"/>
+           <ResourceRecords :currentRes="currentRes" v-if="currentFrame === 'ResourceRecords'"/>
       </div>
     </el-side-frame>
 </div>

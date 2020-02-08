@@ -2,9 +2,10 @@
     <div class="active-container">
         <el-radio-group v-model="activeName" @change="handleClick">
             <el-radio-button label="resource">{{'应急物资'}}</el-radio-button>
+            <el-radio-button label="community">{{'社区网格员'}}</el-radio-button>
             <el-radio-button label="person">{{'社区居民'}}</el-radio-button>
           </el-radio-group>
-        <div class="search-add">
+        <!-- <div class="search-add">
             <el-input
                 class="search-input"
                 placeholder="请输入内容"
@@ -12,8 +13,9 @@
                 v-model="serchValue">
           </el-input>
           <ResourceAdd v-if="activeName === 'resource'"/>
-        </div>
+        </div> -->
     </div>
     <PersonManage  v-if="activeName === 'person'"/>
     <ResourceManage v-if="activeName === 'resource'"/>
+    <CommunityManage v-if="activeName === 'community'"/>
 </div>

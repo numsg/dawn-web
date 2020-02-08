@@ -1,0 +1,70 @@
+<div class="community-manage">
+    <div class="table-box">
+        <el-table class="table" border :data="workerData" height="100%" stripe highlight-current-row style="width:100%">
+          <el-table-column prop="community" :label="$t('所属社区')">
+            <template slot-scope="scope">
+              <div class="table-slot-cell" :title="scope.row.community">{{ scope.row.community }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="gridNumber" :label="$t('网格编号')">
+            <template slot-scope="scope">
+              <div class="table-slot-cell" :title="scope.row.gridNumber">{{ scope.row.gridNumber }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="houseHoldCount" :label="$t('居住户数')" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <div :title="scope.row.houseHoldCount" class="table-slot-cell">{{ scope.row.houseHoldCount }}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="personCount" :label="$t('人口数')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.personCount" class="table-slot-cell">{{ scope.row.personCount }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="worker" :label="$t('网格员')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.worker" class="table-slot-cell">{{ scope.row.worker }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="workerPhone" :label="$t('联系电话')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.workerPhone" class="table-slot-cell">{{ scope.row.workerPhone }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="userName" :label="$t('用户名')" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <div :title="scope.row.userName" class="table-slot-cell">{{ scope.row.userName }}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="ResponsibleCommunity" :label="$t('负责小区')" :show-overflow-tooltip="true">
+                <template slot-scope="scope">
+                  <div :title="scope.row.ResponsibleCommunity" class="table-slot-cell">{{ scope.row.ResponsibleCommunity }}</div>
+                </template>
+            </el-table-column>
+          <el-table-column
+            fixed="right"
+            :label="$t('system_log.operation')"
+            class="privilege-operate"
+            width="186"
+          >
+            <template slot-scope="scope">
+              <div class="operation">
+                  <el-button  icon="el-icon-edit" @click="showTransfersDialog" title="编辑"></el-button>
+                  <el-button  icon="el-icon-document" @click="showTransfersDialog" title="详情"></el-button>
+                  <el-button  icon="el-icon-delete" title="删除"></el-button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+    </div>
+    <el-pagination
+      class="pagination"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="currentPage"
+      :page-sizes="pageSizes"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="workerData.length">
+  </el-pagination>
+</div>

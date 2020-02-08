@@ -10,5 +10,6 @@ import ResourceRecordsHtml from './resource-records.html';
   }
 })
 export class ResourceRecords extends Vue {
-
+  @Prop( { default: () => {} })
+  private currentRes!: any;
 }
