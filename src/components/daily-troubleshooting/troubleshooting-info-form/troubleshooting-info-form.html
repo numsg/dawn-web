@@ -4,27 +4,25 @@
     <!-- <el-form-item label="编号" prop="code">
       <el-input v-model="troublePerson.code"></el-input>
     </el-form-item> -->
-    <el-form-item label="名称" prop="name">
+    {{genderClassification}}
+    <el-form-item label="姓名" prop="name">
       <el-input v-model="troublePerson.name"></el-input>
-    </el-form-item>
-    <el-form-item label="身份证" prop="identificationNumber">
-      <el-input v-model="troublePerson.identificationNumber"></el-input>
-    </el-form-item>
-    <el-form-item label="性别" prop="sex">
-      <el-radio-group v-model="troublePerson.sex">
-        <el-radio label="0">男</el-radio>
-        <el-radio label="1">女</el-radio>
-      </el-radio-group>
     </el-form-item>
     <el-form-item label="电话" prop="phone">
       <el-input v-model="troublePerson.phone"></el-input>
+    </el-form-item>
+    <el-form-item label="身份证" prop="identificationNumber">
+      <el-input v-model="troublePerson.identificationNumber"></el-input>
     </el-form-item>
     <el-form-item label="现居住地址" prop="address">
       <el-input v-model="troublePerson.address"></el-input>
     </el-form-item>
     <el-form-item label="小区" prop="plot">
-      <el-input v-model="troublePerson.plot"></el-input>
+      <el-radio-group v-model="troublePerson.plot">
+          <el-radio v-for="communitie in communities" :label="communitie.id" :key="communitie.id">{{communitie.name}}</el-radio>
+      </el-radio-group>
     </el-form-item>
+
     <el-form-item label="楼栋" prop="building">
       <el-input v-model="troublePerson.building"></el-input>
     </el-form-item>
@@ -34,21 +32,58 @@
     <el-form-item label="房间号" prop="roomNo">
       <el-input v-model="troublePerson.roomNo"></el-input>
     </el-form-item>
-    <el-form-item label="体温" prop="bodyTemperature">
-      <el-input v-model="troublePerson.bodyTemperature"></el-input>
+
+    <el-form-item label="性别" prop="sex">
+      <el-radio-group v-model="troublePerson.sex">
+          <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>
+      </el-radio-group>
     </el-form-item>
-    <el-form-item label="过去14天是否离开过本地区" prop="leaveArea">
-      <el-radio-group v-model="troublePerson.leaveArea">
+
+    <el-form-item label="年龄" prop="age">
+      <el-input v-model="troublePerson.age"></el-input>
+    </el-form-item>
+    
+    <el-form-item label="是否发热(体温 > 37.7℃)" prop="isExceedTemp">
+      <el-radio-group v-model="troublePerson.isExceedTemp">
         <el-radio :label="true">是</el-radio>
         <el-radio :label="false">否</el-radio>
       </el-radio-group>
     </el-form-item>
-    <el-form-item label="确诊情况" prop="confirmed_diagnosis">
-      <el-input v-model="troublePerson.confirmed_diagnosis"></el-input>
+
+    <el-form-item label="是否有新型肺炎接触史" prop="isContact">
+      <el-radio-group v-model="troublePerson.isContact">
+        <el-radio :label="true">是</el-radio>
+        <el-radio :label="false">否</el-radio>
+      </el-radio-group>
     </el-form-item>
+
+    <el-form-item label="其他症状" prop="otherSymptoms">
+      <el-radio-group v-model="troublePerson.otherSymptoms">
+        <el-radio v-for="symptoms in otherSymptoms" :label="symptoms.id" :key="symptoms.id">{{symptoms.name}}</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="分类诊疗医疗意见" prop="medicalOpinion">
+      <el-radio-group v-model="troublePerson.medicalOpinion">
+          <el-radio v-for="opinion in medicalOpinions" :label="opinion.id" :key="opinion.id">{{opinion.name}}</el-radio>
+      </el-radio-group>
+  </el-form-item>
+    <el-form-item label="备注" prop="note">
+      <el-input
+      type="textarea"
+      :rows="2"
+      placeholder="请输入内容"
+      :disabled="!!troublePerson.note && troublePerson.note.length > 255"
+      v-model="troublePerson.note">
+    </el-input>
+    <span>
+      {{ troublePerson.note ? troublePerson.note.length : 0 }}/255
+    </span>
+    </el-form-item>
+
   </el-form>
   <div class="btn-box">
       <el-button @click="colse">取 消</el-button>
-      <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+      <el-button type="primary" v-if="isEdit" @click="submitEditForm('ruleForm')">确 定</el-button>
+      <el-button type="primary" v-if="!isEdit" @click="submitForm('ruleForm')">确 定</el-button>
   </div>
 </div>

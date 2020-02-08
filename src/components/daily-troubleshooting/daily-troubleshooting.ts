@@ -43,6 +43,13 @@ export class DailyTroubleshootingComponent extends Vue {
     this.currentType = type;
   }
 
+  // 刷新
+  async refesh() {
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
+    this.personData = result.value;
+    this.totalCount = result.count;
+  }
+
   async addSuccess() {
     const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
     this.personData = result.value;

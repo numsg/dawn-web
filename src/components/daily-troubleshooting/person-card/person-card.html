@@ -57,6 +57,7 @@
                     size="small"
                     type="primary"
                     icon="iconfont iconpms-icon_edit"
+                    @click="edit(person)"
                   ></el-button>
     
                   <!-- <el-button
@@ -92,4 +93,17 @@
     :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
     layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
   </el-pagination>
+
+  <side-frame ref="sideFrame" :top="80">
+    <div class="side-frame-header" slot="header">
+      <div class="header-title side-frame-title">
+        <i></i>
+        <span>修改日常排查登记表</span>
+      </div>
+    </div>
+    <div class="side-frame-content choose-disaster" :isEdit="true" style="width: 500px;" slot="frame">
+      <TroubleshootingInfoForm :currentPerson="currentPerson" @colse="colse" @success="success"/>
+    </div>
+  </side-frame>
+
   </div>

@@ -6,10 +6,16 @@ import eventNames from '@/common/events/store-events';
 
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 
+import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
+import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/troubleshooting-info-form/troubleshooting-info-form';
+
 @Component({
   template: Html,
   style: Style,
-  components: {}
+  components: {
+    'side-frame': SideFrameComponent,
+    TroubleshootingInfoForm,
+  }
 })
 export class PersonCard extends Vue {
     currentPage = 1;
@@ -69,6 +75,16 @@ export class PersonCard extends Vue {
     handleCardClick() {
 
     }
+
+    success() {
+        this.$emit('refesh');
+    }
+
+    // 编辑
+    edit(person: PersonInfo) {
+        this.open();
+        this.currentPerson = person;
+    }
     // 页数码改变
     handleSizeChange(value: any) {
         this.pageSize = value;
@@ -78,5 +94,15 @@ export class PersonCard extends Vue {
     handleCurrentChange(value: any) {
         this.currentPage = value;
         this.$emit( 'paginationChange', {pageSize: this.pageSize, currentPage: this.currentPage});
+    }
+    // 打开编辑
+    open() {
+        const sideFrame: any = this.$refs['sideFrame'];
+        sideFrame.open();
+    }
+    // 关闭编辑
+    colse() {
+        const sideFrame: any = this.$refs['sideFrame'];
+        sideFrame.colse();
     }
 }

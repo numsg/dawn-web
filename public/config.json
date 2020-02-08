@@ -40,5 +40,7 @@
   "diagnosisDataSourceId": "97629e08-cb68-489d-8f62-8c8467358d69",
   "medicalConditionDataSourceId": "311e9950-3a98-4b5d-b17a-98263803bf80",
   "specialCaseDataSourceId": "21f19133-a103-4a31-9b96-fc7c045b37aa",
-  "genderDataSourceId": "d92014f0-b8ae-4d04-b4f3-3850a5c40330"
+  "genderDataSourceId": "d92014f0-b8ae-4d04-b4f3-3850a5c40330",
+  "otherSymptomsId": "582daff0-56a5-45a4-9ca7-dc098c688753",
+  "medicalOpinionsId": "fdd092c0-3227-495b-a83a-0bdc68e67708"
 }

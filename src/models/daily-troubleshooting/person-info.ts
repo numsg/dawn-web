@@ -28,6 +28,18 @@ export class PersonInfo {
     createTime!: string;
     // 多租户
     multiTenancy!: string;
+    // 年龄
+    age!: number | null;
+    // 体温大于37.7
+    isExceedTemp!: boolean;
+    // 是否有接触史
+    isContact!: boolean;
+    // 其它症状
+    otherSymptoms!: string;
+    // 医疗意见
+    medicalOpinion!: string;
+    // 备注
+    note!: String;
     constructor() {
         this.id = '';
         this.code = '';
@@ -56,5 +68,17 @@ export class PersonInfo {
         this.confirmed_diagnosis = '';
         // 填报时间
         this.createTime = '--:--:--';
+
+        this.age = null;
+        // 体温大于37.7
+        this.isExceedTemp = false;
+        // 是否有接触史
+        this.isContact = false;
+        // 其它症状
+        this.otherSymptoms =  '';
+        // 医疗意见
+        this.medicalOpinion =  '';
+        // 备注
+        this.note = '';
     }
 }

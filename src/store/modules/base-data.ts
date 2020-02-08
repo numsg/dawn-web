@@ -9,7 +9,9 @@ const baseData = {
         diagnosisSituations: [], // 诊断情况
         medicalSituations: [], // 医疗情况
         specialSituations: [], // 特殊情况
-        genderClassification: []
+        genderClassification: [],
+        otherSymptoms: [], // 其他症状
+        medicalOpinions: [], // 医疗意见
     },
 
     mutations: {
@@ -27,7 +29,13 @@ const baseData = {
         },
         SET_GENDER_CLASSIFICATION: (state: any, payloads: District[]) => {
             state.genderClassification = payloads;
-        }
+        },
+        SET_OTHER_SYMPTOMS: (state: any, payloads: District[]) => {
+            state.otherSymptoms = payloads;
+        },
+        SET_MEDICAL_OPINIONS: (state: any, payloads: District[]) => {
+            state.medicalOpinions = payloads;
+        },
     },
     actions: {
 
@@ -55,6 +63,16 @@ const baseData = {
             const dataSourceId = store.getters.configs.genderDataSourceId;
             const result = await dSourceDataService.findDDataSourceByDataSourceId(dataSourceId);
             commit('SET_GENDER_CLASSIFICATION', result);
+        },
+        SetOtherSymptoms: async ({ commit }: any) => {
+            const dataSourceId = store.getters.configs.otherSymptomsId;
+            const result = await dSourceDataService.findDDataSourceByDataSourceId(dataSourceId);
+            commit('SET_OTHER_SYMPTOMS', result);
+        },
+        SetMedicalOpinions: async ({ commit }: any) => {
+            const dataSourceId = store.getters.configs.medicalOpinionsId;
+            const result = await dSourceDataService.findDDataSourceByDataSourceId(dataSourceId);
+            commit('SET_MEDICAL_OPINIONS', result);
         }
 
     },
@@ -64,6 +82,8 @@ const baseData = {
         baseData_medicalSituations: (state: any) => state.medicalSituations,
         baseData_specialSituations: (state: any) => state.specialSituations,
         baseData_genderClassification: (state: any) => state.genderClassification,
+        baseData_otherSymptoms: (state: any) => state.otherSymptoms,
+        baseData_medicalOpinions: (state: any) => state.medicalOpinions,
     }
 };
 
