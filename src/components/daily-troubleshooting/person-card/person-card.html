@@ -13,12 +13,8 @@
                 {{ person.building }} - {{person.unitNumber}} - {{person.roomNo}}
               </span>
               <!-- <span class="version">plan</span> -->
-              <span class="prev-color confirmed_diagnosis" v-if="person.confirmed_diagnosis" >
-                确诊
-              </span>
-              <span class=" bodyTemperature">
-              <span :style="{'font-size': '12px', 'color':  '#3498db', 'font-weight': 600}">体温</span>
-                <span :style="{'color': colorBodyTemperature(person.bodyTemperature),'font-size': '16px' }">{{person.bodyTemperature}}</span>
+              <span class="prev-color confirmed_diagnosis" v-if="person.isExceedTemp" >
+                发热
               </span>
               <span class="phone">
                 <span>电话:</span>
@@ -48,7 +44,7 @@
                   <i class="iconfont iconpms-icon_time"></i>
                   <span>填报时间</span>
                 </div>
-                <div class="name">{{person.createTime}}</div>
+                <div class="name">{{person.createTime.replace('Z', ' ').replace('T', ' ')}}</div>
               </div>
               <div class="card-btn">
                 <div class="flr">

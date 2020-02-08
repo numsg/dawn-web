@@ -39,7 +39,9 @@ const StoreEvents = {
     SetDiagnosisSituations: 'SetDiagnosisSituations',
     SetMedicalSituations: 'SetMedicalSituations',
     SetSpecialSituations: 'SetSpecialSituations',
-    SetGenderClassification: 'SetGenderClassification'
+    SetGenderClassification: 'SetGenderClassification',
+    SetOtherSymptoms: 'SetOtherSymptoms',
+    SetMedicalOpinions: 'SetMedicalOpinions'
   },
 
   Login: {

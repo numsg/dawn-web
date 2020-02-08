@@ -1,13 +1,7 @@
 <div class="epidemic-info-form">
   <el-form :model="troublePerson" :rules="rules" label-position="top" size="mini" ref="ruleForm" label-width="100px"
     class="demo-ruleForm">
-    <!-- <el-form-item label="编号" prop="code">
-      <el-input v-model="troublePerson.code"></el-input>
-    </el-form-item> -->
-    {{genderClassification}}
-    <el-form-item label="姓名" prop="name">
-      <el-input v-model="troublePerson.name"></el-input>
-    </el-form-item>
+    
     <el-form-item label="电话" prop="phone">
       <el-input v-model="troublePerson.phone"></el-input>
     </el-form-item>
@@ -32,7 +26,9 @@
     <el-form-item label="房间号" prop="roomNo">
       <el-input v-model="troublePerson.roomNo"></el-input>
     </el-form-item>
-
+    <el-form-item label="姓名" prop="name">
+      <el-input v-model="troublePerson.name"></el-input>
+    </el-form-item>
     <el-form-item label="性别" prop="sex">
       <el-radio-group v-model="troublePerson.sex">
           <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>
@@ -43,7 +39,7 @@
       <el-input v-model="troublePerson.age"></el-input>
     </el-form-item>
     
-    <el-form-item label="是否发热(体温 > 37.7℃)" prop="isExceedTemp">
+    <el-form-item label="是否发热(体温 > 37.3℃)" prop="isExceedTemp">
       <el-radio-group v-model="troublePerson.isExceedTemp">
         <el-radio :label="true">是</el-radio>
         <el-radio :label="false">否</el-radio>
@@ -58,9 +54,12 @@
     </el-form-item>
 
     <el-form-item label="其他症状" prop="otherSymptoms">
-      <el-radio-group v-model="troublePerson.otherSymptoms">
+      <!-- <el-radio-group v-model="troublePerson.otherSymptoms">
         <el-radio v-for="symptoms in otherSymptoms" :label="symptoms.id" :key="symptoms.id">{{symptoms.name}}</el-radio>
-      </el-radio-group>
+      </el-radio-group> -->
+      <el-checkbox-group v-model="otherSymptomsList">
+        <el-checkbox v-for="symptoms in otherSymptoms" :label="symptoms.id" :key="symptoms.id">{{symptoms.name}}</el-checkbox>
+      </el-checkbox-group>
     </el-form-item>
     <el-form-item label="分类诊疗医疗意见" prop="medicalOpinion">
       <el-radio-group v-model="troublePerson.medicalOpinion">

@@ -86,27 +86,37 @@ export class DailyTroubleshootingComponent extends Vue {
       '姓名',
       '身份证号码',
       '性别',
+      '年龄',
       '联系电话',
       '现居地址',
       '小区',
       '楼栋',
       '单元',
       '房号',
-      '体温',
+      '体温是否大于37.3',
+      '是否有新型肺炎接触史',
+      '其他症状',
+      '分类诊疗医疗意见',
+      '备注'
     ];
     data.push(sheetTitle);
     result.value.forEach((person: PersonInfo) => {
       const tableTr = [
         person.name,
         person.identificationNumber,
-        person.sex,
+        person.sex, // ?
+        person.age,
         person.phone,
         person.address,
-        person.plot,
+        person.plot, // ?
         person.building,
         person.unitNumber,
         person.roomNo,
-        person.bodyTemperature,
+        person.isExceedTemp,
+        person.isContact,
+        person.otherSymptoms, // ?
+        person.medicalOpinion, // ?
+        person.note,
       ];
       data.push(tableTr);
     });
@@ -116,4 +126,9 @@ export class DailyTroubleshootingComponent extends Vue {
     XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
     XLSX.writeFile(wb, taskListName + '.xlsx');
   }
+
+  replaceSex(sex: any) {
+    
+  }
+
 }
