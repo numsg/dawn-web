@@ -52,7 +52,14 @@ export class PersonCard extends Vue {
     //     });
     // }
     colorBodyTemperature(temperature: string) {
-        // const tem = 
+        const tem = parseFloat(temperature);
+        if ( tem > 37 ) {
+            return '#ee8240';
+        } else if ( tem > 38 ) {
+            return '#ce3636';
+        } else {
+            return '#9ab2e9';
+        }
     }
 
     showDetail() {

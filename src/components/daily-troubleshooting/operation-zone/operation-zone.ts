@@ -41,7 +41,11 @@ export class OperationZone extends Vue {
 
     }
     debounceSearch() {
+      this.$emit('search', this.keyWords);
+    }
 
+    success() {
+      this.$emit('success');
     }
     async onUploadChange(file: any) {
       const formData: any = new FormData();
@@ -50,6 +54,7 @@ export class OperationZone extends Vue {
       console.log(result);
       if (result) {
         notifyUtil.success('导入成功');
+        this.$emit('uploadSuccess');
         this.$emit('colse');
       } else {
         notifyUtil.error('导入失败');

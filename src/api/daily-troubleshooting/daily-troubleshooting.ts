@@ -37,8 +37,22 @@ export default {
         resources: 'DailyTroubleshootRecordEntity'
       });
       if (keyowrds) {
+        const keywordList = keyowrds.split('-');
+        let building = '';
+        let unitNumber = '';
+        let roomNo = '';
+        if ( keywordList.length > 0 ) {
+          building =  keywordList[0];
+        }
+        if ( keywordList.length > 1 ) {
+          unitNumber =  keywordList[1];
+        }
+        if ( keywordList.length > 2 ) {
+          roomNo =  keywordList[2];
+        }
+
         // tslint:disable-next-line:max-line-length
-        const filterStr = 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or  contains( medicalCondition, \'' + keyowrds + '\')';
+        const filterStr = 'contains( building, \'' + keyowrds + '\') or contains( unitNumber, \'' + keyowrds + '\') or  contains( roomNo, \'' + keyowrds + '\')';
         return q
           .skip(count * (page - 1 ))
           .top(count)

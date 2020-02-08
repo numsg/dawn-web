@@ -52,6 +52,7 @@ export class TroubleshootingInfoForm extends Vue {
             if (res) {
               notifyUtil.success('添加填报记录成功');
               this.$emit('colse');
+              this.$emit('success');
               this.resetForm('ruleForm');
               this.troublePerson = new PersonInfo();
             } else {

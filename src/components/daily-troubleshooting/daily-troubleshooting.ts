@@ -26,9 +26,11 @@ export class DailyTroubleshootingComponent extends Vue {
   currentType = ModelType.ALL;
   personData: any = [];
   totalCount = 0;
+  currentPage = 1;
+  pageSize = 10;
 
   async created() {
-    const result = await DailyTroubleshootingService.queryAllDailyRecord( 1, 10);
+    const result = await DailyTroubleshootingService.queryAllDailyRecord( this.currentPage, this.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
     console.log(this.personData, '----------------------------');
@@ -38,9 +40,29 @@ export class DailyTroubleshootingComponent extends Vue {
     this.currentType = type;
   }
 
+  async addSuccess() {
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
+    this.personData = result.value;
+    this.totalCount = result.count;
+  }
+
+  async  searchQuery(keyWord: string) {
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize, keyWord);
+    this.personData = result.value;
+    this.totalCount = result.count;
+  }
+
+  async uploadSuccess() {
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
+    this.personData = result.value;
+    this.totalCount = result.count;
+  }
+
   async paginationChange(pagination: {pageSize: number, currentPage: number}) {
     const result = await DailyTroubleshootingService.queryAllDailyRecord(pagination.currentPage, pagination.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
+    this.currentPage = pagination.currentPage;
+    this.pageSize = pagination.pageSize;
   }
 }

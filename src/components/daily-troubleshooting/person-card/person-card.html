@@ -10,15 +10,15 @@
               ></i> -->
               <span class="name" :title="person.name">
                 <!-- {{person.plot}}  {{person.name}} -->
-                {{ person.building }}栋 {{person.unitNumber}}单元{{person.roomNo}}号
+                {{ person.building }} - {{person.unitNumber}} - {{person.roomNo}}
               </span>
               <!-- <span class="version">plan</span> -->
-              <span class="prev-color isplan" v-if="person.confirmed_diagnosis">
-                {{person.confirmed_diagnosis}}
+              <span class="prev-color confirmed_diagnosis" v-if="person.confirmed_diagnosis" >
+                确诊
               </span>
-              <span class="prev-color isplan bodyTemperature">
-                <span>体温</span>
-                <span>{{person.bodyTemperature}}</span>
+              <span class=" bodyTemperature">
+              <span :style="{'font-size': '12px', 'color':  '#3498db', 'font-weight': 600}">体温</span>
+                <span :style="{'color': colorBodyTemperature(person.bodyTemperature),'font-size': '16px' }">{{person.bodyTemperature}}</span>
               </span>
               <span class="phone">
                 <span>电话:</span>
