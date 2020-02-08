@@ -462,7 +462,7 @@ export class LevelDefinecontentComponent extends Vue {
     temp.name = item.name;
     temp.pid = item.pid;
     temp.dataSourceId = item.dataSourceId;
-    temp.image = item.image;
+    temp.image = JSON.stringify(item.image) ;
     temp.imgColor = item.imgColor;
     const result = await dSourceDataService.modifyDDataSource(temp);
     if (result) {
