@@ -55,10 +55,10 @@
                 
                 <div class="input-search">
                   <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
-                    :placeholder="$t('tempMgr.keywords_search_placeholder')" />
+                    placeholder="请输入房间号'1-1-1''" />
                   <span class="iconfont iconpms-icon_search iconfont-size"></span>
                 </div>
-                <el-button class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
+                <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
                   $t('plan_manage.reset')
                 }}</el-button>
                 <el-button @click="addTroubleShoot" class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
