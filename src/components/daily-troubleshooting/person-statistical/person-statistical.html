@@ -1,0 +1,34 @@
+<div class="animated fadeIn statistics">
+  <div class="total">
+    <div class="total-chart clearfix">
+      <div class="doughnut-wrapper clearfix">
+        <!-- <div class="totalcount">
+          <span>
+            <span>500</span>
+          </span>
+        </div> -->
+        <!-- <div ref="doughnut" class="doughnut" id="doughnut"></div> -->
+        <epidemic-diagram width="150" :strokeStyle="allPersonData.strokeStyle" height="300"
+          lineWidth="12" type="circle" :text="allPersonData.name" :count="allPersonData.count"
+          :percentage="100">
+        </epidemic-diagram>
+      </div>
+    </div>
+  </div>
+  <div class="type">
+    <div class="header-title">
+      <i></i>
+      <span>社区小区分类</span>
+    </div>
+    <div class="diagram clearfix">
+      <div class="circle" @click="handleStatisticsClick(data.id)" v-for="data of epidemicData">
+        <epidemic-diagram width="150" :strokeStyle="data.strokeStyle" height="150"
+          lineWidth="12" type="circle" :text="data.name" :count="data.count"
+          :percentage="100">
+        </epidemic-diagram>
+        <div class="line" :class="{ 'active': data.selected }"
+          :style="{'background-color': data.strokeStyle}"></div>
+      </div>
+    </div>
+  </div>
+</div>

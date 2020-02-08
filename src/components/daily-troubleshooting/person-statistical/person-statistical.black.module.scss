@@ -1,0 +1,216 @@
+.statistics {
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .total {
+    height: 300px;
+  }
+
+  .total-chart {
+    height: 300px;
+
+    .doughnut-wrapper {
+      position: relative;
+      //   height: 300px;
+      width: 45%;
+      float: left;
+    }
+
+    .totalcount {
+      position: absolute;
+      font-size: 26px;
+      font-weight: 700;
+      width: 100%;
+      height: 100%;
+
+      >span {
+        display: inline-block;
+        margin: 0 auto;
+        text-align: center;
+        width: 100%;
+        height: 30px;
+        position: absolute;
+        top: 50%;
+        margin-top: -15px;
+      }
+    }
+
+    .doughnut {
+      // width: 700px;
+      height: 300px; //   width: 40%;
+      width: 100%;
+      float: left;
+      color: #ffba00;
+    }
+
+    .wapper {
+      width: 55%;
+      height: 100%;
+      float: left;
+
+      .content {
+        // position: absolute;
+        width: 100%;
+        height: 100%; // text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .title {
+          width: 100%;
+          font-size: 22px;
+          line-height: 60px;
+          font-weight: 700;
+          color: #ffba00;
+        }
+
+        .filter-count {
+          width: 100%;
+          overflow: auto;
+
+          i {
+            color: #ffba00;
+            vertical-align: middle;
+          }
+
+          span {
+            color: #ffba00;
+            word-break: break-all;
+          }
+        }
+
+        .timezone {
+          width: 100%;
+
+          label {
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            vertical-align: middle;
+
+            .picker-txt {
+              display: inline-block;
+              height: 100%; //   line-height: 100%;
+              color: #3498db;
+
+              i {
+                vertical-align: middle;
+              }
+            }
+
+            .date {
+              span {
+                padding-right: 5px;
+              }
+            }
+          }
+
+          .clear {
+            margin-left: -20px;
+            display: inline-block;
+            line-height: 40px;
+            vertical-align: middle;
+            cursor: pointer;
+          }
+
+          .date-picker {
+            // // display: none;
+            // width: 0;
+            // height: 0;
+          }
+
+          .c____100____el-date-editor {
+            width: 220px; // display: none;
+            border: none;
+            background: none; // padding-left: 0;
+            // padding-right: 0;
+            padding: 5px 0px;
+
+            .c____100____el-input__icon {
+              display: none;
+            }
+
+            .c____100____el-range-input {
+              background: none;
+              margin-left: 10px;
+            }
+
+            .c____100____el-range-separator {
+              line-height: 40px !important;
+              font-size: 12px !important;
+              width: 12% !important;
+              padding-right: 10px !important;
+            }
+          }
+
+          .c____100____el-range-editor--mini .el-range-separator {
+            line-height: 40px !important;
+            font-size: 12px !important;
+            width: 12% !important;
+            display: inline-block !important;
+            // padding-right: 10px !important;
+            padding: 0 10px 0 2px !important;
+            // width: 10%;
+          }
+        }
+      }
+    }
+  }
+
+  .type {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .header-title {
+      color: #ffba00;
+
+      i {
+        color: #ffba00;
+      }
+    }
+
+    .diagram {
+      flex: 1;
+      overflow: auto;
+      padding: 10px 0 0px;
+      height: calc(100% - 34px);
+
+      .line {
+        width: 60px;
+        height: 6px;
+        margin: 0 auto; // background-color: #ccc;
+        margin-top: 5px;
+        border-radius: 3px;
+        visibility: hidden;
+        background-color: #3498db;
+
+        &.active {
+          visibility: visible;
+        }
+      }
+
+      .circle {
+        width: 33%;
+        float: left;
+        position: relative;
+        margin: 0 auto;
+        margin-bottom: 20px;
+      }
+
+      .c____4____el-progress-circle {
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+.date-picker-popper {
+  margin-top: 0px !important;
+  margin-left: -110px !important;
+  top: 348px !important;
+  left: 302px !important;
+}

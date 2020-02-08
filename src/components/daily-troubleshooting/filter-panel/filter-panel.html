@@ -1,0 +1,47 @@
+<div class="animated fadeIn filter-panel">
+  <div class="filter-item">
+    <el-collapse v-model="activeName" accordion>
+      <el-collapse-item name="1">
+        <template slot="title">
+          <div>
+            <div class="header-title">
+              <i></i>
+              <span>社区</span>
+            </div>
+          </div>
+        </template>
+        <div>
+          <span class="evt-checkbox" v-for="evt in allEventTypes">
+            <el-popover placement="bottom-start" trigger="hover">
+              <el-checkbox v-model="evt.checked" @change="onEventTypeChange($event, evt)" :title="evt.label" slot="reference"
+                ><span class="label-name">{{ evt.label }}</span>
+              </el-checkbox>
+              <el-tree
+                :check-strictly="true"
+                :data="evt.children"
+                @check-change="onTreeCheckChange"
+                :ref="'tree' + evt.id"
+                show-checkbox
+                node-key="id"
+              >
+              </el-tree>
+            </el-popover>
+          </span>
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+    <div class="tag">
+      <el-tag
+        class="plan-tag-item"
+        :disable-transitions="true"
+        closable
+        v-for="tag in eventTypeTags"
+        @close="onTagClose(tag.id, 'EventType')"
+        :key="tag.id"
+        :title="tag.label"
+        ><span>{{ tag.label }}</span></el-tag
+      >
+    </div>
+  </div>
+
+</div>

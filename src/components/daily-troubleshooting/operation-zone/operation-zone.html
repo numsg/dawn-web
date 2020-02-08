@@ -1,0 +1,55 @@
+<div class="operation-zone clearfix">
+    <div class="btn-group">
+        <div class="top-operation">
+            <div class="top-operation-left">
+                <el-button  @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Time-descending">
+                    所有填报人员
+                    <!-- <span class="btn-p"> 时间排序 </span> -->
+                  </el-button>
+                  <el-button  @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Chronological-ascent">
+                    未填报人员
+                    <!-- <span class="btn-p">时间排序</span> -->
+                  </el-button>
+            </div>
+            <div class="top-operation-right">
+                <el-button  @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Time-descending">
+                    导入
+                    <!-- <span class="btn-p">时间排序</span> -->
+                  </el-button>
+                  <el-button  @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Chronological-ascent">
+                    导出
+                    <!-- <span class="btn-p">时间排序</span> -->
+                  </el-button>
+            </div>
+        </div>
+        <div class="top-operation">
+            <!-- <el-dropdown>
+                <el-button class="iconfont type-btn reset iconfont iconpms-icon_Reset">按小区过虑</el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>黄金糕</el-dropdown-item>
+                  <el-dropdown-item>狮子头</el-dropdown-item>
+                  <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                  <el-dropdown-item disabled>双皮奶</el-dropdown-item>
+                  <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown> -->
+           
+            <div>
+                <div class="input-search">
+                    <input
+                    ref="searchInput"
+                    type="text"
+                    autofocus
+                    v-model="keyWords"
+                    :placeholder="$t('tempMgr.keywords_search_placeholder')"
+                    @keyup.enter="searchByKeyWords"
+                />
+                <span class="iconfont iconpms-icon_search iconfont-size"></span>
+                <el-button @click="resetPlans" class="iconfont type-btn reset iconfont iconpms-icon_Reset">添加</el-button>
+              </div>
+            </div>
+        </div>
+
+      
+    </div>
+  </div>

@@ -1,0 +1,76 @@
+.filter-panel {
+  padding-top: 10px;
+  flex: 1;
+  .filter-item {
+    border-bottom: 1px solid #1e3763;
+    padding: 10px 0px 20px;
+
+    .evt-checkbox {
+      margin-right: 30px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      display: inline-block;
+      vertical-align: middle;
+
+      .label-name {
+        max-width: 200px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-break: break-all;
+        line-height: 12px;
+      }
+    }
+
+    .c____4____el-collapse {
+      border-top: none;
+      border-bottom: none;
+    }
+
+    .c____4____el-collapse-item__header {
+      background-color: transparent;
+      border-bottom: none;
+    }
+
+    .c____4____el-collapse-item__wrap {
+      background-color: transparent;
+      border-bottom: none;
+    }
+
+    .plan-tag-item {
+      margin-right: 8px;
+      line-height: 30px;
+      height: 30px;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .c____4____el-collapse-item__content {
+      padding-bottom: 10px;
+    }
+
+    .picker-note {
+      margin-right: 10px;
+    }
+  }
+
+  .c____100____el-range-separator {
+    width: 24px !important;
+    text-align: center !important;
+    display: inline-block;
+    padding: 0 !important;
+  }
+
+  input {
+    background: #243d69;
+  }
+}
+
+// .c____100____el-checkbox {
+//   margin-bottom: 10px;
+// }

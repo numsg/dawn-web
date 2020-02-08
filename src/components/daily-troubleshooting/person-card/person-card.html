@@ -1,0 +1,82 @@
+<div class="content">
+    <div v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
+      <el-card class="box-card" :class="{isDefault: true}">
+        <div slot="header" class="card-header">
+          <i
+            class="iconfont event-type-icon"
+            :style="{'background-color': '#eee'}"
+            :class="['confont event-type-icon']"
+          ></i>
+          <span class="name" :title="person.name">{{person.plot}}  {{person.name}}</span>
+          <!-- <span class="version">plan</span> -->
+          <span class="prev-color isplan">{{person.confirmed_diagnosis}}</span>
+          <!-- <span class="prev-color istemplate" v-else>plan</span>
+          <span class="prev-color isMultiTenancy" v-if="plan"> model</span> -->
+        </div>
+        <div class="body">
+          <div class="item plan-type">
+            <div class="title">
+              <i class="iconfont iconpms-icon_txt"></i>
+              <span>过去十四天是否离开过本地区</span>
+            </div>
+            <div class="name">{{person.isLeaveArea ? '是' : '否' }}</div>
+          </div>
+          <div class="item event-type">
+            <div class="title">
+              <i class="iconfont iconpms-icon_Event-type"></i>
+              <span>体温</span>
+            </div>
+            <div class="name">{{person.bodyTemperature}}</div>
+          </div>
+          <div class="item create-time">
+            <div class="title">
+              <i class="iconfont iconpms-icon_time"></i>
+              <span>填报时间</span>
+            </div>
+            <div class="name">{{person.createTime}}</div>
+          </div>
+          <div class="card-btn">
+            <div class="flr">
+              <el-button
+                :title="$t('plan_manage.history_vision')"
+                size="small"
+                type="primary"
+                icon="iconfont iconpms-icon_File"
+                round
+              ></el-button>
+
+              <el-button
+                size="small"
+                :icon="'iconfont iconpms-icon_Preview-document'"
+                :title="1231"
+                type="primary"
+                round
+              >
+              </el-button>
+              <el-button
+                :title="$t('plan_manage.deduction_analysis')"
+                size="small"
+                :type="'primary'"
+                icon="iconfont iconpms-icon_Deduction"
+                round
+              ></el-button>
+              <el-button
+                :title="$t('common.delete')"
+                size="small"
+                type="danger"
+                icon="iconfont iconpms-icon_delet"
+                round
+              ></el-button>
+            </div>
+          </div>
+        </div>
+      </el-card>
+    </div>
+    <div
+      v-infinite-scroll="infiniteLoad"
+      infinite-scroll-delay="500"
+      infinite-scroll-distance="40"
+      infinite-scroll-immediate="false"
+      infinite-scroll-disable="disabled"
+    ></div>
+  </div>

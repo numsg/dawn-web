@@ -1,3 +1,35 @@
-<div>
-  outbreak-duty
+<div class="daily-troublesshooting">
+  <div class="left">
+    <PersonStatistical  v-if="leftActive==='statistic'"/>
+    <FilterPanelComponent v-if="leftActive==='more_filter'"/>
+    <div class="filter">
+      <el-button
+        v-if="leftActive==='more_filter'"
+        class="default-btn iconfont iconpms-icon_Conditional-Screening"
+        type="primary"
+        plain
+        @click="leftActive='statistic'"
+      >
+        {{ $t('plan_manage.data_statistic') }}
+      </el-button>
+      <el-button
+        v-if="leftActive==='statistic'"
+        class="default-btn iconfont iconpms-icon_classification"
+        type="primary"
+        plain
+        @click="leftActive='more_filter'"
+      >
+        {{ $t('plan_manage.more_filter_condition') }}
+      </el-button>
+      <el-button  
+        v-if="leftActive==='more_filter'"
+        class="default-btn iconfont iconpms-icon_Reset" type="primary" plain>
+        {{ $t('plan_manage.reset') }}
+      </el-button>
+    </div>
+  </div>
+  <div class="right">
+      <OperationZone />
+      <PersonCard /> 
+  </div>
 </div>
