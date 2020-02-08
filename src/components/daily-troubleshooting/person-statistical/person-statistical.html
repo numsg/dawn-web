@@ -8,6 +8,10 @@
           </span>
         </div> -->
         <!-- <div ref="doughnut" class="doughnut" id="doughnut"></div> -->
+        <div class="header-title">
+          <i></i>
+          <span>社区填报人数</span>
+        </div>
         <epidemic-diagram width="150" :strokeStyle="allPersonData.strokeStyle" height="300"
           lineWidth="12" type="circle" :text="allPersonData.name" :count="allPersonData.count"
           :percentage="100">
@@ -18,7 +22,7 @@
   <div class="type">
     <div class="header-title">
       <i></i>
-      <span>社区小区分类</span>
+      <span>小区填报人数</span>
     </div>
     <div class="diagram clearfix">
       <div class="circle" @click="handleStatisticsClick(data.id)" v-for="data of epidemicData">
