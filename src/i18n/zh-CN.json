@@ -54,7 +54,13 @@
     "knowledge_matrix": "预案模型",
     "user_manual": "用户手册",
     "plan_setup": "预案体系建设",
-    "system-settings": "产品配置"
+    "system-settings": "产品配置",
+    "outbreak":"疫情值守",
+    "outbreak-duty":"疫情值守",
+    "troubleshoot":"日常排查",
+    "daily-troubleshooting":"日常排查",
+    "emergency":"应急物资",
+    "emergency-supplies":"应急物资"
   },
   "notice": {
     "info": "消息",
