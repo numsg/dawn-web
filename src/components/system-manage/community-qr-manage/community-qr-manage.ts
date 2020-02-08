@@ -3,6 +3,7 @@ import communityQRManageHtml from './community-qr-manage.html';
 import communityQRManageStyle from './community-qr-manage.module.scss';
 import dDataSourceService from '@/api/data-source/d-data-source.service';
 import html2canvas from 'html2canvas';
+import { debounce } from 'lodash';
 
 @Component({
   template: communityQRManageHtml,
@@ -13,6 +14,7 @@ export class CommunityQRManageComponent extends Vue {
   // 模糊查询g
   keywords: any = '';
   tableData: any = [];
+  defaultTableData: any = [];
   multipleSelection: any = [];
     // 社区信息
     communityInformation: any = [];
@@ -25,8 +27,27 @@ export class CommunityQRManageComponent extends Vue {
     // 当前选中行信息
     currentSelectRowInfo: any = {};
     tempPicture = require('../../../assets/img/temp_qrcode.png');
+   /**
+   * 搜索防抖
+   */
+  debounceSearch = debounce(this.search, 500);
     created() {
       this.getCommunityInformationById(this.currentCommunityId);
+    }
+
+
+    search() {
+      const searchValue: any = this.keywords.trim();
+     if ( searchValue === '') {
+       this.tableData = JSON.parse(JSON.stringify(this.defaultTableData));
+     } else {
+      this.tableData = [];
+      this.defaultTableData.map((item: any) => {
+     if (item.name.indexOf(searchValue) !== -1) {
+       this.tableData.push(item);
+     }
+      });
+     }
     }
   /**
    * 批量生成二维码
@@ -97,6 +118,7 @@ export class CommunityQRManageComponent extends Vue {
     } else {
       this.communityInformation = [];
     }
-    this.tableData = this.communityInformation;
+    this.tableData = JSON.parse(JSON.stringify(this.communityInformation));
+    this.defaultTableData = JSON.parse(JSON.stringify(this.communityInformation));
   }
 }
