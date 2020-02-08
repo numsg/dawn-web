@@ -1,3 +1,4 @@
+import eventNames from '@/common/events/store-events';
 import { getUuid32 } from '@gsafety/cad-gutil/dist/utilhelper';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import Html from './person-statistical.html';
@@ -107,13 +108,14 @@ export class PersonStatistical extends Vue {
       strokeStyle: '#CC9934'
     },
   ];
+
+  totalCount: number = 1;
+
+  @Getter('dailyTroubleshooting_statisticsData')
+  statisticsData!: any[];
+
   constructor() {
     super();
-    // const startDate = moment()
-    //   .startOf('day')
-    //   .subtract(3, 'month');
-    // const endDate = moment().endOf('day');
-    // this.dateRange = [startDate.format(DATE_PICKER_FORMAT), endDate.format(DATE_PICKER_FORMAT)];
   }
 
   async mounted() {
@@ -121,7 +123,18 @@ export class PersonStatistical extends Vue {
     this.chart = echarts.init(doughnut);
     this.setOption();
     this.addEventListener();
+    await this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
   }
+
+  @Watch('statisticsData')
+  onStaticalDataLoad(val: any) {
+    console.log(val);
+    this.totalCount = val.reduce((prev: any, cur: any) => {
+      return Number(cur.count) + Number(prev);
+    }, 0);
+    this.setOption();
+  }
+
   setOption() {
     this.option = {
       tooltip: {
@@ -149,8 +162,13 @@ export class PersonStatistical extends Vue {
             },
             label: {
               fontSize: '16',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              formatter: '{b}: {d}'
             }
+          },
+          label: {
+            fontSize: '14',
+            formatter: '{b}: {d}%'
           },
           radius: ['40%', '60%'],
           center: ['50%', '50%'],
@@ -163,7 +181,20 @@ export class PersonStatistical extends Vue {
             { value: 11, name: '藏龙新城' },
             { value: 22, name: '中海' },
             { value: 12, name: '东城华府' }
-          ]
+          ],
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: `rgba(0, 0, 0, 0.5)`
+            },
+            normal: {
+              // color: (params: any) => {
+              //   const data = this.statisticsData[params.dataIndex];
+              //   return data.strokeStyle;
+              // }
+            }
+          }
         }
       ]
     };
@@ -174,7 +205,22 @@ export class PersonStatistical extends Vue {
    * @param id 事件类型id
    */
   handleStatisticsClick(id: string) {
-
+    this.statisticsData.forEach((item, index) => {
+      if (item.id === id) {
+        item.selected = !item.selected;
+        this.emitStatisticsEvent();
+        this.chart.dispatchAction({
+          type: 'pieToggleSelect',
+          seriesIndex: 0,
+          dataIndex: index
+        });
+        this.chart.dispatchAction({
+          type: item.selected ? 'highlight' : 'downplay',
+          seriesIndex: 0,
+          dataIndex: index
+        });
+      }
+    });
   }
 
   /**
@@ -182,8 +228,23 @@ export class PersonStatistical extends Vue {
    */
   addEventListener() {
     this.chart.on('pieselectchanged', (evt: any) => {
-
+      this.statisticsData.forEach((item, index) => {
+        if (item.name === evt.name) {
+          item.selected = !item.selected;
+          this.emitStatisticsEvent();
+        }
+      });
     });
+  }
+
+  emitStatisticsEvent() {
+    let ids = this.statisticsData.map(e => {
+      if (e.selected) {
+        return e.id;
+      }
+    });
+    ids = ids.filter(e => e !== undefined);
+    this.$emit('statistics-click', ids);
   }
 
   beforeDestroy() {

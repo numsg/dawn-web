@@ -17,6 +17,7 @@ import PMSystemConfig from './modules/system-config';
 import userManage from './modules/user-manage';
 import baseData from './modules/base-data';
 import outbreakDuty from './modules/outbreak-duty';
+import dailyTroubleshooting from './modules/daily-troubleshooting';
 Vue.use(Vuex);
 
 // const isDev = process.env.NODE_ENV === 'development';
@@ -35,7 +36,8 @@ const store = new Vuex.Store({
     PMSystemConfig,
     userManage,
     baseData,
-    outbreakDuty
+    outbreakDuty,
+    dailyTroubleshooting
   },
   getters
   // plugins: isDev ? [createLogger({})] : []

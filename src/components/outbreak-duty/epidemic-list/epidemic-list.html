@@ -2,9 +2,16 @@
   <div class="list-header">
     <div class="operation-zone clearfix">
       <div class="btn-group">
-        <el-button class="iconfont type-btn iconfont iconpms-icon_Time-descending">
+        <!-- <el-button @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Time-descending">
+          {{ $t('plan_manage.time_sort') }}
+        </el-button> -->
+        <el-button v-if="sort.flag==='desc'" @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Time-descending">
           {{ $t('plan_manage.time_sort') }}
         </el-button>
+        <el-button v-else @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Chronological-ascent">
+          {{ $t('plan_manage.time_sort') }}
+        </el-button>
+        
         <el-button @click="addEpidemicPersion" class="add iconfont primary-btn iconpms-icon_Blow-Up">新增</el-button>
         <el-button @click="resetData" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
               $t('plan_manage.reset')
@@ -60,8 +67,8 @@
             </div>
             <div class="card-btn">
               <div class="flr">
-                <el-button :title="$t('plan_manage.history_vision')" size="small" type="primary"
-                  icon="iconfont iconpms-icon_File" round></el-button>
+                <!-- <el-button :title="$t('plan_manage.history_vision')" size="small" type="primary"
+                  icon="iconfont iconpms-icon_File" round></el-button> -->
                 <el-button @click=handleEdit(data) size="small" icon="iconfont iconpms-icon_edit" :title=" $t('common.edit')" type="primary"
                   round>
                 </el-button>

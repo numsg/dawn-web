@@ -43,17 +43,17 @@ export default {
         });
     },
     // 查询所有日常排查记录
-    queryAllDailyRecord(page: number, count: number, keyowrds?: string) {
+    queryAllDailyRecord(page: number, count: number, keyowrds?: string, ids?: string[]) {
       const q = odataClient({
         service: store.getters.configs.communityManagerOdataUrl,
         resources: 'DailyTroubleshootRecordEntity'
       });
+      let filterStr = '';
       if (keyowrds) {
         const keywordList = keyowrds.split('-');
         let building = '';
         let unitNumber = '';
         let roomNo = '';
-        let filterStr = '';
         if ( keywordList.length > 0 ) {
           building =  keywordList[0];
           filterStr += 'contains( building, \'' + building + '\')';
@@ -66,9 +66,20 @@ export default {
           roomNo =  keywordList[2];
           filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
         }
-
-        // tslint:disable-next-line:max-line-length
-        // const filterStr = 'contains( building, \'' + building + '\') or contains( unitNumber, \'' + unitNumber + '\') or  contains( roomNo, \'' + roomNo + '\')';
+      }
+      if (ids && ids.length > 0) {
+        let str = '';
+        for (let i = 0, len = ids.length - 1; i < ids.length; i++) {
+            const id = ids[i];
+            if (i !== len) {
+                str += '(plot eq \'' + id + '\') or ';
+            } else {
+                str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+                filterStr += str;
+            }
+        }
+      }
+      if (filterStr) {
         return q
           .skip(count * (page - 1 ))
           .top(count)
@@ -218,7 +229,15 @@ export default {
   },
 
   getStatisticsData() {
-
+    const url = store.getters.configs.planPreparationUrl + 'daily-troubleshoot-record';
+    return httpClient
+      .getPromise(url)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
   }
 
 };

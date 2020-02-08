@@ -44,6 +44,8 @@ export class EpidemicListComponent extends Vue {
    */
   debounceSearch = debounce(this.handleSearch, 500);
 
+  sort: any = { type: 'submitTime', flag: 'desc' };
+
   async mounted() {
     this.queryEpidemicPersons();
   }
@@ -51,7 +53,8 @@ export class EpidemicListComponent extends Vue {
   async queryEpidemicPersons() {
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
       page: this.currentPage - 1,
-      count: this.pageSize
+      count: this.pageSize,
+      sort: this.sort
     });
   }
 
@@ -59,7 +62,8 @@ export class EpidemicListComponent extends Vue {
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
       page: 0,
       count: this.pageSize,
-      keyowrds: this.keyWords
+      keyowrds: this.keyWords,
+      sort: this.sort
     });
   }
 
@@ -101,5 +105,14 @@ export class EpidemicListComponent extends Vue {
     this.pageSize = 10;
     this.queryEpidemicPersons();
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
+  }
+
+  handleSort() {
+    if (this.sort.flag === 'desc') {
+      this.sort.flag = 'asc';
+    } else {
+      this.sort.flag = 'desc';
+    }
+    this.queryEpidemicPersons();
   }
 }

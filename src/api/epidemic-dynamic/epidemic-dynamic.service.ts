@@ -72,12 +72,16 @@ export default {
           }
       }
     }
+    const oorder = {
+      type: conditions.sort ? conditions.sort.type : 'submitTime',
+      flag: conditions.sort ? conditions.sort.flag : 'desc'
+    };
     if (filterStr) {
       return q
         .skip(conditions.count * conditions.page)
         .top(conditions.count)
         .filter(filterStr)
-        .orderby('submitTime', 'desc')
+        .orderby(oorder.type, oorder.flag)
         .count(true)
         .get(null)
         .then((response: any) => {
@@ -92,7 +96,7 @@ export default {
       return q
         .skip(conditions.count * conditions.page)
         .top(conditions.count)
-        .orderby('submitTime', 'desc')
+        .orderby(oorder.type, oorder.flag)
         .count(true)
         .get(null)
         .then((response: any) => {

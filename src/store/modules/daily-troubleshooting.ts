@@ -1,6 +1,7 @@
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
 import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.service';
 import systemConfigService from '@/api/system-config/system-config.service';
+import transformToColor from '@/common/filters/colorformat';
 
 const dailyTroubleshooting = {
   state: {
@@ -15,7 +16,7 @@ const dailyTroubleshooting = {
                 e.name = e.dSourceDataModel.name;
                 e.id = e.dSourceDataModel.id;
                 e.selected = false;
-                e.strokeStyle = e.dSourceDataModel.imgColor;
+                e.strokeStyle = e.dSourceDataModel.imgColor ? e.dSourceDataModel.imgColor : transformToColor(e.dSourceDataModel.name);
                 e.value = e.count;
             });
             state.epidemicStaticalData = result;

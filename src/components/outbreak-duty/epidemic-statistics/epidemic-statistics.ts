@@ -145,7 +145,7 @@ export class EpidemicStatisticsComponent extends Vue {
             label: {
               fontSize: '16',
               fontWeight: 'bold',
-              formatter: '{b}: {d}'
+              formatter: '{b}: {d}%'
             }
           },
           label: {

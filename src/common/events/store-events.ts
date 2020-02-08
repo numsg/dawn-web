@@ -98,6 +98,9 @@ const StoreEvents = {
   OutbreakDuty: {
     SetEpidemicStaticalData: 'SetEpidemicStaticalData',
     SetEpidemicPersons: 'SetEpidemicPersons'
+  },
+  DailyTroubleshooting: {
+    SetStatisticsData: 'SetStatisticsData'
   }
 };
 
