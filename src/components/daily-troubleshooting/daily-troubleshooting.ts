@@ -12,6 +12,7 @@ import * as format from 'dateformat';
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { Getter } from 'vuex-class';
+import eventNames from '@/common/events/store-events';
 
 import * as XLSX from 'xlsx';
 @Component({
@@ -84,6 +85,7 @@ export class DailyTroubleshootingComponent extends Vue {
     const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
   }
 
   async  searchQuery(keyWord: string) {
