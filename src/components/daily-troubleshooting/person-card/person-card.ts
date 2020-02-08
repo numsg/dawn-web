@@ -12,6 +12,10 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
   components: {}
 })
 export class PersonCard extends Vue {
+    currentPage = 1;
+    pageSize = 2;
+    totalCount = 10;
+
     private currentPerson = new PersonInfo();
     private plans = [1111, 123, 1231, 1231, 1231,  1231, 1231, 1231];
     get personData() {
@@ -44,15 +48,11 @@ export class PersonCard extends Vue {
 
     }
 
-    infiniteLoad() {
-        // if (this.loadCount === this.total) {
-        //   notifyUtil.info(this.$tc('common.aleady_load_all'));
-        //   return;
-        // }
-        this.load();
-      }
+    handleSizeChange() {
 
-    async load() {
-        await this.$store.dispatch(eventNames.planManager.InfiniteLoad);
+    }
+
+    handleCurrentChange() {
+
     }
 }

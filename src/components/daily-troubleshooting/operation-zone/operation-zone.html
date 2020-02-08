@@ -21,34 +21,35 @@
                     <!-- <span class="btn-p">时间排序</span> -->
                   </el-button>
             </div>
-        </div>
-        <div class="top-operation">
-            <!-- <el-dropdown>
-                <el-button class="iconfont type-btn reset iconfont iconpms-icon_Reset">按小区过虑</el-button>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>黄金糕</el-dropdown-item>
-                  <el-dropdown-item>狮子头</el-dropdown-item>
-                  <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                  <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-                  <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
-                </el-dropdown-menu>
-              </el-dropdown> -->
-           
-            <div>
-                <div class="input-search">
-                    <input
-                    ref="searchInput"
-                    type="text"
-                    autofocus
-                    v-model="keyWords"
-                    :placeholder="$t('tempMgr.keywords_search_placeholder')"
-                    @keyup.enter="searchByKeyWords"
-                />
-                <span class="iconfont iconpms-icon_search iconfont-size"></span>
-                <el-button @click="resetPlans" class="iconfont type-btn reset iconfont iconpms-icon_Reset">添加</el-button>
+            <div class="top-operation">
+              <!-- <div>
+                  <div class="input-search">
+                      <input
+                      ref="searchInput"
+                      type="text"
+                      autofocus
+                      v-model="keyWords"
+                      :placeholder="$t('tempMgr.keywords_search_placeholder')"
+                      @keyup.enter="searchByKeyWords"
+                  />
+                  <span class="iconfont iconpms-icon_search iconfont-size"></span>
+                  <el-button @click="resetPlans" class="iconfont type-btn reset iconfont iconpms-icon_Reset">添加</el-button>
+                </div>
               </div>
-            </div>
+              <el-button @click="addEpidemicPersion" class="add iconfont primary-btn iconpms-icon_Blow-Up">新增</el-button> -->
+                
+                <div class="input-search">
+                  <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
+                    :placeholder="$t('tempMgr.keywords_search_placeholder')" />
+                  <span class="iconfont iconpms-icon_search iconfont-size"></span>
+                </div>
+                <el-button class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
+                  $t('plan_manage.reset')
+                }}</el-button>
+                <el-button class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
+              </div>
         </div>
+       
 
       
     </div>
