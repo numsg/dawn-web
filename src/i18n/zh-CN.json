@@ -610,7 +610,7 @@
     "data_is_associated_ban": "当前数据源被关联, 无法删除",
     "download_data_source_template": "下载数据源导入模板",
     "import_data_source": "导入数据源",
-    "add_data_source": "添加数据源",
+    "add_data_source": "添加数据字典",
     "data_source_name_null": "数据源名称不能为空",
     "name_length_limit_1024": "名称不能超过1024个字符",
     "attribute_name": "属性名称",
