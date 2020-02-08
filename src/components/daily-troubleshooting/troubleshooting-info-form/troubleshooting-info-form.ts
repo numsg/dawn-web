@@ -117,13 +117,9 @@ export class TroubleshootingInfoForm extends Vue {
   }
   // 编辑确定
   submitEditForm(formName: string) {
-    console.log(11111112);
     const form: any = this.$refs[formName];
     form.validate((valid: any) => {
       if (valid) {
-        // alert('submit!');
-        console.log(this.troublePerson);
-        this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         this.troublePerson.createTime = null;
         DailyTroubleshootingService

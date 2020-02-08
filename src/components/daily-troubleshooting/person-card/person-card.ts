@@ -117,4 +117,11 @@ export class PersonCard extends Vue {
         const plotItem = this.communities.find( (item: any) => item.id ===  plot );
         return plotItem ? plotItem.name : '';
     }
+
+    replaceTime(time: string) {
+        if ( time ) {
+           return  time.replace('Z', ' ').replace('T', ' ')
+        }
+        return '';
+    }
 }
