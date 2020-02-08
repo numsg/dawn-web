@@ -25,25 +25,29 @@ import { ConfigHelper } from '@gsafety/whatever/dist/util/config-helper';
 import homeStyle from './home.module.scss';
 import homeBlackStyle from './home.black.module.scss';
 import i18n from '@/i18n';
-import { EpidemicDynamicComponent } from './epidemic-dynamic/epidemic-dynamic';
-import { ServiceManageComponent } from './service-manage/service-manage';
-import { ElementsInformation } from './elements-information/elements-information';
-import { EmergencyResponseComponent } from './emergency-response/emergency-response';
+// import { EpidemicDynamicComponent } from './epidemic-dynamic/epidemic-dynamic';
+import { RegionalStatistics } from './regional-statistics/regional-statistics';
+import { EpidemicTrends } from './epidemic-trends/epidemic-trends';
+import { EpidemicCumulativeTrends } from './epidemic-cumulative-trends/epidemic-cumulative-trends';
+import { EpidemicDeathTrends } from './epidemic-death-trends/epidemic-death-trends';
 
 @Component({
   template: HomeHtml,
   style: HomeStyle,
-  themes: [{ name: 'white', style: homeStyle }, { name: 'black', style: homeBlackStyle }],
+  themes: [
+    { name: 'white', style: homeStyle },
+    { name: 'black', style: homeBlackStyle }
+  ],
   components: {
     Draggable,
     PlanAppliedComponent,
     RecentWorkListComponent,
     NavigationGuidanceComponent,
     PlanEntranceComponent,
-    EpidemicDynamicComponent,
-    ServiceManageComponent,
-    ElementsInformation,
-    EmergencyResponseComponent
+    EpidemicTrends,
+    RegionalStatistics,
+    EpidemicCumulativeTrends,
+    EpidemicDeathTrends
   },
   beforeRouteLeave(to: any, from: any, next: any) {
     const el: any = this;
@@ -176,40 +180,49 @@ export class HomeComponent extends Vue {
   moduleList = [
     {
       id: '1',
-      title: '疫情动态',
+      title: '江夏区确诊病例分布总览',
       added: false,
       image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
-      componentName: 'epidemic-dynamic',
+      componentName: 'regional-statistics',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
     },
     {
       id: '2',
-      title: '社区要素信息',
+      title: '本社区 新增确诊/疑似 趋势图',
       added: false,
-      image: require('@/assets/img/home/quick-entrance-' + i18n.locale + '.png'),
-      componentName: 'elements-information',
-      privilege: this.rolePrivilege.rapidPreparation,
-      desc: 'home.repid_preparation_preplan_description'
+      image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      componentName: 'epidemic-trends',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
     },
     {
       id: '3',
-      title: '预案指导',
+      title: '本社区 累计确诊/疑似 趋势图',
       added: false,
-      image: require('@/assets/img/home/work-list-' + i18n.locale + '.png'),
-      componentName: 'service-manage',
-      privilege: this.rolePrivilege.workRecently,
-      desc: 'home.work_log_description'
+      image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      componentName: 'epidemic-cumulative-trends',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
     },
     {
       id: '4',
-      title: '防消措施',
+      title: '本社区 累计治愈/死亡 趋势图',
       added: false,
-      image: require('@/assets/img/home/coveage.png'),
-      componentName: 'emergency-response',
-      privilege: this.rolePrivilege.planCoverage,
-      desc: 'home.original_coverage_statistics_description'
-    },
+      image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      componentName: 'epidemic-death-trends',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
+    }
+    // {
+    //   id: '2',
+    //   title: '社区要素信息',
+    //   added: false,
+    //   image: require('@/assets/img/home/quick-entrance-' + i18n.locale + '.png'),
+    //   componentName: 'epidemic-dynamic',
+    //   privilege: this.rolePrivilege.rapidPreparation,
+    //   desc: 'home.repid_preparation_preplan_description'
+    // }
   ];
 
   drag: boolean = false;
@@ -312,9 +325,7 @@ export class HomeComponent extends Vue {
     this.originalType = JSON.parse(JSON.stringify(this.currentType));
   }
 
-  async mounted() {
-
-  }
+  async mounted() {}
 
   /**
    * 保存首页配置

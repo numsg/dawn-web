@@ -1,6 +1,6 @@
 <div class="home" @scroll="onScroll">
-  <!-- <div class="operate">
-    <el-button
+  <div class="operate">
+    <!-- <el-button
       v-if="editMode"
       class="animated iconfont default-btn iconpms-icon_Blow-Up"
       :class="{'fadeIn': editMode}"
@@ -14,18 +14,10 @@
       @click="handleComposingBtnClick"
       >{{ $t('home.complie_template') }}</el-button
     >
-    <el-button
-      v-if="editMode"
-      class="animated iconfont default-btn iconpms-icon_cancel"
-      :class="{'fadeIn': editMode}"
-      @click="cancelEdit"
+    <el-button v-if="editMode" class="animated iconfont default-btn iconpms-icon_cancel" :class="{'fadeIn': editMode}" @click="cancelEdit"
       >{{ $t('common.cancel') }}</el-button
     >
-    <el-button
-      v-if="editMode"
-      class="animated iconfont primary-btn iconpms-icon_save"
-      :class="{'fadeIn': editMode}"
-      @click="savePageConfig"
+    <el-button v-if="editMode" class="animated iconfont primary-btn iconpms-icon_save" :class="{'fadeIn': editMode}" @click="savePageConfig"
       >{{ $t('home.save_configuration') }}</el-button
     >
     <el-button
@@ -34,8 +26,8 @@
       class="iconfont start-edit default-btn iconpms-icon_configuration-management-icon"
       @click="editMode=!editMode"
       :title="$t('home.configuration_page')"
-    ></el-button>
-  </div> -->
+    ></el-button> -->
+  </div>
   <el-dialog
     top="0px"
     width="1230px"
@@ -139,35 +131,14 @@
               ></span>
             </div>
             <div class="item-content" :class="draggableItem.span < 7 ? 'style-one': 'style-two'">
-              <EpidemicDynamicComponent :span="draggableItem.span" v-if="data.componentName==='epidemic-dynamic'"></EpidemicDynamicComponent>
-              <ServiceManageComponent :span="draggableItem.span" v-if="data.componentName==='service-manage'"></ServiceManageComponent>
-              <ElementsInformation :span="draggableItem.span" v-if="data.componentName==='elements-information'"></ElementsInformation>
-              <EmergencyResponseComponent :span="draggableItem.span" v-if="data.componentName==='emergency-response'"></EmergencyResponseComponent>
-              <NavigationGuidanceComponent :span="draggableItem.span" v-if="data.componentName==='navigation-guidance'">
-              </NavigationGuidanceComponent>
-              <RecentWorkListComponent :span="draggableItem.span" v-if="data.componentName==='recent-work-list'"> </RecentWorkListComponent>
-              <!-- <PlanRadarComponent
+              <regional-statistics v-if="data.componentName==='regional-statistics'" :span="draggableItem.span"></regional-statistics>
+              <epidemic-trends v-if="data.componentName==='epidemic-trends'" :span="draggableItem.span"></epidemic-trends>
+              <epidemic-cumulative-trends
+                v-if="data.componentName==='epidemic-cumulative-trends'"
                 :span="draggableItem.span"
-                :showTitle="false"
-                v-if="data.componentName==='plan-systems'"
-              ></PlanRadarComponent> -->
-              <PlanEntranceComponent
-                :homeScroll="homeScroll"
-                @popover-visible="handleHomeScroll"
-                :span="draggableItem.span"
-                v-if="data.componentName==='plan-entrance'"
-              >
-              </PlanEntranceComponent>
-              <PlanAppliedComponent :span="draggableItem.span" v-if="data.componentName==='plan-applied'"> </PlanAppliedComponent>
-              <!-- <PlanCoverageComponent :span="draggableItem.span" v-if="data.componentName==='plan-coverage'"> </PlanCoverageComponent> -->
-              <!-- <PlanCoverageMapComponent
-                :span="draggableItem.span"
-                v-if="data.componentName==='plan-coverage-map'"
-              ></PlanCoverageMapComponent> -->
-              <OrganzationPlanSetupComponent
-                :span="draggableItem.span"
-                v-if="data.componentName==='organzation-plan-setup'"
-              ></OrganzationPlanSetupComponent>
+              ></epidemic-cumulative-trends>
+              <epidemic-death-trends v-if="data.componentName==='epidemic-death-trends'" :span="draggableItem.span"></epidemic-death-trends>
+              <!-- <EpidemicDynamicComponent :span="draggableItem.span"></EpidemicDynamicComponent> -->
             </div>
           </div>
         </div>
