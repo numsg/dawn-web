@@ -8,7 +8,7 @@ export class EpidemicPerson {
   diseaseTime!: Date | string;
   multiTenancy!: string;
   expendProperty!: string;
-  age!: number;
+  age: number = 20;
   temperature!: string;
   updateTime!: Date | string;
   mobileNumber!: string;

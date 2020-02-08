@@ -1,6 +1,4 @@
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
-import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.service';
-import systemConfigService from '@/api/system-config/system-config.service';
 import transformToColor from '@/common/filters/colorformat';
 
 const dailyTroubleshooting = {

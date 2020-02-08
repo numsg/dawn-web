@@ -1,3 +1,4 @@
+import transformToColor from './../../common/filters/colorformat';
 import * as httpClient from '@gsafety/vue-httpclient/dist/httpclient';
 import store from '@/store';
 import { treeToArray } from '@/common/utils/utils';
@@ -126,6 +127,9 @@ export default {
         const genderClassification: any[] = store.getters.baseData_genderClassification;
         ep.communityModel = communities.find(k => k.id === ep.villageId) || {};
         ep.diagnosisSituationModel = diagnosisSituations.find(k => k.id === ep.diagnosisSituation) || {};
+        if (ep.diagnosisSituationModel && !ep.diagnosisSituationModel.imageColor) {
+          ep.diagnosisSituationModel.imageColor = transformToColor(ep.diagnosisSituationModel.name);
+        }
         ep.medicalConditionModel = medicalSituations.find(k => k.id === ep.medicalCondition) || {};
         ep.specialSituationModel = specialSituations.find(k => k.id === ep.specialSituation) || {};
         ep.genderModel = genderClassification.find(k => k.id === ep.gender) || {};
