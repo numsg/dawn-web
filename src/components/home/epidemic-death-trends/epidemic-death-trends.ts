@@ -109,7 +109,7 @@ export class EpidemicDeathTrends extends Vue {
           symbol: 'circle',
           symbolSize: 8,
           itemStyle: {
-            color: '#3cb371'
+            color: '#10aeb5'
           },
           data: [120, 132, 101, 134, 90, 230, 210]
         },
@@ -120,7 +120,7 @@ export class EpidemicDeathTrends extends Vue {
           symbol: 'circle',
           symbolSize: 10,
           itemStyle: {
-            color: '#42435d'
+            color: '#757575'
           },
           data: [220, 182, 191, 234, 290, 330, 310]
         }
