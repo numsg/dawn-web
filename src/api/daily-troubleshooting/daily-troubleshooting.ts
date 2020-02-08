@@ -143,5 +143,10 @@ export default {
       .catch(err => {
         return false;
       });
+  },
+
+  getStatisticsData() {
+
   }
+
 };

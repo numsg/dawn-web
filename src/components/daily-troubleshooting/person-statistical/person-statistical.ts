@@ -152,7 +152,7 @@ export class PersonStatistical extends Vue {
               fontWeight: 'bold'
             }
           },
-          radius: '50%',
+          radius: ['40%', '60%'],
           center: ['50%', '50%'],
           data: [
             { value: 20, name: '卡梅尔小镇' },

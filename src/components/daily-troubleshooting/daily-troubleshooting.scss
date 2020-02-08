@@ -1,29 +1,32 @@
-.daily-troublesshooting{
+.daily-troublesshooting {
   position: relative;
   height: 100%;
-}
-
-.left{
-  width: 40%;
-  height: 100%;
-  display: inline-block;
-  background: #f7f8fc;
-  vertical-align: top;
-  padding: 15px;
-  display: inline-flex;
-  flex-direction: column;
-}
-
-.right {
-  width: calc( 60% - 4px);
-  height: 100%;
-  display: inline-block;
-  background: #f7f8fc;
-  vertical-align: top;
-  padding: 15px;
-}
-
-.filter{
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  .left {
+    // width: 40%;
+    flex: 4;
+    height: 100%;
+    display: inline-block;
+    background: #f7f8fc;
+    vertical-align: top;
+    padding: 15px;
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+
+  .right {
+    // width: calc(60% - 10px);
+    flex: 6;
+    height: 100%;
+    display: inline-block;
+    background: #f7f8fc;
+    vertical-align: top;
+    padding: 15px;
+  }
+  .filter {
+    display: flex;
+    justify-content: flex-end;
+  }
 }

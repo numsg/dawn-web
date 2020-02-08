@@ -153,7 +153,7 @@ export default {
    * 获取统计数据
    */
   getEpidemicStaticalData() {
-    const url = store.getters.configs.communityManagerUrl + `epidemic-person`;
+    const url = store.getters.configs.communityManagerUrl + `epidemic-person/total/all`;
     return httpClient.getPromise(url);
   }
 

@@ -33,9 +33,6 @@ export class EpidemicStatisticsComponent extends Vue {
 
   clearable: boolean = false;
 
-  @Getter('planManager_conditions_dateRange')
-  dateRange!: string[];
-
   currentDateZone: string[] = [];
   startTime: string = '';
   endTime: string = '';

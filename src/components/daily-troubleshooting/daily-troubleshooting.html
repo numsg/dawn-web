@@ -1,8 +1,8 @@
 <div class="daily-troublesshooting">
   <div class="left">
     <PersonStatistical  v-if="leftActive==='statistic'"/>
-    <FilterPanelComponent v-if="leftActive==='more_filter'"/>
-    <div class="filter">
+    <!-- <FilterPanelComponent v-if="leftActive==='more_filter'"/> -->
+    <!-- <div class="filter">
       <el-button
         v-if="leftActive==='more_filter'"
         class="default-btn iconfont iconpms-icon_Conditional-Screening"
@@ -26,7 +26,7 @@
         class="default-btn iconfont iconpms-icon_Reset" type="primary" plain>
         {{ $t('plan_manage.reset') }}
       </el-button>
-    </div>
+    </div> -->
   </div>
   <div class="right">
       <OperationZone @success="addSuccess" @search="searchQuery" @uploadSuccess="uploadSuccess" @modelTypeChange="modelTypeChange" />
