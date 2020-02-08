@@ -21,8 +21,8 @@
       <el-table-column prop="QRCode" label="二维码">
         <template slot-scope="scope">
           <el-popover placement="top-start" width="200"  trigger="hover">
-            <img style="width: 200px; height: 200px" src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=376029017,2622921745&fm=26&gp=0.jpg" :fit="fit" ></img>
-    <img slot="reference"  style="width: 30px; height: 30px" src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=376029017,2622921745&fm=26&gp=0.jpg" :fit="fit"></img>
+            <img style="width: 200px; height: 200px" :src="tempPicture" fit="fit" ></img>
+    <img slot="reference"  style="width: 30px; height: 30px" :src="tempPicture" fit="fit"></img>
           </el-popover>
         </template>
       </el-table-column>
@@ -31,10 +31,33 @@
         <template slot-scope="scope">
           <div class="operation">
             <el-button icon="iconfont  iconpms-icon_add" @click="generateQRCode" title="生成二维码 ">生成二维码</el-button>
-            <el-button icon="iconfont iconpms-icon_Batch-import export-bt" @click="exportInfo" title="导出">导出</el-button>
+            <el-button icon="el-icon-view" @click="preView(scope.row)" title="打印预览">打印预览</el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
   </div>
+
+  <el-dialog title="小区二维码信息" :visible.sync="dialogFormVisible" width="400px" class="report-dialog">
+      <div ref="contentRef">
+        <div class="qr-code-box">
+          <div class="img-box">
+            <img class="img-style" style="width: 200px; height: 200px" :src="tempPicture" fit="fit" ></img> 
+         </div>
+        <div class="desciption">  
+          <!-- <p> <span>自查自报</span> <span class="item-right">共抗疫情</span></p>
+          <p> <span>{{currentSelectRowInfo.name}}</span> <span class="item-right">与您同行</span></p> -->
+          <p class="text-content"> 清华辰安技术支持</p>
+        </div>
+        </div>
+        </div>
+       <!-- 导出的div容器 -->
+      <div>
+        <div ref="printContainerRef"></div>
+      </div>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="printQRCode">打印</el-button>
+    </div>
+  </el-dialog>
 </div>

@@ -1,17 +1,12 @@
-.community-qr-manage{
+.community-qr-manage {
   width: 100%;
   height: 100%;
   background: #fff;
 
-
   .top {
-    
     padding: 10px;
     height: 52px;
     .search {
-     
-     
-
       .keywords-search {
         width: 300px;
         margin-right: 10px;
@@ -20,10 +15,42 @@
     }
   }
 
-  .content{
+  .content {
     height: calc(100% - 52px);
   }
-  
-  
-  
+
+  .report-dialog {
+    // height: 500px;
+
+    .qr-code-box {
+      width: 100%;
+      height: 500px;
+      background-image: url(../../../assets/img/qrcode_background.jpeg);
+      .img-box {
+        width: 100%;
+        height: 365px;
+        position: relative;
+        .img-style {
+          margin-top: 165px;
+          position: absolute;
+          left: 50%;
+          margin-left: -100px;
+        }
+      }
+      .desciption {
+        text-align: center;
+        font-size: 18px;
+        .item-right {
+          margin-left: 10px;
+        }
+        .text-content{
+          font-size: 22px;
+          text-align: center;
+          color: #1a2a89;
+          text-shadow: 2px 2px 0 #d1eef9;
+          margin-top: 70px;
+        }
+      }
+    }
+  }
 }
