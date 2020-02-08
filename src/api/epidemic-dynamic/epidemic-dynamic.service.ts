@@ -130,7 +130,7 @@ export default {
         const genderClassification: any[] = store.getters.baseData_genderClassification;
         ep.communityModel = communities.find(k => k.id === ep.villageId) || {};
         ep.diagnosisSituationModel = diagnosisSituations.find(k => k.id === ep.diagnosisSituation) || {};
-        if (ep.diagnosisSituationModel && !ep.diagnosisSituationModel.imageColor) {
+        if (ep.diagnosisSituationModel && ep.diagnosisSituationModel.name && !ep.diagnosisSituationModel.imageColor) {
           ep.diagnosisSituationModel.imageColor = transformToColor(ep.diagnosisSituationModel.name);
         }
         ep.medicalConditionModel = medicalSituations.find(k => k.id === ep.medicalCondition) || {};
