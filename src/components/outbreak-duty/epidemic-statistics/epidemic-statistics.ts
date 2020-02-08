@@ -186,6 +186,7 @@ export class EpidemicStatisticsComponent extends Vue {
     this.epidemicStaticalData.forEach((item, index) => {
       if (item.id === id) {
         item.selected = !item.selected;
+        this.filterEpidemicPersons();
         this.chart.dispatchAction({
           type: 'pieToggleSelect',
           seriesIndex: 0,
@@ -210,8 +211,23 @@ export class EpidemicStatisticsComponent extends Vue {
       this.epidemicStaticalData.forEach((item, index) => {
         if (item.name === evt.name) {
           item.selected = !item.selected;
+          this.filterEpidemicPersons();
         }
       });
+    });
+  }
+
+  filterEpidemicPersons() {
+    let diagnosisIds = this.epidemicStaticalData.map(e => {
+      if (e.selected) {
+        return e.id;
+      }
+    });
+    diagnosisIds = diagnosisIds.filter(e => e !== undefined);
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
+      page: 0,
+      count: 10,
+      diagnosisIds: diagnosisIds
     });
   }
 

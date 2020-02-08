@@ -6,7 +6,7 @@
           {{ $t('plan_manage.time_sort') }}
         </el-button>
         <el-button @click="addEpidemicPersion" class="add iconfont primary-btn iconpms-icon_Blow-Up">新增</el-button>
-        <el-button class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
+        <el-button @click="resetData" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
               $t('plan_manage.reset')
             }}</el-button>
         <div class="input-search">

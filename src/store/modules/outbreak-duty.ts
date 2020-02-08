@@ -9,7 +9,7 @@ const outbreakDuty = {
   },
   mutations: {
     SET_PIDEMIC_STATICAL_DATA: (state: any, result: any) => {
-        if(result && Array.isArray(result)) {
+        if (result && Array.isArray(result)) {
             result.forEach(e => {
                 e.name = e.dSourceDataModel.name;
                 e.id = e.dSourceDataModel.id;
@@ -19,7 +19,13 @@ const outbreakDuty = {
             });
             state.epidemicStaticalData = result;
         }
-    }
+    },
+    SET_PIDEMIC_PERSONS: (state: any, result: any) => {
+        if (result) {
+            state.totalCount = result.count;
+            state.epidemicPersonList = result.value;
+        }
+    },
   },
   actions: {
     async SetEpidemicStaticalData({ commit }: any) {
@@ -27,12 +33,15 @@ const outbreakDuty = {
       commit('SET_PIDEMIC_STATICAL_DATA', result);
     },
     async SetEpidemicPersons({ commit }: any, payloads: any) {
-        // const result = await epidemicDynamicService.queryEpidemicPersons(payloads);
-        // commit('SET_PIDEMIC_STATICAL_DATA', result);
+        const result = await epidemicDynamicService.queryEpidemicPersons(payloads);
+        commit('SET_PIDEMIC_PERSONS', result);
       },
   },
   getters: {
-    outbreakDuty_epidemicStaticalData: (state: any) => state.epidemicStaticalData
+    outbreakDuty_epidemicStaticalData: (state: any) => state.epidemicStaticalData,
+    outbreakDuty_totalCount: (state: any) => state.totalCount,
+    outbreakDuty_epidemicPersonList: (state: any) => state.epidemicPersonList,
+
   }
 };
 

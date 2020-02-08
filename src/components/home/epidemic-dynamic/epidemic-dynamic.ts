@@ -12,6 +12,8 @@ import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.serv
 import moment from 'moment';
 import { debounce } from 'lodash';
 import { EpidemicInfoFormComponent } from '@/components/outbreak-duty/epidemic-info-form/epidemic-info-form';
+import eventNames from '@/common/events/store-events';
+import { Getter } from 'vuex-class';
 
 @Component({
   template: epidemicDynamicHtml,
@@ -30,18 +32,19 @@ export class EpidemicDynamicComponent extends Vue {
   mapOption!: any;
 
   isShowTabs: boolean = false;
-
-  epidemicPersonList: EpidemicPerson[] = [];
-
   currentPage: number = 1;
   pageSize: number = 10;
-  totalCount: number = 0;
   keyWords: string = '';
 
   // 当前省疫情数据
   curProEpidemicData: any = {};
 
   citiesEpidemicData: any[] = [];
+
+  @Getter('outbreakDuty_epidemicPersonList')
+  epidemicPersonList!: EpidemicPerson[];
+  @Getter('outbreakDuty_totalCount')
+  totalCount!: number;
 
   /**
    * 搜索防抖
@@ -84,9 +87,14 @@ export class EpidemicDynamicComponent extends Vue {
   }
 
   async queryEpidemicPersons() {
-    const data = await epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize);
-    this.totalCount = data.count;
-    this.epidemicPersonList = data.value;
+    // const data = await epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize);
+    // this.totalCount = data.count;
+    // this.epidemicPersonList = data.value;
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
+      page: 0,
+      count: this.pageSize,
+      keyowrds: this.keyWords
+    });
   }
 
   setOption() {
@@ -250,9 +258,10 @@ export class EpidemicDynamicComponent extends Vue {
   }
 
   handleSearch() {
-    epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize, this.keyWords).then((data: any) => {
-      this.totalCount = data.count;
-      this.epidemicPersonList = data.value;
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
+      page: 0,
+      count: this.pageSize,
+      keyowrds: this.keyWords
     });
   }
 

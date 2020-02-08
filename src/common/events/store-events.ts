@@ -95,6 +95,7 @@ const StoreEvents = {
   },
   OutbreakDuty: {
     SetEpidemicStaticalData: 'SetEpidemicStaticalData',
+    SetEpidemicPersons: 'SetEpidemicPersons'
   }
 };
 

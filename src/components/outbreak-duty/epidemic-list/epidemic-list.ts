@@ -1,3 +1,4 @@
+import eventNames from '@/common/events/store-events';
 import { getGuid32 } from '@gsafety/cad-gutil/dist/utilhelper';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import epidemicListStyle from './epidemic-list.module.scss';
@@ -9,6 +10,7 @@ import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.serv
 import moment from 'moment';
 import { debounce } from 'lodash';
 import { EpidemicInfoFormComponent } from '../epidemic-info-form/epidemic-info-form';
+import { Getter } from 'vuex-class';
 
 @Component({
   template: epidemicListHtml,
@@ -20,14 +22,14 @@ import { EpidemicInfoFormComponent } from '../epidemic-info-form/epidemic-info-f
   }
 })
 export class EpidemicListComponent extends Vue {
-
   isShowTabs: boolean = false;
 
-  epidemicPersonList: EpidemicPerson[] = [];
-
+  @Getter('outbreakDuty_epidemicPersonList')
+  epidemicPersonList!: EpidemicPerson[];
+  @Getter('outbreakDuty_totalCount')
+  totalCount!: number;
   currentPage: number = 1;
   pageSize: number = 10;
-  totalCount: number = 0;
   keyWords: string = '';
 
   // 当前省疫情数据
@@ -35,7 +37,7 @@ export class EpidemicListComponent extends Vue {
 
   citiesEpidemicData: any[] = [];
 
-  editEpidemicPerson: EpidemicPerson = new EpidemicPerson;
+  editEpidemicPerson: EpidemicPerson = new EpidemicPerson();
 
   /**
    * 搜索防抖
@@ -43,33 +45,26 @@ export class EpidemicListComponent extends Vue {
   debounceSearch = debounce(this.handleSearch, 500);
 
   async mounted() {
-
     this.queryEpidemicPersons();
   }
 
   async queryEpidemicPersons() {
-    const data = await epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize);
-    this.totalCount = data.count;
-    this.epidemicPersonList = data.value;
-  }
-
-
-  showTabs() {
-    this.isShowTabs = !this.isShowTabs;
-    if (this.isShowTabs) {
-      this.queryEpidemicPersons();
-    }
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
+      page: this.currentPage - 1,
+      count: this.pageSize
+    });
   }
 
   handleSearch() {
-    epidemicDynamicService.queryEpidemicPersons(this.currentPage - 1, this.pageSize, [], this.keyWords).then((data: any) => {
-      this.totalCount = data.count;
-      this.epidemicPersonList = data.value;
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
+      page: 0,
+      count: this.pageSize,
+      keyowrds: this.keyWords
     });
   }
 
   addEpidemicPersion() {
-    this.editEpidemicPerson = new EpidemicPerson;
+    this.editEpidemicPerson = new EpidemicPerson();
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.open();
   }
@@ -78,6 +73,7 @@ export class EpidemicListComponent extends Vue {
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.close();
     this.queryEpidemicPersons();
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
   }
 
   handleSizeChange(val: any) {
@@ -98,5 +94,12 @@ export class EpidemicListComponent extends Vue {
     this.editEpidemicPerson = data;
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.open();
+  }
+
+  resetData() {
+    this.currentPage = 1;
+    this.pageSize = 10;
+    this.queryEpidemicPersons();
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
   }
 }
