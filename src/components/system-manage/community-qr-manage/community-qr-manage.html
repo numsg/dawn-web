@@ -7,11 +7,7 @@
         v-model="keywords"
         suffix-icon="iconfont iconpms-icon_search"
       ></el-input>
-      <el-button
-        class="iconfont no-text-btn iconpms-icon_add primary-btn"
-        size="mini"
-        type="primary"
-        @click="batchGenerationQRCode"
+      <el-button class="iconfont no-text-btn iconpms-icon_add primary-btn" size="mini" type="primary" @click="batchGenerationQRCode"
         >批量生成二维码</el-button
       >
     </div>
@@ -22,21 +18,23 @@
       <el-table-column label="小区名称">
         <template slot-scope="scope">{{ scope.row.name }}</template>
       </el-table-column>
-      <el-table-column prop="QRCode" label="二维码" show-overflow-tooltip> </el-table-column>
-      <el-table-column prop="note" label="备注" > </el-table-column>
-      <el-table-column
-      fixed="right"
-      :label="$t('system_log.operation')"
-      class="privilege-operate"
-      width="300"
-    >
-      <template slot-scope="scope">
-        <div class="operation">
-                <el-button  icon="el-icon-delete" @click="generateQRCode" title="生成二维码 ">生成二维码</el-button>
-                <el-button  icon="el-icon-delete" @click="exportInfo" title="导出">导出</el-button>
-        </div>
-      </template>
-    </el-table-column>
+      <el-table-column prop="QRCode" label="二维码">
+        <template slot-scope="scope">
+          <el-popover placement="top-start" width="200"  trigger="hover">
+            <img style="width: 200px; height: 200px" src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=376029017,2622921745&fm=26&gp=0.jpg" :fit="fit" ></img>
+    <img slot="reference"  style="width: 30px; height: 30px" src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=376029017,2622921745&fm=26&gp=0.jpg" :fit="fit"></img>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column prop="note" label="备注" show-overflow-tooltip> </el-table-column> -->
+      <el-table-column fixed="right" :label="$t('system_log.operation')" class="privilege-operate" width="300">
+        <template slot-scope="scope">
+          <div class="operation">
+            <el-button icon="iconfont  iconpms-icon_add" @click="generateQRCode" title="生成二维码 ">生成二维码</el-button>
+            <el-button icon="iconfont iconpms-icon_Batch-import export-bt" @click="exportInfo" title="导出">导出</el-button>
+          </div>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </div>
