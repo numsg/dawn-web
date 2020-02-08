@@ -17,6 +17,18 @@ export default {
             return false;
         });
     },
+    // 通过导入新增文件
+    addDailyTroubleshootingByxlsx(info: any) {
+      const url = store.getters.configs.baseSupportUrl + 'daily-troubleshoot-record/import';
+        return httpClient
+        .postPromise(url, info, {headers: {'Content-Type': 'multipart/form-data'}})
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            return false;
+        });
+    },
 
   queryAttachments(businessId: any): Promise<any> {
     const q = odataClient({

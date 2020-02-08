@@ -33,7 +33,7 @@ export class PersonCard extends Vue {
             person.unitNumber = '2单元';
             person.roomNo = '201';
             person.bodyTemperature = '36.9';
-            person.isLeaveArea = false;
+            person.leaveArea = false;
             person.confirmed_diagnosis = '确诊';
             person.createTime = '2020:02:07 11:29:20';
             person.multiTenancy = '很多人';

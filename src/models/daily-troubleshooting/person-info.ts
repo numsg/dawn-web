@@ -51,12 +51,10 @@ export class PersonInfo {
         // 体温body temperature
         this.bodyTemperature = '';
         // 过去14天是否离开过本地区
-        this.leaveArea = false;
+        // this.leaveArea = false;
         // 确诊情况
         this.confirmed_diagnosis = '';
         // 填报时间
         this.createTime = '--:--:--';
-        // 多租户
-        this.multiTenancy = '';
     }
 }

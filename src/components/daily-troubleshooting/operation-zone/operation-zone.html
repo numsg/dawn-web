@@ -12,14 +12,27 @@
                   </el-button>
             </div>
             <div class="top-operation-right">
-                <el-button  @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Time-descending">
-                    导入
-                    <!-- <span class="btn-p">时间排序</span> -->
-                  </el-button>
-                  <el-button  @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Chronological-ascent">
+                  <el-upload
+                    class="upload-demo"
+                    ref="upload"
+                    action=""
+                    :multiple="false"
+                    :file-list="fileList"
+                    :on-change="onUploadChange"
+                    :auto-upload="false"
+                    :show-file-list="false"
+                  >
+                    <el-button slot="trigger" class=" type-btn  el-icon-upload2
+                    ">
+                      导入
+                    </el-button>
+                  </el-upload>
+
+                  <el-button  @click="handleSort" class=" type-btn  el-icon-download">
                     导出
                     <!-- <span class="btn-p">时间排序</span> -->
                   </el-button>
+
             </div>
             <div class="top-operation">
               <!-- <div>
