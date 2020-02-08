@@ -1,7 +1,7 @@
 <div class="content">
     <div class="card-content">
         <div v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
-          <el-card class="box-card" :class="{isDefault: true}">
+          <el-card class="box-card" :class="{isDefault: false}">
             <div slot="header" class="card-header">
               <i
                 class="iconfont event-type-icon"
