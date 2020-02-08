@@ -21,7 +21,7 @@ export class PersonInfo {
     // 体温body temperature
     bodyTemperature!: string;
     // 过去14天是否离开过本地区
-    isLeaveArea!: boolean;
+    leaveArea!: boolean;
     // 确诊情况
     confirmed_diagnosis!: string;
     // 填报时间
@@ -51,7 +51,7 @@ export class PersonInfo {
         // 体温body temperature
         this.bodyTemperature = '';
         // 过去14天是否离开过本地区
-        this.isLeaveArea = false;
+        this.leaveArea = false;
         // 确诊情况
         this.confirmed_diagnosis = '';
         // 填报时间

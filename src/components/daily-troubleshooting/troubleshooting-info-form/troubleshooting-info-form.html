@@ -1,0 +1,58 @@
+<div class="epidemic-info-form">
+  <el-form :model="troublePerson" :rules="rules" label-position="top" size="mini" ref="ruleForm" label-width="100px"
+    class="demo-ruleForm">
+    <el-form-item label="编号" prop="code">
+      <el-input v-model="troublePerson.code"></el-input>
+    </el-form-item>
+    <el-form-item label="名称" prop="name">
+      <el-input v-model="troublePerson.name"></el-input>
+    </el-form-item>
+    <el-form-item label="身份证" prop="identificationNumber">
+      <el-input v-model="troublePerson.identificationNumber"></el-input>
+    </el-form-item>
+    <el-form-item label="性别" prop="sex">
+      <el-radio-group v-model="troublePerson.sex">
+        <el-radio label="0">男</el-radio>
+        <el-radio label="1">女</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="电话" prop="phone">
+      <el-input v-model="troublePerson.phone"></el-input>
+    </el-form-item>
+    <el-form-item label="现居住地址" prop="address">
+      <el-input v-model="troublePerson.address"></el-input>
+    </el-form-item>
+    <el-form-item label="小区" prop="plot">
+      <el-input v-model="troublePerson.plot"></el-input>
+    </el-form-item>
+    <el-form-item label="楼栋" prop="building">
+      <el-input v-model="troublePerson.building"></el-input>
+    </el-form-item>
+    <el-form-item label="单元号" prop="unitNumber">
+      <el-input v-model="troublePerson.unitNumber"></el-input>
+    </el-form-item>
+    <el-form-item label="房间号" prop="roomNo">
+      <el-input v-model="troublePerson.roomNo"></el-input>
+    </el-form-item>
+    <el-form-item label="体温" prop="bodyTemperature">
+      <el-input v-model="troublePerson.bodyTemperature"></el-input>
+    </el-form-item>
+    <el-form-item label="过去14天是否离开过本地区" prop="leaveArea">
+      <el-radio-group v-model="troublePerson.leaveArea">
+        <el-radio :label="true">是</el-radio>
+        <el-radio :label="false">否</el-radio>
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item label="确诊情况" prop="confirmed_diagnosis">
+      <el-input v-model="troublePerson.confirmed_diagnosis"></el-input>
+    </el-form-item>
+    
+    <el-form-item label="多租户" prop="multiTenancy">
+      <el-input v-model="troublePerson.multiTenancy"></el-input>
+    </el-form-item>
+  </el-form>
+  <div class="btn-box">
+      <el-button @click="colse">取 消</el-button>
+      <el-button type="primary" @click="submitForm('ruleForm')">确 定</el-button>
+  </div>
+</div>

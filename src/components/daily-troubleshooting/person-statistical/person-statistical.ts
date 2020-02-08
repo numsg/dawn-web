@@ -103,10 +103,10 @@ export class PersonStatistical extends Vue {
   }
 
   async mounted() {
-    // const doughnut: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
-    // this.chart = echarts.init(doughnut);
-    // this.setOption();
-    // this.addEventListener();
+    const doughnut: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
+    this.chart = echarts.init(doughnut);
+    this.setOption();
+    this.addEventListener();
   }
   setOption() {
     this.option = {
@@ -117,11 +117,11 @@ export class PersonStatistical extends Vue {
       legend: {
         orient: 'vertical',
         left: 10,
-        data: ['确诊病例', '疑似病例', '死亡病例', '治愈病例', '发热人员']
+        data: ['幸福里1社区', '幸福里2社区', '幸福里3社区', '幸福里4社区', '幸福里5社区']
       },
       series: [
         {
-          name: '确诊数量',
+          name: '社区填报记录',
           type: 'pie',
           emphasis: {
             itemStyle: {
@@ -141,11 +141,11 @@ export class PersonStatistical extends Vue {
           radius: '50%',
           center: ['50%', '50%'],
           data: [
-            { value: 20, name: '确诊病例' },
-            { value: 15, name: '疑似病例' },
-            { value: 1, name: '死亡病例' },
-            { value: 1, name: '治愈病例' },
-            { value: 50, name: '发热人员' }
+            { value: 20, name: '幸福里1社区' },
+            { value: 15, name: '幸福里2社区' },
+            { value: 1, name: '幸福里3社区' },
+            { value: 1, name: '幸福里4社区' },
+            { value: 50, name: '幸福里5社区' }
           ]
         }
       ]

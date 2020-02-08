@@ -46,8 +46,20 @@
                 <el-button class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
                   $t('plan_manage.reset')
                 }}</el-button>
-                <el-button class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
+                <el-button @click="addTroubleShoot" class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
               </div>
+
+              <side-frame ref="sideFrame" :top="80">
+                <div class="side-frame-header" slot="header">
+                  <div class="header-title side-frame-title">
+                    <i></i>
+                    <span>日常排查登记表</span>
+                  </div>
+                </div>
+                <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+                  <TroubleshootingInfoForm @colse="colse" />
+                </div>
+              </side-frame>
         </div>
        
 

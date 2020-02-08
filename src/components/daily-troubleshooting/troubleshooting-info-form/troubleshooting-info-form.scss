@@ -1,0 +1,22 @@
+.epidemic-info-form {
+//   padding: 15px;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  form {
+    flex: 1;
+    overflow: auto;
+    padding: 15px;
+    border: 1px dashed #dcdfe6;
+    margin-bottom: 20px;
+    .operation {
+        text-align: right;
+    }
+
+  }
+  .btn-box{
+    text-align: right;
+  }
+}
