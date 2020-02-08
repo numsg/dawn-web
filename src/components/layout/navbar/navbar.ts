@@ -187,7 +187,7 @@ export class NavbarComponent extends Vue {
    * @memberof NavbarComponent
    */
   goHome(item: any) {
-    const url = '/home';
+    const url = '/' + item.children[0].path;
     this.$router.push({
       path: url
     });

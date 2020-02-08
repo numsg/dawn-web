@@ -1,7 +1,15 @@
 <div class="nav-bar-box">
   <ul class="nav-bar-container">
     <li v-for="(item,index) in moduleTitle" v-if="!item.hidden && item.children.length > 0" class="nav-item" :class="{'is-active': stairMenu === item.id}">
-      <div v-if="item.name==='home'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
+      <!-- <div v-if="item.name==='home'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
+        <div class="stair-nav-icon">
+          <img :src="item.iconCls" alt="" />
+        </div>
+        <div class="fll">
+          <span class="stair-name" v-if="stairMenu === item.id">{{ $t('navbar.' + item.name) }}</span>
+        </div>
+      </div> -->
+      <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'troubleshoot' || item.name === 'emergency'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
         <div class="stair-nav-icon">
           <img :src="item.iconCls" alt="" />
         </div>
