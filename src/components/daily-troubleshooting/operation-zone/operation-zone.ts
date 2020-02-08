@@ -44,6 +44,10 @@ export class OperationZone extends Vue {
       this.$emit('search', this.keyWords);
     }
 
+    exportExcel() {
+      this.$emit('exportExcel');
+    }
+
     success() {
       this.$emit('success');
     }

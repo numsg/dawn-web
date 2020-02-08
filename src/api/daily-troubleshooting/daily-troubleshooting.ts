@@ -91,6 +91,66 @@ export default {
           .catch((error: any) => {});
       }
     },
+    queryExportExcel(keyowrds?: string) {
+      const q = odataClient({
+        service: store.getters.configs.communityManagerOdataUrl,
+        resources: 'DailyTroubleshootRecordEntity'
+      });
+      if (keyowrds) {
+        const keywordList = keyowrds.split('-');
+        let building = '';
+        let unitNumber = '';
+        let roomNo = '';
+        let filterStr = '';
+        if ( keywordList.length > 0 ) {
+          building =  keywordList[0];
+          filterStr += 'contains( building, \'' + building + '\')';
+        }
+        if ( keywordList.length > 1 ) {
+          unitNumber =  keywordList[1];
+          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+        }
+        if ( keywordList.length > 2 ) {
+          roomNo =  keywordList[2];
+          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
+        }
+
+        // tslint:disable-next-line:max-line-length
+        // const filterStr = 'contains( building, \'' + building + '\') or contains( unitNumber, \'' + unitNumber + '\') or  contains( roomNo, \'' + roomNo + '\')';
+        return q
+          .skip(0)
+          .top(10000)
+          .orderby('createTime', 'desc')
+          .filter(filterStr)
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            console.log(response.body);
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      } else {
+        return q
+          .skip(0)
+          .top(10000)
+          .orderby('createTime', 'desc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            console.log(response.body);
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      }
+    },
     buildDailyRecord(result: any[]) {
       const res: any[] = [];
       // if (Array.isArray(result) && result.length > 0) {
