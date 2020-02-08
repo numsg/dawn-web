@@ -10,7 +10,7 @@
               ></i>
               <span class="name" :title="person.name">{{person.plot}}  {{person.name}}</span>
               <!-- <span class="version">plan</span> -->
-              <span class="prev-color isplan">{{person.confirmed_diagnosis}}</span>
+              <span class="prev-color isplan" v-if="person.confirmed_diagnosis">{{person.confirmed_diagnosis}}</span>
               <!-- <span class="prev-color istemplate" v-else>plan</span>
               <span class="prev-color isMultiTenancy" v-if="plan"> model</span> -->
             </div>
