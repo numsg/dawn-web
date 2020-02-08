@@ -76,7 +76,7 @@
     </div>
     <div v-if="personData.length === 0" class="no-plan"></div>
     <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-    :current-page="currentPage" :page-sizes="[10, 20, 30]" :page-size="pageSize"
+    :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
     layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
   </el-pagination>
   </div>

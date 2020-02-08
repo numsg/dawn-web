@@ -1,10 +1,12 @@
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Watch } from 'vue-property-decorator';
 import Html from './operation-zone.html';
 import Style from './operation-zone.module.scss';
 import notifyUtil from '@/common/utils/notifyUtil';
 
 import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/troubleshooting-info-form/troubleshooting-info-form';
+
+import { ModelType } from '@/models/daily-troubleshooting/model-type';
 
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
 @Component({
@@ -18,6 +20,15 @@ import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troub
 export class OperationZone extends Vue {
     fileList: any = [];
     keyWords = '';
+    modelType = ModelType;
+    // 选择模式
+    currentModelType = ModelType.ALL;
+
+    @Watch('currentModelType')
+    watchCurrentModelType(value: any) {
+      this.$emit('modelTypeChange');
+    }
+
     handleSort() {
 
     }

@@ -29,7 +29,7 @@
     </div>
   </div>
   <div class="right">
-      <OperationZone />
-      <PersonCard /> 
+      <OperationZone  @modelTypeChange="modelTypeChange" />
+      <PersonCard @paginationChange = "paginationChange" :personData="personData" /> 
   </div>
 </div>
