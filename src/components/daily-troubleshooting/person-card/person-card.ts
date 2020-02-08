@@ -78,6 +78,7 @@ export class PersonCard extends Vue {
 
     success() {
         this.$emit('refesh');
+        this.colse();
     }
 
     // 编辑
@@ -97,12 +98,12 @@ export class PersonCard extends Vue {
     }
     // 打开编辑
     open() {
-        const sideFrame: any = this.$refs['sideFrame'];
+        const sideFrame: any = this.$refs['sideFrameCard'];
         sideFrame.open();
     }
     // 关闭编辑
     colse() {
-        const sideFrame: any = this.$refs['sideFrame'];
-        sideFrame.colse();
+        const sideFrame: any = this.$refs['sideFrameCard'];
+        sideFrame.close();
     }
 }

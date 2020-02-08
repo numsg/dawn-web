@@ -90,7 +90,7 @@
     layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
   </el-pagination>
 
-  <side-frame ref="sideFrame" :top="80">
+  <side-frame ref="sideFrameCard" :top="80">
     <div class="side-frame-header" slot="header">
       <div class="header-title side-frame-title">
         <i></i>
@@ -98,7 +98,7 @@
       </div>
     </div>
     <div class="side-frame-content choose-disaster" :isEdit="true" style="width: 500px;" slot="frame">
-      <TroubleshootingInfoForm :currentPerson="currentPerson" @colse="colse" @success="success"/>
+      <TroubleshootingInfoForm :currentPerson="currentPerson" @colse="colse" :isEdit="true" @success="success"/>
     </div>
   </side-frame>
 

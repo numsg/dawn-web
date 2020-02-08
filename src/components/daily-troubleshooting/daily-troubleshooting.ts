@@ -59,7 +59,6 @@ export class DailyTroubleshootingComponent extends Vue {
     const result = await DailyTroubleshootingService.queryAllDailyRecord( this.currentPage, this.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
-    console.log(this.personData, '----------------------------');
   }
 
   modelTypeChange(type: ModelType) {
@@ -161,18 +160,15 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   replaceOtherSymptoms(OtherSymptoms: string) {
-    console.log(OtherSymptoms, 'OtherSymptoms');
     if (!OtherSymptoms) {
       return '';
     }
     const otherSymptomsItemList = this.otherSymptoms.filter( (item: any) => OtherSymptoms.includes(item.id));
-    console.log(otherSymptomsItemList, 'otherSymptomsItemList');
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
   }
 
   replaceMedicalOpinion(medicalOpinion: any) {
     const otherSymptomsItem = this.medicalOpinions.find( (item: any) => item.id ===  medicalOpinion );
-    console.log(otherSymptomsItem, 'otherSymptomsItem');
     return otherSymptomsItem ? otherSymptomsItem.name : '';
   }
 }

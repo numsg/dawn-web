@@ -71,7 +71,6 @@ export class OperationZone extends Vue {
     }
     colse() {
       const sideFrame: any = this.$refs['sideFrame'];
-      sideFrame.colse();
+      sideFrame.close();
     }
-
 }
