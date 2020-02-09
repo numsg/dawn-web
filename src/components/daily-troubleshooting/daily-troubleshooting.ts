@@ -15,6 +15,7 @@ import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 
 import * as XLSX from 'xlsx';
+
 @Component({
   template: dailyTroubleshootingHtml,
   style: dailyTroubleshootingStyle,
@@ -123,6 +124,7 @@ export class DailyTroubleshootingComponent extends Vue {
 
   // 导出excel
   async exportExcel() {
+
     const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
     const taskListName = `日常排查数据${now}.xlsx`;
     const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
@@ -132,48 +134,58 @@ export class DailyTroubleshootingComponent extends Vue {
       communityName = res[0].name;
     }
     let data = {};
+
+    const s = {
+      alignment: {
+        horizontal: 'center',
+        vertical: 'center'
+      },
+    };
     // 表头
     const headers = {
-      A1: { v: '社区疫情排查情况登记表' },
-      A2: { v: '社区(村)' },
-      F2: { v: '填表日期' },
-      A3: { v: '序号' },
-      B2: { v:  communityName },
-      B3: { v: '姓名' },
-      C3: { v: '性别' },
-      D3: { v: '身份证号' },
-      E3: { v: '联系方式' },
-      F3: { v: '家庭住址' },
-      G2: { v:  now },
-      G3: { v: '发热(体温>37.3℃)' },
-      H3: { v: '新型肺炎' },
-      I3: { v: '其他症状' },
-      J3: { v: '分类诊疗医疗意见' },
-      O3: { v: '备注' },
-      J4: { v: '确认患者' },
-      K4: { v: '疑似患者' },
-      L4: { v: 'CT诊断肺炎患者' },
-      M4: { v: '一般发热患者' },
-      N4: { v: '密切接触者' },
+      A1: { v: '社区疫情排查情况登记表', s },
+      A2: { v: '社区(村)', s },
+      F2: { v: '填表日期' , s},
+      A3: { v: '序号' , s},
+      B2: { v:  communityName , s},
+      B3: { v: '姓名' , s},
+      C3: { v: '性别' , s},
+      D3: { v: '身份证号' , s },
+      E3: { v: '联系方式' , s},
+      F3: { v: '家庭住址', s },
+      G2: { v:  now, s },
+      G3: { v: '发热(体温>37.3℃)', s },
+      H3: { v: '新型肺炎', s  },
+      I3: { v: '其他症状' , s },
+      J3: { v: '分类诊疗医疗意见', s  },
+      O3: { v: '备注' , s },
+      J4: { v: '确认患者' , s },
+      K4: { v: '疑似患者' , s },
+      L4: { v: 'CT诊断肺炎患者', s  },
+      M4: { v: '一般发热患者' , s },
+      N4: { v: '密切接触者' , s },
     };
     // 合并 headers 和 data
+    const dataRowHight: any[] = [];
+    const rowHeight = 24;
     result.value.forEach((person: PersonInfo, index: number) => {
+      dataRowHight.push({'hpx': rowHeight});
       const tableTr = {
-        [`A${5 + index}`] : { v: index + 1 },
+        [`A${5 + index}`] : { v: index + 1 , s },
         [`B${5 + index}`] : { v: person.name },
-        [`C${5 + index}`] : { v:  this.replaceSex(person.sex) }, // 替换 性别
-        [`D${5 + index}`] : { v: person.identificationNumber },
-        [`E${5 + index}`] : { v: person.phone },
-        [`F${5 + index}`] : { v: person.address },
-        [`G${5 + index}`] : { v: person.exceedTemp},
-        [`H${5 + index}`] : { v: person.contact},
+        [`C${5 + index}`] : { v:  this.replaceSex(person.sex) , s }, // 替换 性别
+        [`D${5 + index}`] : { v: person.identificationNumber, s  },
+        [`E${5 + index}`] : { v: person.phone , s },
+        [`F${5 + index}`] : { v: person.address , s },
+        [`G${5 + index}`] : { v: person.exceedTemp, s },
+        [`H${5 + index}`] : { v: person.contact, s },
         [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.otherSymptoms)} , // 替换 其他症状
-        [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' }, // 替换 确认患者
-        [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' }, // 替换 疑似患者
-        [`L${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '' }, // 替换 CT诊断肺炎患者
-        [`M${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' }, // 替换 一般发热患者
-        [`N${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' }, // 替换 密切接触者
-        [`O${5 + index}`] : { v: person.note},
+        [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
+        [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' , s }, // 替换 疑似患者
+        [`L${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '', s  }, // 替换 CT诊断肺炎患者
+        [`M${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' , s }, // 替换 一般发热患者
+        [`N${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' , s }, // 替换 密切接触者
+        [`O${5 + index}`] : { v: person.note, s },
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -206,10 +218,33 @@ export class DailyTroubleshootingComponent extends Vue {
       { s: { c: 13, r: 3 }, e: { c: 16, r: 3 } }, // 密切接触者
     ];
     // 构建 workbook 对象
+    const cols = [
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 14},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+    ];
+    const rows = [
+      ...dataRowHight,
+      {'hpx': rowHeight},
+      {'hpx': rowHeight},
+      {'hpx': rowHeight},
+    ];
     const wb = {
       SheetNames: ['mySheet'],
       Sheets: {
-        mySheet: Object.assign({}, output, { '!ref': ref, '!merges': merges })
+        mySheet: Object.assign({}, output, { '!ref': ref, '!merges': merges, '!cols': cols, '!rows': rows })
       }
     };
     // 导出 Excel
