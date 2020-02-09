@@ -65,6 +65,12 @@ export class OperationZone extends Vue {
   @Getter('baseData_medicalOpinions')
   medicalOpinions!: any[];
 
+  @Getter('dailyTroubleshooting_checkedTotalCount')
+  checkedTotalCount!: number;
+
+  @Getter('dailyTroubleshooting_unCheckedTotalCount')
+  unCheckedTotalCount!: number;
+
   get medicalOpinionIds() {
     return this.$store.state.dailyTroubleshooting.conditions.medicalOpinion;
     }

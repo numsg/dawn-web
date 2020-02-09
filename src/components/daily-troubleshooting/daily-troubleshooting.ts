@@ -62,7 +62,8 @@ export class DailyTroubleshootingComponent extends Vue {
 
   selectedIds: string[] = [];
 
-  isShowgGroup: boolean = true;
+  @Getter('dailyTroubleshooting_isShowgGroup')
+  isShowgGroup!: boolean;
 
   @Getter('dailyTroubleshooting_conditions')
   conditions!: DailyQueryConditions;
@@ -101,7 +102,11 @@ export class DailyTroubleshootingComponent extends Vue {
     const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+    if (this.isShowgGroup) {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
+    } else {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+    }
   }
 
   async searchQuery(keyWord: string) {

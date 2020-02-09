@@ -10,21 +10,21 @@
               所有填报人员
             </el-button> -->
             <el-button @click="currentModelType = modelType.unWrite" class="type-btn primary-btn el-icon-document">
-              排查
+              排查({{checkedTotalCount}})
             </el-button>
             <el-button @click="currentModelType = modelType.unWrite" class="type-btn default-btn el-icon-document">
-              待排查
+              待排查({{unCheckedTotalCount}})
             </el-button>
         </div>
         <div class="top-operation-right">
-            <div class="input-search">
+            <!-- <div class="input-search">
               <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
-                placeholder="请输入房间号'1-1-1''" />
+                placeholder="请输入关键字" />
               <span class="iconfont iconpms-icon_search iconfont-size"></span>
             </div>
             <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
               $t('plan_manage.reset')
-            }}</el-button>
+            }}</el-button> -->
             <el-upload
               class="upload-demo"
               ref="upload"
@@ -59,8 +59,8 @@
           </side-frame>
     </div>
 
-    <!-- <div class="botton-operation" v-if="!isShowgGroup"> -->
-    <div class="botton-operation">
+    <div class="botton-operation" v-if="!isShowgGroup">
+    <!-- <div class="botton-operation"> -->
       <el-select v-model="isFaver" size="mini" multiple placeholder="是否发热">
         <el-option
           v-for="item in feverOptions"
@@ -78,6 +78,13 @@
           >
         </el-option>
       </el-select>
-
+      <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
+        $t('plan_manage.reset')
+      }}</el-button>
+      <div class="input-search">
+        <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
+          placeholder="请输入关键字" />
+        <span class="iconfont iconpms-icon_search iconfont-size"></span>
+      </div>
     </div>
   </div>

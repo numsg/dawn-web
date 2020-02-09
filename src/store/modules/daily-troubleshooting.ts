@@ -9,10 +9,13 @@ const dailyTroubleshooting = {
     personData: [],
     isShowgGroup: true,
     conditions: new DailyQueryConditions(),
+    groupsOriginalData: [],
     groupsData: [],
     groupPersonData: [],
     activeName: '',
     groupPersonTotalCount: 0,
+    checkedTotalCount: 0,
+    unCheckedTotalCount: 0
   },
   mutations: {
     SET_STATISTICS_DATA: (state: any, result: any) => {
@@ -49,14 +52,23 @@ const dailyTroubleshooting = {
     SET_GROUPS_DATA: (state: any, result: any) => {
       console.log('---SET_GROUPS_DATA---');
       console.log(result);
+      if (result && Array.isArray(result)) {
+        state.checkedTotalCount = result.reduce((prev: any, cur: any) => {
+          return Number(cur.checked) + Number(prev);
+        }, 0);
+        state.unCheckedTotalCount = result.reduce((prev: any, cur: any) => {
+          return Number(cur.unchecked) + Number(prev);
+        }, 0);
+      }
       state.groupsData = result;
     },
     SET_GROUP_PERSON_DATA: (state: any, result: any) => {
-      state.groupPersonData = result;
+      state.groupPersonTotalCount = result.count;
+      state.groupPersonData = result.value;
     },
     SET_ACTIVE_NAME: (state: any, result: any) => {
       state.activeName = result;
-    },
+    }
   },
   actions: {
     async SetStatisticsData({ commit }: any) {
@@ -67,7 +79,7 @@ const dailyTroubleshooting = {
       const result = await DailyTroubleshootingService.queryAllDailyRecord(payloads.page, payloads.count);
       commit('SET_PERSON_DATA', result);
     },
-    async LoadPersonData({ commit, state  }: any) {
+    async LoadPersonData({ commit, state }: any) {
       const result = await DailyTroubleshootingService.loadAllDailyRecord(state.conditions);
       commit('LOAD_PERSON_DATA', result);
     },
@@ -76,6 +88,8 @@ const dailyTroubleshooting = {
       if (payloads) {
         dispatch('SetGroupsData');
       } else {
+        state.activeName = '';
+        state.groupPersonData = [];
         dispatch('LoadPersonData');
       }
       commit('SET_IS_SHOW_GROUP', payloads);
@@ -83,31 +97,42 @@ const dailyTroubleshooting = {
     SetConditions: async ({ dispatch, commit, state }: any, conditions: DailyQueryConditions) => {
       commit('SET_CONDITIONS', conditions);
       if (state.isShowgGroup) {
-        if (state.conditions.dailyStatisticModel) {
-          dispatch('SetGroupPersonData', state.conditions);
-        }
+        // if (state.conditions.dailyStatisticModel) {
+        //   dispatch('SetGroupPersonData', state.conditions);
+        // } else {
+        // }
+        dispatch('SetGroupsData');
       } else {
         dispatch('LoadPersonData');
       }
     },
-    SetGroupsData: async ({ dispatch, commit, state }: any, conditions: DailyQueryConditions) => {
-      const result = await DailyTroubleshootingService.queryGroupsData();
-      commit('SET_GROUPS_DATA', result);
+    SetGroupsData: async ({ dispatch, commit, state }: any) => {
+      if (state.conditions && state.conditions.plots.length > 0) {
+        const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
+        commit('SET_GROUPS_DATA', result);
+      } else {
+        const result = await DailyTroubleshootingService.queryGroupsData();
+        state.groupsOriginalData = result;
+        commit('SET_GROUPS_DATA', result);
+      }
     },
     SetGroupPersonData: async ({ dispatch, commit, state }: any, conditions: DailyQueryConditions) => {
-      const result = await DailyTroubleshootingService.queryGroupPersonData(conditions);
+      // const result = await DailyTroubleshootingService.queryGroupPersonData(conditions);
+      const result = await DailyTroubleshootingService.getGroupPersonData(conditions);
       commit('SET_GROUP_PERSON_DATA', result);
     },
     SetActiveName: async ({ dispatch, commit, state }: any, payloads: any) => {
       // const result = DailyTroubleshootingService.queryGroupPersonData(conditions);
       commit('SET_ACTIVE_NAME', payloads);
+      state.conditions.page = 0;
       state.conditions.dailyStatisticModel = state.groupsData[payloads];
-      if (payloads) {
+      if (typeof(payloads) === 'number') {
         dispatch('SetGroupPersonData', state.conditions);
       } else {
         state.groupPersonData = [];
+        state.groupPersonTotalCount = 0;
       }
-    },
+    }
   },
   getters: {
     dailyTroubleshooting_statisticsData: (state: any) => state.statisticsData,
@@ -117,6 +142,9 @@ const dailyTroubleshooting = {
     dailyTroubleshooting_groupsData: (state: any) => state.groupsData,
     dailyTroubleshooting_groupPersonData: (state: any) => state.groupPersonData,
     dailyTroubleshooting_conditions: (state: any) => state.conditions,
+    dailyTroubleshooting_groupPersonTotalCount: (state: any) => state.groupPersonTotalCount,
+    dailyTroubleshooting_checkedTotalCount: (state: any) => state.checkedTotalCount,
+    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount,
   }
 };
 

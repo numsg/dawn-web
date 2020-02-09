@@ -3,18 +3,18 @@
       <el-collapse v-model="activeName" accordion @change="activeChange">
         <el-collapse-item v-for="(group, index) in groupsData" class="card-collapse-item"  :name="index">
           <template slot="title">
-            <div class="collapse-title">
+            <div  @click="collapseClick(index)" class="collapse-title">
               <span class="unit-number">
                 <span class="plot-name">{{group.plotName}}&nbsp;&nbsp;</span>
                 <span class="building-num">{{group.building}} - {{group.unitNumber}}</span>
               </span>
               <div class="check-tag-container">
                 <el-tag class="check-tag"  type="success" effect="dark">排查({{group.checked}})</el-tag>
-                <el-tag class="check-tag" type="info" effect="dark"> 待排查({{group.checked}}) </el-tag>
+                <el-tag class="check-tag" type="info" effect="dark"> 待排查({{group.unchecked}}) </el-tag>
               </div>
             </div>
           </template>
-          <el-table class="collapse-table" :data="groupPersonData" max-height="570" border stripe highlight-current-row style="width: 100%">
+          <el-table  class="collapse-table" :data="groupPersonData" max-height="570" border stripe highlight-current-row style="width: 100%">
             <el-table-column prop="name" label="姓名" width="80">
             </el-table-column>
             <el-table-column  label="房号">
@@ -39,6 +39,9 @@
               </template>
             </el-table-column>
             <el-table-column prop="createTime" label="填报时间" width="160">
+              <template slot-scope="scope">
+                {{replaceTime(scope.row.createTime)}}
+              </template>
             </el-table-column>
             <el-table-column prop="phone" label="电话" width="120">
             </el-table-column>
@@ -49,8 +52,8 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
+          <el-pagination  class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-size="pageSize"
           layout="total, prev, pager, next, jumper" :total="groupPersonData.length">
         </el-pagination>
         </el-collapse-item>

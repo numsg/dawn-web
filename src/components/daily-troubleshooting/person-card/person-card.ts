@@ -42,15 +42,10 @@ export class PersonCard extends Vue {
   @Prop({ default: false })
   reset!: boolean;
 
-  // @Prop({default: true})
-  // isShowgGroup!: boolean;
-
   @Getter('dailyTroubleshooting_isShowgGroup')
   isShowgGroup!: boolean;
 
   private currentPerson = new PersonInfo();
-
-  // activeName = '';
 
   get activeName() {
     return this.$store.state.dailyTroubleshooting.activeName;
@@ -65,6 +60,12 @@ export class PersonCard extends Vue {
 
   @Getter('dailyTroubleshooting_groupPersonData')
   groupPersonData!: any[];
+
+  // collapseClick(index: any) {
+  //   console.log('---collapseClick---');
+  //   console.log(index);
+  //   this.$store.dispatch(eventNames.DailyTroubleshooting.SetActiveName, index);
+  // }
 
   @Watch('reset')
   handleResetPersonData(val: boolean) {
