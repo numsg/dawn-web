@@ -13,6 +13,8 @@ import { Getter } from 'vuex-class';
 
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
 import { prop } from 'ramda';
+
+import dataFormat from '@/utils/data-format';
 @Component({
   template: Html,
   style: Style,
@@ -125,10 +127,11 @@ export class TroubleshootingInfoForm extends Vue {
     const form: any = this.$refs[formName];
     form.validate((valid: any) => {
       if (valid) {
-        this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
-        this.troublePerson.createTime = null;
-        console.log(this.troublePerson, 'this.troublePerson');
-        DailyTroubleshootingService.editDailyTroubleshooting(JSON.parse( JSON.stringify(this.troublePerson) ))
+        const troublePerson = JSON.parse( JSON.stringify(this.troublePerson) );
+        troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
+        troublePerson.createTime = dataFormat.formatTime(this.troublePerson.createTime);
+        console.log(troublePerson, 'troublePerson');
+        DailyTroubleshootingService.editDailyTroubleshooting(troublePerson)
           .then(res => {
             notifyUtil.success('修改填报记录成功');
             this.$emit('colse');
