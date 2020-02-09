@@ -85,15 +85,15 @@ export default {
             }
         }
       }
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       if (filterStr) {
         return q
           .skip(count * (page))
@@ -210,15 +210,15 @@ export default {
             }
         }
       }
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       if (filterStr) {
         return q
           .skip(conditions.pageSize * (conditions.page))
@@ -301,15 +301,15 @@ export default {
             }
         }
       }
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       return q
         .skip(0)
         // .top(10000)
@@ -405,15 +405,15 @@ export default {
             }
         }
       }
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       if (filterStr) {
         return q
           .skip(0)
@@ -610,15 +610,15 @@ export default {
       '(building eq \'' + conditions.dailyStatisticModel.building + '\') and ' +
       '(unitNumber eq \'' + conditions.dailyStatisticModel.unitNumber + '\')';
     }
-    // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-    // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-    // if (filterStr) {
-    //   filterStr = '(createTime gt ' + startTime + ') and '
-    //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-    // } else {
-    //   filterStr = '(createTime gt ' + startTime + ') and '
-    //             + '(createTime lt ' + endTime + ')';
-    // }
+    const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    if (filterStr) {
+      filterStr = '(createTime gt ' + startTime + ') and '
+                + '(createTime lt ' + endTime + ') and ' + filterStr;
+    } else {
+      filterStr = '(createTime gt ' + startTime + ') and '
+                + '(createTime lt ' + endTime + ')';
+    }
     return q
       .skip(conditions.pageSize * (conditions.page))
       .top(conditions.pageSize)
