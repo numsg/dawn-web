@@ -133,17 +133,17 @@ export default {
           .catch((error: any) => {});
       }
     },
-    queryExportExcel(keyowrds?: string) {
+    queryExportExcel(keyowrds?: string, plots?: string[]) {
       const q = odataClient({
         service: store.getters.configs.communityManagerOdataUrl,
         resources: 'DailyTroubleshootRecordEntity'
       });
+      let filterStr = '';
       if (keyowrds) {
         const keywordList = keyowrds.split('-');
         let building = '';
         let unitNumber = '';
         let roomNo = '';
-        let filterStr = '';
         if ( keywordList.length > 0 ) {
           building =  keywordList[0];
           filterStr += 'contains( building, \'' + building + '\')';
@@ -156,41 +156,51 @@ export default {
           roomNo =  keywordList[2];
           filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
         }
-
-        // tslint:disable-next-line:max-line-length
-        // const filterStr = 'contains( building, \'' + building + '\') or contains( unitNumber, \'' + unitNumber + '\') or  contains( roomNo, \'' + roomNo + '\')';
-        return q
-          .skip(0)
-          .top(10000)
-          .orderby('createTime', 'desc')
-          .filter(filterStr)
-          .count(true)
-          .get(null)
-          .then((response: any) => {
-            console.log(response.body);
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
-          })
-          .catch((error: any) => {});
-      } else {
-        return q
-          .skip(0)
-          .top(10000)
-          .orderby('createTime', 'desc')
-          .count(true)
-          .get(null)
-          .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
-          })
-          .catch((error: any) => {});
       }
+      if (plots && plots.length > 0) {
+        let str = '';
+        for (let i = 0, len = plots.length - 1; i < plots.length; i++) {
+            const id = plots[i];
+            if (i !== len) {
+                str += '(plot eq \'' + id + '\') or ';
+            } else {
+                str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
+      return q
+        .skip(0)
+        // .top(10000)
+        .orderby('building', 'asc')
+        .orderby('unitNumber', 'asc')
+        .orderby('roomNo', 'asc')
+        .orderby('createTime', 'asc')
+        .filter(filterStr)
+        .count(true)
+        .get(null)
+        .then((response: any) => {
+          console.log(response.body);
+          const result = {
+            count: JSON.parse(response.body)['@odata.count'],
+            value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
+          };
+          return result;
+        })
+        .catch((error: any) => {});
     },
     buildDailyRecord(result: any[]) {
       const res: any[] = [];

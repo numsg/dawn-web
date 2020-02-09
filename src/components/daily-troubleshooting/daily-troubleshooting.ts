@@ -123,7 +123,7 @@ export class DailyTroubleshootingComponent extends Vue {
   // 导出excel
   async exportExcel() {
     const taskListName = `日常排查数据${format.default(new Date(), 'yyyy-mm-dd HH:mm:ss')}`;
-    const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
+    const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord, this.selectedIds);
     const data: any = [];
     const sheetTitle = [
       '姓名',

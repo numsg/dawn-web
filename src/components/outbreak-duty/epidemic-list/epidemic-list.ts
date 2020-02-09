@@ -100,6 +100,10 @@ export class EpidemicListComponent extends Vue {
     sideFrame.open();
   }
 
+  handleDelete(data: EpidemicPerson) {
+
+  }
+
   resetData() {
     this.currentPage = 1;
     this.pageSize = 10;
