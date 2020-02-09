@@ -57,29 +57,8 @@
                     icon="iconfont iconpms-icon_edit"
                     @click="edit(person)"
                   ></el-button>
-    
-                  <!-- <el-button
-                    size="small"
-                    :icon="'iconfont iconpms-icon_Preview-document'"
-                    :title="1231"
-                    type="primary"
-                    round
-                  >
-                  </el-button>
-                  <el-button
-                    :title="$t('plan_manage.deduction_analysis')"
-                    size="small"
-                    :type="'primary'"
-                    icon="iconfont iconpms-icon_Deduction"
-                    round
-                  ></el-button>
-                  <el-button
-                    :title="$t('common.delete')"
-                    size="small"
-                    type="danger"
-                    icon="iconfont iconpms-icon_delet"
-                    round
-                  ></el-button> -->
+                  <el-button @click="handleDelete(data)" :title="$t('common.delete')" size="small" type="danger" icon="iconfont iconpms-icon_delet"
+                  round></el-button>
                 </div>
               </div>
             </div>

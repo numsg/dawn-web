@@ -16,7 +16,8 @@
     }
     .el-form-item{
       .el-radio{
-        margin-bottom: 10px;
+        margin-bottom: 18px;
+        margin-right: 34px;
       }
     }
 
@@ -24,4 +25,15 @@
   .btn-box{
     text-align: right;
   }
+  .primary {
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
+    &:hover{
+      background: #3fa9f0!important;  // 此处button 的 element class 没有加载上去
+      color: #fff;
+      background-color: #409eff;
+    }
+}
+
 }
