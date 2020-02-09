@@ -76,7 +76,6 @@ export class PersonStatistical extends Vue {
 
   @Watch('statisticsData')
   onStaticalDataLoad(val: any) {
-    console.log(val);
     this.totalCount = val.reduce((prev: any, cur: any) => {
       return Number(cur.count) + Number(prev);
     }, 0);

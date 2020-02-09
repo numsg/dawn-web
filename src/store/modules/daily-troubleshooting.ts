@@ -53,7 +53,6 @@ const dailyTroubleshooting = {
     },
     SET_GROUPS_DATA: (state: any, result: any) => {
       console.log('---SET_GROUPS_DATA---');
-      console.log(result);
       if (result && Array.isArray(result)) {
         state.checkedTotalCount = result.reduce((prev: any, cur: any) => {
           return Number(cur.checked) + Number(prev);
@@ -87,7 +86,7 @@ const dailyTroubleshooting = {
       state.groupPersonTotalCount = 0;
       state.checkedTotalCount = 0;
       state.unCheckedTotalCount = 0;
-    },
+    }
   },
   actions: {
     async SetStatisticsData({ commit }: any) {
@@ -149,7 +148,7 @@ const dailyTroubleshooting = {
         pageSize: conditions.pageSize,
         plot: conditions.dailyStatisticModel.plotId,
         unitNumber: conditions.dailyStatisticModel.unitNumber
-      }
+      };
       const result = await DailyTroubleshootingService.queryUncheckedData(con);
 
       state.groupPersonTotalCount = result.total;
@@ -158,7 +157,6 @@ const dailyTroubleshooting = {
     },
     SetActiveName: async ({ dispatch, commit, state }: any, payloads: any) => {
       console.log('---SetActiveName---');
-      // const result = DailyTroubleshootingService.queryGroupPersonData(conditions);
       commit('SET_ACTIVE_NAME', payloads);
       state.conditions.page = 0;
       if (typeof payloads === 'number') {
@@ -175,12 +173,11 @@ const dailyTroubleshooting = {
     },
     SetModelType: async ({ dispatch, commit, state }: any, type: any) => {
       commit('SET_MODEL_TYPE', type);
-      if (Array.isArray(state.groupPersonData) && state.groupPersonData.length > 0) {
-        if (type === ModelType.checked) {
-          dispatch('SetGroupPersonData', state.conditions);
-        } else {
-          dispatch('SetUncheckedData', state.conditions);
-        }
+      if (type === ModelType.checked) {
+        console.log('---SET_MODEL_TYPE---');
+        dispatch('SetGroupPersonData', state.conditions);
+      } else {
+        dispatch('SetUncheckedData', state.conditions);
       }
     },
     ResetData: ({ commit }: any) => {
@@ -197,7 +194,7 @@ const dailyTroubleshooting = {
     dailyTroubleshooting_conditions: (state: any) => state.conditions,
     dailyTroubleshooting_groupPersonTotalCount: (state: any) => state.groupPersonTotalCount,
     dailyTroubleshooting_checkedTotalCount: (state: any) => state.checkedTotalCount,
-    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount,
+    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount
   }
 };
 

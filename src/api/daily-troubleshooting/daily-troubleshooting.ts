@@ -231,7 +231,6 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            console.log(response.body);
             const result = {
               count: JSON.parse(response.body)['@odata.count'],
               value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -250,7 +249,6 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            console.log(response.body);
             const result = {
               count: JSON.parse(response.body)['@odata.count'],
               value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -426,7 +424,6 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            console.log(response.body);
             const result = {
               count: JSON.parse(response.body)['@odata.count'],
               value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -445,7 +442,6 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            console.log(response.body);
             const result = {
               count: JSON.parse(response.body)['@odata.count'],
               value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -470,7 +466,7 @@ export default {
           item.confirmed_diagnosis = data.confirmed_diagnosis;
           item.createTime = data.createTime;
           item.identificationNumber = data.identificationNumber;
-          item.contact = data.isExceedTemp;
+          item.contact = data.isContact;
           item.exceedTemp = data.isExceedTemp;
           // item.leaveArea = data.isLeaveArea;
           item.medicalOpinion = data.medicalOpinion;
@@ -630,7 +626,6 @@ export default {
       .count(true)
       .get(null)
       .then((response: any) => {
-        console.log(response.body);
         const result = {
           count: JSON.parse(response.body)['@odata.count'],
           value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)

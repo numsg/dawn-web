@@ -32,11 +32,9 @@ const baseData = {
         },
         SET_OTHER_SYMPTOMS: (state: any, payloads: District[]) => {
             state.otherSymptoms = payloads;
-            console.log(state);
         },
         SET_MEDICAL_OPINIONS: (state: any, payloads: District[]) => {
             state.medicalOpinions = payloads;
-            console.log(state);
         },
     },
     actions: {
