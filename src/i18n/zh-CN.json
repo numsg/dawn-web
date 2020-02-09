@@ -61,7 +61,11 @@
     "daily-troubleshooting":"日常排查",
     "emergency":"应急物资",
     "emergency-supplies":"应急物资",
-    "community-qr-manage":"社区二维码管理"
+    "community-qr-manage":"社区二维码管理",
+    "enterprice":"员工日常情况总览",
+    "enterprice-daily-situation":"员工日常情况总览",
+    "gov":"企业日常情况总览",
+    "gov-daily-situation":"企业日常情况总览"
   },
   "notice": {
     "info": "消息",
