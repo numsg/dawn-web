@@ -118,7 +118,7 @@ export class PmsCompTemplateManager extends Vue {
 
   mounted() {
     this.independentMode = Object.keys(this.instance).length === 0;
-    this.$store.dispatch('LoadEventTypes');
+    // this.$store.dispatch('LoadEventTypes');
   }
 
   handleReset() {

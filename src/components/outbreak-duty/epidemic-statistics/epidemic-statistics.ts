@@ -143,13 +143,29 @@ export class EpidemicStatisticsComponent extends Vue {
             },
             label: {
               fontSize: '16',
+              show: true,
               fontWeight: 'bold',
-              formatter: '{b}: {d}%'
+              // formatter: '{b}: {d}%'
+              formatter: (val: any) => {
+                let name = val.name;
+                if (name.length > 8) {
+                  name = name.slice(0, 8) + '...';
+                }
+                return name + ': ' + val.value + '(' + val.percent + '%)';
+              }
             }
           },
           label: {
             fontSize: '14',
-            formatter: '{b}: {d}%'
+            show: false,
+            // formatter: '{b}: {d}%'
+            formatter: (val: any) => {
+              let name = val.name;
+              if (name.length > 8) {
+                name = name.slice(0, 8) + '...';
+              }
+              return name + ': ' + val.value + '(' + val.percent + '%)';
+            }
           },
           // radius: '60%',
           radius: ['40%', '60%'],

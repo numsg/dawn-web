@@ -172,6 +172,7 @@ export class PersonStatistical extends Vue {
             label: {
               fontSize: '16',
               fontWeight: 'bold',
+              show: true,
               // formatter: '{b}: {d}'
               formatter: (val: any) => {
                 let name = val.name;
@@ -184,6 +185,7 @@ export class PersonStatistical extends Vue {
           },
           label: {
             fontSize: '14',
+            show: false,
             formatter: (val: any) => {
               let name = val.name;
               if (name.length > 8) {

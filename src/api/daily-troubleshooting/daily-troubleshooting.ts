@@ -4,7 +4,7 @@ import odataClient from '@gsafety/odata-client/dist';
 
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { eqBy } from 'ramda';
-
+import moment from 'moment';
 export default {
     // 新增填报记录
     addDailyTroubleshooting(info: PersonInfo) {
@@ -83,15 +83,24 @@ export default {
             }
         }
       }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       if (filterStr) {
         return q
           .skip(count * (page - 1 ))
           .top(count)
           .filter(filterStr)
-          .orderby('building', 'desc')
-          .orderby('unitNumber', 'desc')
-          .orderby('roomNo', 'desc')
-          .orderby('createTime', 'desc')
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
           .count(true)
           .get(null)
           .then((response: any) => {
@@ -107,10 +116,10 @@ export default {
         return q
           .skip(count * (page - 1 ))
           .top(count)
-          .orderby('building', 'desc')
-          .orderby('unitNumber', 'desc')
-          .orderby('roomNo', 'desc')
-          .orderby('createTime', 'desc')
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
           .count(true)
           .get(null)
           .then((response: any) => {

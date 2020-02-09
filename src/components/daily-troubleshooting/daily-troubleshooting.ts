@@ -182,6 +182,7 @@ export class DailyTroubleshootingComponent extends Vue {
       return '';
     }
     const otherSymptomsItemList = this.otherSymptoms.filter( (item: any) => OtherSymptoms.includes(item.id));
+    console.log(otherSymptomsItemList);
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
   }
 
