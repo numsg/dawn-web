@@ -66,7 +66,7 @@ export class TroubleshootingInfoForm extends Vue {
     // bodyTemperature: [{ required: true, message: '请填写体温', trigger: 'change' }],
     // leaveArea: [{ required: true, message: '请选择是否过去14天是否离开过本地区', trigger: 'change' }],
     // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
-    isExceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
+    exceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
   };
 
   @Watch('currentPerson', { deep: true })

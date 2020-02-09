@@ -165,8 +165,8 @@ export class DailyTroubleshootingComponent extends Vue {
         [`D${5 + index}`] : { v: person.identificationNumber },
         [`E${5 + index}`] : { v: person.phone },
         [`F${5 + index}`] : { v: person.address },
-        [`G${5 + index}`] : { v: person.isExceedTemp},
-        [`H${5 + index}`] : { v: person.isContact},
+        [`G${5 + index}`] : { v: person.exceedTemp},
+        [`H${5 + index}`] : { v: person.contact},
         [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.otherSymptoms)} , // 替换 其他症状
         [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' }, // 替换 确认患者
         [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' }, // 替换 疑似患者

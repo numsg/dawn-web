@@ -3,6 +3,7 @@ import store from '@/store';
 import odataClient from '@gsafety/odata-client/dist';
 
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
+import { PersonOdataInfo } from '@/models/daily-troubleshooting/person-odata-info';
 import { eqBy } from 'ramda';
 import moment from 'moment';
 export default {
@@ -104,7 +105,6 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            console.log(response.body);
             const result = {
               count: JSON.parse(response.body)['@odata.count'],
               value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -123,7 +123,6 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            console.log(response.body);
             const result = {
               count: JSON.parse(response.body)['@odata.count'],
               value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -193,7 +192,6 @@ export default {
         .count(true)
         .get(null)
         .then((response: any) => {
-          console.log(response.body);
           const result = {
             count: JSON.parse(response.body)['@odata.count'],
             value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
@@ -204,26 +202,34 @@ export default {
     },
     buildDailyRecord(result: any[]) {
       const res: any[] = [];
-      // if (Array.isArray(result) && result.length > 0) {
-      //   result.forEach((data: any) => {
-      //     const ep = new PersonInfo();
-      //     eq = moment(data.submitTime).format('YYYY-MM-DD HH:mm:ss');
-      //     ep.diseaseTime = moment(data.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
-      //     ep.updateTime = moment(data.updateTime).format('YYYY-MM-DD HH:mm:ss');
-      //     const communities: any[] = store.getters.baseData_communities;
-      //     const diagnosisSituations: any[] = store.getters.baseData_diagnosisSituations;
-      //     const medicalSituations: any[] = store.getters.baseData_medicalSituations;
-      //     const specialSituations: any[] = store.getters.baseData_specialSituations;
-      //     const genderClassification: any[] = store.getters.baseData_genderClassification;
-      //     ep.communityModel = communities.find(k => k.id === ep.villageId) || {};
-      //     ep.diagnosisSituationModel = diagnosisSituations.find(k => k.id === ep.diagnosisSituation) || {};
-      //     ep.medicalConditionModel = medicalSituations.find(k => k.id === ep.medicalCondition) || {};
-      //     ep.specialSituationModel = specialSituations.find(k => k.id === ep.specialSituation) || {};
-      //     ep.genderModel = genderClassification.find(k => k.id === ep.gender) || {};
-      //     res.push(ep);
-      //   });
-      // }
-      return result;
+      if (Array.isArray(result) && result.length > 0) {
+        result.forEach((data: PersonOdataInfo) => {
+          const item = new PersonInfo();
+          item.id = data.id;
+          item.name = data.name;
+          item.address = data.address;
+          item.age = data.age;
+          item.building = data.building;
+          item.code = data.code;
+          item.confirmed_diagnosis = data.confirmed_diagnosis;
+          item.createTime = data.createTime;
+          item.identificationNumber = data.identificationNumber;
+          item.contact = data.isExceedTemp;
+          item.exceedTemp = data.isExceedTemp;
+          // item.leaveArea = data.isLeaveArea;
+          item.medicalOpinion = data.medicalOpinion;
+          item.multiTenancy = data.multiTenancy;
+          item.note = data.note;
+          item.otherSymptoms = data.otherSymptoms;
+          item.phone = data.phone;
+          item.plot = data.plot;
+          item.roomNo = data.roomNo;
+          item.sex = data.sex;
+          item.unitNumber = data.unitNumber;
+          res.push(item);
+        });
+      }
+      return res;
     },
 
   queryAttachments(businessId: any): Promise<any> {

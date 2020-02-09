@@ -15,7 +15,7 @@
                 <span class="person-name">{{person.name}}</span>
               </span>
               <!-- <span class="version">plan</span> -->
-              <span class="prev-color confirmed_diagnosis" v-if="person.isExceedTemp" >
+              <span class="prev-color confirmed_diagnosis" v-if="person.exceedTemp" >
                 发热
               </span>
               <span class="phone">
@@ -38,7 +38,7 @@
                   <i class="iconfont iconpms-icon_txt"></i>
                   <span>是否有接触史</span>
                 </div>
-                <div class="name">{{person.isContact ? '是' : '否' }}</div>
+                <div class="name">{{person.contact ? '是' : '否' }}</div>
               </div>
               
               <div class="item create-time">

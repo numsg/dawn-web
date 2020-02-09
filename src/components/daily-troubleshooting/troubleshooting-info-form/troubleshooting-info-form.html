@@ -38,15 +38,15 @@
       <el-input v-model="troublePerson.age"></el-input>
     </el-form-item>
 
-    <el-form-item label="是否发热(体温 > 37.3℃)" prop="isExceedTemp">
-      <el-radio-group v-model="troublePerson.isExceedTemp">
+    <el-form-item label="是否发热(体温 > 37.3℃)" prop="exceedTemp">
+      <el-radio-group v-model="troublePerson.exceedTemp">
         <el-radio :label="true">是</el-radio>
         <el-radio :label="false">否</el-radio>
       </el-radio-group>
     </el-form-item>
 
-    <el-form-item label="是否有新型肺炎接触史" prop="isContact">
-      <el-radio-group v-model="troublePerson.isContact">
+    <el-form-item label="是否有新型肺炎接触史" prop="contact">
+      <el-radio-group v-model="troublePerson.contact">
         <el-radio :label="true">是</el-radio>
         <el-radio :label="false">否</el-radio>
       </el-radio-group>

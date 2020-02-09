@@ -1,4 +1,4 @@
-export class PersonInfo {
+export class PersonOdataInfo {
     id!: string;
     code!: string;
     name!: string;
@@ -31,9 +31,9 @@ export class PersonInfo {
     // 年龄
     age!: number | null;
     // 体温大于37.7
-    exceedTemp!: boolean;
+    isExceedTemp!: boolean;
     // 是否有接触史
-    contact!: boolean;
+    isContact!: boolean;
     // 其它症状
     otherSymptoms!: string;
     // 医疗意见
@@ -62,16 +62,14 @@ export class PersonInfo {
         this.roomNo = '';
         // 体温body temperature
         this.bodyTemperature = '';
-        // 过去14天是否离开过本地区
-        // this.leaveArea = false;
         // 确诊情况
         this.confirmed_diagnosis = '';
 
         this.age = null;
         // 体温大于37.7
-        this.exceedTemp = false;
+        this.isExceedTemp = false;
         // 是否有接触史
-        this.contact = false;
+        this.isContact = false;
         // 其它症状
         this.otherSymptoms =  '';
         // 医疗意见
