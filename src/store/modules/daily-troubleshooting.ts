@@ -175,10 +175,12 @@ const dailyTroubleshooting = {
     },
     SetModelType: async ({ dispatch, commit, state }: any, type: any) => {
       commit('SET_MODEL_TYPE', type);
-      if (type === ModelType.checked) {
-        dispatch('SetGroupPersonData', state.conditions);
-      } else {
-        dispatch('SetUncheckedData', state.conditions);
+      if (Array.isArray(state.groupPersonData) && state.groupPersonData.length > 0) {
+        if (type === ModelType.checked) {
+          dispatch('SetGroupPersonData', state.conditions);
+        } else {
+          dispatch('SetUncheckedData', state.conditions);
+        }
       }
     },
     ResetData: ({ commit }: any) => {

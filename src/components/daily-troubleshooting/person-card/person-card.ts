@@ -10,6 +10,8 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 
 import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/troubleshooting-info-form/troubleshooting-info-form';
+import moment from 'moment';
+import * as format from 'dateformat';
 
 @Component({
   template: Html,
@@ -137,7 +139,7 @@ export class PersonCard extends Vue {
 
   replaceTime(time: string) {
     if (time) {
-      return time.replace('Z', ' ').replace('T', ' ');
+      return format.default(time, 'yyyy-mm-dd HH:mm:ss');
     }
     return '';
   }
