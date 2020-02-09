@@ -133,11 +133,15 @@ export class TroubleshootingInfoForm extends Vue {
         console.log(troublePerson, 'troublePerson');
         DailyTroubleshootingService.editDailyTroubleshooting(troublePerson)
           .then(res => {
-            notifyUtil.success('修改填报记录成功');
-            this.$emit('colse');
-            this.$emit('success');
-            this.resetForm('ruleForm');
-            this.troublePerson = new PersonInfo();
+            if ( res ) {
+              notifyUtil.success('修改填报记录成功');
+              this.$emit('colse');
+              this.$emit('success');
+              this.resetForm('ruleForm');
+              this.troublePerson = new PersonInfo();
+            } else {
+              notifyUtil.error('修改失败');
+            }
           })
           .catch(err => {
             console.log(err);
