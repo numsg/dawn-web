@@ -1,6 +1,7 @@
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
 import transformToColor from '@/common/filters/colorformat';
 import DailyQueryConditions from '@/models/common/daily-query-conditions';
+import { ModelType } from '@/models/daily-troubleshooting/model-type';
 
 const dailyTroubleshooting = {
   state: {
@@ -15,7 +16,8 @@ const dailyTroubleshooting = {
     activeName: '',
     groupPersonTotalCount: 0,
     checkedTotalCount: 0,
-    unCheckedTotalCount: 0
+    unCheckedTotalCount: 0,
+    modelType: ModelType.checked
   },
   mutations: {
     SET_STATISTICS_DATA: (state: any, result: any) => {
@@ -69,6 +71,9 @@ const dailyTroubleshooting = {
     SET_ACTIVE_NAME: (state: any, result: any) => {
       state.activeName = result;
     },
+    SET_MODEL_TYPE: (state: any, result: any) => {
+      state.modelType = result;
+    },
     RESET_DATA: (state: any) => {
       state.statisticsData = [];
       state.totalCount = 0;
@@ -82,7 +87,7 @@ const dailyTroubleshooting = {
       state.groupPersonTotalCount = 0;
       state.checkedTotalCount = 0;
       state.unCheckedTotalCount = 0;
-    }
+    },
   },
   actions: {
     async SetStatisticsData({ commit }: any) {
@@ -123,7 +128,7 @@ const dailyTroubleshooting = {
       }
     },
     SetGroupsData: async ({ dispatch, commit, state }: any) => {
-      if (state.conditions && state.conditions.plots.length > 0) {
+      if (state.conditions && state.conditions.plots && state.conditions.plots.length > 0) {
         const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
         commit('SET_GROUPS_DATA', result);
       } else {
@@ -137,16 +142,44 @@ const dailyTroubleshooting = {
       const result = await DailyTroubleshootingService.getGroupPersonData(conditions);
       commit('SET_GROUP_PERSON_DATA', result);
     },
+    SetUncheckedData: async ({ dispatch, commit, state }: any, conditions: any) => {
+      const con = {
+        building: conditions.dailyStatisticModel.building,
+        page: conditions.page,
+        pageSize: conditions.pageSize,
+        plot: conditions.dailyStatisticModel.plotId,
+        unitNumber: conditions.dailyStatisticModel.unitNumber
+      }
+      const result = await DailyTroubleshootingService.queryUncheckedData(con);
+      const res = {
+        count: result.total,
+        value: result.dailyTroubleshootRecordModels
+      }
+      commit('SET_GROUP_PERSON_DATA', result);
+    },
     SetActiveName: async ({ dispatch, commit, state }: any, payloads: any) => {
+      console.log('---SetActiveName---');
       // const result = DailyTroubleshootingService.queryGroupPersonData(conditions);
       commit('SET_ACTIVE_NAME', payloads);
       state.conditions.page = 0;
       state.conditions.dailyStatisticModel = state.groupsData[payloads];
       if (typeof payloads === 'number') {
-        dispatch('SetGroupPersonData', state.conditions);
+        if (state.modelType === ModelType.checked) {
+          dispatch('SetGroupPersonData', state.conditions);
+        } else {
+          dispatch('SetUncheckedData', state.conditions);
+        }
       } else {
         state.groupPersonData = [];
         state.groupPersonTotalCount = 0;
+      }
+    },
+    SetModelType: async ({ dispatch, commit, state }: any, type: any) => {
+      commit('SET_MODEL_TYPE', type);
+      if (state.mModelType === ModelType.checked) {
+        dispatch('SetUncheckedData', state.conditions);
+      } else {
+        dispatch('SetGroupPersonData', state.conditions);
       }
     },
     ResetData: ({ commit }: any) => {
@@ -163,7 +196,7 @@ const dailyTroubleshooting = {
     dailyTroubleshooting_conditions: (state: any) => state.conditions,
     dailyTroubleshooting_groupPersonTotalCount: (state: any) => state.groupPersonTotalCount,
     dailyTroubleshooting_checkedTotalCount: (state: any) => state.checkedTotalCount,
-    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount
+    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount,
   }
 };
 

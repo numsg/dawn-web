@@ -92,6 +92,11 @@ export class OperationZone extends Vue {
       page: 0
     });
   }
+
+  modelTypeClick(type: ModelType) {
+    this.currentModelType = type;
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetModelType, type);
+  }
     @Watch('currentModelType')
     watchCurrentModelType(value: any) {
       this.$emit('modelTypeChange');

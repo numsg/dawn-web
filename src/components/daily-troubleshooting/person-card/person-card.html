@@ -3,7 +3,7 @@
       <el-collapse v-model="activeName" accordion @change="activeChange">
         <el-collapse-item v-for="(group, index) in groupsData" class="card-collapse-item"  :name="index">
           <template slot="title">
-            <div  @click="collapseClick(index)" class="collapse-title">
+            <div  class="collapse-title">
               <span class="unit-number">
                 <span class="plot-name">{{group.plotName}}&nbsp;&nbsp;</span>
                 <span class="building-num">{{group.building}} - {{group.unitNumber}}</span>

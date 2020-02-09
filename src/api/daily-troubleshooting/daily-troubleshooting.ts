@@ -85,15 +85,15 @@ export default {
             }
         }
       }
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       if (filterStr) {
         return q
           .skip(count * (page))
@@ -210,15 +210,15 @@ export default {
             }
         }
       }
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       if (filterStr) {
         return q
           .skip(conditions.pageSize * (conditions.page))
@@ -405,15 +405,15 @@ export default {
             }
         }
       }
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      if (filterStr) {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      } else {
+        filterStr = '(createTime gt ' + startTime + ') and '
+                  + '(createTime lt ' + endTime + ')';
+      }
       if (filterStr) {
         return q
           .skip(0)
@@ -551,7 +551,7 @@ export default {
   queryGroupsData() {
     const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/multi-criteria-query';
     return httpClient
-      .postPromise(url)
+      .postPromise(url, {plots: []})
       .then(res => {
         return res;
       })
@@ -585,24 +585,6 @@ export default {
       resources: 'DailyTroubleshootRecordEntity'
     });
     let filterStr = '';
-    // if (conditions.keyWord) {
-    //   const keywordList = conditions.keyWord.split('-');
-    //   let building = '';
-    //   let unitNumber = '';
-    //   let roomNo = '';
-    //   if ( keywordList.length > 0 ) {
-    //     building =  keywordList[0];
-    //     filterStr += 'contains( building, \'' + building + '\')';
-    //   }
-    //   if ( keywordList.length > 1 ) {
-    //     unitNumber =  keywordList[1];
-    //     filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
-    //   }
-    //   if ( keywordList.length > 2 ) {
-    //     roomNo =  keywordList[2];
-    //     filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
-    //   }
-    // }
     if (conditions.plots && conditions.plots.length > 0) {
       let str = '';
       for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
@@ -619,42 +601,6 @@ export default {
           }
       }
     }
-
-    // if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
-    //   let str = '';
-    //   for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
-    //       const id = conditions.medicalOpinion[i];
-    //       if (i !== len) {
-    //           str += '(medicalOpinion eq \'' + id + '\') or ';
-    //       } else {
-    //           str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
-    //           if (filterStr) {
-    //             filterStr = filterStr + ' and ' + str;
-    //           } else {
-    //             filterStr += str;
-    //           }
-    //       }
-    //   }
-    // }
-
-    // if (conditions.isFaver && conditions.isFaver.length > 0) {
-    //   let str = '';
-    //   for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
-    //       const value = conditions.isFaver[i];
-    //       if (i !== len) {
-    //           str += '(isExceedTemp eq ' + value + ') or ';
-    //       } else {
-    //           str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
-    //           if (filterStr) {
-    //             filterStr = filterStr + ' and ' + str;
-    //           } else {
-    //             filterStr += str;
-    //           }
-    //       }
-    //   }
-    // }
-    console.log('---filterStr---');
-    console.log(filterStr);
     if (filterStr) {
       filterStr = '(plot eq \'' + conditions.dailyStatisticModel.plotId + '\') and ' +
       '(building eq \'' + conditions.dailyStatisticModel.building + '\') and ' +
@@ -664,15 +610,15 @@ export default {
       '(building eq \'' + conditions.dailyStatisticModel.building + '\') and ' +
       '(unitNumber eq \'' + conditions.dailyStatisticModel.unitNumber + '\')';
     }
-    // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-    // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-    // if (filterStr) {
-    //   filterStr = '(createTime gt ' + startTime + ') and '
-    //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-    // } else {
-    //   filterStr = '(createTime gt ' + startTime + ') and '
-    //             + '(createTime lt ' + endTime + ')';
-    // }
+    const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    if (filterStr) {
+      filterStr = '(createTime gt ' + startTime + ') and '
+                + '(createTime lt ' + endTime + ') and ' + filterStr;
+    } else {
+      filterStr = '(createTime gt ' + startTime + ') and '
+                + '(createTime lt ' + endTime + ')';
+    }
     return q
       .skip(conditions.pageSize * (conditions.page))
       .top(conditions.pageSize)
@@ -692,6 +638,18 @@ export default {
         return result;
       })
       .catch((error: any) => {});
+  },
+
+  queryUncheckedData(param: any) {
+    const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/un-checked';
+    return httpClient
+      .postPromise(url, param)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
   }
 
 };

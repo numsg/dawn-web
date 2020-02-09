@@ -107,7 +107,8 @@ const StoreEvents = {
     SetGroupsData: 'SetGroupsData',
     SetGroupPersonData: 'SetGroupPersonData',
     SetActiveName: 'SetActiveName',
-    ResetData: 'ResetData'
+    ResetData: 'ResetData',
+    SetModelType: 'SetModelType',
   }
 };
 

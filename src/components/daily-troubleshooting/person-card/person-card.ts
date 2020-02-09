@@ -95,7 +95,7 @@ export class PersonCard extends Vue {
   handleCardClick() {}
 
   success() {
-    this.$emit('refesh');
+    // this.$emit('refesh');
     this.colse();
   }
 

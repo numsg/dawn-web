@@ -93,19 +93,15 @@ export class DailyTroubleshootingComponent extends Vue {
 
   // 刷新
   async refesh() {
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
-    this.personData = result.value;
-    this.totalCount = result.count;
+
   }
 
   async addSuccess() {
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
-    this.personData = result.value;
-    this.totalCount = result.count;
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
     if (this.isShowgGroup) {
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
     } else {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
     }
   }
 

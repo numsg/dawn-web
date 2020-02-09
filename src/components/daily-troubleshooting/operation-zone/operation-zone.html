@@ -6,10 +6,10 @@
             active-text="分组显示"
            >
           </el-switch> 
-            <el-button @click="currentModelType = modelType.checked" :class="currentModelType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn el-icon-document">
+            <el-button @click="modelTypeClick(modelType.checked)" :class="currentModelType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn el-icon-document">
               排查({{isShowgGroup ? checkedTotalCount : totalCount}})
             </el-button>
-            <el-button @click="currentModelType = modelType.unChecked" :class="currentModelType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn el-icon-document">
+            <el-button @click="modelTypeClick(modelType.unChecked)" :class="currentModelType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn el-icon-document">
               待排查({{unCheckedTotalCount}})
             </el-button>
         </div>
