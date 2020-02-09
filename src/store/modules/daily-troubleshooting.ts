@@ -12,6 +12,7 @@ const dailyTroubleshooting = {
     groupsData: [],
     groupPersonData: [],
     activeName: '',
+    groupPersonTotalCount: 0,
   },
   mutations: {
     SET_STATISTICS_DATA: (state: any, result: any) => {
@@ -70,7 +71,8 @@ const dailyTroubleshooting = {
       const result = await DailyTroubleshootingService.loadAllDailyRecord(state.conditions);
       commit('LOAD_PERSON_DATA', result);
     },
-    SetIsShowGroup({ dispatch, commit }: any, payloads: any) {
+    SetIsShowGroup({ dispatch, commit, state }: any, payloads: any) {
+      state.conditions.page = 0;
       if (payloads) {
         dispatch('SetGroupsData');
       } else {
@@ -81,7 +83,7 @@ const dailyTroubleshooting = {
     SetConditions: async ({ dispatch, commit, state }: any, conditions: DailyQueryConditions) => {
       commit('SET_CONDITIONS', conditions);
       if (state.isShowgGroup) {
-        if (state.conditions.dailyStatisticModel && state.conditions.dailyStatisticModel.id) {
+        if (state.conditions.dailyStatisticModel) {
           dispatch('SetGroupPersonData', state.conditions);
         }
       } else {

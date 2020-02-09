@@ -23,7 +23,7 @@ export class PersonCard extends Vue {
 
   currentPage = 1;
   pageSizes = [10, 20, 30];
-  pageSize = 0;
+  pageSize = 10;
 
   // 本社区小区
   @Getter('baseData_communities')

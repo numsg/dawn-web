@@ -5,7 +5,7 @@
           <template slot="title">
             <div class="collapse-title">
               <span class="unit-number">
-                <span class="plot-name">{{group.plotName}}</span>
+                <span class="plot-name">{{group.plotName}}&nbsp;&nbsp;</span>
                 <span class="building-num">{{group.building}} - {{group.unitNumber}}</span>
               </span>
               <div class="check-tag-container">
@@ -34,7 +34,7 @@
                 <span v-else>否</span>
               </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="填报时间" width="120">
+            <el-table-column prop="createTime" label="填报时间" width="160">
             </el-table-column>
             <el-table-column prop="phone" label="电话" width="120">
             </el-table-column>
@@ -47,7 +47,7 @@
           </el-table>
           <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
           :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
-          layout="total, prev, pager, next, jumper" :total="totalCount">
+          layout="total, prev, pager, next, jumper" :total="groupPersonData.length">
         </el-pagination>
         </el-collapse-item>
       </el-collapse> 
