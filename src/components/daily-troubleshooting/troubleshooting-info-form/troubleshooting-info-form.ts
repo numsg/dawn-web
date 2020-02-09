@@ -85,18 +85,20 @@ export class TroubleshootingInfoForm extends Vue {
 
   mounted() {
     if (!this.troublePerson.medicalOpinion || this.troublePerson.medicalOpinion === '') {
-      this.troublePerson.medicalOpinion = this.medicalOpinions[0].id;
+      if ( this.medicalOpinions.length > 0 ) {
+        this.troublePerson.medicalOpinion = this.medicalOpinions[0].id;
+      }
     }
   }
 
   submitForm(formName: string) {
-    console.log(11111112);
     const form: any = this.$refs[formName];
     form.validate((valid: any) => {
       if (valid) {
         this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
-        DailyTroubleshootingService.addDailyTroubleshooting(this.troublePerson)
+        console.log(this.troublePerson, 'this.troublePerson');
+        DailyTroubleshootingService.addDailyTroubleshooting(JSON.parse( JSON.stringify(this.troublePerson) ))
           .then(res => {
             if (res) {
               notifyUtil.success('添加填报记录成功');
@@ -125,7 +127,8 @@ export class TroubleshootingInfoForm extends Vue {
       if (valid) {
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         this.troublePerson.createTime = null;
-        DailyTroubleshootingService.editDailyTroubleshooting(this.troublePerson)
+        console.log(this.troublePerson, 'this.troublePerson');
+        DailyTroubleshootingService.editDailyTroubleshooting(JSON.parse( JSON.stringify(this.troublePerson) ))
           .then(res => {
             notifyUtil.success('修改填报记录成功');
             this.$emit('colse');
