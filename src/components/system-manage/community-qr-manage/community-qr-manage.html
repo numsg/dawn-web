@@ -3,14 +3,14 @@
     <div class="search">
       <el-input class="keywords-search" :placeholder="$t('tempMgr.keywords_search_placeholder')" v-model="keywords"
         suffix-icon="iconfont iconpms-icon_search" autofocus @input="debounceSearch"></el-input>
-      <el-button class="iconfont no-text-btn iconpms-icon_add primary-btn" size="mini" type="primary"
-        @click="batchGenerationQRCode">批量生成二维码</el-button>
+      <!-- <el-button class="iconfont no-text-btn iconpms-icon_add primary-btn" size="mini" type="primary"
+        @click="batchGenerationQRCode">批量生成二维码</el-button> -->
     </div>
   </div>
   <div class="content">
     <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%"
       @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <!-- <el-table-column type="selection" width="55"> </el-table-column> -->
       <el-table-column label="小区名称">
         <template slot-scope="scope">{{ scope.row.name }}</template>
       </el-table-column>
@@ -29,24 +29,25 @@
           <div class="operation">
             <el-button icon="iconfont  iconpms-icon_add" @click="generateQRCode(scope.row)" title="生成二维码 ">生成二维码
             </el-button>
-            <el-button :disabled=" scope.row.image === ''" icon="el-icon-view" @click="preView(scope.row)" title="打印预览">打印预览</el-button>
+            <el-button :disabled=" scope.row.image === ''" icon="el-icon-view" @click="preView(scope.row)" title="打印预览">
+              打印预览</el-button>
           </div>
         </template>
       </el-table-column>
     </el-table>
   </div>
 
-  <el-dialog title="小区二维码信息" :visible.sync="dialogFormVisible" width="400px" class="report-dialog">
+  <el-dialog title="小区二维码信息" :visible.sync="dialogFormVisible" width="470px" class="report-dialog">
     <div ref="contentRef">
       <div class="qr-code-box">
         <div class="img-box">
-          <img class="img-style" style="width: 200px; height: 200px" :src="currentSelectRowInfo.image" fit="fit"></img>
+          <img class="img-style" style="width: 180px; height: 180px" :src="currentSelectRowInfo.image" fit="fit"></img>
         </div>
-        <div class="desciption">
+        <!-- <div class="desciption"> -->
           <!-- <p> <span>自查自报</span> <span class="item-right">共抗疫情</span></p>
           <p> <span>{{currentSelectRowInfo.name}}</span> <span class="item-right">与您同行</span></p> -->
-          <p class="text-content"> 清华辰安技术支持</p>
-        </div>
+          <!-- <p class="text-content"> 清华辰安技术支持</p>
+        </div> -->
       </div>
     </div>
     <!-- 导出的div容器 -->
@@ -58,4 +59,17 @@
       <el-button type="primary" @click="printQRCode">打印</el-button>
     </div>
   </el-dialog>
+
+  <!-- 生成二维码 -->
+  <side-frame ref="sideFrame" :top="80">
+    <div class="side-frame-header" slot="header">
+      <div class="header-title side-frame-title">
+        <i></i>
+        <span>二维码信息登记</span>
+      </div>
+    </div>
+    <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+      <qrcode-info-add :qrcodeInfoForm="qrcodeInfoForm" @save-qrcode-success="saveQrcodeSuccess"></qrcode-info-add>
+    </div>
+  </side-frame>
 </div>

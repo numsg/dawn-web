@@ -1,3 +1,4 @@
+import { QrcodeInfo } from './../../../models/home/qrcode-info';
 import { Vue, Component } from 'vue-property-decorator';
 import communityQRManageHtml from './community-qr-manage.html';
 import communityQRManageStyle from './community-qr-manage.module.scss';
@@ -6,11 +7,16 @@ import html2canvas from 'html2canvas';
 import { debounce } from 'lodash';
 import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
 import store from '@/store';
+import { QrcodeInfoAddComponent } from './qrcode-info-add/qrcode-info-add';
+import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 
 @Component({
   template: communityQRManageHtml,
   style: communityQRManageStyle,
-  components: {}
+  components: {
+    'side-frame': SideFrameComponent,
+    'qrcode-info-add': QrcodeInfoAddComponent
+  }
 })
 export class CommunityQRManageComponent extends Vue {
   // 模糊查询g
@@ -22,6 +28,10 @@ export class CommunityQRManageComponent extends Vue {
   communityInformation: any = [];
   // 当前社区id
   currentCommunityId: any = 'a2e01f0e-6c86-4a41-bcf3-c07c1ffa2f82';
+  // 网格员角色code
+  roleCode: any = '477174202197774088264551523168824749';
+  // 网格员List
+  gridMemberList: any = [];
   // 管辖区域
   manageArea: any = [];
   // 控制dialog 显示与隐藏
@@ -39,6 +49,16 @@ export class CommunityQRManageComponent extends Vue {
   cummunityIds: any = [];
   // 二维码List
   qrCodeListInfo: any = [];
+  // 二维码信息form
+  qrcodeInfoForm: QrcodeInfo = new QrcodeInfo();
+  /**
+   * 当前页码
+   *
+   * @type {Number}
+   * @memberof UserManageComponent
+   */
+  pageIndex: number = 0;
+  pageSize: number = 1000;
   /**
    * 搜索防抖
    */
@@ -46,6 +66,7 @@ export class CommunityQRManageComponent extends Vue {
   created() {
     this.qrCodeUrl = store.getters.configs.qrCodeUrl;
     this.getCommunityInformationById(this.currentCommunityId);
+    this.getCommunityGridMember();
   }
 
   /**
@@ -85,16 +106,35 @@ export class CommunityQRManageComponent extends Vue {
    */
   async generateQRCode(row: any) {
     this.currentSelectRowId = row.id;
-    const obj: any = {
-      businessId: this.currentSelectRowId,
-      content: this.qrCodeUrl
-    };
-    const res = await communityQrManageService.generateQRCodeImage(obj);
-    if (res) {
-      this.getCommunityInformationById(this.currentCommunityId);
+    // const obj: any = {
+    //   businessId: this.currentSelectRowId,
+    //   content: this.qrCodeUrl
+    // };
+    // const res = await communityQrManageService.generateQRCodeImage(obj);
+    // if (res) {
+    //   this.getCommunityInformationById(this.currentCommunityId);
+    // }
+    this.qrcodeInfoForm = new QrcodeInfo();
+    this.$set(this.qrcodeInfoForm, 'commuityCode', row.id);
+    this.$set(this.qrcodeInfoForm, 'commuityName', row.name);
+    for (let i = 0; i < this.gridMemberList.length; i++) {
+      if (this.gridMemberList[i].address.indexOf(row.id) !== -1) {
+        this.$set(this.qrcodeInfoForm, 'responsible', this.gridMemberList[i].name);
+        this.$set(this.qrcodeInfoForm, 'responsiblePhone', this.gridMemberList[i].phone);
+        break;
+      }
     }
+    const sideFrame: any = this.$refs['sideFrame'];
+    sideFrame.open();
   }
-
+  /**
+   * 二维码保存成功
+   */
+  saveQrcodeSuccess() {
+    const sideFrame: any = this.$refs['sideFrame'];
+    sideFrame.close();
+    this.getCommunityInformationById(this.currentCommunityId);
+  }
   /**
    * 批量生成二维码
    */
@@ -194,5 +234,22 @@ export class CommunityQRManageComponent extends Vue {
     }
     this.tableData = JSON.parse(JSON.stringify(this.communityInformation));
     this.defaultTableData = JSON.parse(JSON.stringify(this.communityInformation));
+  }
+  /**
+   * 获取网格员信息
+   */
+  async getCommunityGridMember() {
+    const res: any = await communityQrManageService.pageQueryUsersByRole(
+      {
+        pageIndex: this.pageIndex,
+        pageSize: this.pageSize
+      },
+      this.roleCode
+    );
+    if (res && res.records) {
+      this.gridMemberList = res.records;
+    } else {
+      this.gridMemberList = [];
+    }
   }
 }

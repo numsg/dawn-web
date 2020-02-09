@@ -9,6 +9,7 @@ import moment from 'moment';
 import mapperManagerService from '@/common/odata/mapper-manager.service';
 import { communityQRManageUrl } from '@/common/url/community-qr-manage-url';
 import { stringFormat } from '@gsafety/cad-gutil/dist/stringformat';
+import userManageUrl from '@/common/url/user-manage-url';
 
 export default {
   /**
@@ -42,5 +43,21 @@ export default {
   getQRCodeListByIds(param: any): Promise<any> {
     const url = store.getters.configs.communityManagerUrl + communityQRManageUrl.getQRCodeListByIds;
     return httpClient.postPromise(url, param);
+  },
+  /**
+   * 根据角色分页查询用户
+   *
+   * @param {*} param
+   * @returns {Promise<any>}
+   */
+  pageQueryUsersByRole(param: any, role: any): Promise<any> {
+    const url = store.getters.configs.uapUrl + stringFormat(userManageUrl.getUserByRole, store.getters.configs.clientId, String(role));
+    const token = store.getters.configs.superToken;
+    return httpClient.postPromise(url, param, {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: 'Bearer ' + token
+      }
+    });
   }
 };

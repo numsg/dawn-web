@@ -22,7 +22,9 @@ export const userManageUrl = {
     logoutUser: '/v3/logout',
     // 强制退出
     forcedLogoutUser: '/v3/users/{0}/logout',
-    clientUsers: '/v3/clients/{0}/users/search'
+    clientUsers: '/v3/clients/{0}/users/search',
+    // 根据角色获取用户信息
+    getUserByRole: '/v3/clients/{0}/roles/{1}/users '
 };
 
 export default userManageUrl;
