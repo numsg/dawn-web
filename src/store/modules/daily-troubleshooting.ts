@@ -151,19 +151,18 @@ const dailyTroubleshooting = {
         unitNumber: conditions.dailyStatisticModel.unitNumber
       }
       const result = await DailyTroubleshootingService.queryUncheckedData(con);
-      const res = {
-        count: result.total,
-        value: result.dailyTroubleshootRecordModels
-      }
-      commit('SET_GROUP_PERSON_DATA', result);
+
+      state.groupPersonTotalCount = result.total;
+      state.groupPersonData = result.dailyTroubleshootRecordModels;
+      // commit('SET_GROUP_PERSON_DATA', result);
     },
     SetActiveName: async ({ dispatch, commit, state }: any, payloads: any) => {
       console.log('---SetActiveName---');
       // const result = DailyTroubleshootingService.queryGroupPersonData(conditions);
       commit('SET_ACTIVE_NAME', payloads);
       state.conditions.page = 0;
-      state.conditions.dailyStatisticModel = state.groupsData[payloads];
       if (typeof payloads === 'number') {
+        state.conditions.dailyStatisticModel = state.groupsData[payloads];
         if (state.modelType === ModelType.checked) {
           dispatch('SetGroupPersonData', state.conditions);
         } else {
@@ -176,10 +175,10 @@ const dailyTroubleshooting = {
     },
     SetModelType: async ({ dispatch, commit, state }: any, type: any) => {
       commit('SET_MODEL_TYPE', type);
-      if (state.mModelType === ModelType.checked) {
-        dispatch('SetUncheckedData', state.conditions);
-      } else {
+      if (type === ModelType.checked) {
         dispatch('SetGroupPersonData', state.conditions);
+      } else {
+        dispatch('SetUncheckedData', state.conditions);
       }
     },
     ResetData: ({ commit }: any) => {
