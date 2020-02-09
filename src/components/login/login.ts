@@ -338,7 +338,7 @@ export class LoginComponent extends Vue {
       isLast: true
     };
     this.remPwd(curUser);
-    this.$router.push({ path: '/home' });
+    this.$router.push({ path: '/daily-troubleshoot' });
     this.isSuccessLogin = true;
   }
 
