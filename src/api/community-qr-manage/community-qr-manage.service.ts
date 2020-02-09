@@ -11,7 +11,6 @@ import { communityQRManageUrl } from '@/common/url/community-qr-manage-url';
 import { stringFormat } from '@gsafety/cad-gutil/dist/stringformat';
 
 export default {
-
   /**
    * 生成单个二维码
    */
@@ -37,7 +36,7 @@ export default {
     const url = stringFormat(`${baseUrl}${communityQRManageUrl.getQRCodeById}`, id);
     return httpClient.getPromise(url);
   },
-   /**
+  /**
    * 根据Id查询二维码详情
    */
   getQRCodeListByIds(param: any): Promise<any> {
