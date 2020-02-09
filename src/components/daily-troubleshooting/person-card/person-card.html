@@ -24,14 +24,18 @@
             </el-table-column>
             <el-table-column  label="是否发热">
               <template slot-scope="scope">
-                <span v-if="scope.row.isExceedTemp">是</span>
-                <span v-else>否</span>
+                <!-- <span v-if="scope.row.isExceedTemp">是</span>
+                <span v-else>否</span> -->
+                <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'info'"
+                  disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
               </template>
             </el-table-column>
             <el-table-column  label="是否有接触史">
               <template slot-scope="scope">
-                <span v-if="scope.row.isContact">是</span>
-                <span v-else>否</span>
+                <!-- <span v-if="scope.row.isContact">是</span>
+                <span v-else>否</span> -->
+                <el-tag effect="dark" size="mini" :type="scope.row.isContact ? 'danger' : 'info'"
+                  disable-transitions>{{scope.row.isContact ? '是' : '否'}}</el-tag>
               </template>
             </el-table-column>
             <el-table-column prop="createTime" label="填报时间" width="160">
