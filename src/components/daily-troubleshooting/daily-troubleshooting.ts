@@ -185,7 +185,7 @@ export class DailyTroubleshootingComponent extends Vue {
         [`L${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '', s  }, // 替换 CT诊断肺炎患者
         [`M${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' , s }, // 替换 一般发热患者
         [`N${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' , s }, // 替换 密切接触者
-        [`O${5 + index}`] : { v: person.note, s },
+        [`O${5 + index}`] : { v: person.note ? person.note : '', s },
       };
       data = Object.assign({}, data, tableTr);
     });
