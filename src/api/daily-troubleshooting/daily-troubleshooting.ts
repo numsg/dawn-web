@@ -551,7 +551,7 @@ export default {
   queryGroupsData() {
     const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/multi-criteria-query';
     return httpClient
-      .postPromise(url, {plots: []})
+      .postPromise(url)
       .then(res => {
         return res;
       })
