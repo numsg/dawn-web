@@ -4,6 +4,8 @@ import communityQRManageStyle from './community-qr-manage.module.scss';
 import dDataSourceService from '@/api/data-source/d-data-source.service';
 import html2canvas from 'html2canvas';
 import { debounce } from 'lodash';
+import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
+import store from '@/store';
 
 @Component({
   template: communityQRManageHtml,
@@ -27,15 +29,28 @@ export class CommunityQRManageComponent extends Vue {
     // 当前选中行信息
     currentSelectRowInfo: any = {};
     tempPicture = require('../../../assets/img/temp_qrcode.png');
+    // 当前选中行id
+    currentSelectRowId: any = '';
+    // 当前选中行ids
+    currentSelectRowsIds: any = [];
+    // 二维码url
+    qrCodeUrl: any = '';
+    // 社区二维码集合
+    cummunityIds: any = [];
+    // 二维码List
+    qrCodeListInfo: any = [] ;
    /**
    * 搜索防抖
    */
   debounceSearch = debounce(this.search, 500);
     created() {
+      this.qrCodeUrl = store.getters.configs.qrCodeUrl;
       this.getCommunityInformationById(this.currentCommunityId);
     }
 
-
+/**
+ * 查询
+ */
     search() {
       const searchValue: any = this.keywords.trim();
      if ( searchValue === '') {
@@ -49,10 +64,6 @@ export class CommunityQRManageComponent extends Vue {
       });
      }
     }
-  /**
-   * 批量生成二维码
-   */
-  batchGenerationQRCode() {}
 
   toggleSelection(rows: any) {
     const multipleTableRef: any = this.$refs.multipleTable;
@@ -68,16 +79,63 @@ export class CommunityQRManageComponent extends Vue {
   handleSelectionChange(val: any) {
     this.multipleSelection = val;
   }
+
   /**
    * 生成二维码
    */
-  generateQRCode() {}
+ async generateQRCode(row: any) {
+   this.currentSelectRowId = row.id;
+  const obj: any = {
+    businessId: this.currentSelectRowId,
+    content: this.qrCodeUrl
+  };
+    const res = await communityQrManageService.generateQRCodeImage(obj);
+    if (res) {
+      this.getCommunityInformationById(this.currentCommunityId);
+    }
+  }
+
+    /**
+   * 批量生成二维码
+   */
+ async batchGenerationQRCode() {
+   this.currentSelectRowsIds = [];
+  this.multipleSelection.map((item: any) => {
+    if ( item.image  === '') {
+      const obj: any = {
+        businessId: item.id,
+        content: this.qrCodeUrl
+      };
+      this.currentSelectRowsIds.push(obj);
+    }
+  });
+    const res = await communityQrManageService.batchGenerateQRCodeImage(this.currentSelectRowsIds);
+    if (res) {
+      this.getCommunityInformationById(this.currentCommunityId);
+    }
+  }
+/**
+ * 通过id获取二维码
+ */
+  async getQRCodeById() {
+    const res = await communityQrManageService.getQRCodeById(this.currentSelectRowId);
+  }
+/**
+ * 通过id集合获取二维码信息
+ */
+  async getQRCodeListByIds() {
+    this.qrCodeListInfo = [];
+    const res = await communityQrManageService.getQRCodeListByIds(this.cummunityIds);
+    if ( res ) {
+      this.qrCodeListInfo = res;
+    }
+  }
   /**
    * 打印预览
    */
   preView(row: any) {
    this.$set(this.currentSelectRowInfo, 'name', row.name);
-  //  this.$set(this.currentSelectRowInfo, 'name', row.QRImg);
+   this.$set(this.currentSelectRowInfo, 'image', row.image);
    this.dialogFormVisible = true;
   }
  /**
@@ -112,9 +170,25 @@ export class CommunityQRManageComponent extends Vue {
    *
    */
   async getCommunityInformationById(id: any) {
+    this.cummunityIds = [];
+    // 通过社区id获取社区信息
     const res = await dDataSourceService.findDDataSourceByDataSourceId(id);
     if (res) {
       this.communityInformation = res;
+      this.communityInformation.map((item: any) => {
+       this.cummunityIds.push(item.id);
+      });
+     // 通过社区id获取二维码信息
+      await this.getQRCodeListByIds();
+      // 包装列表显示数据
+      this.communityInformation.map((ele: any) => {
+        ele.image = '';
+        this.qrCodeListInfo.map((p: any) => {
+          if (ele.id === p.businessId) {
+            ele.image = p.image;
+          }
+        });
+      });
     } else {
       this.communityInformation = [];
     }

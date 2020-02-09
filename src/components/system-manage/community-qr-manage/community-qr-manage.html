@@ -21,9 +21,9 @@
       </el-table-column>
       <el-table-column prop="QRCode" label="二维码">
         <template slot-scope="scope">
-          <el-popover placement="top-start" width="230"  trigger="hover">
-            <img style="width: 200px; height: 200px" :src="tempPicture" fit="fit" ></img>
-    <img slot="reference"  style="width: 30px; height: 30px" :src="tempPicture" fit="fit"></img>
+          <el-popover  placement="top-start" width="230"  trigger="hover">
+            <img style="width: 200px; height: 200px" :src="scope.row.image" fit="fit" ></img>
+           <img v-if="scope.row.image !== ''" slot="reference"  style="width: 30px; height: 30px" :src="scope.row.image" fit="fit"></img>
           </el-popover>
         </template>
       </el-table-column>
@@ -31,7 +31,7 @@
       <el-table-column fixed="right" :label="$t('system_log.operation')" class="privilege-operate" width="300">
         <template slot-scope="scope">
           <div class="operation">
-            <el-button icon="iconfont  iconpms-icon_add" @click="generateQRCode" title="生成二维码 ">生成二维码</el-button>
+            <el-button icon="iconfont  iconpms-icon_add" @click="generateQRCode(scope.row)" title="生成二维码 ">生成二维码</el-button>
             <el-button icon="el-icon-view" @click="preView(scope.row)" title="打印预览">打印预览</el-button>
           </div>
         </template>
@@ -43,7 +43,7 @@
       <div ref="contentRef">
         <div class="qr-code-box">
           <div class="img-box">
-            <img class="img-style" style="width: 200px; height: 200px" :src="tempPicture" fit="fit" ></img> 
+            <img class="img-style" style="width: 200px; height: 200px" :src="currentSelectRowInfo.image" fit="fit" ></img> 
          </div>
         <div class="desciption">  
           <!-- <p> <span>自查自报</span> <span class="item-right">共抗疫情</span></p>
