@@ -1,4 +1,4 @@
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import Html from './person-card.html';
 import Style from './person-card.module.scss';
 
@@ -16,112 +16,118 @@ import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/trou
   style: Style,
   components: {
     'side-frame': SideFrameComponent,
-    TroubleshootingInfoForm,
+    TroubleshootingInfoForm
   }
 })
 export class PersonCard extends Vue {
-    currentPage = 1;
-    pageSizes = [10, 20, 30];
-    pageSize = 0;
+  currentPage = 1;
+  pageSizes = [10, 20, 30];
+  pageSize = 0;
 
-      // 本社区小区
-    @Getter('baseData_communities')
-    communities!: any[];
+  // 本社区小区
+  @Getter('baseData_communities')
+  communities!: any[];
 
-    @Prop({default: []})
-    private personData!: PersonInfo[];
+  @Prop({ default: [] })
+  private personData!: PersonInfo[];
 
-    @Prop({default: 0})
-    private totalCount!: number;
+  @Prop({ default: 0 })
+  private totalCount!: number;
 
-    private currentPerson = new PersonInfo();
-    private plans = [1111, 123, 1231, 1231, 1231,  1231, 1231, 1231];
+  @Prop({ default: false })
+  reset!: boolean;
 
-    created() {
-        this.pageSize = this.pageSizes[0];
+  private currentPerson = new PersonInfo();
+  private plans = [1111, 123, 1231, 1231, 1231, 1231, 1231, 1231];
+
+  @Watch('reset')
+  handleResetPersonData(val: boolean) {
+    if (val) {
+      this.currentPage = 1;
     }
+  }
 
-    // get personData() {
-    //     return this.plans.map( (plan) =>  {
-    //         const person = new PersonInfo();
-    //         person.id = 'sdjflksjdjowelljsdljfskdkfjskld';
-    //         person.code = 'Y9879723423';
-    //         person.name = '李二';
-    //         person.identificationNumber = '4208372983762612873';
-    //         person.sex = '男';
-    //         person.phone = '13283762376';
-    //         person.address = '汉正街马上路';
-    //         person.plot = '幸福里';
-    //         person.building = '1栋';
-    //         person.unitNumber = '2单元';
-    //         person.roomNo = '201';
-    //         person.bodyTemperature = '36.9';
-    //         person.leaveArea = false;
-    //         person.confirmed_diagnosis = '确诊';
-    //         person.createTime = '2020:02:07 11:29:20';
-    //         person.multiTenancy = '很多人';
-    //         return person;
-    //     });
-    // }
-    colorBodyTemperature(temperature: string) {
-        const tem = parseFloat(temperature);
-        if ( tem > 37 ) {
-            return '#ee8240';
-        } else if ( tem > 38 ) {
-            return '#ce3636';
-        } else {
-            return '#9ab2e9';
-        }
-    }
+  created() {
+    this.pageSize = this.pageSizes[0];
+  }
 
-    showDetail() {
+  // get personData() {
+  //     return this.plans.map( (plan) =>  {
+  //         const person = new PersonInfo();
+  //         person.id = 'sdjflksjdjowelljsdljfskdkfjskld';
+  //         person.code = 'Y9879723423';
+  //         person.name = '李二';
+  //         person.identificationNumber = '4208372983762612873';
+  //         person.sex = '男';
+  //         person.phone = '13283762376';
+  //         person.address = '汉正街马上路';
+  //         person.plot = '幸福里';
+  //         person.building = '1栋';
+  //         person.unitNumber = '2单元';
+  //         person.roomNo = '201';
+  //         person.bodyTemperature = '36.9';
+  //         person.leaveArea = false;
+  //         person.confirmed_diagnosis = '确诊';
+  //         person.createTime = '2020:02:07 11:29:20';
+  //         person.multiTenancy = '很多人';
+  //         return person;
+  //     });
+  // }
+  colorBodyTemperature(temperature: string) {
+    const tem = parseFloat(temperature);
+    if (tem > 37) {
+      return '#ee8240';
+    } else if (tem > 38) {
+      return '#ce3636';
+    } else {
+      return '#9ab2e9';
+    }
+  }
 
-    }
+  showDetail() {}
 
-    handleCardClick() {
+  handleCardClick() {}
 
-    }
+  success() {
+    this.$emit('refesh');
+    this.colse();
+  }
 
-    success() {
-        this.$emit('refesh');
-        this.colse();
-    }
+  // 编辑
+  edit(person: PersonInfo) {
+    this.open();
+    this.currentPerson = person;
+  }
+  // 页数码改变
+  handleSizeChange(value: any) {
+    this.pageSize = value;
+    this.$emit('paginationChange', { pageSize: this.pageSize, currentPage: this.currentPage });
+  }
+  // 当前页改变
+  handleCurrentChange(value: any) {
+    this.currentPage = value;
+    this.$emit('paginationChange', { pageSize: this.pageSize, currentPage: this.currentPage });
+  }
+  // 打开编辑
+  open() {
+    const sideFrame: any = this.$refs['sideFrameCard'];
+    sideFrame.open();
+  }
+  // 关闭编辑
+  colse() {
+    const sideFrame: any = this.$refs['sideFrameCard'];
+    sideFrame.close();
+  }
 
-    // 编辑
-    edit(person: PersonInfo) {
-        this.open();
-        this.currentPerson = person;
-    }
-    // 页数码改变
-    handleSizeChange(value: any) {
-        this.pageSize = value;
-        this.$emit( 'paginationChange', {pageSize: this.pageSize, currentPage: this.currentPage});
-    }
-    // 当前页改变
-    handleCurrentChange(value: any) {
-        this.currentPage = value;
-        this.$emit( 'paginationChange', {pageSize: this.pageSize, currentPage: this.currentPage});
-    }
-    // 打开编辑
-    open() {
-        const sideFrame: any = this.$refs['sideFrameCard'];
-        sideFrame.open();
-    }
-    // 关闭编辑
-    colse() {
-        const sideFrame: any = this.$refs['sideFrameCard'];
-        sideFrame.close();
-    }
+  replacePlot(plot: any) {
+    const plotItem = this.communities.find((item: any) => item.id === plot);
+    return plotItem ? plotItem.name : '';
+  }
 
-    replacePlot(plot: any) {
-        const plotItem = this.communities.find( (item: any) => item.id ===  plot );
-        return plotItem ? plotItem.name : '';
+  replaceTime(time: string) {
+    if (time) {
+      return time.replace('Z', ' ').replace('T', ' ');
     }
-
-    replaceTime(time: string) {
-        if ( time ) {
-           return  time.replace('Z', ' ').replace('T', ' ')
-        }
-        return '';
-    }
+    return '';
+  }
 }

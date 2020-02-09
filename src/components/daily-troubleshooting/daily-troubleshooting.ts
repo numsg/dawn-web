@@ -22,7 +22,7 @@ import * as XLSX from 'xlsx';
     OperationZone,
     PersonCard,
     PersonStatistical,
-    FilterPanelComponent,
+    FilterPanelComponent
   }
 })
 export class DailyTroubleshootingComponent extends Vue {
@@ -33,6 +33,7 @@ export class DailyTroubleshootingComponent extends Vue {
   currentPage = 1;
   pageSize = 10;
   keyWord = '';
+  hasReset = false;
 
   // 本社区小区
   @Getter('baseData_communities')
@@ -58,7 +59,7 @@ export class DailyTroubleshootingComponent extends Vue {
 
   selectedIds: string[] = [];
   async created() {
-    const result = await DailyTroubleshootingService.queryAllDailyRecord( this.currentPage, this.pageSize);
+    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
   }
@@ -68,10 +69,12 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   async reset() {
+    this.hasReset = false;
     this.currentPage = 1;
     const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
+    this.hasReset = true;
   }
 
   // 刷新
@@ -88,7 +91,7 @@ export class DailyTroubleshootingComponent extends Vue {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
   }
 
-  async  searchQuery(keyWord: string) {
+  async searchQuery(keyWord: string) {
     this.keyWord = keyWord;
     const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize, keyWord, this.selectedIds);
     this.personData = result.value;
@@ -101,7 +104,7 @@ export class DailyTroubleshootingComponent extends Vue {
     this.totalCount = result.count;
   }
 
-  async paginationChange(pagination: {pageSize: number, currentPage: number}) {
+  async paginationChange(pagination: { pageSize: number; currentPage: number }) {
     const result = await DailyTroubleshootingService.queryAllDailyRecord(pagination.currentPage, pagination.pageSize);
     this.personData = result.value;
     this.totalCount = result.count;
@@ -156,7 +159,7 @@ export class DailyTroubleshootingComponent extends Vue {
         person.isContact ? 't' : 'f',
         this.replaceOtherSymptoms(person.otherSymptoms), // ?
         this.replaceMedicalOpinion(person.medicalOpinion), // ?
-        person.note,
+        person.note
       ];
       data.push(tableTr);
     });
@@ -168,12 +171,12 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   replaceSex(sex: any) {
-    const sexItem = this.genderClassification.find( (item: any) => item.id ===  sex );
+    const sexItem = this.genderClassification.find((item: any) => item.id === sex);
     return sexItem ? sexItem.name : '';
   }
 
   replacePlot(plot: any) {
-    const plotItem = this.communities.find( (item: any) => item.id ===  plot );
+    const plotItem = this.communities.find((item: any) => item.id === plot);
     return plotItem ? plotItem.name : '';
   }
 
@@ -181,13 +184,12 @@ export class DailyTroubleshootingComponent extends Vue {
     if (!OtherSymptoms) {
       return '';
     }
-    const otherSymptomsItemList = this.otherSymptoms.filter( (item: any) => OtherSymptoms.includes(item.id));
-    console.log(otherSymptomsItemList);
+    const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => OtherSymptoms.includes(item.id));
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
   }
 
   replaceMedicalOpinion(medicalOpinion: any) {
-    const otherSymptomsItem = this.medicalOpinions.find( (item: any) => item.id ===  medicalOpinion );
+    const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
     return otherSymptomsItem ? otherSymptomsItem.name : '';
   }
 }

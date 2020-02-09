@@ -1,6 +1,6 @@
 <div class="daily-troublesshooting">
   <div class="left">
-    <PersonStatistical @statistics-click="handleStatisticsClick" v-if="leftActive==='statistic'"/>
+    <PersonStatistical @statistics-click="handleStatisticsClick" v-if="leftActive==='statistic'" />
     <!-- <FilterPanelComponent v-if="leftActive==='more_filter'"/> -->
     <!-- <div class="filter">
       <el-button
@@ -29,7 +29,14 @@
     </div> -->
   </div>
   <div class="right">
-      <OperationZone @reset="reset" @exportExcel="exportExcel" @success="addSuccess" @search="searchQuery" @uploadSuccess="uploadSuccess" @modelTypeChange="modelTypeChange" />
-      <PersonCard  @refesh="refesh" @paginationChange = "paginationChange" :personData="personData" :totalCount="totalCount" /> 
+    <OperationZone
+      @reset="reset"
+      @exportExcel="exportExcel"
+      @success="addSuccess"
+      @search="searchQuery"
+      @uploadSuccess="uploadSuccess"
+      @modelTypeChange="modelTypeChange"
+    />
+    <PersonCard @refesh="refesh" @paginationChange="paginationChange" :reset="hasReset" :personData="personData" :totalCount="totalCount" />
   </div>
 </div>
