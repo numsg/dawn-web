@@ -29,13 +29,9 @@ export class PersonCard extends Vue {
   @Getter('baseData_communities')
   communities!: any[];
 
-  // @Prop({ default: [] })
-  // private personData!: PersonInfo[];
   @Getter('dailyTroubleshooting_personData')
   personData!: PersonInfo[];
 
-  // @Prop({ default: 0 })
-  // private totalCount!: number;
   @Getter('dailyTroubleshooting_totalCount')
   totalCount!: number;
 

@@ -4,4 +4,8 @@ export  enum ModelType {
     unWrite = 'unWrite',
 
     fever = ' fever',
+
+    checked = 'checked',
+
+    unChecked = 'unChecked',
 }

@@ -296,4 +296,8 @@ export class DailyTroubleshootingComponent extends Vue {
     const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
     return otherSymptomsItem ? otherSymptomsItem.name : '';
   }
+
+  beforeDestroy() {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.ResetData);
+  }
 }

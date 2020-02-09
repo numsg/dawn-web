@@ -57,58 +57,6 @@ export class PersonStatistical extends Vue {
     strokeStyle: '#990000'
   };
 
-  epidemicData = [
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '卡梅尔小镇',
-      count: 20,
-      strokeStyle: '#990000'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '水晶丽都',
-      count: 15,
-      strokeStyle: '#CC9934'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '惠丰同庆-蜜糖镇',
-      count: 1,
-      strokeStyle: '#9494A6'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '藏龙新城二期-梁山头商业门面房一栋',
-      count: 1,
-      strokeStyle: '#00CC34'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '藏龙新城',
-      count: 11,
-      strokeStyle: '#990000'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '中海',
-      count: 22,
-      strokeStyle: '#CC9934'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '东城华府',
-      count: 12,
-      strokeStyle: '#CC9934'
-    },
-  ];
-
   totalCount: number = 1;
 
   @Getter('dailyTroubleshooting_statisticsData')

@@ -68,6 +68,20 @@ const dailyTroubleshooting = {
     },
     SET_ACTIVE_NAME: (state: any, result: any) => {
       state.activeName = result;
+    },
+    RESET_DATA: (state: any) => {
+      state.statisticsData = [];
+      state.totalCount = 0;
+      state.personData = [];
+      state.isShowgGroup = true;
+      state.conditions = new DailyQueryConditions();
+      state.groupsOriginalData = [];
+      state.groupsData = [];
+      state.groupPersonData = [];
+      state.activeName = '';
+      state.groupPersonTotalCount = 0;
+      state.checkedTotalCount = 0;
+      state.unCheckedTotalCount = 0;
     }
   },
   actions: {
@@ -86,6 +100,8 @@ const dailyTroubleshooting = {
     SetIsShowGroup({ dispatch, commit, state }: any, payloads: any) {
       state.conditions.page = 0;
       if (payloads) {
+        state.conditions.isFaver = [];
+        state.conditions.medicalOpinion = [];
         dispatch('SetGroupsData');
       } else {
         state.activeName = '';
@@ -126,12 +142,15 @@ const dailyTroubleshooting = {
       commit('SET_ACTIVE_NAME', payloads);
       state.conditions.page = 0;
       state.conditions.dailyStatisticModel = state.groupsData[payloads];
-      if (typeof(payloads) === 'number') {
+      if (typeof payloads === 'number') {
         dispatch('SetGroupPersonData', state.conditions);
       } else {
         state.groupPersonData = [];
         state.groupPersonTotalCount = 0;
       }
+    },
+    ResetData: ({ commit }: any) => {
+      commit('RESET_DATA');
     }
   },
   getters: {
@@ -144,7 +163,7 @@ const dailyTroubleshooting = {
     dailyTroubleshooting_conditions: (state: any) => state.conditions,
     dailyTroubleshooting_groupPersonTotalCount: (state: any) => state.groupPersonTotalCount,
     dailyTroubleshooting_checkedTotalCount: (state: any) => state.checkedTotalCount,
-    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount,
+    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount
   }
 };
 

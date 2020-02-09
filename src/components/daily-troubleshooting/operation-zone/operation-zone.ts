@@ -27,7 +27,7 @@ export class OperationZone extends Vue {
     keyWords = '';
     modelType = ModelType;
     // 选择模式
-    currentModelType = ModelType.ALL;
+    currentModelType = ModelType.checked;
 
     // isShowgGroup = true;
 
@@ -70,6 +70,8 @@ export class OperationZone extends Vue {
 
   @Getter('dailyTroubleshooting_unCheckedTotalCount')
   unCheckedTotalCount!: number;
+  @Getter('dailyTroubleshooting_totalCount')
+  totalCount!: number;
 
   get medicalOpinionIds() {
     return this.$store.state.dailyTroubleshooting.conditions.medicalOpinion;

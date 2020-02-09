@@ -6,25 +6,14 @@
             active-text="分组显示"
            >
           </el-switch> 
-          <!-- <el-button  :disabled="currentModelType === modelType.ALL" @click="currentModelType = modelType.ALL" class=" type-btn el-icon-document-copy">
-              所有填报人员
-            </el-button> -->
-            <el-button @click="currentModelType = modelType.unWrite" class="type-btn primary-btn el-icon-document">
-              排查({{checkedTotalCount}})
+            <el-button @click="currentModelType = modelType.checked" :class="currentModelType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn el-icon-document">
+              排查({{isShowgGroup ? checkedTotalCount : totalCount}})
             </el-button>
-            <el-button @click="currentModelType = modelType.unWrite" class="type-btn default-btn el-icon-document">
+            <el-button @click="currentModelType = modelType.unChecked" :class="currentModelType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn el-icon-document">
               待排查({{unCheckedTotalCount}})
             </el-button>
         </div>
         <div class="top-operation-right">
-            <!-- <div class="input-search">
-              <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
-                placeholder="请输入关键字" />
-              <span class="iconfont iconpms-icon_search iconfont-size"></span>
-            </div>
-            <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
-              $t('plan_manage.reset')
-            }}</el-button> -->
             <el-upload
               class="upload-demo"
               ref="upload"
