@@ -1,83 +1,83 @@
 <div class="operation-zone clearfix">
-    <div class="btn-group">
-        <div class="top-operation">
-            <!-- <div class="top-operation-left"> -->
-                <!-- <el-button  :disabled="currentModelType === modelType.ALL" @click="currentModelType = modelType.ALL" class=" type-btn el-icon-document-copy">
-                    所有填报人员
-                  </el-button>
-                  <el-button  :disabled="currentModelType === modelType.unWrite"  @click="currentModelType = modelType.unWrite" class="type-btn el-icon-document">
-                    未填报人员
-                  </el-button>
-                  <el-button :disabled="currentModelType === modelType.fever" @click="currentModelType = modelType.fever" class=" type-btn el-icon-sunrise-1
-                  ">
-                    发热人员
-                  </el-button> -->
-            <!-- </div> -->
-            <div class="top-operation-right">
-                  <el-upload
-                    class="upload-demo"
-                    ref="upload"
-                    action=""
-                    :multiple="false"
-                    :file-list="fileList"
-                    :on-change="onUploadChange"
-                    :auto-upload="false"
-                    :show-file-list="false"
-                  >
-                    <el-button slot="trigger" class=" type-btn  el-icon-upload2
-                    ">
-                      导入
-                    </el-button>
-                  </el-upload>
-
-                  <el-button  @click="exportExcel" class=" type-btn  el-icon-download">
-                    导出
-                    <!-- <span class="btn-p">时间排序</span> -->
-                  </el-button>
-
-            </div>
-            <div class="top-operation">
-              <!-- <div>
-                  <div class="input-search">
-                      <input
-                      ref="searchInput"
-                      type="text"
-                      autofocus
-                      v-model="keyWords"
-                      :placeholder="$t('tempMgr.keywords_search_placeholder')"
-                      @keyup.enter="searchByKeyWords"
-                  />
-                  <span class="iconfont iconpms-icon_search iconfont-size"></span>
-                  <el-button @click="resetPlans" class="iconfont type-btn reset iconfont iconpms-icon_Reset">添加</el-button>
-                </div>
-              </div>
-              <el-button @click="addEpidemicPersion" class="add iconfont primary-btn iconpms-icon_Blow-Up">新增</el-button> -->
-                
-                <div class="input-search">
-                  <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
-                    placeholder="请输入房间号'1-1-1''" />
-                  <span class="iconfont iconpms-icon_search iconfont-size"></span>
-                </div>
-                <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
-                  $t('plan_manage.reset')
-                }}</el-button>
-                <el-button @click="addTroubleShoot" class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
-              </div>
-
-              <side-frame ref="sideFrame" :top="80">
-                <div class="side-frame-header" slot="header">
-                  <div class="header-title side-frame-title">
-                    <i></i>
-                    <span>日常排查登记表</span>
-                  </div>
-                </div>
-                <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
-                  <TroubleshootingInfoForm @colse="colse" @success="success"/>
-                </div>
-              </side-frame>
+    <div class="top-operation">
+        <div class="top-operation-left">
+          <el-switch
+            v-model="isShowgGroup"
+            active-text="分组显示"
+            inactive-text="不分组">
+          </el-switch> 
+          <!-- <el-button  :disabled="currentModelType === modelType.ALL" @click="currentModelType = modelType.ALL" class=" type-btn el-icon-document-copy">
+              所有填报人员
+            </el-button> -->
+            <el-button @click="currentModelType = modelType.unWrite" class="type-btn primary-btn el-icon-document">
+              排查
+            </el-button>
+            <el-button @click="currentModelType = modelType.unWrite" class="type-btn default-btn el-icon-document">
+              待排查
+            </el-button>
         </div>
-       
+        <div class="top-operation-right">
+            <div class="input-search">
+              <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
+                placeholder="请输入房间号'1-1-1''" />
+              <span class="iconfont iconpms-icon_search iconfont-size"></span>
+            </div>
+            <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
+              $t('plan_manage.reset')
+            }}</el-button>
+            <el-upload
+              class="upload-demo"
+              ref="upload"
+              action=""
+              :multiple="false"
+              :file-list="fileList"
+              :on-change="onUploadChange"
+              :auto-upload="false"
+              :show-file-list="false"
+            >
+              <el-button slot="trigger" class=" type-btn  primary-btn el-icon-upload2
+              ">
+                导入
+              </el-button>
+            </el-upload>
+            <el-button  @click="exportExcel" class=" type-btn primary-btn  el-icon-download">
+              导出
+            </el-button>
+            <el-button @click="addTroubleShoot" class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
+          </div>
 
-      
+          <side-frame ref="sideFrame" :top="80">
+            <div class="side-frame-header" slot="header">
+              <div class="header-title side-frame-title">
+                <i></i>
+                <span>日常排查登记表</span>
+              </div>
+            </div>
+            <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+              <TroubleshootingInfoForm @colse="colse" @success="success"/>
+            </div>
+          </side-frame>
+    </div>
+
+    <!-- <div class="botton-operation" v-if="!isShowgGroup"> -->
+    <div class="botton-operation">
+      <el-select v-model="isFaver" size="mini" multiple placeholder="是否发热">
+        <el-option
+          v-for="item in feverOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-select multiple collapse-tags v-model="medicalOpinionIds" size="mini" multiple placeholder="分类诊疗医疗意见">
+        <el-option
+          v-for="item in medicalOpinions"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+          >
+        </el-option>
+      </el-select>
+
     </div>
   </div>

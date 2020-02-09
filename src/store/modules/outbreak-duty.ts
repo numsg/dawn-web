@@ -1,3 +1,4 @@
+import { QueryCondition } from './../../models/common/query-condition';
 import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.service';
 import transformToColor from '@/common/filters/colorformat';
 
@@ -6,6 +7,7 @@ const outbreakDuty = {
     epidemicStaticalData: [],
     totalCount: 0,
     epidemicPersonList: [],
+    queryCondition: new QueryCondition()
   },
   mutations: {
     SET_PIDEMIC_STATICAL_DATA: (state: any, result: any) => {
@@ -27,6 +29,12 @@ const outbreakDuty = {
             state.epidemicPersonList = result.value;
         }
     },
+    SET_QUERY_CONDITION: (state: any, result: any) => {
+       Object.assign(state.queryCondition, result);
+    },
+    RESET_QUERY_CONDITION: (state: any, result: any) => {
+        state.queryCondition = new QueryCondition();
+     },
   },
   actions: {
     async SetEpidemicStaticalData({ commit }: any) {
@@ -36,7 +44,14 @@ const outbreakDuty = {
     async SetEpidemicPersons({ commit }: any, payloads: any) {
         const result = await epidemicDynamicService.queryEpidemicPersons(payloads);
         commit('SET_PIDEMIC_PERSONS', result);
-      },
+    },
+    async SetCondition({ dispatch, commit, state }: any, payloads: any) {
+        commit('SET_QUERY_CONDITION', payloads);
+        dispatch('SetEpidemicPersons');
+    },
+    ResetCondition({ dispatch, commit, state }: any, payloads: any) {
+        commit('RESET_QUERY_CONDITION');
+    },
   },
   getters: {
     outbreakDuty_epidemicStaticalData: (state: any) => state.epidemicStaticalData,

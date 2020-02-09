@@ -20,6 +20,7 @@ import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/trou
   }
 })
 export class PersonCard extends Vue {
+
   currentPage = 1;
   pageSizes = [10, 20, 30];
   pageSize = 0;
@@ -28,17 +29,42 @@ export class PersonCard extends Vue {
   @Getter('baseData_communities')
   communities!: any[];
 
-  @Prop({ default: [] })
-  private personData!: PersonInfo[];
+  // @Prop({ default: [] })
+  // private personData!: PersonInfo[];
+  @Getter('dailyTroubleshooting_personData')
+  personData!: PersonInfo[];
 
-  @Prop({ default: 0 })
-  private totalCount!: number;
+  // @Prop({ default: 0 })
+  // private totalCount!: number;
+  @Getter('dailyTroubleshooting_totalCount')
+  totalCount!: number;
 
   @Prop({ default: false })
   reset!: boolean;
 
+  // @Prop({default: true})
+  // isShowgGroup!: boolean;
+
+  @Getter('dailyTroubleshooting_isShowgGroup')
+  isShowgGroup!: boolean;
+
   private currentPerson = new PersonInfo();
-  private plans = [1111, 123, 1231, 1231, 1231, 1231, 1231, 1231];
+
+  // activeName = '';
+
+  get activeName() {
+    return this.$store.state.dailyTroubleshooting.activeName;
+  }
+
+  set activeName(value: string) {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetActiveName, value);
+  }
+
+  @Getter('dailyTroubleshooting_groupsData')
+  groupsData!: any[];
+
+  @Getter('dailyTroubleshooting_groupPersonData')
+  groupPersonData!: any[];
 
   @Watch('reset')
   handleResetPersonData(val: boolean) {
@@ -49,30 +75,13 @@ export class PersonCard extends Vue {
 
   created() {
     this.pageSize = this.pageSizes[0];
+    if (this.isShowgGroup) {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
+    } else {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
+    }
   }
 
-  // get personData() {
-  //     return this.plans.map( (plan) =>  {
-  //         const person = new PersonInfo();
-  //         person.id = 'sdjflksjdjowelljsdljfskdkfjskld';
-  //         person.code = 'Y9879723423';
-  //         person.name = '李二';
-  //         person.identificationNumber = '4208372983762612873';
-  //         person.sex = '男';
-  //         person.phone = '13283762376';
-  //         person.address = '汉正街马上路';
-  //         person.plot = '幸福里';
-  //         person.building = '1栋';
-  //         person.unitNumber = '2单元';
-  //         person.roomNo = '201';
-  //         person.bodyTemperature = '36.9';
-  //         person.leaveArea = false;
-  //         person.confirmed_diagnosis = '确诊';
-  //         person.createTime = '2020:02:07 11:29:20';
-  //         person.multiTenancy = '很多人';
-  //         return person;
-  //     });
-  // }
   colorBodyTemperature(temperature: string) {
     const tem = parseFloat(temperature);
     if (tem > 37) {
@@ -101,12 +110,17 @@ export class PersonCard extends Vue {
   // 页数码改变
   handleSizeChange(value: any) {
     this.pageSize = value;
-    this.$emit('paginationChange', { pageSize: this.pageSize, currentPage: this.currentPage });
+    // this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+    //   page: value
+    // });
   }
   // 当前页改变
   handleCurrentChange(value: any) {
     this.currentPage = value;
-    this.$emit('paginationChange', { pageSize: this.pageSize, currentPage: this.currentPage });
+    // this.$emit('paginationChange', { pageSize: this.pageSize, currentPage: this.currentPage });
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+      page: value - 1
+    });
   }
   // 打开编辑
   open() {
@@ -129,5 +143,9 @@ export class PersonCard extends Vue {
       return time.replace('Z', ' ').replace('T', ' ');
     }
     return '';
+  }
+
+  activeChange() {
+
   }
 }

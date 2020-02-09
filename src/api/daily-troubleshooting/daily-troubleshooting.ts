@@ -1,10 +1,11 @@
+import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import * as httpClient from '@gsafety/vue-httpclient/dist/httpclient';
 import store from '@/store';
 import odataClient from '@gsafety/odata-client/dist';
 
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { PersonOdataInfo } from '@/models/daily-troubleshooting/person-odata-info';
-import { eqBy } from 'ramda';
+import { eqBy, cond } from 'ramda';
 import moment from 'moment';
 export default {
     // 新增填报记录
@@ -84,18 +85,18 @@ export default {
             }
         }
       }
-      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      if (filterStr) {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ') and ' + filterStr;
-      } else {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ')';
-      }
+      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // if (filterStr) {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
+      // } else {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ')';
+      // }
       if (filterStr) {
         return q
-          .skip(count * (page - 1 ))
+          .skip(count * (page))
           .top(count)
           .filter(filterStr)
           .orderby('building', 'asc')
@@ -114,7 +115,7 @@ export default {
           .catch((error: any) => {});
       } else {
         return q
-          .skip(count * (page - 1 ))
+          .skip(count * (page))
           .top(count)
           .orderby('building', 'asc')
           .orderby('unitNumber', 'asc')
@@ -132,6 +133,134 @@ export default {
           .catch((error: any) => {});
       }
     },
+
+
+    // 查询所有日常排查记录
+    loadAllDailyRecord(conditions: DailyQueryConditions) {
+      const q = odataClient({
+        service: store.getters.configs.communityManagerOdataUrl,
+        resources: 'DailyTroubleshootRecordEntity'
+      });
+      let filterStr = '';
+      if (conditions.keyWord) {
+        const keywordList = conditions.keyWord.split('-');
+        let building = '';
+        let unitNumber = '';
+        let roomNo = '';
+        if ( keywordList.length > 0 ) {
+          building =  keywordList[0];
+          filterStr += 'contains( building, \'' + building + '\')';
+        }
+        if ( keywordList.length > 1 ) {
+          unitNumber =  keywordList[1];
+          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+        }
+        if ( keywordList.length > 2 ) {
+          roomNo =  keywordList[2];
+          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
+        }
+      }
+      if (conditions.plots && conditions.plots.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+            const id = conditions.plots[i];
+            if (i !== len) {
+                str += '(plot eq \'' + id + '\') or ';
+            } else {
+                str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+
+      if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+            const id = conditions.medicalOpinion[i];
+            if (i !== len) {
+                str += '(medicalOpinion eq \'' + id + '\') or ';
+            } else {
+                str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+
+      if (conditions.isFaver && conditions.isFaver.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
+            const value = conditions.isFaver[i];
+            if (i !== len) {
+                str += '(isExceedTemp eq ' + value + ') or ';
+            } else {
+                str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // if (filterStr) {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
+      // } else {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ')';
+      // }
+      if (filterStr) {
+        return q
+          .skip(conditions.pageSize * (conditions.page))
+          .top(conditions.pageSize)
+          .filter(filterStr)
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            console.log(response.body);
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      } else {
+        return q
+          .skip(conditions.pageSize * (conditions.page))
+          .top(conditions.pageSize)
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            console.log(response.body);
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      }
+    },
+
     queryExportExcel(keyowrds?: string, plots?: string[]) {
       const q = odataClient({
         service: store.getters.configs.communityManagerOdataUrl,
@@ -200,6 +329,133 @@ export default {
         })
         .catch((error: any) => {});
     },
+
+    // 查询所有日常排查记录
+    loadExportExcel(conditions: DailyQueryConditions) {
+      const q = odataClient({
+        service: store.getters.configs.communityManagerOdataUrl,
+        resources: 'DailyTroubleshootRecordEntity'
+      });
+      let filterStr = '';
+      if (conditions.keyWord) {
+        const keywordList = conditions.keyWord.split('-');
+        let building = '';
+        let unitNumber = '';
+        let roomNo = '';
+        if ( keywordList.length > 0 ) {
+          building =  keywordList[0];
+          filterStr += 'contains( building, \'' + building + '\')';
+        }
+        if ( keywordList.length > 1 ) {
+          unitNumber =  keywordList[1];
+          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+        }
+        if ( keywordList.length > 2 ) {
+          roomNo =  keywordList[2];
+          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
+        }
+      }
+      if (conditions.plots && conditions.plots.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+            const id = conditions.plots[i];
+            if (i !== len) {
+                str += '(plot eq \'' + id + '\') or ';
+            } else {
+                str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+
+      if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+            const id = conditions.medicalOpinion[i];
+            if (i !== len) {
+                str += '(medicalOpinion eq \'' + id + '\') or ';
+            } else {
+                str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+
+      if (conditions.isFaver && conditions.isFaver.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
+            const value = conditions.isFaver[i];
+            if (i !== len) {
+                str += '(isExceedTemp eq ' + value + ') or ';
+            } else {
+                str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // if (filterStr) {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
+      // } else {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ')';
+      // }
+      if (filterStr) {
+        return q
+          .skip(0)
+          // .top(10000)
+          .filter(filterStr)
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            console.log(response.body);
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      } else {
+        return q
+          .skip(conditions.pageSize * (conditions.page - 1 ))
+          .top(conditions.pageSize)
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            console.log(response.body);
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      }
+    },
+
     buildDailyRecord(result: any[]) {
       const res: any[] = [];
       if (Array.isArray(result) && result.length > 0) {
@@ -281,6 +537,36 @@ export default {
     const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/statistics';
     return httpClient
       .getPromise(url)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
+  },
+
+  /**
+   * 获取人员分组数据
+   */
+  queryGroupsData() {
+    const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/multi-criteria-query';
+    return httpClient
+      .postPromise(url)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
+  },
+
+   /**
+   * 获取人员分组数据
+   */
+  queryGroupPersonData(conditions: DailyQueryConditions) {
+    const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/group-condition';
+    return httpClient
+      .postPromise(url, conditions)
       .then(res => {
         return res;
       })

@@ -1,3 +1,4 @@
+import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import { Vue, Component } from 'vue-property-decorator';
 import dailyTroubleshootingHtml from './daily-troubleshooting.html';
 import dailyTroubleshootingStyle from './daily-troubleshooting.scss';
@@ -32,7 +33,7 @@ export class DailyTroubleshootingComponent extends Vue {
   personData: any = [];
   totalCount = 0;
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 20;
   keyWord = '';
   hasReset = false;
   @Getter('configs')
@@ -60,6 +61,12 @@ export class DailyTroubleshootingComponent extends Vue {
   medicalOpinions!: any[];
 
   selectedIds: string[] = [];
+
+  isShowgGroup: boolean = true;
+
+  @Getter('dailyTroubleshooting_conditions')
+  conditions!: DailyQueryConditions;
+
   async created() {
     const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
     this.personData = result.value;
@@ -68,6 +75,10 @@ export class DailyTroubleshootingComponent extends Vue {
 
   modelTypeChange(type: ModelType) {
     this.currentType = type;
+  }
+
+  showTypeChange(bool: any) {
+    this.isShowgGroup = bool;
   }
 
   async reset() {
@@ -127,7 +138,8 @@ export class DailyTroubleshootingComponent extends Vue {
 
     const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
     const taskListName = `日常排查数据${now}.xlsx`;
-    const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
+    // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
+    const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
     const res = await DailyTroubleshootingService.queryCommunity();
     let communityName = '';
     if ( res && Array.isArray(res) && res.length > 0 ) {

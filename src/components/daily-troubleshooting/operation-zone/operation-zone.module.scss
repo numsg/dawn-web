@@ -1,8 +1,11 @@
 .operation-zone {
     width: 100%;
-    height: 45px;
-    display: inline-block;
+    // height: 45px;
+    // display: inline-block;
     color: #606060;
+    margin-bottom: 5px;
+    display: flex;;
+    flex-direction: column;
     .upload-demo{
       display: inline-block;
     }
@@ -18,24 +21,14 @@
       color: white;
     }
 
-    .btn-group {
-      .picker-txt {
-        margin-left: 15px;
-      }
-
-      .picker {
-        margin-left: 5px;
-      }
-    }
-
     .type-btn {
       font-size: 14px;
       padding: 5px 15px 5px 15px;
-      // line-height: 18px;
       border-radius: 15px;
-      background-color: #43a5e3;
-      border-color: #43a5e3;
-      color: white;
+      margin-left: 10px;
+      // background-color: #43a5e3;
+      // border-color: #43a5e3;
+      // color: white;
 
       //margin-top: 3px;
       &.iconpms-icon_Time-descending::before,
@@ -55,7 +48,7 @@
         background-color: #f07865;
         border-color: #f07865;
         color: white;
-        float: right;
+        // float: right;
         margin-left: 10px;
       }
 
@@ -65,7 +58,7 @@
     }
 
     .input-search {
-      float: right;
+      // float: right;
       width: 290px;
       position: relative;
 
@@ -136,11 +129,37 @@
         bottom: 2px;
       }
     }
-  }
-
-  .top-operation{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-
+    .top-operation{
+      // display: flex;
+      // justify-content: space-between;
+      // margin-bottom: 10px;
+      flex: 1;
+      align-items: center;
+      .top-operation-left {
+        float: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 32px;
+      }
+      
+      .top-operation-right {
+        float: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 32px;
+        button {
+          margin-left: 10px;
+        }
+      }
+    }
+    .botton-operation {
+      flex: 1;
+      padding-top: 5px;
+      input {
+        height: 32px;
+        line-height: 32px;
+      }
+    }
   }

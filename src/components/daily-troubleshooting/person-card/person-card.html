@@ -1,74 +1,125 @@
 <div class="content">
-    <div class="card-content">
-        <div v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
-          <el-card class="box-card" :class="{isDefault: false}">
-            <div slot="header" class="card-header">
-              <!-- <i
-                class="iconfont event-type-icon"
-                :style="{'background-color': '#eee'}"
-                :class="['confont event-type-icon']"
-              ></i> -->
-              <span class="name">
-                <!-- {{person.plot}}  {{person.name}} -->
-                
-                {{ person.building }} - {{person.unitNumber}} - {{person.roomNo}}
-                <span class="person-name">{{person.name}}</span>
+    <div class="card-content" v-if="isShowgGroup">
+      <el-collapse v-model="activeName" accordion @change="activeChange">
+        <el-collapse-item v-for="(group, index) in groupsData" class="card-collapse-item"  :name="index">
+          <template slot="title">
+            <div class="collapse-title">
+              <span class="unit-number">
+                <span class="plot-name">{{group.plotName}}</span>
+                <span class="building-num">{{group.building}} - {{group.unitNumber}}</span>
               </span>
-              <!-- <span class="version">plan</span> -->
-              <span class="prev-color confirmed_diagnosis" v-if="person.exceedTemp" >
-                发热
-              </span>
-              <span class="phone">
-                <span>电话:</span>
-                <span>{{person.phone}}</span>
-              </span>
-              <!-- <span class="prev-color istemplate" v-else>plan</span>
-              <span class="prev-color isMultiTenancy" v-if="plan"> model</span> -->
+              <div class="check-tag-container">
+                <el-tag class="check-tag"  type="success" effect="dark">排查({{group.checked}})</el-tag>
+                <el-tag class="check-tag" type="info" effect="dark"> 待排查({{group.checked}}) </el-tag>
+              </div>
             </div>
-            <div class="body">
-              <div class="item event-type">
-                <div class="title">
-                  <i class="iconfont iconpms-icon_Event-type"></i>
-                  <span>小区名称</span>
-                </div>
-                <div class="name">{{replacePlot(person.plot)}}</div>
-              </div>
-              <div class="item plan-type">
-                <div class="title">
-                  <i class="iconfont iconpms-icon_txt"></i>
-                  <span>是否有接触史</span>
-                </div>
-                <div class="name">{{person.contact ? '是' : '否' }}</div>
-              </div>
+          </template>
+          <el-table class="collapse-table" :data="groupPersonData" max-height="570" border stripe highlight-current-row style="width: 100%">
+            <el-table-column prop="name" label="姓名" width="80">
+            </el-table-column>
+            <el-table-column  label="房号">
+              <template slot-scope="scope">
+                <span>{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column  label="是否发热">
+              <template slot-scope="scope">
+                <span v-if="scope.row.isExceedTemp">是</span>
+                <span v-else>否</span>
+              </template>
+            </el-table-column>
+            <el-table-column  label="是否有接触史">
+              <template slot-scope="scope">
+                <span v-if="scope.row.isContact">是</span>
+                <span v-else>否</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="createTime" label="填报时间" width="120">
+            </el-table-column>
+            <el-table-column prop="phone" label="电话" width="120">
+            </el-table-column>
+            <el-table-column label="操作" width="120">
+              <template slot-scope="scope">
+                <el-button size="mini" class="iconfont primary-btn iconpms-icon_edit" @click="edit(scope.row)" >编辑
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
+          layout="total, prev, pager, next, jumper" :total="totalCount">
+        </el-pagination>
+        </el-collapse-item>
+      </el-collapse> 
+    </div>
+    <div class="card-content" v-else>
+      <div class="box-card-container" v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
+        <el-card class="box-card" :class="{isDefault: false}">
+          <div slot="header" class="card-header">
+            <!-- <i
+              class="iconfont event-type-icon"
+              :style="{'background-color': '#eee'}"
+              :class="['confont event-type-icon']"
+            ></i> -->
+            <span class="name">
+              <!-- {{person.plot}}  {{person.name}} -->
               
-              <div class="item create-time">
-                <div class="title">
-                  <i class="iconfont iconpms-icon_time"></i>
-                  <span>填报时间</span>
-                </div>
-                <div class="name">{{replaceTime(person.createTime)}}</div>
+              {{ person.building }} - {{person.unitNumber}} - {{person.roomNo}}
+              <span class="person-name">{{person.name}}</span>
+            </span>
+            <!-- <span class="version">plan</span> -->
+            <span class="prev-color confirmed_diagnosis" v-if="person.isExceedTemp" >
+              发热
+            </span>
+            <span class="phone">
+              <span>电话:</span>
+              <span>{{person.phone}}</span>
+            </span>
+            <!-- <span class="prev-color istemplate" v-else>plan</span>
+            <span class="prev-color isMultiTenancy" v-if="plan"> model</span> -->
+          </div>
+          <div class="body">
+            <div class="item event-type">
+              <div class="title">
+                <i class="iconfont iconpms-icon_Event-type"></i>
+                <span>小区名称</span>
               </div>
-              <div class="card-btn">
-                <div class="flr">
-                  <el-button
-                    title="编辑"
-                    size="small"
-                    type="primary"
-                    icon="iconfont iconpms-icon_edit"
-                    @click="edit(person)"
-                  ></el-button>
-                  <el-button @click="handleDelete(data)" :title="$t('common.delete')" size="small" type="danger" icon="iconfont iconpms-icon_delet"
-                  round></el-button>
-                </div>
+              <div class="name">{{replacePlot(person.plot)}}</div>
+            </div>
+            <div class="item plan-type">
+              <div class="title">
+                <i class="iconfont iconpms-icon_txt"></i>
+                <span>是否有接触史</span>
+              </div>
+              <div class="name">{{person.isContact ? '是' : '否' }}</div>
+            </div>
+            
+            <div class="item create-time">
+              <div class="title">
+                <i class="iconfont iconpms-icon_time"></i>
+                <span>填报时间</span>
+              </div>
+              <div class="name">{{replaceTime(person.createTime)}}</div>
+            </div>
+            <div class="card-btn">
+              <div class="flr">
+                <el-button
+                  title="编辑"
+                  size="small"
+                  type="primary"
+                  icon="iconfont iconpms-icon_edit"
+                  @click="edit(person)"
+                ></el-button>
               </div>
             </div>
-          </el-card>
-        </div>
+          </div>
+        </el-card>
+      </div>
     </div>
     <div v-if="personData.length === 0" class="no-plan"></div>
-    <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+    <el-pagination v-if="!isShowgGroup" class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
     :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
-    layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
+    layout="total, prev, pager, next, jumper" :total="totalCount">
   </el-pagination>
 
   <side-frame ref="sideFrameCard" :top="80">

@@ -100,7 +100,13 @@ const StoreEvents = {
     SetEpidemicPersons: 'SetEpidemicPersons'
   },
   DailyTroubleshooting: {
-    SetStatisticsData: 'SetStatisticsData'
+    SetStatisticsData: 'SetStatisticsData',
+    SetIsShowGroup: 'SetIsShowGroup',
+    SetConditions: 'SetConditions',
+    LoadPersonData: 'LoadPersonData',
+    SetGroupsData: 'SetGroupsData',
+    SetGroupPersonData: 'SetGroupPersonData',
+    SetActiveName: 'SetActiveName',
   }
 };
 

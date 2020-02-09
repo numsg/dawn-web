@@ -1,3 +1,4 @@
+import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import { Vue, Component, Watch } from 'vue-property-decorator';
 import Html from './operation-zone.html';
 import Style from './operation-zone.module.scss';
@@ -9,6 +10,10 @@ import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/trou
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
 
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
+import { Getter } from 'vuex-class';
+import eventNames from '@/common/events/store-events';
+import { debounce } from 'lodash';
+
 @Component({
   template: Html,
   style: Style,
@@ -24,6 +29,61 @@ export class OperationZone extends Vue {
     // 选择模式
     currentModelType = ModelType.ALL;
 
+    // isShowgGroup = true;
+
+  feverOptions = [
+    {
+      label: '是',
+      value: true
+    },
+    {
+      label: '否',
+      value: false
+    }
+  ];
+
+  get isShowgGroup() {
+    return this.$store.state.dailyTroubleshooting.isShowgGroup;
+  }
+
+  set isShowgGroup(value: string) {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetIsShowGroup, value);
+  }
+
+  get isFaver() {
+    return this.$store.state.dailyTroubleshooting.conditions.isFaver;
+  }
+
+  set isFaver(val: any) {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+      isFaver: val,
+      page: 0
+    });
+  }
+
+  // 医疗意见
+  @Getter('baseData_medicalOpinions')
+  medicalOpinions!: any[];
+
+  get medicalOpinionIds() {
+    return this.$store.state.dailyTroubleshooting.conditions.medicalOpinion;
+    }
+
+  set medicalOpinionIds(val: any) {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+      medicalOpinion: val,
+      page: 0
+    });
+  }
+
+  debounceSearch = debounce(this.handleSearch, 500);
+
+  handleSearch() {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+      keyWord: this.keyWords,
+      page: 0
+    });
+  }
     @Watch('currentModelType')
     watchCurrentModelType(value: any) {
       this.$emit('modelTypeChange');
@@ -40,13 +100,12 @@ export class OperationZone extends Vue {
     searchByKeyWords() {
 
     }
-    debounceSearch() {
-      this.$emit('search', this.keyWords);
-    }
 
     reset() {
       this.keyWords = '';
-      this.$emit('reset');
+      // this.$emit('reset');
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, new DailyQueryConditions)
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
     }
 
     exportExcel() {
@@ -78,4 +137,5 @@ export class OperationZone extends Vue {
       const sideFrame: any = this.$refs['sideFrame'];
       sideFrame.close();
     }
+
 }
