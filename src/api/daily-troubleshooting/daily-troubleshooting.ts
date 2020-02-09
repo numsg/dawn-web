@@ -241,6 +241,23 @@ export default {
         return false;
       });
   },
+  queryCommunity() {
+    const id = store.getters.configs.communityDataSourceId;
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'DataSourceEntity',
+      format: 'json'
+      });
+    return q
+      .filter('id', 'eq', id)
+      .get()
+      .then((response: any) => {
+        return JSON.parse(response.body).value;
+      })
+      .catch((err: any) => {
+        return false;
+      });
+  },
 
   removeRelation(fileId: any) {
     const url = store.getters.configs.planPreparationUrl + 'attachments/' + fileId;

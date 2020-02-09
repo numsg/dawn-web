@@ -6,7 +6,7 @@ import { OperationZone } from './operation-zone/operation-zone';
 import { PersonCard } from './person-card/person-card';
 import { PersonStatistical } from './person-statistical/person-statistical';
 import FilterPanelComponent from './filter-panel/filter-panel';
-
+import dDataSourceService from '@/api/data-source/d-data-source.service';
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
 import * as format from 'dateformat';
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
@@ -34,7 +34,8 @@ export class DailyTroubleshootingComponent extends Vue {
   pageSize = 10;
   keyWord = '';
   hasReset = false;
-
+  @Getter('configs')
+  configs!: any;
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
@@ -122,52 +123,102 @@ export class DailyTroubleshootingComponent extends Vue {
 
   // 导出excel
   async exportExcel() {
-    const taskListName = `日常排查数据${format.default(new Date(), 'yyyy-mm-dd HH:mm:ss')}`;
-    const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord, this.selectedIds);
-    const data: any = [];
-    const sheetTitle = [
-      '姓名',
-      '身份证号码',
-      '性别',
-      '年龄',
-      '联系电话',
-      '现居地址',
-      '小区',
-      '楼栋',
-      '单元',
-      '房号',
-      '体温是否大于37.3',
-      '是否有新型肺炎接触史',
-      '其他症状',
-      '分类诊疗医疗意见',
-      '备注'
-    ];
-    data.push(sheetTitle);
-    result.value.forEach((person: PersonInfo) => {
-      const tableTr = [
-        person.name,
-        person.identificationNumber,
-        this.replaceSex(person.sex), // ?
-        person.age,
-        person.phone,
-        person.address,
-        this.replacePlot(person.plot), // ?
-        person.building,
-        person.unitNumber,
-        person.roomNo,
-        person.isExceedTemp ? 't' : 'f',
-        person.isContact ? 't' : 'f',
-        this.replaceOtherSymptoms(person.otherSymptoms), // ?
-        this.replaceMedicalOpinion(person.medicalOpinion), // ?
-        person.note
-      ];
-      data.push(tableTr);
+    const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
+    const taskListName = `日常排查数据${now}.xlsx`;
+    const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
+    const res = await DailyTroubleshootingService.queryCommunity();
+    let communityName = '';
+    if ( res && Array.isArray(res) && res.length > 0 ) {
+      communityName = res[0].name;
+    }
+    let data = {};
+    // 表头
+    const headers = {
+      A1: { v: '社区疫情排查情况登记表' },
+      A2: { v: '社区(村)' },
+      F2: { v: '填表日期' },
+      A3: { v: '序号' },
+      B2: { v:  communityName },
+      B3: { v: '姓名' },
+      C3: { v: '性别' },
+      D3: { v: '身份证号' },
+      E3: { v: '联系方式' },
+      F3: { v: '家庭住址' },
+      G2: { v:  now },
+      G3: { v: '发热(体温>37.3℃)' },
+      H3: { v: '新型肺炎' },
+      I3: { v: '其他症状' },
+      J3: { v: '分类诊疗医疗意见' },
+      O3: { v: '备注' },
+      J4: { v: '确认患者' },
+      K4: { v: '疑似患者' },
+      L4: { v: 'CT诊断肺炎患者' },
+      M4: { v: '一般发热患者' },
+      N4: { v: '密切接触者' },
+    };
+    // 合并 headers 和 data
+    result.value.forEach((person: PersonInfo, index: number) => {
+      const tableTr = {
+        [`A${5 + index}`] : { v: index + 1 },
+        [`B${5 + index}`] : { v: person.name },
+        [`C${5 + index}`] : { v:  this.replaceSex(person.sex) }, // 替换 性别
+        [`D${5 + index}`] : { v: person.identificationNumber },
+        [`E${5 + index}`] : { v: person.phone },
+        [`F${5 + index}`] : { v: person.address },
+        [`G${5 + index}`] : { v: person.isExceedTemp},
+        [`H${5 + index}`] : { v: person.isContact},
+        [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.otherSymptoms)} , // 替换 其他症状
+        [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' }, // 替换 确认患者
+        [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' }, // 替换 疑似患者
+        [`L${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '' }, // 替换 CT诊断肺炎患者
+        [`M${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' }, // 替换 一般发热患者
+        [`N${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' }, // 替换 密切接触者
+        [`O${5 + index}`] : { v: person.note},
+      };
+      data = Object.assign({}, data, tableTr);
     });
+    console.log(data);
+    const output = Object.assign({}, headers, data);
+    // 表格范围，范围越大生成越慢
+    const ref = 'A1:ZZ100';
+    // 合并单元格设置
+    const merges = [
+      { s: { c: 0, r: 0 }, e: { c: 14, r: 0 } }, // 社区疫情排查情况登记表
+      { s: { c: 0, r: 1 }, e: { c: 0, r: 1 } }, // 社区(村)
+      { s: { c: 6, r: 1 }, e: { c: 6, r: 1 } }, // 填表日期
+      { s: { c: 0, r: 2 }, e: { c: 0, r: 3 } }, // 序号
+      { s: { c: 1, r: 1 }, e: { c: 1, r: 1 } }, // 社区名称
+      { s: { c: 1, r: 2 }, e: { c: 1, r: 3 } }, // 姓名
+      { s: { c: 2, r: 2 }, e: { c: 2, r: 3 } }, // 性别
+      { s: { c: 3, r: 2 }, e: { c: 3, r: 3 } }, // 身份证号
+      { s: { c: 4, r: 2 }, e: { c: 4, r: 3 } }, // 联系方式
+      { s: { c: 5, r: 2 }, e: { c: 5, r: 3 } }, // 家庭住址
+      { s: { c: 6, r: 1 }, e: { c: 6, r: 1 } }, // 当前时间
+      { s: { c: 6, r: 2 }, e: { c: 6, r: 3 } }, // 发热(体温>37.3℃)
+      { s: { c: 7, r: 2 }, e: { c: 7, r: 3 } }, // 新型肺炎
+      { s: { c: 8, r: 2 }, e: { c: 8, r: 3 } }, // 其他症状
+      { s: { c: 9, r: 2 }, e: { c: 13, r: 2 } }, // 分类诊疗医疗意见
+      { s: { c: 14, r: 2 }, e: { c: 14, r: 3 } }, // 备注
+      { s: { c: 9, r: 3 }, e: { c: 9, r: 3 } }, // 确认患者
+      { s: { c: 10, r: 3 }, e: { c: 10, r: 3 } }, // 疑似患者
+      { s: { c: 11, r: 3 }, e: { c: 11, r: 3 } }, // CT诊断肺炎患者
+      { s: { c: 12, r: 3 }, e: { c: 12, r: 3 } }, // 一般发热患者
+      { s: { c: 13, r: 3 }, e: { c: 16, r: 3 } }, // 密切接触者
+    ];
+    // 构建 workbook 对象
+    const wb = {
+      SheetNames: ['mySheet'],
+      Sheets: {
+        mySheet: Object.assign({}, output, { '!ref': ref, '!merges': merges })
+      }
+    };
+    // 导出 Excel
+    XLSX.writeFile(wb, taskListName);
 
-    const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
-    XLSX.writeFile(wb, taskListName + '.xlsx');
+    // const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
+    // XLSX.writeFile(wb, taskListName + '.xlsx');
   }
 
   replaceSex(sex: any) {
@@ -187,6 +238,7 @@ export class DailyTroubleshootingComponent extends Vue {
     const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => OtherSymptoms.includes(item.id));
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
   }
+
 
   replaceMedicalOpinion(medicalOpinion: any) {
     const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
