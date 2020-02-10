@@ -10,10 +10,11 @@ $danger-color: #f8662f;
       position: relative;
       width: 100%;
       height: 100%;
+      overflow: auto;
       .cart-table-item{
-        position: absolute;
+        // position: absolute;
+        // height: 100%;
         width: 100%;
-        height: 100%;
       }
     }
     .card-content{
