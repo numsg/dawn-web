@@ -436,7 +436,8 @@ export default {
               }
           }
           if ( conditions.checkedBuilding ) {
-            const buildingStr = 'contains( building, \'' + conditions.checkedUnitNumber + '\')';
+            // 待改 (plot eq \'' + id + '\')
+            const buildingStr = '( building eq \'' + conditions.checkedBuilding + '\')';
             if ( filterStr ) {
               filterStr = filterStr + ' and ' + buildingStr;
             } else {
@@ -444,7 +445,7 @@ export default {
             }
           }
           if ( conditions.checkedUnitNumber ) {
-            const unitNumberStr = 'contains( unitNumber, \'' + conditions.checkedUnitNumber + '\')';
+            const unitNumberStr = '( unitNumber eq \'' + conditions.checkedUnitNumber + '\')';
             if ( filterStr ) {
               filterStr = filterStr + ' and ' + unitNumberStr;
             } else {
