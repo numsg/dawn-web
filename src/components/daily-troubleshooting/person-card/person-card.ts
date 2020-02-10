@@ -97,6 +97,10 @@ export class PersonCard extends Vue {
   @Getter('dailyTroubleshooting_conditions')
   conditions!: DailyQueryConditions;
 
+  // 性别
+  @Getter('baseData_genderClassification')
+  genderClassification!: any[];
+
   @Watch('reset')
   handleResetPersonData(val: boolean) {
     if (val) {
@@ -190,7 +194,6 @@ export class PersonCard extends Vue {
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name).join('、') : '';
   }
 
-
   replaceMedicalOpinion(medicalOpinion: any) {
     const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
     console.log(otherSymptomsItem, '-------------');
@@ -205,8 +208,16 @@ export class PersonCard extends Vue {
     return '';
   }
 
+  replaceSex(sex: any) {
+    const sexItem = this.genderClassification.find((item: any) => item.id === sex);
+    return sexItem ? sexItem.name : '';
+  }
+
+
   activeChange() {
 
   }
+
+
 
 }

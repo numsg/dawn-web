@@ -33,10 +33,10 @@ $danger-color: #f8662f;
         }
         .card-collapse-item {
           >div:first-child {
-            border-bottom: 2px solid #b6dbf3
+            border-bottom: 1px solid #e6e8eb
           }
           >div:last-child {
-            background: #efefef;
+            background: #f7f8fc;
             padding: 10px;
             > div {
               padding-bottom: 0;
@@ -49,7 +49,7 @@ $danger-color: #f8662f;
             align-items: center;
             flex: 1;
             .check-tag-container {
-              flex: 2;
+              flex: 3;
             }
             .unit-number {
               font-size: 20px;
@@ -57,7 +57,24 @@ $danger-color: #f8662f;
               flex: 8;
               font-weight: bold;
               color: #606266;
-              font-size: 18px;
+              .building-num {
+                color: #505050;
+                font-size: 20px;
+              }
+              .plot-name {
+                color: #878B90;
+                font-size: 16px;
+                font-weight: normal;
+              }
+              .fever-count {
+                background: #fe662a;
+                color: #fff;
+                border-radius: 10px;
+                margin-left: 20px;
+                font-size: 12px;
+                padding: 5px 7px;
+                border: 1px solid #ec7444;
+              }
             }
             button {
               display: inline-block;
@@ -66,13 +83,32 @@ $danger-color: #f8662f;
             }
             .check-tag {
               margin-left: 5px;
+              font-size: 16px;
+              color: #878B90;
+              display: inline-block;
+              &:first-child {
+                min-width: 100px;
+              }
+              .checked {
+                color: #299333;
+                font-size: 20px;
+                font-weight: bold;
+              }
+              .unchecked {
+                // color: #494949;
+                color: #ff0000;
+                font-size: 20px;
+                font-weight: bold;
+              }
             }
           }
           .collapse-table {
-            // box-shadow: ;
+            .edit-btn {
+              padding: 5px 10px;
+            }
           }
           .pagination {
-            background: #f1f1f1;
+            background: #f7f8fc;
           }
         }
         

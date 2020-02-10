@@ -710,6 +710,19 @@ export default {
       .catch(err => {
         return false;
       });
+  },
+
+  pullNewData() {
+    const communityId = store.getters.configs.communityDataSourceId;
+    const url = store.getters.configs.communityManagerUrl + `timer/${communityId}`;
+    return httpClient
+      .getPromise(url)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
   }
 
 };

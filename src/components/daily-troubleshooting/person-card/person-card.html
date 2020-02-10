@@ -5,37 +5,45 @@
           <template slot="title">
             <div  class="collapse-title">
               <span class="unit-number">
-                <span class="plot-name">{{group.plotName}}&nbsp;&nbsp;</span>
                 <span class="building-num">{{group.building}} - {{group.unitNumber}}</span>
+                <span class="plot-name">&nbsp;&nbsp;{{group.plotName}}</span>
+                <span v-if="group.feverCount > 0" class="fever-count">发热 {{group.feverCount}}人</span>
               </span>
               <div class="check-tag-container">
-                <el-tag class="check-tag"  type="success" effect="dark">排查({{group.checked}})</el-tag>
-                <el-tag class="check-tag" type="info" effect="dark"> 待排查({{group.unchecked}}) </el-tag>
+                <!-- <el-tag class="check-tag"  type="success" effect="dark">排查({{group.checked}})</el-tag>
+                <el-tag class="check-tag" type="info" effect="dark"> 待排查({{group.unchecked}}) </el-tag> -->
+                <span class="check-tag" >排查：<span class="checked">{{group.checked}}</span></span>
+                <span class="check-tag" > 待排查：<span class="unchecked">{{group.unchecked}}</span></span>
               </div>
             </div>
           </template>
           <el-table  class="collapse-table" :data="groupPersonData" max-height="570" border stripe highlight-current-row style="width: 100%">
-            <el-table-column prop="name" label="姓名" width="80">
+            <el-table-column prop="name" label="姓名" >
             </el-table-column>
             <el-table-column  label="房号">
               <template slot-scope="scope">
                 <span>{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
               </template>
             </el-table-column>
-            <el-table-column  label="是否发热">
+            <el-table-column  label="是否发热" width="80">
               <template slot-scope="scope">
-                <!-- <span v-if="scope.row.exceedTemp">是</span>
-                <span v-else>否</span> -->
-                <el-tag effect="dark" size="mini" :type="scope.row.exceedTemp ? 'danger' : 'info'"
+                <el-tag effect="dark" size="mini" :type="scope.row.exceedTemp ? 'danger' : 'parimary'"
                   disable-transitions>{{scope.row.exceedTemp ? '发热' : '正常'}}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column  label="是否有接触史">
+            <el-table-column  label="是否有接触史" width="110">
               <template slot-scope="scope">
-                <!-- <span v-if="scope.row.contact">是</span>
-                <span v-else>否</span> -->
-                <el-tag effect="dark" size="mini" :type="scope.row.contact ? 'danger' : 'info'"
-                  disable-transitions>{{scope.row.contact ? '是' : '否'}}</el-tag>
+                  {{scope.row.contact ? '是' : '否'}}
+              </template>
+            </el-table-column>
+            <el-table-column  label="其它症状" >
+              <template slot-scope="scope">
+                {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
+              </template>
+            </el-table-column>
+            <el-table-column  label="诊疗医疗意见" >
+              <template slot-scope="scope">
+                  {{replaceMedicalOpinion(scope.row.medicalOpinion)}}
               </template>
             </el-table-column>
             <el-table-column prop="createTime" label="填报时间" width="160">
@@ -47,7 +55,7 @@
             </el-table-column>
             <el-table-column label="操作" width="120">
               <template slot-scope="scope">
-                <el-button size="mini" class="iconfont primary-btn iconpms-icon_edit" @click="edit(scope.row)" >编辑
+                <el-button size="mini" class="iconfont primary-btn edit-btn iconpms-icon_edit" @click="edit(scope.row)" >编辑
                 </el-button>
               </template>
             </el-table-column>
@@ -114,7 +122,7 @@
       </div> -->
       <div class="cart-table">
         <el-table  :cell-style="{padding:'16px 0px'}" class="collapse-table cart-table-item" :data="personData" border stripe highlight-current-row style="width: 100%">
-          <el-table-column  label="社区名称" width="80" :show-overflow-tooltip="true">
+          <el-table-column  label="社区名称"  :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{replacePlot(scope.row.plot)}}
             </template>
@@ -128,14 +136,15 @@
           </el-table-column>
           <el-table-column  label="是否发热" width="80">
             <template slot-scope="scope">
-              <el-tag effect="dark" size="mini" :type="scope.row.exceedTemp ? 'danger' : 'info'"
+              <el-tag effect="dark" size="mini" :type="scope.row.exceedTemp ? 'danger' : 'primary'"
                 disable-transitions>{{scope.row.exceedTemp ? '发热' : '正常'}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column  label="是否有接触史" width="110">
             <template slot-scope="scope">
-              <el-tag effect="dark" size="mini" :type="scope.row.contact ? 'danger' : 'info'"
-                disable-transitions>{{scope.row.contact ? '是' : '否'}}</el-tag>
+              <!-- <el-tag effect="dark" size="mini" :type="scope.row.contact ? 'danger' : 'info'"
+                disable-transitions></el-tag> -->
+                {{scope.row.contact ? '是' : '否'}}
             </template>
           </el-table-column>
           <el-table-column  label="其他症状" :show-overflow-tooltip="true" >

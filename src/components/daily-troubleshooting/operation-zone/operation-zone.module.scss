@@ -86,6 +86,17 @@
         justify-content: space-between;
         align-items: center;
         height: 32px;
+        .radio-btn {
+          font-size: 18px;
+          padding: 5px;
+          margin-left: 0;
+          border-radius: 0px;
+          padding: 5px 8px;
+        }
+        .default-btn:hover {
+          color: #3498db !important;
+          background-color: #f7f7f7 !important;
+        }
       }
       
       .top-operation-right {

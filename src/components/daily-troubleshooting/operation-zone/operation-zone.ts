@@ -123,7 +123,7 @@ export class OperationZone extends Vue {
     reset() {
       this.keyWords = '';
       // this.$emit('reset');
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, new DailyQueryConditions)
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, new DailyQueryConditions);
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
     }
 
@@ -157,4 +157,19 @@ export class OperationZone extends Vue {
       sideFrame.close();
     }
 
+    groupTypeClick(isGroup: boolean) {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetIsShowGroup, isGroup);
+    }
+
+    /**
+     * 拉去最新数据
+     */
+    pullNewData() {
+      DailyTroubleshootingService.pullNewData().then(res => {
+        if (res) {
+          this.$store.dispatch(eventNames.DailyTroubleshooting.ResetData);
+          this.$emit('success');
+        }
+      });
+    }
 }

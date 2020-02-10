@@ -8,7 +8,7 @@ const dailyTroubleshooting = {
     statisticsData: [],
     totalCount: 0,
     personData: [],
-    isShowgGroup: true,
+    isShowgGroup: false,
     conditions: new DailyQueryConditions(),
     groupsOriginalData: [],
     groupsData: [],
@@ -77,7 +77,7 @@ const dailyTroubleshooting = {
       state.statisticsData = [];
       state.totalCount = 0;
       state.personData = [];
-      state.isShowgGroup = true;
+      // state.isShowgGroup = false;
       state.conditions = new DailyQueryConditions();
       state.groupsOriginalData = [];
       state.groupsData = [];
