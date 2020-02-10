@@ -52,21 +52,27 @@ export default {
       });
       let filterStr = '';
       if (keyowrds) {
+        filterStr += 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or contains( phone, \'' + keyowrds + '\')';
+
         const keywordList = keyowrds.split('-');
         let building = '';
         let unitNumber = '';
         let roomNo = '';
+        let bstr = '';
         if ( keywordList.length > 0 ) {
           building =  keywordList[0];
-          filterStr += 'contains( building, \'' + building + '\')';
+          bstr += 'contains( building, \'' + building + '\')';
         }
         if ( keywordList.length > 1 ) {
           unitNumber =  keywordList[1];
-          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+          bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
         }
         if ( keywordList.length > 2 ) {
           roomNo =  keywordList[2];
-          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
+          bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+        }
+        if (bstr) {
+          filterStr = '(' + filterStr + ' or ' + bstr + ')';
         }
       }
       if (ids && ids.length > 0) {
@@ -143,21 +149,26 @@ export default {
       });
       let filterStr = '';
       if (conditions.keyWord) {
+        filterStr += 'contains( name, \'' + conditions.keyWord + '\') or contains( address, \'' + conditions.keyWord + '\') or contains( phone, \'' + conditions.keyWord + '\')';
         const keywordList = conditions.keyWord.split('-');
         let building = '';
         let unitNumber = '';
         let roomNo = '';
+        let bstr = '';
         if ( keywordList.length > 0 ) {
           building =  keywordList[0];
-          filterStr += 'contains( building, \'' + building + '\')';
+          bstr += 'contains( building, \'' + building + '\')';
         }
         if ( keywordList.length > 1 ) {
           unitNumber =  keywordList[1];
-          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+          bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
         }
         if ( keywordList.length > 2 ) {
           roomNo =  keywordList[2];
-          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
+          bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+        }
+        if (bstr) {
+          filterStr = '(' + filterStr + ' or ' + bstr + ')';
         }
       }
       if (conditions.plots && conditions.plots.length > 0) {
@@ -266,21 +277,26 @@ export default {
       });
       let filterStr = '';
       if (keyowrds) {
+        filterStr += 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or contains( phone, \'' + keyowrds + '\')';
         const keywordList = keyowrds.split('-');
         let building = '';
         let unitNumber = '';
         let roomNo = '';
+        let bstr = '';
         if ( keywordList.length > 0 ) {
           building =  keywordList[0];
-          filterStr += 'contains( building, \'' + building + '\')';
+          bstr += 'contains( building, \'' + building + '\')';
         }
         if ( keywordList.length > 1 ) {
           unitNumber =  keywordList[1];
-          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+          bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
         }
         if ( keywordList.length > 2 ) {
           roomNo =  keywordList[2];
-          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
+          bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+        }
+        if (bstr) {
+          filterStr = '(' + filterStr + ' or ' + bstr + ')';
         }
       }
       if (plots && plots.length > 0) {
@@ -336,21 +352,26 @@ export default {
       });
       let filterStr = '';
       if (conditions.keyWord) {
+        filterStr += 'contains( name, \'' + conditions.keyWord + '\') or contains( address, \'' + conditions.keyWord + '\') or contains( phone, \'' + conditions.keyWord + '\')';
         const keywordList = conditions.keyWord.split('-');
         let building = '';
         let unitNumber = '';
         let roomNo = '';
+        let bstr = '';
         if ( keywordList.length > 0 ) {
           building =  keywordList[0];
-          filterStr += 'contains( building, \'' + building + '\')';
+          bstr += 'contains( building, \'' + building + '\')';
         }
         if ( keywordList.length > 1 ) {
           unitNumber =  keywordList[1];
-          filterStr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+          bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
         }
         if ( keywordList.length > 2 ) {
           roomNo =  keywordList[2];
-          filterStr += ' and contains( roomNo, \'' + roomNo + '\')';
+          bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+        }
+        if (bstr) {
+          filterStr = '(' + filterStr + ' or ' + bstr + ')';
         }
       }
       if (conditions.plots && conditions.plots.length > 0) {

@@ -128,7 +128,7 @@ const dailyTroubleshooting = {
       commit('SET_CONDITIONS', conditions);
       if (state.isShowgGroup) {
         // if (state.conditions.dailyStatisticModel) {
-        //   dispatch('SetGroupPersonData', state.conditions);
+        //   dispatch('SetGroupPersonData');
         // } else {
         // }
         dispatch('SetGroupsData');
@@ -146,9 +146,9 @@ const dailyTroubleshooting = {
         commit('SET_GROUPS_DATA', result);
       }
     },
-    SetGroupPersonData: async ({ dispatch, commit, state }: any, conditions: DailyQueryConditions) => {
-      // const result = await DailyTroubleshootingService.queryGroupPersonData(conditions);
-      const result = await DailyTroubleshootingService.getGroupPersonData(conditions);
+    SetGroupPersonData: async ({ dispatch, commit, state }: any, conditions?: DailyQueryConditions) => {
+      Object.assign(state.conditions, conditions);
+      const result = await DailyTroubleshootingService.getGroupPersonData(state.conditions);
       commit('SET_GROUP_PERSON_DATA', result);
     },
     SetUncheckedData: async ({ dispatch, commit, state }: any, conditions: any) => {
@@ -172,7 +172,7 @@ const dailyTroubleshooting = {
       if (typeof payloads === 'number') {
         state.conditions.dailyStatisticModel = state.groupsData[payloads];
         if (state.modelType === ModelType.checked) {
-          dispatch('SetGroupPersonData', state.conditions);
+          dispatch('SetGroupPersonData');
         } else {
           dispatch('SetUncheckedData', state.conditions);
         }
@@ -185,7 +185,7 @@ const dailyTroubleshooting = {
       commit('SET_MODEL_TYPE', type);
       if (type === ModelType.checked) {
         console.log('---SET_MODEL_TYPE---');
-        dispatch('SetGroupPersonData', state.conditions);
+        dispatch('SetGroupPersonData');
       } else {
         dispatch('SetUncheckedData', state.conditions);
       }

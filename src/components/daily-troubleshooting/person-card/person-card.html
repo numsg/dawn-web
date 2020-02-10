@@ -54,7 +54,7 @@
           </el-table>
           <el-pagination  class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
           :current-page="currentPage" :page-size="pageSize"
-          layout="total, prev, pager, next, jumper" :total="groupPersonData.length">
+          layout="total, prev, pager, next, jumper" :total="groupPersonTotalCount">
         </el-pagination>
         </el-collapse-item>
       </el-collapse> 

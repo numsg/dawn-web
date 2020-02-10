@@ -1,3 +1,4 @@
+import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import Html from './person-card.html';
 import Style from './person-card.module.scss';
@@ -24,7 +25,6 @@ import dataFormat from '@/utils/data-format';
 })
 export class PersonCard extends Vue {
 
-  currentPage = 1;
   pageSizes = [10, 20, 30];
   pageSize = 10;
 
@@ -47,6 +47,9 @@ export class PersonCard extends Vue {
   @Mutation('SET_CHECK_GROUP_INFO')
   setCheckGroupInfo!: ( arg: any ) => void;
 
+  @Getter('dailyTroubleshooting_groupPersonTotalCount')
+  groupPersonTotalCount!: number;
+
   private currentPerson = new PersonInfo();
 
   get activeName() {
@@ -55,6 +58,22 @@ export class PersonCard extends Vue {
 
   set activeName(value: string) {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetActiveName, value);
+  }
+
+  get currentPage() {
+    return this.$store.state.dailyTroubleshooting.conditions.page + 1;
+  }
+
+  set currentPage(val: number) {
+    if (this.isShowgGroup) {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData, {
+        page: val - 1
+      });
+    } else {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+        page: val - 1
+      });
+    }
   }
 
   @Getter('dailyTroubleshooting_groupsData')
@@ -69,10 +88,13 @@ export class PersonCard extends Vue {
   //   this.$store.dispatch(eventNames.DailyTroubleshooting.SetActiveName, index);
   // }
 
+  @Getter('dailyTroubleshooting_conditions')
+  conditions!: DailyQueryConditions;
+
   @Watch('reset')
   handleResetPersonData(val: boolean) {
     if (val) {
-      this.currentPage = 1;
+      // this.currentPage = 1;
     }
   }
 
@@ -96,6 +118,10 @@ export class PersonCard extends Vue {
     }
   }
 
+  mounted() {
+
+  }
+
   colorBodyTemperature(temperature: string) {
     const tem = parseFloat(temperature);
     if (tem > 37) {
@@ -113,6 +139,11 @@ export class PersonCard extends Vue {
 
   success() {
     // this.$emit('refesh');
+    if (this.isShowgGroup) {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
+    } else {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions);
+    }
     this.colse();
   }
 
@@ -124,17 +155,10 @@ export class PersonCard extends Vue {
   // 页数码改变
   handleSizeChange(value: any) {
     this.pageSize = value;
-    // this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
-    //   page: value
-    // });
   }
   // 当前页改变
   handleCurrentChange(value: any) {
     this.currentPage = value;
-    // this.$emit('paginationChange', { pageSize: this.pageSize, currentPage: this.currentPage });
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
-      page: value - 1
-    });
   }
   // 打开编辑
   open() {
@@ -163,4 +187,5 @@ export class PersonCard extends Vue {
   activeChange() {
 
   }
+
 }
