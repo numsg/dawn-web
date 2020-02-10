@@ -6,6 +6,9 @@ $danger-color: #f8662f;
     flex-direction: column;
     height: calc( 100% - 74px);;
     overflow: auto;
+    &.group-content {
+    height: calc( 100% - 10px);
+    }
     .cart-table{
       position: relative;
       width: 100%;

@@ -46,10 +46,13 @@ export class OperationZone extends Vue {
     return this.$store.state.dailyTroubleshooting.isShowgGroup;
   }
 
-  set isShowgGroup(value: string) {
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetIsShowGroup, value);
-    this.keyWords = '';
-  }
+  // set isShowgGroup(value: string) {
+  //   this.$store.dispatch(eventNames.DailyTroubleshooting.SetIsShowGroup, value);
+  //   this.keyWords = '';
+  // }
+  // set isShowgGroup(value: string) {
+  //   this.$store.dispatch(eventNames.DailyTroubleshooting.SetIsShowGroup, value);
+  // }
 
   get isFaver() {
     return this.$store.state.dailyTroubleshooting.conditions.isFaver;

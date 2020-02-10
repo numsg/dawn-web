@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" :class="{'group-content': isShowgGroup}">
     <div class="card-content" v-if="isShowgGroup">
       <el-collapse v-model="activeName" accordion @change="activeChange">
         <el-collapse-item v-for="(group, index) in groupsData" class="card-collapse-item"  :name="index">
@@ -17,7 +17,7 @@
               </div>
             </div>
           </template>
-          <el-table  class="collapse-table" :data="groupPersonData" max-height="570" border stripe highlight-current-row style="width: 100%">
+          <el-table  class="collapse-table" :data="groupPersonData" max-height="570"  stripe highlight-current-row style="width: 100%">
             <el-table-column prop="name" label="姓名" >
             </el-table-column>
             <el-table-column  label="房号">
