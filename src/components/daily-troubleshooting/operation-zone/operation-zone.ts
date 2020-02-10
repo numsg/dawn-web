@@ -140,7 +140,11 @@ export class OperationZone extends Vue {
       const result = await DailyTroubleshootingService.addDailyTroubleshootingByxlsx(formData);
       console.log(result);
       if (result) {
-        notifyUtil.success('导入成功');
+        if (Array.isArray(result) && result.length > 0) {
+          notifyUtil.success('成功导入' + result.length + '条数据');
+        } else {
+          notifyUtil.warning('数据导入为空');
+        }
         this.$emit('uploadSuccess');
         this.$emit('colse');
       } else {

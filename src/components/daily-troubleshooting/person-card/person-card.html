@@ -121,7 +121,7 @@
         </el-card>
       </div> -->
       <div class="cart-table">
-        <el-table  :cell-style="{padding:'16px 0px'}" class="collapse-table cart-table-item" :data="personData" border stripe highlight-current-row style="width: 100%">
+        <el-table  :cell-style="{padding:'16px 0px'}" class="collapse-table cart-table-item" :data="personData" stripe highlight-current-row style="width: 100%">
           <el-table-column  label="社区名称"  :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{replacePlot(scope.row.plot)}}
