@@ -190,8 +190,8 @@ export class DailyTroubleshootingComponent extends Vue {
         [`D${5 + index}`] : { v: person.identificationNumber, s  },
         [`E${5 + index}`] : { v: person.phone , s },
         [`F${5 + index}`] : { v: person.address , s },
-        [`G${5 + index}`] : { v: person.exceedTemp, s },
-        [`H${5 + index}`] : { v: person.contact, s },
+        [`G${5 + index}`] : { v: person.exceedTemp ? '是' : '', s },
+        [`H${5 + index}`] : { v: person.contact ? '是' : '', s },
         [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.otherSymptoms)} , // 替换 其他症状
         [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
         [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' , s }, // 替换 疑似患者
