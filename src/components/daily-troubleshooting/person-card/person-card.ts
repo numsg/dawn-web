@@ -2,7 +2,7 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import Html from './person-card.html';
 import Style from './person-card.module.scss';
 
-import { Getter } from 'vuex-class';
+import { Getter, Mutation } from 'vuex-class';
 
 import eventNames from '@/common/events/store-events';
 
@@ -12,6 +12,7 @@ import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/troubleshooting-info-form/troubleshooting-info-form';
 import moment from 'moment';
 import * as format from 'dateformat';
+import dataFormat from '@/utils/data-format';
 
 @Component({
   template: Html,
@@ -43,6 +44,9 @@ export class PersonCard extends Vue {
   @Getter('dailyTroubleshooting_isShowgGroup')
   isShowgGroup!: boolean;
 
+  @Mutation('SET_CHECK_GROUP_INFO')
+  setCheckGroupInfo!: ( arg: any ) => void;
+
   private currentPerson = new PersonInfo();
 
   get activeName() {
@@ -69,6 +73,17 @@ export class PersonCard extends Vue {
   handleResetPersonData(val: boolean) {
     if (val) {
       this.currentPage = 1;
+    }
+  }
+
+  @Watch('activeName')
+  watchActiveName(value: any) {
+    if ( typeof value === 'number' ) {
+      const group = this.groupsData[value];
+      console.log(group, '-----group---');
+      this.setCheckGroupInfo({checkedPlot: group.plotId, checkedBuilding: group.building, checkedUnitNumber: group.unitNumber});
+    } else {
+      this.setCheckGroupInfo({checkedPlot: '', checkedBuilding: '', checkedUnitNumber: ''});
     }
   }
 
@@ -139,7 +154,8 @@ export class PersonCard extends Vue {
 
   replaceTime(time: string) {
     if (time) {
-      return format.default(time, 'yyyy-mm-dd HH:mm:ss');
+      // return format.default(time, 'yyyy-mm-dd HH:mm:ss');
+      return dataFormat.formatTime(time);
     }
     return '';
   }

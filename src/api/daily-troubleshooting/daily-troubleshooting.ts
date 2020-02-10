@@ -403,15 +403,59 @@ export default {
             }
         }
       }
-      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      if (filterStr) {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ') and ' + filterStr;
-      } else {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ')';
+      // 分组  isShowgGroup
+      if ( conditions.isGroup ) {
+        // 打开组选框, 通过分组筛选 根据小区, 楼栋, 单元 的字段来筛选
+          if ( conditions.checkedPlot ) {
+              const buildingStr = '( plot eq \'' + conditions.checkedPlot + '\')  ';
+              if ( filterStr ) {
+                filterStr = filterStr + ' and ' + buildingStr;
+              } else {
+                filterStr += buildingStr;
+              }
+          }
+          if ( conditions.checkedBuilding ) {
+            const buildingStr = 'contains( building, \'' + conditions.checkedUnitNumber + '\')';
+            if ( filterStr ) {
+              filterStr = filterStr + ' and ' + buildingStr;
+            } else {
+              filterStr += buildingStr;
+            }
+          }
+          if ( conditions.checkedUnitNumber ) {
+            const unitNumberStr = 'contains( unitNumber, \'' + conditions.checkedUnitNumber + '\')';
+            if ( filterStr ) {
+              filterStr = filterStr + ' and ' + unitNumberStr;
+            } else {
+              filterStr += unitNumberStr;
+            }
+          }
       }
+      // 不分组  isShowgGroup  查询所有 不加条件
+
+      // 不排查  ???
+
+      // 排查
+      if ( conditions.isChecked ) {
+        const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+        const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+        const str = '(createTime gt ' + startTime + ') and ' + '(createTime lt ' + endTime + ')';
+        if ( filterStr ) {
+          filterStr = filterStr + ' and ' + str;
+        } else {
+          filterStr += str;
+        }
+      }
+
+      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      // if (filterStr) {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
+      // } else {
+      //   filterStr = '(createTime gt ' + startTime + ') and '
+      //             + '(createTime lt ' + endTime + ')';
+      // }
       if (filterStr) {
         return q
           .skip(0)
@@ -438,7 +482,7 @@ export default {
           .orderby('building', 'asc')
           .orderby('unitNumber', 'asc')
           .orderby('roomNo', 'asc')
-          .orderby('createTime', 'asc')
+          .orderby('createTime', 'esc')
           .count(true)
           .get(null)
           .then((response: any) => {

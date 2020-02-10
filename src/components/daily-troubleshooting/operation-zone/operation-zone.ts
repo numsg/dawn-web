@@ -10,7 +10,7 @@ import { TroubleshootingInfoForm } from '@/components/daily-troubleshooting/trou
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
 
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
-import { Getter } from 'vuex-class';
+import { Getter, Mutation } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import { debounce } from 'lodash';
 
@@ -73,6 +73,9 @@ export class OperationZone extends Vue {
   @Getter('dailyTroubleshooting_totalCount')
   totalCount!: number;
 
+  @Mutation('SET_CONDITIONS_IS_CHECKED')
+  setConditionsIsChecked!: (status: boolean) => void;
+
   get medicalOpinionIds() {
     return this.$store.state.dailyTroubleshooting.conditions.medicalOpinion;
     }
@@ -97,6 +100,7 @@ export class OperationZone extends Vue {
     console.log(type);
     this.currentModelType = type;
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetModelType, type);
+    this.setConditionsIsChecked( type === ModelType.checked );
   }
     @Watch('currentModelType')
     watchCurrentModelType(value: any) {

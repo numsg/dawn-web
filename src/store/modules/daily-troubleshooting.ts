@@ -86,6 +86,14 @@ const dailyTroubleshooting = {
       state.groupPersonTotalCount = 0;
       state.checkedTotalCount = 0;
       state.unCheckedTotalCount = 0;
+    },
+    SET_CHECK_GROUP_INFO: (state: any, result: any) => {
+      state.conditions.checkedPlot = result.checkedPlot;
+      state.conditions.checkedBuilding = result.checkedBuilding;
+      state.conditions.checkedUnitNumber = result.checkedUnitNumber;
+    },
+    SET_CONDITIONS_IS_CHECKED: (state: any, result: any) => {
+      state.conditions.isChecked = result;
     }
   },
   actions: {
@@ -103,6 +111,8 @@ const dailyTroubleshooting = {
     },
     SetIsShowGroup({ dispatch, commit, state }: any, payloads: any) {
       state.conditions.page = 0;
+      // 设置是否为组查看
+      state.conditions.isGroup = payloads;
       if (payloads) {
         state.conditions.isFaver = [];
         state.conditions.medicalOpinion = [];
