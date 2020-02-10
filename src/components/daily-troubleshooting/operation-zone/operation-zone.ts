@@ -48,6 +48,7 @@ export class OperationZone extends Vue {
 
   set isShowgGroup(value: string) {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetIsShowGroup, value);
+    this.keyWords = '';
   }
 
   get isFaver() {

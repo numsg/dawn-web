@@ -113,6 +113,8 @@ const dailyTroubleshooting = {
       state.conditions.page = 0;
       // 设置是否为组查看
       state.conditions.isGroup = payloads;
+      // 清楚关键字
+      state.conditions.keyWord = '';
       if (payloads) {
         state.conditions.isFaver = [];
         state.conditions.medicalOpinion = [];
