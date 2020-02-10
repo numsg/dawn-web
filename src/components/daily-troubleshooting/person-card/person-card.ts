@@ -31,6 +31,12 @@ export class PersonCard extends Vue {
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
+  // 其他症状
+  @Getter('baseData_otherSymptoms')
+  otherSymptoms!: any[];
+  // 医疗意见
+  @Getter('baseData_medicalOpinions')
+  medicalOpinions!: any[];
 
   @Getter('dailyTroubleshooting_personData')
   personData!: PersonInfo[];
@@ -174,6 +180,21 @@ export class PersonCard extends Vue {
   replacePlot(plot: any) {
     const plotItem = this.communities.find((item: any) => item.id === plot);
     return plotItem ? plotItem.name : '';
+  }
+
+  replaceOtherSymptoms(otherSymptoms: string[]) {
+    if (!otherSymptoms) {
+      return '';
+    }
+    const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => otherSymptoms.includes(item.id));
+    return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name).join('、') : '';
+  }
+
+
+  replaceMedicalOpinion(medicalOpinion: any) {
+    const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
+    console.log(otherSymptomsItem, '-------------');
+    return otherSymptomsItem ? otherSymptomsItem.name : '';
   }
 
   replaceTime(time: string) {

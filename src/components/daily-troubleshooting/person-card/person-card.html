@@ -60,21 +60,13 @@
       </el-collapse> 
     </div>
     <div class="card-content" v-else>
-      <div class="box-card-container" v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
+      <!-- <div class="box-card-container" v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
         <el-card class="box-card" :class="{isDefault: false}">
           <div slot="header" class="card-header">
-            <!-- <i
-              class="iconfont event-type-icon"
-              :style="{'background-color': '#eee'}"
-              :class="['confont event-type-icon']"
-            ></i> -->
             <span class="name">
-              <!-- {{person.plot}}  {{person.name}} -->
-              
               {{ person.building }} - {{person.unitNumber}} - {{person.roomNo}}
               <span class="person-name">{{person.name}}</span>
             </span>
-            <!-- <span class="version">plan</span> -->
             <span class="prev-color confirmed_diagnosis" v-if="person.exceedTemp" >
               发热
             </span>
@@ -82,8 +74,6 @@
               <span>电话:</span>
               <span>{{person.phone}}</span>
             </span>
-            <!-- <span class="prev-color istemplate" v-else>plan</span>
-            <span class="prev-color isMultiTenancy" v-if="plan"> model</span> -->
           </div>
           <div class="body">
             <div class="item event-type">
@@ -121,7 +111,60 @@
             </div>
           </div>
         </el-card>
+      </div> -->
+      <div class="cart-table">
+        <el-table  :cell-style="{padding:'16px 0px'}" class="collapse-table cart-table-item" :data="personData" border stripe highlight-current-row style="width: 100%">
+          <el-table-column  label="社区名称" width="80" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              {{replacePlot(scope.row.plot)}}
+            </template>
+          </el-table-column>
+          <el-table-column  label="房号"  width="100" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span>{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="姓名" width="130" :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column  label="是否发热" width="80">
+            <template slot-scope="scope">
+              <el-tag effect="dark" size="mini" :type="scope.row.exceedTemp ? 'danger' : 'info'"
+                disable-transitions>{{scope.row.exceedTemp ? '发热' : '正常'}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column  label="是否有接触史" width="110">
+            <template slot-scope="scope">
+              <el-tag effect="dark" size="mini" :type="scope.row.contact ? 'danger' : 'info'"
+                disable-transitions>{{scope.row.contact ? '是' : '否'}}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column  label="其他症状" :show-overflow-tooltip="true" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+                {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
+            </template>
+          </el-table-column>
+          <el-table-column  label="分类诊疗医疗意见" :show-overflow-tooltip="true" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              {{replaceMedicalOpinion(scope.row.medicalOpinion)}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="createTime" label="填报时间" width="160" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              {{replaceTime(scope.row.createTime)}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="phone" label="电话" width="120" :show-overflow-tooltip="true">
+          </el-table-column>
+          <el-table-column label="操作" width="120">
+            <template slot-scope="scope">
+              <el-button size="mini" class="iconfont primary-btn iconpms-icon_edit" @click="edit(scope.row)" >编辑
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
+
+
     </div>
     <div v-if="personData.length === 0" class="no-plan"></div>
     <el-pagination v-if="!isShowgGroup" class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
