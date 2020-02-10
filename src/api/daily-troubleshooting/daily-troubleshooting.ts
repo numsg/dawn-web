@@ -499,8 +499,7 @@ export default {
           .catch((error: any) => {});
       } else {
         return q
-          .skip(conditions.pageSize * (conditions.page - 1 ))
-          .top(conditions.pageSize)
+          .skip(0)
           .orderby('building', 'asc')
           .orderby('unitNumber', 'asc')
           .orderby('roomNo', 'asc')
