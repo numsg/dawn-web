@@ -138,12 +138,12 @@
                 disable-transitions>{{scope.row.contact ? '是' : '否'}}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column  label="其他症状" :show-overflow-tooltip="true" :show-overflow-tooltip="true">
+          <el-table-column  label="其他症状" :show-overflow-tooltip="true" >
             <template slot-scope="scope">
                 {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
             </template>
           </el-table-column>
-          <el-table-column  label="分类诊疗医疗意见" :show-overflow-tooltip="true" :show-overflow-tooltip="true">
+          <el-table-column  label="分类诊疗医疗意见" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{replaceMedicalOpinion(scope.row.medicalOpinion)}}
             </template>
