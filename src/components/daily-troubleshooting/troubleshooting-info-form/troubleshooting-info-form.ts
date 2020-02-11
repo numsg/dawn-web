@@ -61,7 +61,7 @@ export class TroubleshootingInfoForm extends Vue {
     sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
     phone: [{ required: true, message: '请输入电话', trigger: 'change' }],
     address: [{ required: true, message: '请填写住址', trigger: 'change' }],
-    plot: [{ required: true, message: '请填写小区', trigger: 'change' }],
+    plot: [{ required: true, message: '请选择小区', trigger: 'change' }],
     building: [{ required: true, message: '请填写楼栋', trigger: 'change' }],
     unitNumber: [{ required: true, message: '请填写单元号', trigger: 'change' }],
     roomNo: [{ required: true, message: '请填写房间号', trigger: 'change' }],
