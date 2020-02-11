@@ -175,7 +175,7 @@ export class OperationZone extends Vue {
       DailyTroubleshootingService.pullNewData().then(res => {
         if (res) {
           this.$store.dispatch(eventNames.DailyTroubleshooting.ResetData);
-          this.$emit('success');
+          this.$emit('pull-data');
         }
       });
     }

@@ -38,7 +38,7 @@
               <img :src="data.eventType.image.iconfont" alt="" />
             </i> -->
             <span class="name" :title="data.name">{{ data.name }} &nbsp; <span class="community-name">{{data.communityModel.name}}</span></span>
-            <span class="prev-color diagnosis" :style="{'background': data.diagnosisSituationModel.imgColor}"> {{ data.diagnosisSituationModel.name }}</span>
+            <span class="prev-color diagnosis" v-if="data.diagnosisSituationModel.name" :style="{'background': data.diagnosisSituationModel.imgColor}"> {{ data.diagnosisSituationModel.name }}</span>
             <!-- <span class="prev-color diagnosis" > {{ data.diagnosisSituationModel.name }}</span> -->
             <!-- <span class="prev-color istemplate" v-else>{{ $t('system_log.plan') }}</span> -->
             <span class="submit-time">报送时间:{{data.submitTime}}</span>

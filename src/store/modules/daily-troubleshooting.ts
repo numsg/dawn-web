@@ -71,6 +71,7 @@ const dailyTroubleshooting = {
       state.activeName = result;
     },
     SET_MODEL_TYPE: (state: any, result: any) => {
+      state.conditions.page = 0;
       state.modelType = result;
     },
     RESET_DATA: (state: any) => {
@@ -124,6 +125,7 @@ const dailyTroubleshooting = {
         state.groupPersonData = [];
         dispatch('LoadPersonData');
       }
+      dispatch('SetStatisticsData');
       commit('SET_IS_SHOW_GROUP', payloads);
     },
     SetConditions: async ({ dispatch, commit, state }: any, conditions: DailyQueryConditions) => {
@@ -150,16 +152,32 @@ const dailyTroubleshooting = {
     },
     SetGroupPersonData: async ({ dispatch, commit, state }: any, conditions?: DailyQueryConditions) => {
       Object.assign(state.conditions, conditions);
-      const result = await DailyTroubleshootingService.getGroupPersonData(state.conditions);
-      commit('SET_GROUP_PERSON_DATA', result);
+      if (state.modelType === ModelType.checked) {
+        const result = await DailyTroubleshootingService.getGroupPersonData(state.conditions);
+        commit('SET_GROUP_PERSON_DATA', result);
+      } else {
+        const con = {
+          building: state.conditions.dailyStatisticModel.building,
+          page: state.conditions.page,
+          pageSize: state.conditions.pageSize,
+          plot: state.conditions.dailyStatisticModel.plotId,
+          unitNumber: state.conditions.dailyStatisticModel.unitNumber
+        };
+        const result = await DailyTroubleshootingService.queryUncheckedData(con);
+        const data = {
+          count: result.total,
+          value: result.dailyTroubleshootRecordModels
+        };
+        commit('SET_GROUP_PERSON_DATA', data);
+      }
     },
     SetUncheckedData: async ({ dispatch, commit, state }: any, conditions: any) => {
       const con = {
-        building: conditions.dailyStatisticModel.building,
-        page: conditions.page,
-        pageSize: conditions.pageSize,
-        plot: conditions.dailyStatisticModel.plotId,
-        unitNumber: conditions.dailyStatisticModel.unitNumber
+        building: state.conditions.dailyStatisticModel.building,
+        page: state.conditions.page,
+        pageSize: state.conditions.pageSize,
+        plot: state.conditions.dailyStatisticModel.plotId,
+        unitNumber: state.conditions.dailyStatisticModel.unitNumber
       };
       const result = await DailyTroubleshootingService.queryUncheckedData(con);
 
@@ -173,11 +191,7 @@ const dailyTroubleshooting = {
       state.conditions.page = 0;
       if (typeof payloads === 'number') {
         state.conditions.dailyStatisticModel = state.groupsData[payloads];
-        if (state.modelType === ModelType.checked) {
-          dispatch('SetGroupPersonData');
-        } else {
-          dispatch('SetUncheckedData', state.conditions);
-        }
+        dispatch('SetGroupPersonData');
       } else {
         state.groupPersonData = [];
         state.groupPersonTotalCount = 0;
@@ -185,12 +199,7 @@ const dailyTroubleshooting = {
     },
     SetModelType: async ({ dispatch, commit, state }: any, type: any) => {
       commit('SET_MODEL_TYPE', type);
-      if (type === ModelType.checked) {
-        console.log('---SET_MODEL_TYPE---');
-        dispatch('SetGroupPersonData');
-      } else {
-        dispatch('SetUncheckedData', state.conditions);
-      }
+      dispatch('SetGroupPersonData');
     },
     ResetData: ({ commit }: any) => {
       commit('RESET_DATA');

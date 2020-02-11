@@ -101,6 +101,15 @@ export class DailyTroubleshootingComponent extends Vue {
     if (this.isShowgGroup) {
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
     } else {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
+      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
+    }
+  }
+
+  pullData() {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
+    if (!this.isShowgGroup) {
       this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
     }
   }

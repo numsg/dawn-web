@@ -7,20 +7,19 @@
            >
           </el-switch> -->
 
-          <el-button @click="groupTypeClick(true)" :class="isShowgGroup ? 'primary-btn' : 'default-btn'" class="radio-btn iconfont iconpms-icon_classification">
+          <el-button @click="groupTypeClick(true)"  :class="isShowgGroup ? 'primary-btn' : 'default-btn'" class="radio-btn iconfont iconpms-icon_classification">
           </el-button>
           <el-button @click="groupTypeClick(false)" :class="!isShowgGroup ? 'primary-btn' : 'default-btn'" class="radio-btn iconfont iconpms-icon_grid1">
           </el-button>
-          
-          <el-button @click="modelTypeClick(modelType.checked)" :class="currentModelType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verifying-and-passing">
+          <el-button @click="modelTypeClick(modelType.checked)" :disabled="!isShowgGroup" :class="currentModelType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verifying-and-passing">
             今日已排查({{isShowgGroup ? checkedTotalCount : totalCount}})
           </el-button>
-          <el-button @click="modelTypeClick(modelType.unChecked)" :class="currentModelType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verification-failed ">
+          <el-button @click="modelTypeClick(modelType.unChecked)" :disabled="!isShowgGroup" :class="currentModelType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verification-failed ">
             今日待排查({{unCheckedTotalCount}})
           </el-button>
         </div>
         <div class="top-operation-right">
-            <el-button class="add type-btn primary-btn el-icon-refresh" @click="pullNewData">拉取最新数据</el-button>
+            <el-button class="add type-btn primary-btn el-icon-refresh" @click="pullNewData">刷新数据</el-button>
             <!-- <el-upload
               class="upload-demo"
               ref="upload"

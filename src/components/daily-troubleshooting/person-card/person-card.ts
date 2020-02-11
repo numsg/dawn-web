@@ -121,10 +121,10 @@ export class PersonCard extends Vue {
 
   created() {
     this.pageSize = this.pageSizes[0];
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
+    this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
     if (this.isShowgGroup) {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
     } else {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
     }
   }
 
