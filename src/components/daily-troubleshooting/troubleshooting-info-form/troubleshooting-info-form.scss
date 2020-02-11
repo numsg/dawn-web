@@ -21,6 +21,15 @@
       }
     }
 
+    .form-item{
+      position: relative;
+      .form-item-tip{
+        position: absolute;
+        top: 0;
+        right: 9px;
+      }
+    }
+
   }
   .btn-box{
     text-align: right;
