@@ -52,12 +52,12 @@ $danger-color: #f8662f;
             align-items: center;
             flex: 1;
             .check-tag-container {
-              flex: 3;
+              flex: 4;
             }
             .unit-number {
               font-size: 20px;
               padding: 0 10px;
-              flex: 8;
+              flex: 6;
               font-weight: bold;
               color: #606266;
               .building-num {
@@ -72,11 +72,23 @@ $danger-color: #f8662f;
               .fever-count {
                 background: #fe662a;
                 color: #fff;
-                border-radius: 10px;
+                border-radius: 15px;
                 margin-left: 20px;
-                font-size: 12px;
-                padding: 5px 7px;
+                font-size: 16px;
+                padding: 6px 7px;
                 border: 1px solid #ec7444;
+                position: relative;
+                padding-left: 32px;
+                .thermometer {
+                  width: 28px;
+                  position: absolute;
+                  left: 2px;
+                  top: 0;
+                  vertical-align: middle;
+                }
+                span {
+                  vertical-align: middle;
+                }
               }
             }
             button {
@@ -90,7 +102,7 @@ $danger-color: #f8662f;
               color: #878B90;
               display: inline-block;
               &:first-child {
-                min-width: 100px;
+                min-width: 120px;
               }
               .checked {
                 color: #299333;

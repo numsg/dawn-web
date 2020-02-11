@@ -7,7 +7,8 @@
               <span class="unit-number">
                 <span class="building-num">{{group.building}} - {{group.unitNumber}}</span>
                 <span class="plot-name">&nbsp;&nbsp;{{group.plotName}}</span>
-                <span v-if="group.feverCount > 0" class="fever-count">发热 {{group.feverCount}}人</span>
+                <!-- <span v-if="group.feverCount > 0" class="fever-count">发热 {{group.feverCount}}人</span> -->
+                <span v-if="group.feverCount > 0" class="fever-count"><img class="thermometer" :src="thermometer" alt=""> <span>{{group.feverCount}}</span></span>
               </span>
               <div class="check-tag-container">
                 <!-- <el-tag class="check-tag"  type="success" effect="dark">排查({{group.checked}})</el-tag>

@@ -101,6 +101,8 @@ export class PersonCard extends Vue {
   @Getter('baseData_genderClassification')
   genderClassification!: any[];
 
+  thermometer = require('@/assets/img/thermometer.png');
+
   @Watch('reset')
   handleResetPersonData(val: boolean) {
     if (val) {

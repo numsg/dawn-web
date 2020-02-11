@@ -101,7 +101,15 @@ export class EpidemicListComponent extends Vue {
   }
 
   handleDelete(data: EpidemicPerson) {
-
+    this.$confirm(this.$tc('notice.confirm_delete'), {
+      confirmButtonText: this.$tc('common.determine'),
+      cancelButtonText: this.$tc('common.cancel'),
+      type: 'warning',
+      title: this.$tc('common.prompt'),
+      showClose: false
+    }).then(() => {
+      epidemicDynamicService.editEpidemicPerson(data);
+    });
   }
 
   resetData() {
