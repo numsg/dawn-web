@@ -125,6 +125,7 @@ const dailyTroubleshooting = {
         state.conditions.medicalOpinion = [];
         dispatch('SetGroupsData');
       } else {
+        state.modelType = ModelType.checked;
         state.activeName = '';
         state.groupPersonData = [];
         dispatch('LoadPersonData');
@@ -156,23 +157,25 @@ const dailyTroubleshooting = {
     },
     SetGroupPersonData: async ({ dispatch, commit, state }: any, conditions?: DailyQueryConditions) => {
       Object.assign(state.conditions, conditions);
-      if (state.modelType === ModelType.checked) {
-        const result = await DailyTroubleshootingService.getGroupPersonData(state.conditions);
-        commit('SET_GROUP_PERSON_DATA', result);
-      } else {
-        const con = {
-          building: state.conditions.dailyStatisticModel.building,
-          page: state.conditions.page,
-          pageSize: state.conditions.pageSize,
-          plot: state.conditions.dailyStatisticModel.plotId,
-          unitNumber: state.conditions.dailyStatisticModel.unitNumber
-        };
-        const result = await DailyTroubleshootingService.queryUncheckedData(con);
-        const data = {
-          count: result.total,
-          value: result.dailyTroubleshootRecordModels
-        };
-        commit('SET_GROUP_PERSON_DATA', data);
+      if (state.conditions.dailyStatisticModel) {
+        if (state.modelType === ModelType.checked) {
+          const result = await DailyTroubleshootingService.getGroupPersonData(state.conditions);
+          commit('SET_GROUP_PERSON_DATA', result);
+        } else {
+            const con = {
+              building: state.conditions.dailyStatisticModel.building,
+              page: state.conditions.page,
+              pageSize: state.conditions.pageSize,
+              plot: state.conditions.dailyStatisticModel.plotId,
+              unitNumber: state.conditions.dailyStatisticModel.unitNumber
+            };
+            const result = await DailyTroubleshootingService.queryUncheckedData(con);
+            const data = {
+              count: result.total,
+              value: result.dailyTroubleshootRecordModels
+            };
+            commit('SET_GROUP_PERSON_DATA', data);
+        }
       }
     },
     SetUncheckedData: async ({ dispatch, commit, state }: any, conditions: any) => {
@@ -221,6 +224,7 @@ const dailyTroubleshooting = {
     dailyTroubleshooting_checkedTotalCount: (state: any) => state.checkedTotalCount,
     dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount,
     dailyTroubleshooting_formStatus: (state: any) => state.formStatus,
+    dailyTroubleshooting_modelType: (state: any) => state.modelType,
   }
 };
 

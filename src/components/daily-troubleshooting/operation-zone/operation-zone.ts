@@ -83,6 +83,9 @@ export class OperationZone extends Vue {
   @Mutation('SET_DAILY_TROUBLE_SHOOTING_FORM_STATUS')
   setFormStatus!: (status: boolean) => void;
 
+  @Getter('dailyTroubleshooting_modelType')
+  checkType: any;
+
   get medicalOpinionIds() {
     return this.$store.state.dailyTroubleshooting.conditions.medicalOpinion;
     }
