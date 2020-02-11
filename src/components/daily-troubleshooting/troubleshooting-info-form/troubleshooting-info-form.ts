@@ -59,9 +59,10 @@ export class TroubleshootingInfoForm extends Vue {
   rules = {
     // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
     name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-    identificationNumber: [{ required: true, message: '请输入身份证编号', trigger: 'change' }],
+    age: [{ validator: this.validateAge, trigger: 'blur' }],
+    identificationNumber: [{ validator: this.validateIdentificationNumber, trigger: 'blur' }],
     sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-    phone: [{ required: true, message: '请输入电话', trigger: 'change' }],
+    phone: [{ validator: this.validatePhone, trigger: 'blur' }],
     address: [{ required: true, message: '请填写住址', trigger: 'change' }],
     plot: [{ required: true, message: '请选择小区', trigger: 'change' }],
     building: [{ required: true, message: '请填写楼栋', trigger: 'change' }],
@@ -72,6 +73,44 @@ export class TroubleshootingInfoForm extends Vue {
     // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
     exceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
   };
+
+  validateIdentificationNumber (rule: any, value: any, callback: any) {
+    if (value === '') {
+      callback(new Error('请输入身份证账号'));
+    } else if (
+      ! (/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(value) )
+    ) {
+      callback(new Error('身份证不符合规范'));
+    } else {
+      callback();
+    }
+  }
+
+  validateAge (rule: any, value: any, callback: any) {
+    if (value === '') {
+      callback(new Error('请输入年龄'));
+    } else if (
+      ! ( /^(?:[0-9][0-9]?|1[04][0-9]|150)$/.test(value) )
+    ) {
+      callback(new Error('年龄限制为0 - 150岁'));
+    } else {
+      callback();
+    }
+  }
+
+  validatePhone (rule: any, value: any, callback: any) {
+    if (value === '') {
+      callback(new Error('请输入电话号码'));
+    } else if (
+      !( /^([1]\d{10}|([\(（]?0[0-9]{2,3}[）\)]?[-]?)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?)$/.test(value) )
+    ) {
+      callback(new Error('电话号码不符合规范'));
+    } else {
+      callback();
+    }
+  }
+
+
 
   @Watch('formStatus')
   watchFormStatus(value: boolean) {
