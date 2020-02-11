@@ -59,10 +59,10 @@ export class TroubleshootingInfoForm extends Vue {
   rules = {
     // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
     name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-    age: [{ validator: this.validateAge, trigger: 'blur' }],
-    identificationNumber: [{ validator: this.validateIdentificationNumber, trigger: 'blur' }],
+    age: [ { required: true}, { validator: this.validateAge, trigger: 'blur' }],
+    identificationNumber: [{ required: true}, { validator: this.validateIdentificationNumber, trigger: 'blur' }],
     sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-    phone: [{ validator: this.validatePhone, trigger: 'blur' }],
+    phone: [{ required: true}, { validator: this.validatePhone, trigger: 'blur' }],
     address: [{ required: true, message: '请填写住址', trigger: 'change' }],
     plot: [{ required: true, message: '请选择小区', trigger: 'change' }],
     building: [{ required: true, message: '请填写楼栋', trigger: 'change' }],
@@ -71,7 +71,8 @@ export class TroubleshootingInfoForm extends Vue {
     // bodyTemperature: [{ required: true, message: '请填写体温', trigger: 'change' }],
     // leaveArea: [{ required: true, message: '请选择是否过去14天是否离开过本地区', trigger: 'change' }],
     // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
-    exceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
+    exceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }],
+    contact: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
   };
 
   validateIdentificationNumber (rule: any, value: any, callback: any) {
