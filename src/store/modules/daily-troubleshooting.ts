@@ -17,7 +17,8 @@ const dailyTroubleshooting = {
     groupPersonTotalCount: 0,
     checkedTotalCount: 0,
     unCheckedTotalCount: 0,
-    modelType: ModelType.checked
+    modelType: ModelType.checked,
+    formStatus: false,
   },
   mutations: {
     SET_STATISTICS_DATA: (state: any, result: any) => {
@@ -95,6 +96,9 @@ const dailyTroubleshooting = {
     },
     SET_CONDITIONS_IS_CHECKED: (state: any, result: any) => {
       state.conditions.isChecked = result;
+    },
+    SET_DAILY_TROUBLE_SHOOTING_FORM_STATUS: (state: any, result: any) => {
+      state.formStatus = result;
     }
   },
   actions: {
@@ -215,7 +219,8 @@ const dailyTroubleshooting = {
     dailyTroubleshooting_conditions: (state: any) => state.conditions,
     dailyTroubleshooting_groupPersonTotalCount: (state: any) => state.groupPersonTotalCount,
     dailyTroubleshooting_checkedTotalCount: (state: any) => state.checkedTotalCount,
-    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount
+    dailyTroubleshooting_unCheckedTotalCount: (state: any) => state.unCheckedTotalCount,
+    dailyTroubleshooting_formStatus: (state: any) => state.formStatus,
   }
 };
 

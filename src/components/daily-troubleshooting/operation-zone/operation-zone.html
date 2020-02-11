@@ -42,7 +42,7 @@
             <el-button @click="addTroubleShoot" class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
           </div>
 
-          <side-frame ref="sideFrame" :top="80">
+          <side-frame ref="sideFrame" :top="80" @close="formClose">
             <div class="side-frame-header" slot="header">
               <div class="header-title side-frame-title">
                 <i></i>

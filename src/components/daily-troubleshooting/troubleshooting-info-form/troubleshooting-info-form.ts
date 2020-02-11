@@ -9,10 +9,9 @@ import * as format from 'dateformat';
 
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { getUuid32 } from '@gsafety/cad-gutil/dist/utilhelper';
-import { Getter } from 'vuex-class';
-
+import { Getter, State } from 'vuex-class';
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
-import { prop } from 'ramda';
+
 
 import dataFormat from '@/utils/data-format';
 @Component({
@@ -22,6 +21,8 @@ import dataFormat from '@/utils/data-format';
   components: {}
 })
 export class TroubleshootingInfoForm extends Vue {
+  @Getter('dailyTroubleshooting_formStatus')
+  formStatus!: boolean;
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
@@ -54,6 +55,7 @@ export class TroubleshootingInfoForm extends Vue {
 
   otherSymptomsList: string[] = [];
 
+
   rules = {
     // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
     name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
@@ -70,6 +72,16 @@ export class TroubleshootingInfoForm extends Vue {
     // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
     exceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
   };
+
+  @Watch('formStatus')
+  watchFormStatus(value: boolean) {
+    if ( !value ) {
+      this.resetForm('ruleForm');
+    }
+    if (value && this.communities.length === 1) {
+        this.troublePerson.plot = this.communities[0].id;
+    }
+  }
 
   @Watch('currentPerson', { deep: true })
   watchCurrentPerson(value: PersonInfo) {
@@ -160,5 +172,10 @@ export class TroubleshootingInfoForm extends Vue {
   }
   colse() {
     this.$emit('colse');
+  }
+
+  cancel() {
+    this.resetForm('ruleForm');
+    this.colse();
   }
 }

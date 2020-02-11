@@ -80,6 +80,9 @@ export class OperationZone extends Vue {
   @Mutation('SET_CONDITIONS_IS_CHECKED')
   setConditionsIsChecked!: (status: boolean) => void;
 
+  @Mutation('SET_DAILY_TROUBLE_SHOOTING_FORM_STATUS')
+  setFormStatus!: (status: boolean) => void;
+
   get medicalOpinionIds() {
     return this.$store.state.dailyTroubleshooting.conditions.medicalOpinion;
     }
@@ -158,10 +161,14 @@ export class OperationZone extends Vue {
     addTroubleShoot() {
       const sideFrame: any = this.$refs['sideFrame'];
       sideFrame.open();
+      this.setFormStatus(true);
     }
     colse() {
       const sideFrame: any = this.$refs['sideFrame'];
       sideFrame.close();
+    }
+    formClose() {
+      this.setFormStatus(false);
     }
 
     groupTypeClick(isGroup: boolean) {
