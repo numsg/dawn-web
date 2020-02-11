@@ -117,7 +117,7 @@ export class TroubleshootingInfoForm extends Vue {
     if ( !value ) {
       this.resetForm('ruleForm');
     }
-    if (value && this.communities.length === 1) {
+    if (  !this.isEdit  && value && this.communities.length === 1) {
         this.troublePerson.plot = this.communities[0].id;
     }
   }
