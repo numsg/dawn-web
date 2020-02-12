@@ -362,11 +362,51 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   replaceOtherSymptoms(OtherSymptoms: string) {
-    if (!OtherSymptoms) {
-      return '';
+    if ( OtherSymptoms === '0' ) {
+      return '无';
     }
-    const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => OtherSymptoms.includes(item.id));
-    return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
+    if ( OtherSymptoms === '1' ) {
+      return '乏力';
+    }
+    if ( OtherSymptoms === '2' ) {
+      return '干咳';
+    }
+    if ( OtherSymptoms === '3' ) {
+      return '肌痛';
+    }
+    if ( OtherSymptoms === '4' ) {
+      return '寒战';
+    }
+    if ( OtherSymptoms === '5' ) {
+      return '呼吸困难';
+    }
+    if ( OtherSymptoms === '6' ) {
+      return '咽痛';
+    }
+    if ( OtherSymptoms === '7' ) {
+      return '头疼';
+    }
+    if ( OtherSymptoms === '8' ) {
+      return '眩晕';
+    }
+    if ( OtherSymptoms === '9' ) {
+      return '腹痛';
+    }
+    if ( OtherSymptoms === '10' ) {
+      return '腹泻';
+    }
+    if ( OtherSymptoms === '11' ) {
+      return '恶心';
+    }
+    if ( OtherSymptoms === '12' ) {
+      return '呕吐';
+    }
+    if ( OtherSymptoms === '13' ) {
+      return '鼻塞';
+    }
+    return '';
+    // const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => OtherSymptoms.includes(item.id));
+    // return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
   }
 
 
