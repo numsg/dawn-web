@@ -1,0 +1,53 @@
+<div class="edit-community">
+  <div>
+    <!-- 角色选择 -->
+    <div class="role-content">
+        <span class="iconfont role iconpms-icon_User-roles"></span>
+        <span class="title">角色选择</span>
+        <el-select
+          v-model="currentRoles"
+          multiple
+          collapse-tags
+          style="margin-left: 20px;"
+          placeholder="请选择">
+          <el-option
+            v-for="item in roleInfos"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+    </div>
+    <div class="relation-content">
+      <i class="iconfont iconpms-icon_Related-permissions2"></i>
+    </div>
+    <!-- 社区选择 -->
+    <div class="area-content">
+      <span class="iconfont role iconpms-icon_User-roles"></span>
+      <span class="title">社区选择</span>
+      <el-cascader
+        v-model="currentCodes"
+        class="cascader"
+        :options="areaCodes"
+        :props="props"
+        collapse-tags
+        clearable></el-cascader>
+    </div>
+    <!-- 备注 -->
+    <div class="note-content">
+      <span class="title">备注</span>
+      <el-input
+        type="textarea"
+        :rows="4"
+        maxlength = "300"
+        placeholder="请输入内容"
+        v-model="note">
+      </el-input>
+      <span>{{note.length}}/300</span>
+    </div>
+  </div>
+    <div class="btn-content">
+      <el-button type="primary" size="mini" @click="closeFrame">取消</el-button>
+      <el-button type="primary" size="mini" @click="editSubmit">确定</el-button>
+    </div>
+</div>
