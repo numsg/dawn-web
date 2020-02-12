@@ -96,7 +96,7 @@ export default {
                 service: store.getters.configs.communityManagerOdataUrl,
                 resources: 'RoleAssCommunityEntity',
             });
-            let filterStr = '';
+            const filterStr = '';
             // const filterStr = '(parentId eq \'' + code + '\')';
             if ( filterStr ) {
                 return q

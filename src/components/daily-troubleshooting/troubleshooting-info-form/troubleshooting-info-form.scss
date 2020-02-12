@@ -29,6 +29,13 @@
         right: 9px;
       }
     }
+    .row-one {
+      display: flex;
+      flex-direction: row;
+      .flex-one {
+        flex: 1;
+      }
+    }
 
   }
   .btn-box{

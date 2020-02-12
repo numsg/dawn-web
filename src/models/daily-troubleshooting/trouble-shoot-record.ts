@@ -20,7 +20,7 @@ export default class TroubleshootRecord {
     roomNo: string = '';
 
     // 年龄
-    age!: number;
+    age: number = 1;
 
     // 过去14天是否离开过本地区
     isLeaveArea: boolean = false;

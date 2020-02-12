@@ -1,10 +1,24 @@
 
 <div class="epidemic-info-form">
-  <el-form :model="troublePerson"  label-position="top" size="mini" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="姓名" prop="name" class="form-item">
+  <el-form :model="troublePerson" label-position="top" size="mini" ref="recordForm" label-width="100px" class="demo-ruleForm">
+    <el-form-item label="姓名" :prop="name"  class="form-item">
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.name" maxlength="20"></el-input>
       <span class="form-item-tip">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
     </el-form-item>
+    <div class="row-one">
+      <div class="flex-one">
+        <el-form-item label="性别" prop="sex">
+          <el-radio-group v-model="troublePerson.personBase.sex">
+            <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </div>
+      <div class="flex-one">
+        <el-form-item label="年龄" prop="age">
+          <el-input-number v-model="troublePerson.age" :min="1" :max="150"></el-input-number>
+        </el-form-item>
+      </div>
+    </div>
     <el-form-item label="电话" prop="phone">
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.phone"></el-input>
     </el-form-item>
@@ -32,16 +46,6 @@
     <el-form-item label="房间号" prop="roomNo" class="form-item">
       <el-input v-model="troublePerson.roomNo" maxlength="10"></el-input>
       <span class="form-item-tip">{{troublePerson.roomNo ? troublePerson.roomNo.length : 0}}/10</span>
-    </el-form-item>
-
-    <el-form-item label="性别" prop="sex">
-      <el-radio-group v-model="troublePerson.personBase.sex">
-        <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>
-      </el-radio-group>
-    </el-form-item>
-
-    <el-form-item label="年龄" prop="age">
-      <el-input v-model="troublePerson.age"></el-input>
     </el-form-item>
 
     <el-form-item label="是否发热(体温 > 37.3℃)" prop="isExceedTemp">
@@ -77,7 +81,7 @@
   </el-form>
   <div class="btn-box">
     <el-button @click="cancel" size="mini">取 消</el-button>
-    <el-button type="primary" class="primary" size="mini" key="1" v-if="isEdit" @click="submitEditForm('ruleForm')">修改确定</el-button>
-    <el-button type="primary"  size="mini" key="2" v-if="!isEdit" @click="submitForm('ruleForm')">确 定</el-button>
+    <el-button type="primary" class="primary" size="mini" key="1" v-if="isEdit" @click="submitEditForm('recordForm')">修改确定</el-button>
+    <el-button type="primary"  size="mini" key="2" v-if="!isEdit" @click="submitForm('recordForm')">确 定</el-button>
   </div>
 </div>

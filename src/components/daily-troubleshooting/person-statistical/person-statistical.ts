@@ -195,6 +195,9 @@ export class PersonStatistical extends Vue {
   addEventListener() {
     this.chart.on('pieselectchanged', (evt: any) => {
       this.statisticsData.forEach((item, index) => {
+        if (item.count === 0) {
+          return;
+        }
         if (item.name === evt.name) {
           item.selected = !item.selected;
           this.emitStatisticsEvent();

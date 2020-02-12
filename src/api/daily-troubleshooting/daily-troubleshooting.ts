@@ -8,6 +8,8 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { PersonOdataInfo } from '@/models/daily-troubleshooting/person-odata-info';
 import { eqBy, cond } from 'ramda';
 import moment from 'moment';
+import SessionStorage from '@/utils/session-storage';
+
 export default {
     // 新增填报记录
     addDailyTroubleshooting(info: PersonInfo) {
@@ -391,7 +393,7 @@ export default {
       } else {
         filterStr = cstr;
       }
-      const multiTenancy = store.getters.configs.communityDataSourceId;
+      const multiTenancy = SessionStorage.get('district');
       filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
       if (filterStr) {
         return q
@@ -575,7 +577,7 @@ export default {
           filterStr += str;
         }
       }
-      const multiTenancy = store.getters.configs.communityDataSourceId;
+      const multiTenancy = SessionStorage.get('district');
       filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
       if (filterStr) {
         return q
@@ -699,7 +701,7 @@ export default {
   },
 
   getRecordStatistics() {
-    const multiTenancy = store.getters.configs.communityDataSourceId;
+    const multiTenancy = SessionStorage.get('district');
     const url = store.getters.configs.communityManagerUrl + `plot-reporting-staff/${multiTenancy}/multiTenancy`;
     return httpClient
       .getPromise(url)
@@ -715,7 +717,7 @@ export default {
    * 获取人员分组数据
    */
   queryGroupsData() {
-    const multiTenancy = store.getters.configs.communityDataSourceId;
+    const multiTenancy = SessionStorage.get('district');
     const url = store.getters.configs.communityManagerUrl + `plot-building-unit-staff/${multiTenancy}/multiTenancy`;
     return httpClient
       .getPromise(url)
@@ -790,7 +792,7 @@ export default {
     } else {
       filterStr = cstr;
     }
-    const multiTenancy = store.getters.configs.communityDataSourceId;
+    const multiTenancy = SessionStorage.get('district');
     filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
 
     return q
@@ -928,7 +930,7 @@ export default {
       filterStr = '(createTime gt ' + startTime + ') and '
                 + '(createTime lt ' + endTime + ')';
     }
-    const multiTenancy = store.getters.configs.communityDataSourceId;
+    const multiTenancy = SessionStorage.get('district');
       filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
     if (filterStr) {
       return q
@@ -1040,7 +1042,7 @@ export default {
     } else {
       filterStr = '(createTime lt ' + startTime + ')';
     }
-    const multiTenancy = store.getters.configs.communityDataSourceId;
+    const multiTenancy = SessionStorage.get('district');
       filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
     if (filterStr) {
       return q

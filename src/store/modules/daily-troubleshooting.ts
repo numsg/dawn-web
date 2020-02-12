@@ -25,17 +25,31 @@ const dailyTroubleshooting = {
   mutations: {
     SET_STATISTICS_DATA: (state: any, result: any) => {
       const communities = store.getters.baseData_communities;
-      if (result && Array.isArray(result)) {
-        result.forEach(e => {
-          const community = communities.find((c: any) => c.id === e.plotId);
-          e.name = community.name;
-          e.id = community.id;
-          e.selected = false;
-          e.strokeStyle = community.imgColor ? community.imgColor : transformToColor(community.name);
-          e.value = e.count;
-        });
-        state.statisticsData = result;
-      }
+      const res = [] as any[];
+      communities.forEach((com: any) => {
+        const community = result.find((c: any) => c.plotId === com.id);
+        const data = {
+          name: com.name,
+          id: com.id,
+          selected: false,
+          strokeStyle:  com.imgColor ? com.imgColor : transformToColor(com.name),
+          count: community ? community.count : 0,
+          value: community ? community.count : 0,
+        };
+        res.push(data);
+      });
+      state.statisticsData = res;
+      // if (result && Array.isArray(result)) {
+      //   result.forEach(e => {
+      //     const community = communities.find((c: any) => c.id === e.plotId);
+      //     e.name = community.name;
+      //     e.id = community.id;
+      //     e.selected = false;
+      //     e.strokeStyle = community.imgColor ? community.imgColor : transformToColor(community.name);
+      //     e.value = e.count;
+      //   });
+      //   state.statisticsData = result;
+      // }
     },
     SET_PERSON_DATA: (state: any, result: any) => {
       if (result) {
@@ -209,7 +223,7 @@ const dailyTroubleshooting = {
       const result = {
         checkedCount,
         unCheckedCount
-      }
+      };
       commit('SET_RECORD_COUNT', result);
     },
     ResetData: ({ commit }: any) => {

@@ -11,10 +11,10 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { getUuid32 } from '@gsafety/cad-gutil/dist/utilhelper';
 import { Getter, State } from 'vuex-class';
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
-
-
 import dataFormat from '@/utils/data-format';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
+import SessionStorage from '@/utils/session-storage';
+
 import moment from 'moment';
 @Component({
   template: Html,
@@ -119,7 +119,7 @@ export class TroubleshootingInfoForm extends Vue {
   @Watch('formStatus')
   watchFormStatus(value: boolean) {
     if ( !value ) {
-      this.resetForm('ruleForm');
+      this.resetForm('recordForm');
     }
     if (  !this.isEdit  && value && this.communities.length === 1) {
         this.troublePerson.plot = this.communities[0].id;
@@ -156,7 +156,9 @@ export class TroubleshootingInfoForm extends Vue {
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         console.log(this.troublePerson, 'this.troublePerson');
         this.troublePerson.createTime = moment(this.troublePerson.createTime).format('YYYY-MM-DD HH:mm:ss');
-        this.troublePerson.multiTenancy = this.$store.getters.configs.communityDataSourceId;
+        this.troublePerson.multiTenancy = SessionStorage.get('district');
+        this.troublePerson.personBase.multiTenancy = SessionStorage.get('district');
+        this.troublePerson.personBase.districtCode = SessionStorage.get('district-all');
         // DailyTroubleshootingService.addDailyTroubleshooting(JSON.parse( JSON.stringify(this.troublePerson) ))
         DailyTroubleshootingService.addTroubleshootingRecord(JSON.parse( JSON.stringify(this.troublePerson) ))
           .then(res => {
@@ -164,7 +166,7 @@ export class TroubleshootingInfoForm extends Vue {
               notifyUtil.success('添加填报记录成功');
               this.$emit('colse');
               this.$emit('success');
-              this.resetForm('ruleForm');
+              this.resetForm('recordForm');
               // this.troublePerson = new PersonInfo();
               this.troublePerson = new TroubleshootRecord();
             } else {
@@ -177,6 +179,7 @@ export class TroubleshootingInfoForm extends Vue {
           });
       } else {
         console.log('error submit!!');
+        this.$message.error('校验失败');
         return false;
       }
     });
@@ -197,7 +200,7 @@ export class TroubleshootingInfoForm extends Vue {
               notifyUtil.success('修改填报记录成功');
               this.$emit('colse');
               this.$emit('success');
-              this.resetForm('ruleForm');
+              this.resetForm('recordForm');
               // this.troublePerson = new PersonInfo();
               this.troublePerson = new TroubleshootRecord();
             } else {
@@ -224,7 +227,7 @@ export class TroubleshootingInfoForm extends Vue {
   }
 
   cancel() {
-    this.resetForm('ruleForm');
+    this.resetForm('recordForm');
     this.colse();
   }
 }
