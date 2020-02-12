@@ -1,3 +1,4 @@
+import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import Html from './person-card.html';
@@ -39,7 +40,8 @@ export class PersonCard extends Vue {
   medicalOpinions!: any[];
 
   @Getter('dailyTroubleshooting_personData')
-  personData!: PersonInfo[];
+  personData!: TroubleshootRecord[];
+  // personData!: PersonInfo[];
 
   @Getter('dailyTroubleshooting_totalCount')
   totalCount!: number;
@@ -124,10 +126,7 @@ export class PersonCard extends Vue {
   created() {
     this.pageSize = this.pageSizes[0];
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
-    this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
-    if (this.isShowgGroup) {
-    } else {
-    }
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions);
   }
 
   mounted() {
@@ -154,7 +153,7 @@ export class PersonCard extends Vue {
     if (this.isShowgGroup) {
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
     } else {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions);
+      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
     }
     this.colse();
   }
