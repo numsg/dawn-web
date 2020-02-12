@@ -121,7 +121,7 @@ export class CommunityQRManageComponent extends Vue {
     this.$set(this.qrcodeInfoForm, 'commuityCode', row.id);
     this.$set(this.qrcodeInfoForm, 'commuityName', row.name);
     // 行政区编码从session获取  sessionStorage.get('district')
-    this.$set(this.qrcodeInfoForm, 'regionalismCode', sessionStorage.get('district'));
+    this.$set(this.qrcodeInfoForm, 'regionalismCode', sessionStorage.get('district-all'));
     for (let i = 0; i < this.gridMemberList.length; i++) {
       if (this.gridMemberList[i].address.indexOf(row.id) !== -1) {
         this.$set(this.qrcodeInfoForm, 'responsible', this.gridMemberList[i].name);
