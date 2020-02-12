@@ -59,5 +59,23 @@ export default {
         Authorization: 'Bearer ' + token
       }
     });
-  }
+  },
+  queryAdmCodesByParentId(parentId: any): Promise<any> {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'DistrictEntity'
+    });
+    return q
+      .filter('parentId' , 'eq' , parentId)
+      .top(100000)
+      .get(null)
+      .then((response: any) => {
+        console.log(response);
+        return JSON.parse(response.body).value;
+      })
+      .catch((err: any) => {
+        return false;
+      });
+  },
+
 };

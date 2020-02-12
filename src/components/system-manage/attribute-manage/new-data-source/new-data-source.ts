@@ -19,6 +19,7 @@ import EventNames from '@/common/events/store-events';
 import sourceBlackStyle from './new-data-source.black.module.scss';
 import i18n from '@/i18n';
 import notifyUtil from '@/common/utils/notifyUtil';
+import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
 
 @Component({
   template: Html,
@@ -135,7 +136,8 @@ export class NewDataSourceComponent extends Vue {
       { required: true, message: i18n.t('data_source.data_source_name_null'), tigger: 'blur' },
       { min: 1, max: 512, message: i18n.t('common.length_limit128'), tigger: 'blur' }
     ],
-    description: [{ max: 2000, message: i18n.t('common.description_length_under_2000'), tigger: 'blur' }]
+    // description: [{ max: 2000, message: i18n.t('common.description_length_under_2000'), tigger: 'blur' }]
+    description: [{ required: true, message: '请选择行政区划', tigger: 'blur' }]
   };
 
   imageUrl: string = '';
@@ -172,6 +174,26 @@ export class NewDataSourceComponent extends Vue {
    * @memberof NewDataSourceComponent
    */
   public tiledArray: Array<DSourceDataModel> = [];
+
+  options: any = [];
+  private props = {
+    multiple: false,
+    lazy: true,
+    lazyLoad: this.lazyLoad,
+    value: 'districtCode',
+    label: 'name',
+    checkStrictly: true
+  };
+
+  async mounted() {
+    this.options = await communityQrManageService.queryAdmCodesByParentId('000000');
+  }
+
+  async lazyLoad(node: any, resolve: any) {
+    const result = await communityQrManageService.queryAdmCodesByParentId(node.value);
+    resolve(result);
+    }
+
 
   @Watch('isEdit')
   onIsEdit() {}
@@ -413,7 +435,7 @@ export class NewDataSourceComponent extends Vue {
         // tslint:disable-next-line:quotemark
         param.tag = param.tag.replace(/\"/g, "'");
         param.type = this.newDataSource.type !== 0 ? this.newDataSource.type : this.structure === '1' ? 1 : 2;
-        param.description = this.newDataSource.description;
+        param.description = this.newDataSource.description[this.newDataSource.description.length - 1];
         param.originalId = this.newDataSource.originalId;
         const data = dataSourceService.treeToTiledArr([], this.treeModel);
         if (param.type === 1 && data.length > 0) {
