@@ -140,6 +140,19 @@ export default {
       }
     },
 
+    // 江夏特定查询接口
+    queryDailyRecordByTime(param: any) {
+      const url = store.getters.configs.baseSupportUrl + 'daily-troubleshoot-record/import';
+        return httpClient
+        .postPromise(url, param)
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            return false;
+        });
+    },
+
 
     // 查询所有日常排查记录
     loadAllDailyRecord(conditions: DailyQueryConditions) {
@@ -516,6 +529,19 @@ export default {
           .catch((error: any) => {});
       }
     },
+
+    // 江夏特定排查记录
+    loadExportByJXExcel(info: any) {
+      const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/group-condition';
+      return httpClient
+        .postPromise(url, info)
+        .then(res => {
+          return res;
+        })
+        .catch(err => {
+          return false;
+        });
+      },
 
     buildDailyRecord(result: any[]) {
       const res: any[] = [];

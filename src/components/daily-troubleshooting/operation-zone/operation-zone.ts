@@ -13,6 +13,7 @@ import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troub
 import { Getter, Mutation } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import { debounce } from 'lodash';
+import dataFormat from '@/utils/data-format';
 
 @Component({
   template: Html,
@@ -23,6 +24,13 @@ import { debounce } from 'lodash';
   }
 })
 export class OperationZone extends Vue {
+    dialogVisible = false;
+    startTime = [
+      new Date(new Date().setHours(0, 0, 0, 0)),
+      new Date(new Date().setHours(23, 59, 59, 59))
+    ];
+
+
     fileList: any = [];
     keyWords = '';
     modelType = ModelType;
@@ -136,8 +144,12 @@ export class OperationZone extends Vue {
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
     }
 
+    // exportExcel() {
+    //   this.$emit('exportExcel');
+    // }
+
     exportExcel() {
-      this.$emit('exportExcel');
+      this.dialogVisible = true;
     }
 
     success() {
@@ -188,5 +200,29 @@ export class OperationZone extends Vue {
           this.$emit('pull-data');
         }
       });
+    }
+
+    exportConfim() {
+      console.log(this.startTime);
+      if ( this.startTime.length === 2 ) {
+        const startTime = this.replaceTime(this.startTime[0]);
+        const endTime = this.replaceTime(this.startTime[1]);
+        const param = {  startDate: startTime, endDate: endTime, currentVillageId: ''};
+        this.$emit('exportExcel', param);
+      } else {
+        notifyUtil.warning('时间选取有问题');
+      }
+      this.dialogVisible = false;
+    }
+
+    handleClose() {
+
+    }
+    replaceTime(time: any) {
+      if (time) {
+        // return format.default(time, 'yyyy-mm-dd HH:mm:ss');
+        return dataFormat.formatTime(time);
+      }
+      return '';
     }
 }

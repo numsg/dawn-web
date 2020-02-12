@@ -82,4 +82,26 @@
         <span class="iconfont iconpms-icon_search iconfont-size"></span>
       </div>
     </div>
+
+    <el-dialog
+      title="导出文件时间段筛选"
+      :visible.sync="dialogVisible"
+      width="30%"
+      >
+        <div>
+          <div class="block">
+            <el-date-picker
+              v-model="startTime"
+              type="datetimerange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期">
+            </el-date-picker>
+          </div>
+        </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="exportConfim" :disabled="this.startTime.length !== 2" >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>

@@ -2,7 +2,7 @@ import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import { Vue, Component } from 'vue-property-decorator';
 import dailyTroubleshootingHtml from './daily-troubleshooting.html';
 import dailyTroubleshootingStyle from './daily-troubleshooting.scss';
-
+import {RecordModel} from '@/models/daily-troubleshooting/trouble-shoot-record-model';
 import { OperationZone } from './operation-zone/operation-zone';
 import { PersonCard } from './person-card/person-card';
 import { PersonStatistical } from './person-statistical/person-statistical';
@@ -144,12 +144,13 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   // 导出excel
-  async exportExcel() {
-
+  async exportExcel( param:  {  startDate: string, endDate: string, currentVillageId:  string}) {
+    const  {  startDate , endDate, currentVillageId} = param;
     const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
     const taskListName = `日常排查数据${now}.xlsx`;
     // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
-    const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
+    // const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
+    const result: RecordModel[] = await DailyTroubleshootingService.loadExportByJXExcel({  startDate , endDate, currentVillageId});
     const res = await DailyTroubleshootingService.queryCommunity();
     let communityName = '';
     if ( res && Array.isArray(res) && res.length > 0 ) {
@@ -179,35 +180,74 @@ export class DailyTroubleshootingComponent extends Vue {
       G3: { v: '发热(体温>37.3℃)', s },
       H3: { v: '新型肺炎', s  },
       I3: { v: '其他症状' , s },
-      J3: { v: '分类诊疗医疗意见', s  },
-      O3: { v: '备注' , s },
-      J4: { v: '确认患者' , s },
-      K4: { v: '疑似患者' , s },
-      L4: { v: 'CT诊断肺炎患者', s  },
-      M4: { v: '一般发热患者' , s },
-      N4: { v: '密切接触者' , s },
+      // J3: { v: '分类诊疗医疗意见', s  },
+      J3: { v: '是否有湖北旅居史', s },
+        [`K4`] : { v: '行程', s }, // 替换 疑似患者
+        [`L4`] : { v: '是否有新型肺炎接触史', s }, // 替换 疑似患者
+        [`M4`] : { v: '是否与湖北暴露史人员接触', s }, // 替换 一般发热患者
+        [`N4`] : { v: '体温', s }, // 替换 密切接触者
+        [`O4`] : { v: '有无咳嗽、胸闷等不适症状', s }, // 替换 密切接触者
+        [`P4`] : { v: '常德人入武汉后居住地' , s },
+        [`Q4`] : { v: '离开湖北日期' , s },
+        [`R4`] : { v: '交通工具飞机、火车、大巴、自驾车' , s },
+        [`S4`] : { v: '车次/航班' , s },
+        [`T4`] : { v: '沿途停留地点' , s },
+        [`U4`] : { v: '返回常德日期' , s },
+        [`V4`] : { v: '满14天日期' , s },
+        [`W4`] : { v: '是否外地返武陵区人员' , s },
+        [`X4`] : { v: '回程地点', s },
+        [`Y4`] : { v: '返回武汉方式', s },
+        [`Z4`] : { v: '返回武汉航班车次', s },
+        [`AA4`] : { v: '同程人员', s },
+        [`AB4`] : { v: '工作单位', s },
+        [`AC4`] : { v: '是否本街道常驻人口', s },
+        [`AD4`] : { v: '是否有相关证明', s },
+        [`AE4`] : { v: '备注', s },
+      // J4: { v: '确认患者' , s },
+      // K4: { v: '疑似患者' , s },
+      // L4: { v: 'CT诊断肺炎患者', s  },
+      // M4: { v: '一般发热患者' , s },
+      // N4: { v: '密切接触者' , s },
     };
     // 合并 headers 和 data
     const dataRowHight: any[] = [];
     const rowHeight = 24;
-    result.value.forEach((person: PersonInfo, index: number) => {
+    result.forEach((person: RecordModel, index: number) => {
       dataRowHight.push({'hpx': rowHeight});
       const tableTr = {
         [`A${5 + index}`] : { v: index + 1 , s },
         [`B${5 + index}`] : { v: person.name },
         [`C${5 + index}`] : { v:  this.replaceSex(person.sex) , s }, // 替换 性别
-        [`D${5 + index}`] : { v: person.identificationNumber, s  },
+        [`D${5 + index}`] : { v: person.idNumber, s  },
         [`E${5 + index}`] : { v: person.phone , s },
-        [`F${5 + index}`] : { v: person.address , s },
-        [`G${5 + index}`] : { v: person.exceedTemp ? '是' : '', s },
-        [`H${5 + index}`] : { v: person.contact ? '是' : '', s },
-        [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.otherSymptoms)} , // 替换 其他症状
-        [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
-        [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' , s }, // 替换 疑似患者
-        [`L${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '', s  }, // 替换 CT诊断肺炎患者
-        [`M${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' , s }, // 替换 一般发热患者
-        [`N${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' , s }, // 替换 密切接触者
-        [`O${5 + index}`] : { v: person.note ? person.note : '', s },
+        [`F${5 + index}`] : { v: person.residence , s },
+        [`G${5 + index}`] : { v: person.fever ? '1' : '', s },
+        [`H${5 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '', s },
+
+        [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.symptom)} , // 替换 其他症状
+        // [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
+        [`J${5 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '', s },
+        [`K${5 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者
+        [`L${5 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '', s }, // 替换 疑似患者
+        [`M${5 + index}`] : { v: person.touchHubei === '1' ? '是' : '' , s }, // 替换 一般发热患者
+        [`N${5 + index}`] : { v: person.temperature, s }, // 替换 密切接触者
+        [`O${5 + index}`] : { v: person.discomfort === '1' ? '是' : '' , s }, // 替换 密切接触者
+        [`P${5 + index}`] : { v: person.wuhanAddress , s },
+        [`Q${5 + index}`] : { v: person.leaveHubeiDate , s },
+        [`R${5 + index}`] : { v: person.vehicle , s },
+        [`S${5 + index}`] : { v: person.vehicleNo , s },
+        [`T${5 + index}`] : { v: person.stayPlace , s },
+        [`U${5 + index}`] : { v: person.backDate , s },
+        [`V${5 + index}`] : { v: person.fourteenDays === '1' ? '是' : '' , s },
+        [`W${5 + index}`] : { v: person.otherToWuling === '1' ? '是' : '' , s },
+        [`X${5 + index}`] : { v: person.whereToWuling, s },
+        [`Y${5 + index}`] : { v: person.howToWuling, s },
+        [`Z${5 + index}`] : { v: person.vehicleNoWuling, s },
+        [`AA${5 + index}`] : { v: person.togetherPersonWuling, s },
+        [`AB${5 + index}`] : { v: person.workUnitWuling, s },
+        [`AC${5 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '', s },
+        [`AD${5 + index}`] : { v: person.proveWuling === '1' ? '是' : '', s },
+        [`AE${5 + index}`] : { v: person.remark ? person.remark : '', s },
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -233,14 +273,44 @@ export class DailyTroubleshootingComponent extends Vue {
       { s: { c: 8, r: 2 }, e: { c: 8, r: 3 } }, // 其他症状
       { s: { c: 9, r: 2 }, e: { c: 13, r: 2 } }, // 分类诊疗医疗意见
       { s: { c: 14, r: 2 }, e: { c: 14, r: 3 } }, // 备注
-      { s: { c: 9, r: 3 }, e: { c: 9, r: 3 } }, // 确认患者
-      { s: { c: 10, r: 3 }, e: { c: 10, r: 3 } }, // 疑似患者
-      { s: { c: 11, r: 3 }, e: { c: 11, r: 3 } }, // CT诊断肺炎患者
-      { s: { c: 12, r: 3 }, e: { c: 12, r: 3 } }, // 一般发热患者
-      { s: { c: 13, r: 3 }, e: { c: 16, r: 3 } }, // 密切接触者
+      // { s: { c: 9, r: 3 }, e: { c: 9, r: 3 } }, // 确认患者
+      // { s: { c: 10, r: 3 }, e: { c: 10, r: 3 } }, // 疑似患者
+      // { s: { c: 11, r: 3 }, e: { c: 11, r: 3 } }, // CT诊断肺炎患者
+      // { s: { c: 12, r: 3 }, e: { c: 12, r: 3 } }, // 一般发热患者
+      // { s: { c: 13, r: 3 }, e: { c: 16, r: 3 } }, // 密切接触者
     ];
     // 构建 workbook 对象
     const cols = [
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 14},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 14},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
       {'wch': 12},
       {'wch': 12},
       {'wch': 12},
@@ -303,6 +373,27 @@ export class DailyTroubleshootingComponent extends Vue {
   replaceMedicalOpinion(medicalOpinion: any) {
     const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
     return otherSymptomsItem ? otherSymptomsItem.name : '';
+  }
+  replacetrip(trip: string) {
+    if (trip === '1') {
+      return '武汉以外的湖北人入常德人员';
+    }
+    if (trip === '2') {
+      return '武汉入常德';
+    }
+    if (trip === '3') {
+      return '常德入武汉以外的湖北辖区后返回常德';
+    }
+    if (trip === '4') {
+      return '常德入武汉后返回常德';
+    }
+    if (trip === '5') {
+      return '既非常德人又非湖北人，途径湖北进入常德';
+    }
+    if (trip === '6') {
+      return '既非常德人又非武汉人，途径武汉进入常德';
+    }
+    return '';
   }
 
   beforeDestroy() {
