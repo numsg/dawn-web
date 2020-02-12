@@ -168,7 +168,7 @@ export class TroubleshootingInfoForm extends Vue {
               // this.troublePerson = new PersonInfo();
               this.troublePerson = new TroubleshootRecord();
             } else {
-              notifyUtil.error('添加失败');
+              notifyUtil.error('用户已存在, 请检查名称和手机号');
             }
           })
           .catch(err => {

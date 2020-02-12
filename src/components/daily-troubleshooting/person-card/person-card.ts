@@ -197,7 +197,6 @@ export class PersonCard extends Vue {
 
   replaceMedicalOpinion(medicalOpinion: any) {
     const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
-    console.log(otherSymptomsItem, '-------------');
     return otherSymptomsItem ? otherSymptomsItem.name : '';
   }
 

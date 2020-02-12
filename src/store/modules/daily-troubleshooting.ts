@@ -3,6 +3,7 @@ import transformToColor from '@/common/filters/colorformat';
 import DailyQueryConditions from '@/models/common/daily-query-conditions';
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
 import store from '@/store';
+import eventNames from '@/common/events/store-events';
 
 const dailyTroubleshooting = {
   state: {
@@ -110,7 +111,11 @@ const dailyTroubleshooting = {
     }
   },
   actions: {
-    async SetStatisticsData({ commit }: any) {
+    async SetStatisticsData({ commit, dispatch }: any) {
+      const communities = store.getters.baseData_communities;
+      if (!communities || communities.length === 0) {
+        await dispatch(eventNames.baseData.SetCommunities);
+      }
       // const result = await DailyTroubleshootingService.getStatisticsData();
       const result = await DailyTroubleshootingService.getRecordStatistics();
       commit('SET_STATISTICS_DATA', result);
