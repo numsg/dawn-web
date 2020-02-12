@@ -65,19 +65,20 @@ export class TroubleshootingInfoForm extends Vue {
     'personBase.name': [{ required: true, message: '请输入姓名', trigger: ['blur', 'change'] }],
     age: [ { required: true}, { validator: this.validateAge, trigger: ['blur', 'change'] }],
     // 'personBase.identificationNumber': [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
-    'personBase.identificationNumber': [{ required: true, message: '请输入身份证号', trigger: 'blur, change'}],
+    'personBase.identificationNumber': [{ required: true, message: '请输入身份证号', trigger: ['blur', 'change']}],
     'personBase.sex': [{ required: true, message: '请选择性别', trigger: 'change' }],
-    'personBase.phone': [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
-    'personBase.address': [{ required: true, message: '请填写住址', trigger: 'change' }],
-    plot: [{ required: true, message: '请选择小区', trigger: 'change' }],
-    building: [{ required: true, message: '请填写楼栋', trigger: 'change' }],
-    unitNumber: [{ required: true, message: '请填写单元号', trigger: 'change' }],
-    roomNo: [{ required: true, message: '请填写房间号', trigger: 'change' }],
+    // 'personBase.phone': [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
+    'personBase.phone': [{ required: true, message: '请输入联系方式', trigger: ['blur', 'change']}],
+    'personBase.address': [{ required: true, message: '请填写住址', trigger: ['blur', 'change'] }],
+    plot: [{ required: true, message: '请选择小区', trigger: ['blur', 'change'] }],
+    building: [{ required: true, message: '请填写楼栋', trigger: ['blur', 'change'] }],
+    unitNumber: [{ required: true, message: '请填写单元号', trigger: ['blur', 'change'] }],
+    roomNo: [{ required: true, message: '请填写房间号', trigger: ['blur', 'change'] }],
     // bodyTemperature: [{ required: true, message: '请填写体温', trigger: 'change' }],
     // leaveArea: [{ required: true, message: '请选择是否过去14天是否离开过本地区', trigger: 'change' }],
     // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
-    isExceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }],
-    isContact: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
+    isExceedTemp: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }],
+    isContact: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }]
   };
 
   validateIdentificationNumber (rule: any, value: any, callback: any) {
