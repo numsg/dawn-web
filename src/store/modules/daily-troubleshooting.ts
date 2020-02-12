@@ -4,6 +4,7 @@ import DailyQueryConditions from '@/models/common/daily-query-conditions';
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
 import store from '@/store';
 import eventNames from '@/common/events/store-events';
+import * as R from 'ramda';
 
 const dailyTroubleshooting = {
   state: {
@@ -39,18 +40,33 @@ const dailyTroubleshooting = {
         res.push(data);
       });
       state.statisticsData = res;
-      // if (result && Array.isArray(result)) {
-      //   result.forEach(e => {
-      //     const community = communities.find((c: any) => c.id === e.plotId);
-      //     e.name = community.name;
-      //     e.id = community.id;
-      //     e.selected = false;
-      //     e.strokeStyle = community.imgColor ? community.imgColor : transformToColor(community.name);
-      //     e.value = e.count;
-      //   });
-      //   state.statisticsData = result;
-      // }
     },
+    // SET_STATISTICS_DATA: (state: any, result: any) => {
+    //   const communities = store.getters.baseData_communities;
+    //   const arr = R.groupWith(R.equals, [result]);
+    //   const statistics = [] as any[];
+    //   arr.forEach(e => {
+    //     const data = {
+    //       plotId: e[0],
+    //       count: e.length
+    //     };
+    //     statistics.push(data);
+    //   });
+    //   const res = [] as any[];
+    //   communities.forEach((com: any) => {
+    //     const community = statistics.find((c: any) => c.plotId === com.id);
+    //     const data = {
+    //       name: com.name,
+    //       id: com.id,
+    //       selected: false,
+    //       strokeStyle:  com.imgColor ? com.imgColor : transformToColor(com.name),
+    //       count: community ? community.count : 0,
+    //       value: community ? community.count : 0,
+    //     };
+    //     res.push(data);
+    //   });
+    //   state.statisticsData = res;
+    // },
     SET_PERSON_DATA: (state: any, result: any) => {
       if (result) {
         state.totalCount = result.count;
@@ -125,13 +141,14 @@ const dailyTroubleshooting = {
     }
   },
   actions: {
-    async SetStatisticsData({ commit, dispatch }: any) {
+    async SetStatisticsData({ commit, dispatch, state }: any) {
       const communities = store.getters.baseData_communities;
       if (!communities || communities.length === 0) {
         await dispatch(eventNames.baseData.SetCommunities);
       }
       // const result = await DailyTroubleshootingService.getStatisticsData();
       const result = await DailyTroubleshootingService.getRecordStatistics();
+      // const result = await DailyTroubleshootingService.getStatistics(state.conditions);
       commit('SET_STATISTICS_DATA', result);
     },
     async LoadPersonData({ commit, state }: any) {

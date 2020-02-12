@@ -3,7 +3,7 @@
   <el-form :model="troublePerson" :rules="rules" label-position="top" size="mini" ref="recordForm" label-width="100px" class="demo-ruleForm">
     <el-form-item label="姓名" prop="personBase.name"  class="form-item" >
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.name" maxlength="20"></el-input>
-      <span class="form-item-tip">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
+      <span class="form-item-tip" v-if="!isEdit">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
     </el-form-item>
     <el-form-item label="电话" prop="personBase.phone">
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.phone"></el-input>

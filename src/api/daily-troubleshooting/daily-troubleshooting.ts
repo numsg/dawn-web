@@ -713,6 +713,113 @@ export default {
       });
   },
 
+  getStatistics(conditions: DailyQueryConditions) {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'TroubleshootRecordEntity'
+    });
+    let filterStr = '';
+    if (conditions.keyWord) {
+      // tslint:disable-next-line:max-line-length
+      filterStr += 'contains( personBase/name, \'' + conditions.keyWord + '\') or contains( personBase/address, \'' + conditions.keyWord + '\') or contains( personBase/phone, \'' + conditions.keyWord + '\')';
+      const keywordList = conditions.keyWord.split('-');
+      let building = '';
+      let unitNumber = '';
+      let roomNo = '';
+      let bstr = '';
+      if ( keywordList.length > 0 ) {
+        building =  keywordList[0];
+        bstr += 'contains( building, \'' + building + '\')';
+      }
+      if ( keywordList.length > 1 ) {
+        unitNumber =  keywordList[1];
+        bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+      }
+      if ( keywordList.length > 2 ) {
+        roomNo =  keywordList[2];
+        bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+      }
+      if (bstr) {
+        filterStr = '(' + filterStr + ' or ' + bstr + ')';
+      }
+    }
+    if (conditions.plots && conditions.plots.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+          const id = conditions.plots[i];
+          if (i !== len) {
+              str += '(plot eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+          const id = conditions.medicalOpinion[i];
+          if (i !== len) {
+              str += '(medicalOpinion eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.isFaver && conditions.isFaver.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
+          const value = conditions.isFaver[i];
+          if (i !== len) {
+              str += '(isExceedTemp eq ' + value + ') or ';
+          } else {
+              str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    let cstr = '';
+    if (conditions.isChecked) {
+      cstr = '(createTime gt ' + startTime + ') and ' + '(createTime lt ' + endTime + ')';
+    } else {
+      cstr = '(createTime lt ' + startTime + ')';
+    }
+    if (filterStr) {
+      filterStr = cstr + ' and ' + filterStr;
+    } else {
+      filterStr = cstr;
+    }
+    const multiTenancy = SessionStorage.get('district');
+    filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
+      return q
+        .skip(0)
+        .filter(filterStr)
+        .select('plot')
+        .get(null)
+        .then((response: any) => {
+            return this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value);
+        })
+        .catch((error: any) => {});
+  },
+
     /**
    * 获取人员分组数据
    */
@@ -721,21 +828,6 @@ export default {
     const url = store.getters.configs.communityManagerUrl + `plot-building-unit-staff/${multiTenancy}/multiTenancy`;
     return httpClient
       .getPromise(url)
-      .then(res => {
-        return res;
-      })
-      .catch(err => {
-        return false;
-      });
-  },
-
-   /**
-   * 获取人员分组数据
-   */
-  queryGroupPersonData(conditions: DailyQueryConditions) {
-    const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/group-condition';
-    return httpClient
-      .postPromise(url, conditions)
       .then(res => {
         return res;
       })
