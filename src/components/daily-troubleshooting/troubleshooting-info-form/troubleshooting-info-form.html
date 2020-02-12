@@ -1,7 +1,7 @@
 
 <div class="epidemic-info-form">
-  <el-form :model="troublePerson" label-position="top" size="mini" ref="recordForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="姓名" :prop="name"  class="form-item">
+  <el-form :model="troublePerson" :rules="rules" label-position="top" size="mini" ref="recordForm" label-width="100px" class="demo-ruleForm">
+    <el-form-item label="姓名" prop="name"  class="form-item">
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.name" maxlength="20"></el-input>
       <span class="form-item-tip">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
     </el-form-item>
