@@ -15,6 +15,7 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
+import sessionStorage from '@/utils/session-storage';
 
 import * as XLSX from 'xlsx';
 
@@ -138,7 +139,9 @@ export class DailyTroubleshootingComponent extends Vue {
 
   // 导出excel
   async exportExcel( param:  {  startDate: string, endDate: string, currentVillageId:  string}) {
-    const  {  startDate , endDate, currentVillageId} = param;
+    const  {  startDate , endDate} = param;
+    let { currentVillageId } = param;
+    currentVillageId = sessionStorage.get('district') + '';
     const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
     const taskListName = `日常排查数据${now}.xlsx`;
     // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
