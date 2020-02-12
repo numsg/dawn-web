@@ -1,13 +1,13 @@
 
 <div class="epidemic-info-form">
   <el-form :model="troublePerson" :rules="rules" label-position="top" size="mini" ref="recordForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="姓名" prop="name"  class="form-item">
+    <el-form-item label="姓名" prop="personBase.name"  class="form-item" >
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.name" maxlength="20"></el-input>
       <span class="form-item-tip">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
     </el-form-item>
     <div class="row-one">
       <div class="flex-one">
-        <el-form-item label="性别" prop="sex">
+        <el-form-item label="性别" prop="personBase.sex">
           <el-radio-group v-model="troublePerson.personBase.sex">
             <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>
           </el-radio-group>
@@ -19,13 +19,13 @@
         </el-form-item>
       </div>
     </div>
-    <el-form-item label="电话" prop="phone">
+    <el-form-item label="电话" prop="personBase.phone">
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.phone"></el-input>
     </el-form-item>
-    <el-form-item label="身份证" prop="identificationNumber">
+    <el-form-item label="身份证" prop="personBase.identificationNumber">
       <el-input v-model="troublePerson.personBase.identificationNumber"></el-input>
     </el-form-item>
-    <el-form-item label="现居住地址" prop="address" class="form-item">
+    <el-form-item label="现居住地址" prop="personBase.address" class="form-item">
       <el-input v-model="troublePerson.personBase.address" maxlength="300"></el-input>
       <span class="form-item-tip">{{troublePerson.personBase.address ? troublePerson.personBase.address.length : 0}}/300</span>
     </el-form-item>
