@@ -1,0 +1,65 @@
+
+
+.edit-community{
+    border: 1px dashed #dcdfe6;
+    background: #fff;
+    .title-p{
+        margin-left: 40px;
+    }
+    .iconfont{
+        color: #3498db;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+    .role-content,.area-content{
+        margin-left: 40px;
+        margin-top: 40px;
+        margin-right: 40px;
+        text-align: center;
+        .role{
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 50%;
+            background: #3498db;
+            color: #fff;
+            font-size: 24px;
+            vertical-align: middle;
+        }
+        .title{
+            display: inline-block;
+            margin-left: 20px;
+            font-size: 20px;
+        }
+        .cascader{
+            margin-left: 20px;
+        }
+    }
+    
+    .btn-content{
+        text-align: right;
+        padding: 60px 0px;
+    }
+    
+    .relation-content{
+        text-align: center;
+        i{
+            font-size: 50px;
+            color: #3498db;
+            margin-top: 40px;
+            display: block;
+        
+        }
+    }
+    
+    .note-content{
+        padding: 20px;
+        .title{
+            display: block;
+            margin-bottom: 12px;
+            color: #3498db;
+        }
+    }
+}

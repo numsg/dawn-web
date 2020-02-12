@@ -11,9 +11,11 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { getUuid32 } from '@gsafety/cad-gutil/dist/utilhelper';
 import { Getter, State } from 'vuex-class';
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
-
-
 import dataFormat from '@/utils/data-format';
+import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
+import SessionStorage from '@/utils/session-storage';
+
+import moment from 'moment';
 @Component({
   template: Html,
   style: Style,
@@ -45,7 +47,7 @@ export class TroubleshootingInfoForm extends Vue {
   @Getter('baseData_medicalOpinions')
   medicalOpinions!: any[];
 
-  troublePerson: PersonInfo = new PersonInfo();
+  // troublePerson: PersonInfo = new PersonInfo();
 
   @Prop({ default: false })
   isEdit!: boolean;
@@ -55,14 +57,15 @@ export class TroubleshootingInfoForm extends Vue {
 
   otherSymptomsList: string[] = [];
 
+  troublePerson: TroubleshootRecord = new TroubleshootRecord();
 
   rules = {
     // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
-    name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-    age: [ { required: true}, { validator: this.validateAge, trigger: 'blur' }],
-    identificationNumber: [{ required: true}, { validator: this.validateIdentificationNumber, trigger: 'blur' }],
+    name: [{ required: true, message: '请输入姓名', trigger: ['blur', 'change'] }],
+    age: [ { required: true}, { validator: this.validateAge, trigger: ['blur', 'change'] }],
+    identificationNumber: [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
     sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-    phone: [{ required: true}, { validator: this.validatePhone, trigger: 'blur' }],
+    phone: [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
     address: [{ required: true, message: '请填写住址', trigger: 'change' }],
     plot: [{ required: true, message: '请选择小区', trigger: 'change' }],
     building: [{ required: true, message: '请填写楼栋', trigger: 'change' }],
@@ -71,8 +74,8 @@ export class TroubleshootingInfoForm extends Vue {
     // bodyTemperature: [{ required: true, message: '请填写体温', trigger: 'change' }],
     // leaveArea: [{ required: true, message: '请选择是否过去14天是否离开过本地区', trigger: 'change' }],
     // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
-    exceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }],
-    contact: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
+    isExceedTemp: [{ required: true, message: '请选择发热情况', trigger: 'change' }],
+    isContact: [{ required: true, message: '请选择发热情况', trigger: 'change' }]
   };
 
   validateIdentificationNumber (rule: any, value: any, callback: any) {
@@ -116,7 +119,7 @@ export class TroubleshootingInfoForm extends Vue {
   @Watch('formStatus')
   watchFormStatus(value: boolean) {
     if ( !value ) {
-      this.resetForm('ruleForm');
+      this.resetForm('recordForm');
     }
     if (  !this.isEdit  && value && this.communities.length === 1) {
         this.troublePerson.plot = this.communities[0].id;
@@ -133,7 +136,7 @@ export class TroubleshootingInfoForm extends Vue {
 
   created() {
     if (this.genderClassification.length > 0) {
-      this.troublePerson.sex = this.genderClassification[0].id;
+      this.troublePerson.personBase.sex = this.genderClassification[0].id;
     }
   }
 
@@ -152,16 +155,22 @@ export class TroubleshootingInfoForm extends Vue {
         this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         console.log(this.troublePerson, 'this.troublePerson');
-        DailyTroubleshootingService.addDailyTroubleshooting(JSON.parse( JSON.stringify(this.troublePerson) ))
+        this.troublePerson.createTime = moment(this.troublePerson.createTime).format('YYYY-MM-DD HH:mm:ss');
+        this.troublePerson.multiTenancy = SessionStorage.get('district');
+        this.troublePerson.personBase.multiTenancy = SessionStorage.get('district');
+        this.troublePerson.personBase.districtCode = SessionStorage.get('district-all');
+        // DailyTroubleshootingService.addDailyTroubleshooting(JSON.parse( JSON.stringify(this.troublePerson) ))
+        DailyTroubleshootingService.addTroubleshootingRecord(JSON.parse( JSON.stringify(this.troublePerson) ))
           .then(res => {
             if (res) {
               notifyUtil.success('添加填报记录成功');
               this.$emit('colse');
               this.$emit('success');
-              this.resetForm('ruleForm');
-              this.troublePerson = new PersonInfo();
+              this.resetForm('recordForm');
+              // this.troublePerson = new PersonInfo();
+              this.troublePerson = new TroubleshootRecord();
             } else {
-              notifyUtil.error('添加失败');
+              notifyUtil.error('用户已存在, 请检查名称和手机号');
             }
           })
           .catch(err => {
@@ -170,6 +179,7 @@ export class TroubleshootingInfoForm extends Vue {
           });
       } else {
         console.log('error submit!!');
+        this.$message.error('校验失败');
         return false;
       }
     });
@@ -182,15 +192,17 @@ export class TroubleshootingInfoForm extends Vue {
         const troublePerson = JSON.parse( JSON.stringify(this.troublePerson) );
         troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         troublePerson.createTime = dataFormat.formatTime(this.troublePerson.createTime);
-        console.log(troublePerson, 'troublePerson');
-        DailyTroubleshootingService.editDailyTroubleshooting(troublePerson)
+        troublePerson.createDate = dataFormat.formatTime(this.troublePerson.createDate);
+        // DailyTroubleshootingService.editDailyTroubleshooting(troublePerson)
+        DailyTroubleshootingService.updateTroubleshootingRecord(troublePerson)
           .then(res => {
             if ( res ) {
               notifyUtil.success('修改填报记录成功');
               this.$emit('colse');
               this.$emit('success');
-              this.resetForm('ruleForm');
-              this.troublePerson = new PersonInfo();
+              this.resetForm('recordForm');
+              // this.troublePerson = new PersonInfo();
+              this.troublePerson = new TroubleshootRecord();
             } else {
               notifyUtil.error('修改失败');
             }
@@ -215,7 +227,7 @@ export class TroubleshootingInfoForm extends Vue {
   }
 
   cancel() {
-    this.resetForm('ruleForm');
+    this.resetForm('recordForm');
     this.colse();
   }
 }

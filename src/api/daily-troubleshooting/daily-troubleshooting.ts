@@ -1,3 +1,4 @@
+import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import * as httpClient from '@gsafety/vue-httpclient/dist/httpclient';
 import store from '@/store';
@@ -7,10 +8,12 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { PersonOdataInfo } from '@/models/daily-troubleshooting/person-odata-info';
 import { eqBy, cond } from 'ramda';
 import moment from 'moment';
+import SessionStorage from '@/utils/session-storage';
+
 export default {
     // 新增填报记录
     addDailyTroubleshooting(info: PersonInfo) {
-        const url = store.getters.configs.baseSupportUrl + 'daily-troubleshoot-record';
+        const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record';
         return httpClient
         .postPromise(url, info)
         .then(res => {
@@ -20,9 +23,22 @@ export default {
             return false;
         });
     },
+
+    addTroubleshootingRecord(record: TroubleshootRecord) {
+      const url = store.getters.configs.communityManagerUrl + 'add';
+      return httpClient
+      .postPromise(url, record)
+      .then(res => {
+          return res;
+      })
+      .catch(err => {
+          return false;
+      });
+  },
+
     // 修改填报记录
     editDailyTroubleshooting(info: PersonInfo) {
-      const url = store.getters.configs.baseSupportUrl + 'daily-troubleshoot-record';
+      const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record';
         return httpClient
         .putPromise(url, info)
         .then(res => {
@@ -32,9 +48,23 @@ export default {
             return false;
         });
     },
+
+     // 修改填报记录
+     updateTroubleshootingRecord(record: TroubleshootRecord) {
+      const url = store.getters.configs.communityManagerUrl + 'update';
+        return httpClient
+        .putPromise(url, record)
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            return false;
+        });
+    },
+
     // 通过导入新增文件
     addDailyTroubleshootingByxlsx(info: any) {
-      const url = store.getters.configs.baseSupportUrl + 'daily-troubleshoot-record/import';
+      const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/import';
         return httpClient
         .postPromise(url, info, {headers: {'Content-Type': 'multipart/form-data'}})
         .then(res => {
@@ -139,8 +169,6 @@ export default {
           .catch((error: any) => {});
       }
     },
-
-
     // 查询所有日常排查记录
     loadAllDailyRecord(conditions: DailyQueryConditions) {
       const q = odataClient({
@@ -270,15 +298,17 @@ export default {
       }
     },
 
-    queryExportExcel(keyowrds?: string, plots?: string[]) {
+     // 查询所有日常排查记录
+     queryTroubleshootingRecords(conditions: DailyQueryConditions) {
       const q = odataClient({
         service: store.getters.configs.communityManagerOdataUrl,
-        resources: 'DailyTroubleshootRecordEntity'
+        resources: 'TroubleshootRecordEntity'
       });
       let filterStr = '';
-      if (keyowrds) {
-        filterStr += 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or contains( phone, \'' + keyowrds + '\')';
-        const keywordList = keyowrds.split('-');
+      if (conditions.keyWord) {
+        // tslint:disable-next-line:max-line-length
+        filterStr += 'contains( personBase/name, \'' + conditions.keyWord + '\') or contains( personBase/address, \'' + conditions.keyWord + '\') or contains( personBase/phone, \'' + conditions.keyWord + '\')';
+        const keywordList = conditions.keyWord.split('-');
         let building = '';
         let unitNumber = '';
         let roomNo = '';
@@ -299,10 +329,10 @@ export default {
           filterStr = '(' + filterStr + ' or ' + bstr + ')';
         }
       }
-      if (plots && plots.length > 0) {
+      if (conditions.plots && conditions.plots.length > 0) {
         let str = '';
-        for (let i = 0, len = plots.length - 1; i < plots.length; i++) {
-            const id = plots[i];
+        for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+            const id = conditions.plots[i];
             if (i !== len) {
                 str += '(plot eq \'' + id + '\') or ';
             } else {
@@ -315,44 +345,116 @@ export default {
             }
         }
       }
+
+      if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+            const id = conditions.medicalOpinion[i];
+            if (i !== len) {
+                str += '(medicalOpinion eq \'' + id + '\') or ';
+            } else {
+                str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+
+      if (conditions.isFaver && conditions.isFaver.length > 0) {
+        let str = '';
+        for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
+            const value = conditions.isFaver[i];
+            if (i !== len) {
+                str += '(isExceedTemp eq ' + value + ') or ';
+            } else {
+                str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
+                if (filterStr) {
+                  filterStr = filterStr + ' and ' + str;
+                } else {
+                  filterStr += str;
+                }
+            }
+        }
+      }
+
       const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
       const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      if (filterStr) {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ') and ' + filterStr;
+      let cstr = '';
+      if (conditions.isChecked) {
+        cstr = '(createTime gt ' + startTime + ') and ' + '(createTime lt ' + endTime + ')';
       } else {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ')';
+        cstr = '(createTime lt ' + startTime + ')';
       }
-      return q
-        .skip(0)
-        // .top(10000)
-        .orderby('building', 'asc')
-        .orderby('unitNumber', 'asc')
-        .orderby('roomNo', 'asc')
-        .orderby('createTime', 'asc')
-        .filter(filterStr)
-        .count(true)
-        .get(null)
-        .then((response: any) => {
-          const result = {
-            count: JSON.parse(response.body)['@odata.count'],
-            value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-          };
-          return result;
-        })
-        .catch((error: any) => {});
+      if (filterStr) {
+        filterStr = cstr + ' and ' + filterStr;
+      } else {
+        filterStr = cstr;
+      }
+      const multiTenancy = SessionStorage.get('district');
+      filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
+      if (filterStr) {
+        return q
+          .skip(conditions.pageSize * (conditions.page))
+          .top(conditions.pageSize)
+          .expand('personBase')
+          .filter(filterStr)
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      } else {
+        return q
+          .skip(conditions.pageSize * (conditions.page))
+          .top(conditions.pageSize)
+          .expand('personBase')
+          .orderby('building', 'asc')
+          .orderby('unitNumber', 'asc')
+          .orderby('roomNo', 'asc')
+          .orderby('createTime', 'asc')
+          .count(true)
+          .get(null)
+          .then((response: any) => {
+            console.log(response);
+            const result = {
+              count: JSON.parse(response.body)['@odata.count'],
+              value: this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value)
+            };
+            return result;
+          })
+          .catch((error: any) => {});
+      }
+    },
+
+    buildTroubleshootingRecord(result: any) {
+      const res: any[] = [];
+      if (Array.isArray(result) && result.length > 0) {
+        return result;
+      }
+      return res;
     },
 
     // 查询所有日常排查记录
     loadExportExcel(conditions: DailyQueryConditions) {
       const q = odataClient({
         service: store.getters.configs.communityManagerOdataUrl,
-        resources: 'DailyTroubleshootRecordEntity'
+        resources: 'TroubleshootRecordEntity'
       });
       let filterStr = '';
       if (conditions.keyWord) {
-        filterStr += 'contains( name, \'' + conditions.keyWord + '\') or contains( address, \'' + conditions.keyWord + '\') or contains( phone, \'' + conditions.keyWord + '\')';
+        filterStr += 'contains( personBase/name, \'' + conditions.keyWord + '\') or contains( personBase/address, \'' + conditions.keyWord + '\') or contains( personBase/phone, \'' + conditions.keyWord + '\')';
         const keywordList = conditions.keyWord.split('-');
         let building = '';
         let unitNumber = '';
@@ -458,30 +560,29 @@ export default {
       // 不排查  ???
 
       // 排查
+      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
       if ( conditions.isChecked ) {
-        const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-        const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
         const str = '(createTime gt ' + startTime + ') and ' + '(createTime lt ' + endTime + ')';
         if ( filterStr ) {
           filterStr = filterStr + ' and ' + str;
         } else {
           filterStr += str;
         }
+      } else {
+        const str = '(createTime lt ' + startTime + ')';
+        if ( filterStr ) {
+          filterStr = filterStr + ' and ' + str;
+        } else {
+          filterStr += str;
+        }
       }
-
-      // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      // if (filterStr) {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ') and ' + filterStr;
-      // } else {
-      //   filterStr = '(createTime gt ' + startTime + ') and '
-      //             + '(createTime lt ' + endTime + ')';
-      // }
+      const multiTenancy = SessionStorage.get('district');
+      filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
       if (filterStr) {
         return q
           .skip(0)
-          // .top(10000)
+          .expand('personBase')
           .filter(filterStr)
           .orderby('building', 'asc')
           .orderby('unitNumber', 'asc')
@@ -490,16 +591,13 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
+            return this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value);
           })
           .catch((error: any) => {});
       } else {
         return q
           .skip(0)
+          .expand('personBase')
           .orderby('building', 'asc')
           .orderby('unitNumber', 'asc')
           .orderby('roomNo', 'asc')
@@ -507,11 +605,7 @@ export default {
           .count(true)
           .get(null)
           .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
+            return this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value);
           })
           .catch((error: any) => {});
       }
@@ -606,13 +700,27 @@ export default {
       });
   },
 
-  /**
+  getRecordStatistics() {
+    const multiTenancy = SessionStorage.get('district');
+    const url = store.getters.configs.communityManagerUrl + `plot-reporting-staff/${multiTenancy}/multiTenancy`;
+    return httpClient
+      .getPromise(url)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
+  },
+
+    /**
    * 获取人员分组数据
    */
   queryGroupsData() {
-    const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/multi-criteria-query';
+    const multiTenancy = SessionStorage.get('district');
+    const url = store.getters.configs.communityManagerUrl + `plot-building-unit-staff/${multiTenancy}/multiTenancy`;
     return httpClient
-      .postPromise(url)
+      .getPromise(url)
       .then(res => {
         return res;
       })
@@ -643,7 +751,7 @@ export default {
     console.log(conditions);
     const q = odataClient({
       service: store.getters.configs.communityManagerOdataUrl,
-      resources: 'DailyTroubleshootRecordEntity'
+      resources: 'TroubleshootRecordEntity'
     });
     let filterStr = '';
     if (conditions.plots && conditions.plots.length > 0) {
@@ -673,31 +781,39 @@ export default {
     }
     const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
     const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-    if (filterStr) {
-      filterStr = '(createTime gt ' + startTime + ') and '
-                + '(createTime lt ' + endTime + ') and ' + filterStr;
+    let cstr = '';
+    if (conditions.isChecked) {
+      cstr = '(createTime gt ' + startTime + ') and ' + '(createTime lt ' + endTime + ')';
     } else {
-      filterStr = '(createTime gt ' + startTime + ') and '
-                + '(createTime lt ' + endTime + ')';
+      cstr = '(createTime lt ' + startTime + ')';
     }
+    if (filterStr) {
+      filterStr = cstr + ' and ' + filterStr;
+    } else {
+      filterStr = cstr;
+    }
+    const multiTenancy = SessionStorage.get('district');
+    filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
+
     return q
-      .skip(conditions.pageSize * (conditions.page))
-      .top(conditions.pageSize)
-      .filter(filterStr)
-      .orderby('building', 'asc')
-      .orderby('unitNumber', 'asc')
-      .orderby('roomNo', 'asc')
-      .orderby('createTime', 'asc')
-      .count(true)
-      .get(null)
-      .then((response: any) => {
-        const result = {
-          count: JSON.parse(response.body)['@odata.count'],
-          value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-        };
-        return result;
-      })
-      .catch((error: any) => {});
+    .skip(conditions.pageSize * (conditions.page))
+    .top(conditions.pageSize)
+    .expand('personBase')
+    .filter(filterStr)
+    .orderby('building', 'asc')
+    .orderby('unitNumber', 'asc')
+    .orderby('roomNo', 'asc')
+    .orderby('createTime', 'asc')
+    .count(true)
+    .get(null)
+    .then((response: any) => {
+      const result = {
+        count: JSON.parse(response.body)['@odata.count'],
+        value: this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value)
+      };
+      return result;
+    })
+    .catch((error: any) => {});
   },
 
   queryUncheckedData(param: any) {
@@ -723,6 +839,233 @@ export default {
       .catch(err => {
         return false;
       });
-  }
+  },
+
+  getCheckedCount(conditions: DailyQueryConditions) {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'TroubleshootRecordEntity'
+    });
+    let filterStr = '';
+    if (conditions.keyWord) {
+      // tslint:disable-next-line:max-line-length
+      filterStr += 'contains( personBase/name, \'' + conditions.keyWord + '\') or contains( personBase/address, \'' + conditions.keyWord + '\') or contains( personBase/phone, \'' + conditions.keyWord + '\')';
+      const keywordList = conditions.keyWord.split('-');
+      let building = '';
+      let unitNumber = '';
+      let roomNo = '';
+      let bstr = '';
+      if ( keywordList.length > 0 ) {
+        building =  keywordList[0];
+        bstr += 'contains( building, \'' + building + '\')';
+      }
+      if ( keywordList.length > 1 ) {
+        unitNumber =  keywordList[1];
+        bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+      }
+      if ( keywordList.length > 2 ) {
+        roomNo =  keywordList[2];
+        bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+      }
+      if (bstr) {
+        filterStr = '(' + filterStr + ' or ' + bstr + ')';
+      }
+    }
+    if (conditions.plots && conditions.plots.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+          const id = conditions.plots[i];
+          if (i !== len) {
+              str += '(plot eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+          const id = conditions.medicalOpinion[i];
+          if (i !== len) {
+              str += '(medicalOpinion eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.isFaver && conditions.isFaver.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
+          const value = conditions.isFaver[i];
+          if (i !== len) {
+              str += '(isExceedTemp eq ' + value + ') or ';
+          } else {
+              str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+    const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    if (filterStr) {
+      filterStr = '(createTime gt ' + startTime + ') and '
+                + '(createTime lt ' + endTime + ') and ' + filterStr;
+    } else {
+      filterStr = '(createTime gt ' + startTime + ') and '
+                + '(createTime lt ' + endTime + ')';
+    }
+    const multiTenancy = SessionStorage.get('district');
+      filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
+    if (filterStr) {
+      return q
+        .skip(conditions.pageSize * (conditions.page))
+        .top(conditions.pageSize)
+        .filter(filterStr)
+        .count(true)
+        .get(null)
+        .then((response: any) => {
+          return JSON.parse(response.body)['@odata.count'];
+        })
+        .catch((error: any) => {});
+    } else {
+      return q
+        .skip(conditions.pageSize * (conditions.page))
+        .top(conditions.pageSize)
+        .count(true)
+        .get(null)
+        .then((response: any) => {
+          console.log(response);
+          return JSON.parse(response.body)['@odata.count'];
+        })
+        .catch((error: any) => {});
+    }
+  },
+
+  getUnCheckedCount(conditions: DailyQueryConditions) {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'TroubleshootRecordEntity'
+    });
+    let filterStr = '';
+    if (conditions.keyWord) {
+      // tslint:disable-next-line:max-line-length
+      filterStr += 'contains( personBase/name, \'' + conditions.keyWord + '\') or contains( personBase/address, \'' + conditions.keyWord + '\') or contains( personBase/phone, \'' + conditions.keyWord + '\')';
+      const keywordList = conditions.keyWord.split('-');
+      let building = '';
+      let unitNumber = '';
+      let roomNo = '';
+      let bstr = '';
+      if ( keywordList.length > 0 ) {
+        building =  keywordList[0];
+        bstr += 'contains( building, \'' + building + '\')';
+      }
+      if ( keywordList.length > 1 ) {
+        unitNumber =  keywordList[1];
+        bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+      }
+      if ( keywordList.length > 2 ) {
+        roomNo =  keywordList[2];
+        bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+      }
+      if (bstr) {
+        filterStr = '(' + filterStr + ' or ' + bstr + ')';
+      }
+    }
+    if (conditions.plots && conditions.plots.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+          const id = conditions.plots[i];
+          if (i !== len) {
+              str += '(plot eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+    if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+          const id = conditions.medicalOpinion[i];
+          if (i !== len) {
+              str += '(medicalOpinion eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+    if (conditions.isFaver && conditions.isFaver.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
+          const value = conditions.isFaver[i];
+          if (i !== len) {
+              str += '(isExceedTemp eq ' + value + ') or ';
+          } else {
+              str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+    const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    // const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    if (filterStr) {
+      filterStr = '(createTime lt ' + startTime + ') and ' + filterStr;
+    } else {
+      filterStr = '(createTime lt ' + startTime + ')';
+    }
+    const multiTenancy = SessionStorage.get('district');
+      filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
+    if (filterStr) {
+      return q
+        .skip(conditions.pageSize * (conditions.page))
+        .top(conditions.pageSize)
+        .filter(filterStr)
+        .count(true)
+        .get(null)
+        .then((response: any) => {
+          return JSON.parse(response.body)['@odata.count'];
+        })
+        .catch((error: any) => {});
+    } else {
+      return q
+        .skip(conditions.pageSize * (conditions.page))
+        .top(conditions.pageSize)
+        .count(true)
+        .get(null)
+        .then((response: any) => {
+          return JSON.parse(response.body)['@odata.count'];
+        })
+        .catch((error: any) => {});
+    }
+  },
 
 };

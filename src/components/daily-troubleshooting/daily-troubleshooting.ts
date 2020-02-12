@@ -14,6 +14,7 @@ import { ModelType } from '@/models/daily-troubleshooting/model-type';
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
+import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 
 import * as XLSX from 'xlsx';
 
@@ -98,20 +99,12 @@ export class DailyTroubleshootingComponent extends Vue {
 
   async addSuccess() {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
-    if (this.isShowgGroup) {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
-    } else {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
-      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
-    }
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 
   pullData() {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
-    if (!this.isShowgGroup) {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
-    }
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 
   async searchQuery(keyWord: string) {
@@ -190,17 +183,17 @@ export class DailyTroubleshootingComponent extends Vue {
     // 合并 headers 和 data
     const dataRowHight: any[] = [];
     const rowHeight = 24;
-    result.value.forEach((person: PersonInfo, index: number) => {
+    result.forEach((person: TroubleshootRecord, index: number) => {
       dataRowHight.push({'hpx': rowHeight});
       const tableTr = {
         [`A${5 + index}`] : { v: index + 1 , s },
-        [`B${5 + index}`] : { v: person.name },
-        [`C${5 + index}`] : { v:  this.replaceSex(person.sex) , s }, // 替换 性别
-        [`D${5 + index}`] : { v: person.identificationNumber, s  },
-        [`E${5 + index}`] : { v: person.phone , s },
-        [`F${5 + index}`] : { v: person.address , s },
-        [`G${5 + index}`] : { v: person.exceedTemp ? '是' : '', s },
-        [`H${5 + index}`] : { v: person.contact ? '是' : '', s },
+        [`B${5 + index}`] : { v: person.personBase.name },
+        [`C${5 + index}`] : { v:  this.replaceSex(person.personBase.sex) , s }, // 替换 性别
+        [`D${5 + index}`] : { v: person.personBase.identificationNumber, s  },
+        [`E${5 + index}`] : { v: person.personBase.phone , s },
+        [`F${5 + index}`] : { v: person.personBase.address , s },
+        [`G${5 + index}`] : { v: person.isExceedTemp ? '是' : '', s },
+        [`H${5 + index}`] : { v: person.isContact ? '是' : '', s },
         [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.otherSymptoms)} , // 替换 其他症状
         [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
         [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' , s }, // 替换 疑似患者

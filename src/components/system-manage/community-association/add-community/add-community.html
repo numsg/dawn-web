@@ -1,0 +1,71 @@
+<div class="add-community">
+  <div class="header-title header-title ">
+    <i></i>
+    <span>新增关联关系</span>
+  </div>
+  <div>
+    <!-- 角色选择 -->
+    <div class="choose-content">
+      <i class="title">请选择您需要关联的角色和社区</i>
+      <div class="role-content">
+          <!-- <span class="iconfont role iconpms-icon_User-roles"></span>
+          <span class="title">角色选择</span> -->
+          <div class="img">
+            <img :src="personImg" alt="">
+          </div>
+          <div class="choose">
+            <el-select
+              class="choose-select"
+              v-model="currentRoles"
+              multiple
+              collapse-tags
+              style="margin-left: 20px;"
+              placeholder="请选择角色">
+              <el-option
+                v-for="item in roleInfos"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </div>
+      </div>
+      <!-- <div class="relation-content">
+        <i class="iconfont iconpms-icon_Related-permissions2"></i>
+      </div> -->
+      <!-- 社区选择 -->
+      <div class="area-content">
+        <!-- <span class="iconfont role iconpms-icon_User-roles"></span>
+        <span class="title">社区选择</span> -->
+        <div class="img">
+          <img :src="areaImg" alt="">
+        </div>
+        <div class="choose">
+          <el-cascader
+            class="cascader choose-select"
+            :options="areaCodes"
+            :props="props"
+            collapse-tags
+            aria-placeholder="请选择社区"
+            v-model="currentCodes"
+            clearable></el-cascader>
+        </div>
+      </div>
+    </div>
+    <!-- 备注 -->
+    <div class="note-content">
+      <span class="title">备注</span>
+      <el-input
+        type="textarea"
+        :rows="6"
+        maxlength = "2000"
+        placeholder="请输入内容"
+        v-model="note">
+      </el-input>
+      <span>{{note.length}}/2000</span>
+    </div>
+    <div class="btn-content">
+      <el-button type="primary" :disabled=" currentRoles.length === 0 || currentCodes.length === 0 " size="mini" @click="addRelations">添加关系</el-button>
+    </div>
+  </div>
+</div>

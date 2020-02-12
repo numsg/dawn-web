@@ -43,5 +43,6 @@
   "genderDataSourceId": "d92014f0-b8ae-4d04-b4f3-3850a5c40330",
   "otherSymptomsId": "582daff0-56a5-45a4-9ca7-dc098c688753",
   "medicalOpinionsId": "fdd092c0-3227-495b-a83a-0bdc68e67708",
-  "qrCodeUrl": "http://39.105.209.108:8090/index.html#/personInforation"
+  "qrCodeUrl": "http://39.105.209.108:8090/index.html#/personInforation",
+  "nationwide":"000000"
 }

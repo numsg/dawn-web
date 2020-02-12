@@ -13,6 +13,7 @@ import userManageService from '@/api/user-manage/user-manage.service';
 import notifyUtil from '@/common/utils/notifyUtil';
 import i18n from '@/i18n';
 import { Skin } from '@/utils/skin';
+import CommunityAssocitionService from '@/api/community-association/community-association-service.ts';
 @Component({
   template: loginHtml, // require('./login.html'),
   style: loginStyle,
@@ -366,6 +367,23 @@ export class LoginComponent extends Vue {
       });
     }
     sessionStorage.set('userInfo', userInfo);
+    const roles = userInfo.roles;
+    if (roles && Array.isArray(roles) && roles.length > 0) {
+      const result = await CommunityAssocitionService.getDistrictById(roles[0].id);
+      if ( Array.isArray(result) && result.length > 0 ) {
+        sessionStorage.set('district-all' , result[0].administrativeCodes);
+        const codelist = result[0].administrativeCodes.split('/');
+        const code = codelist[codelist.length - 1];
+        sessionStorage.set('district', code);
+      } else {
+        sessionStorage.set('district', '');
+        sessionStorage.set('district-all' , '');
+      }
+      console.log(result, '------relation----------');
+    } else {
+      sessionStorage.set('district', '');
+      sessionStorage.set('district-all' , '');
+    }
     store.commit('SET_USER_DETAIL', userInfo);
   }
 

@@ -1,0 +1,80 @@
+
+
+.role-content,.area-content{
+    // margin-left: 40px;
+    // margin-top: 40px;
+    // margin-right: 40px;
+    text-align: center;
+    display: inline-block;
+    .img{
+        background: #d3e7fc;
+        padding: 30px 80px;
+        border-radius: 4px;
+    }
+    .choose{
+        background: #a1c2ed;
+        padding: 20px;
+        .choose-select{
+            width: 100%;
+            margin: 0!important;
+        }
+    }
+    .role{
+        display: inline-block;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        border-radius: 50%;
+        background: #3498db;
+        color: #fff;
+        font-size: 24px;
+    }
+    .title{
+        display: inline-block;
+        margin-left: 20px;
+        font-size: 20px;
+    }
+    .cascader{
+        margin-left: 20px;
+    }
+}
+.choose-content{
+    background-color: #ebf6fd;
+    border: 1px dashed #3498db;
+    padding: 74px 60px 36px 60px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    .title{
+        position: absolute;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1474d7;
+        top: 45px;
+    }
+}
+.btn-content{
+    text-align: right;
+    padding: 60px 0px;
+}
+
+.relation-content{
+    text-align: center;
+    i{
+        font-size: 50px;
+        color: #3498db;
+        margin-top: 40px;
+        display: block;
+    
+    }
+}
+
+.note-content{
+    margin-top: 20px;
+    .title{
+        display: block;
+        margin-bottom: 12px;
+        color: #3498db;
+    }
+}

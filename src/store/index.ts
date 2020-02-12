@@ -18,6 +18,7 @@ import userManage from './modules/user-manage';
 import baseData from './modules/base-data';
 import outbreakDuty from './modules/outbreak-duty';
 import dailyTroubleshooting from './modules/daily-troubleshooting';
+import communityAssociation from './modules/community-association';
 Vue.use(Vuex);
 
 // const isDev = process.env.NODE_ENV === 'development';
@@ -37,7 +38,8 @@ const store = new Vuex.Store({
     userManage,
     baseData,
     outbreakDuty,
-    dailyTroubleshooting
+    dailyTroubleshooting,
+    communityAssociation
   },
   getters
   // plugins: isDev ? [createLogger({})] : []
