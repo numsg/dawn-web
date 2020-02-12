@@ -82,7 +82,7 @@ export class NavbarComponent extends Vue {
     await this.$store.dispatch(eventNames.baseData.SetOtherSymptoms);
     await this.$store.dispatch(eventNames.baseData.SetMedicalOpinions);
 
-    await this.$store.dispatch(eventNames.EventTypes.LoadAllEventTypes);
+    // await this.$store.dispatch(eventNames.EventTypes.LoadAllEventTypes);
 
     await this.$store.dispatch(eventNames.systemSet.SystemSetData);
   }

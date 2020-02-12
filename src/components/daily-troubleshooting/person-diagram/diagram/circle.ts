@@ -69,7 +69,8 @@ export default class Circle {
       if (this.options.initialPercentage < this.options.percentage) {
         percentage = this.options.anticlockwise ? 1 - this.options.initialPercentage : this.options.initialPercentage;
       } else {
-        percentage = this.options.anticlockwise ? 1 - this.options.percentage + 0.01 : this.options.percentage + 0.01;
+        const per =  this.options.percentage < 0.01 ? 0.01 : this.options.percentage - 0.01;
+        percentage = this.options.anticlockwise ?  1 - per : per;
       }
       this.ctx.arc(
         this.canvas.width / 2,
@@ -136,12 +137,13 @@ export default class Circle {
     if (this.options.percentage > 0) {
       this.ctx.beginPath();
       this.ctx.strokeStyle = factor > 1 ? this.transformColor : this.options.strokeStyle;
+      const per =  this.options.percentage < 0.01 ? 0.01 : this.options.percentage - 0.01;
       this.ctx.arc(
         this.canvas.width / 2 / factor,
         this.canvas.height / 2 / factor,
         this.canvas.width / 2 - this.options.lineWidth,
         0,
-        2 * Math.PI * (1 - this.options.percentage + 0.01),
+        2 * Math.PI * (1 - per),
         true
       );
       this.ctx.stroke();

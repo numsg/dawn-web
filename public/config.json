@@ -9,7 +9,7 @@
   "communityManagerUrl": "http://116.62.205.14:30013/api/v1/",
   "communityManagerOdataUrl": "http://116.62.205.14:30013/OdataService.svc",
   "system": "pre-plan management system",
-  "uapUrl": "http://116.62.205.14:30012",
+  "uapUrl": "http://116.62.205.14:30052",
   "clientId": "e133660e7e86f6af8ef3m1ni5",
   "clientSecret": "a36d4a159da571a23eeaym1zh",
   "scope": "super,userManage,personal",

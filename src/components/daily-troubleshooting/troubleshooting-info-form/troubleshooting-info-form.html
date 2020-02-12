@@ -2,7 +2,7 @@
   <el-form :model="troublePerson" :rules="rules" label-position="top" size="mini" ref="ruleForm" label-width="100px" class="demo-ruleForm">
     <el-form-item label="姓名" prop="name" class="form-item">
       <el-input v-model="troublePerson.name" maxlength="20"></el-input>
-      <span class="form-item-tip">{{troublePerson.name.length}}/20</span>
+      <span class="form-item-tip">{{troublePerson.name ? troublePerson.name.length : 0}}/20</span>
     </el-form-item>
     <el-form-item label="电话" prop="phone">
       <el-input v-model="troublePerson.phone"></el-input>
@@ -12,7 +12,7 @@
     </el-form-item>
     <el-form-item label="现居住地址" prop="address" class="form-item">
       <el-input v-model="troublePerson.address" maxlength="300"></el-input>
-      <span class="form-item-tip">{{troublePerson.address.length}}/300</span>
+      <span class="form-item-tip">{{troublePerson.address ? troublePerson.address.length : 0}}/300</span>
     </el-form-item>
     <el-form-item label="小区" prop="plot">
       <el-radio-group v-model="troublePerson.plot">
@@ -22,15 +22,15 @@
 
     <el-form-item label="楼栋" prop="building" class="form-item">
       <el-input v-model="troublePerson.building" maxlength="10"></el-input>
-      <span class="form-item-tip">{{troublePerson.building.length}}/10</span>
+      <span class="form-item-tip">{{troublePerson.building ? troublePerson.building.length : 0}}/10</span>
     </el-form-item>
     <el-form-item label="单元号" prop="unitNumber" class="form-item">
       <el-input v-model="troublePerson.unitNumber" maxlength="10"></el-input>
-      <span class="form-item-tip">{{troublePerson.unitNumber.length}}/10</span>
+      <span class="form-item-tip">{{troublePerson.unitNumber ? troublePerson.unitNumber.length : 0}}/10</span>
     </el-form-item>
     <el-form-item label="房间号" prop="roomNo" class="form-item">
       <el-input v-model="troublePerson.roomNo" maxlength="10"></el-input>
-      <span class="form-item-tip">{{troublePerson.roomNo.length}}/10</span>
+      <span class="form-item-tip">{{troublePerson.roomNo ? troublePerson.roomNo.length : 0}}/10</span>
     </el-form-item>
 
     <el-form-item label="性别" prop="sex">

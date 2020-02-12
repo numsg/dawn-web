@@ -53,7 +53,7 @@ export default {
    */
   queryEpidemicPersons(conditions: any) {
     const q = odataClient({
-      service: store.getters.configs.baseSupportOdataUrl,
+      service: store.getters.configs.communityManagerOdataUrl,
       resources: 'EpidemicPersonEntity'
     });
     let filterStr = '';

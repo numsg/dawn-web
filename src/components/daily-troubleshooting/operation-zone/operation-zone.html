@@ -20,7 +20,7 @@
         </div>
         <div class="top-operation-right">
             <el-button class="add type-btn primary-btn el-icon-refresh" @click="pullNewData">刷新数据</el-button>
-            <!-- <el-upload
+            <el-upload
               class="upload-demo"
               ref="upload"
               action=""
@@ -31,11 +31,10 @@
               :show-file-list="false"
               :accept="'.xls,.xlsx'"
             >
-              <el-button slot="trigger" class=" type-btn  primary-btn el-icon-upload2
-              ">
+              <el-button slot="trigger" class=" type-btn  primary-btn el-icon-upload2">
                 导入
               </el-button>
-            </el-upload> -->
+            </el-upload>
             <el-button  @click="exportExcel" class=" type-btn primary-btn  el-icon-download">
               导出
             </el-button>
