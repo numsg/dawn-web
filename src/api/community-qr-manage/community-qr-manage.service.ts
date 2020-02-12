@@ -60,6 +60,27 @@ export default {
       }
     });
   },
+
+  /**
+   * 查询行政区划code
+   */
+  queryAdmCodes(): Promise<any> {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'DistrictEntity'
+    });
+    return q
+      .top(100000)
+      .get(null)
+      .then((response: any) => {
+        console.log(response);
+        return JSON.parse(response.body).value;
+      })
+      .catch((err: any) => {
+        return false;
+      });
+  },
+
   queryAdmCodesByParentId(parentId: any): Promise<any> {
     const q = odataClient({
       service: store.getters.configs.communityManagerOdataUrl,
@@ -78,4 +99,47 @@ export default {
       });
   },
 
+     getAreaCodeInfos(code: string) {
+            try {
+                const q = odataClient({
+                    service: store.getters.configs.communityManagerOdataUrl,
+                    resources: 'DistrictEntity',
+                });
+                const filterStr = '(parentId eq \'' + code + '\')';
+                return q.skip(0)
+                    .filter(filterStr)
+                    .count(true)
+                    .get(null)
+                    .then((response: any) => {
+                    const result = {
+                        count: JSON.parse(response.body)['@odata.count'],
+                        value: JSON.parse(response.toJSON().body).value,
+                    };
+                    return result.value;
+                    })
+                    .catch((error: any) => []);
+            } catch (e) {
+                console.log(e);
+                return [];
+            }
+        },
+
+    // 根据多租户获取数据源数据及其数据
+    queryDataSourceByDistrict(districtCode: any): Promise<any> {
+      const q = odataClient({
+        service: store.getters.configs.communityManagerOdataUrl,
+        resources: 'DataSourceEntity'
+      });
+      return q
+        .filter('description' , 'eq' , districtCode)
+        .top(10000)
+        .get(null)
+        .then((response: any) => {
+          console.log(response);
+          return JSON.parse(response.body).value;
+        })
+        .catch((err: any) => {
+          return false;
+        });
+    },
 };

@@ -20,6 +20,7 @@ import sourceBlackStyle from './new-data-source.black.module.scss';
 import i18n from '@/i18n';
 import notifyUtil from '@/common/utils/notifyUtil';
 import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
+import store from '@/store';
 
 @Component({
   template: Html,
@@ -186,7 +187,7 @@ export class NewDataSourceComponent extends Vue {
   };
 
   async mounted() {
-    this.options = await communityQrManageService.queryAdmCodesByParentId('000000');
+    this.options = await communityQrManageService.queryAdmCodesByParentId(store.getters.configs.nationwide);
   }
 
   async lazyLoad(node: any, resolve: any) {
