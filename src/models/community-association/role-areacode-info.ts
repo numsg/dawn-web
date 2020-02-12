@@ -4,15 +4,17 @@ export class RoleAreaCodeInfo {
     // 冗余code
     code!: string;
 
+    name!: string;
+
     // 存储行政区划code集合
     administrativeCodes!: string;
 
     // 存储角色信息集合
     rolesInformation!: string ;
 
-    createTime!: Date | null ;
+    createTime!: string;
 
-    updateTime!: Date | null;
+    updateTime!: string;
 
     operateUser!: string ;
 
@@ -22,6 +24,7 @@ export class RoleAreaCodeInfo {
     description!: string ;
     constructor() {
         this.id = '';
+        this.name = '';
         this.administrativeCodes = '';
         this.rolesInformation = '';
         this.operateUser = '';

@@ -102,8 +102,8 @@ const communityAssociation = {
       /**
        * 删除角色与区划的关联关系
        */
-      async deleteRelatinsInfo(context: any, infoId: string) {
-        const result = await ComAssocService.deleteRelationInfos(infoId);
+      async deleteRelatinsInfo(context: any, ids: string[]) {
+        const result = await ComAssocService.deleteRelationInfos(ids);
         if ( result ) {
             context.dispatch('getAllRelationsInfos');
         }

@@ -65,7 +65,7 @@
       <span>{{note.length}}/2000</span>
     </div>
     <div class="btn-content">
-      <el-button type="primary" size="mini" @click="addRelations">添加关系</el-button>
+      <el-button type="primary" :disabled=" currentRoles.length === 0 || currentCodes.length === 0 " size="mini" @click="addRelations">添加关系</el-button>
     </div>
   </div>
 </div>

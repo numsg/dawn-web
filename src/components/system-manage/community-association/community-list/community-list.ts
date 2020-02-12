@@ -6,12 +6,12 @@ import { RoleAreaCodeInfo } from '@/models/community-association/role-areacode-i
 import { Action, Getter } from 'vuex-class';
 
 import { CommunityConditionInfo } from '@/models/community-association/community-condition';
-import {} from '@/models/community-association/role-areacode-info';
 
 import notifyUtil from '@/common/utils/notifyUtil';
 import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
 import { EditCommunityComponent } from '@/components/system-manage/community-association/edit-community/edit-community';
-
+import ComAssocService from '@/api/community-association/community-association-service';
+import dataFormat from '@/utils/data-format';
 @Component({
   template: Html,
   style: Styles,
@@ -36,8 +36,11 @@ export class CommunityListComponent extends Vue {
   @Action('getCommunitycondition')
   setCondition!: (condition: CommunityConditionInfo) => void;
 
+  @Action('getAllRelationsInfos')
+  getAllRelationsInfos!: () => void;
+
   @Action('deleteRelatinsInfo')
-  deleteRelatinsInfo!: (info: RoleAreaCodeInfo) => boolean;
+  deleteRelatinsInfo!: (ids: string[]) => boolean;
   private currentPage = 1;
   private pageSizes = [10, 20, 30, 40];
   private pageSize = this.pageSizes[0];
@@ -52,22 +55,35 @@ export class CommunityListComponent extends Vue {
 
   }
   async deleteInfo(info: RoleAreaCodeInfo) {
-    const result = await this.deleteRelatinsInfo(info);
-    if (result) {
-      notifyUtil.success('删除成功');
-    } else {
-      notifyUtil.warning('删除失败');
-    }
+    this.$alert('确定要删除此关联关系吗？', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      showClose: false,
+      showCancelButton: true,
+      callback: async (value: any) => {
+        console.log(value);
+        if ( value === 'confirm' ) {
+          const result = await this.deleteRelatinsInfo([info.id]);
+          if (result) {
+            notifyUtil.success('删除成功');
+          } else {
+            notifyUtil.warning('删除失败');
+          }
+        }
+      }
+    });
   }
   // 页数改变
   handleSizeChange(pageSize: number) {
     this.condition.pageSize = pageSize;
     this.setCondition(this.condition);
+    this.getAllRelationsInfos();
   }
   // 选中页改变
   handleCurrentChange(page: number) {
     this.condition.page = page;
     this.setCondition(this.condition);
+    this.getAllRelationsInfos();
   }
   selectRelation() {
 
@@ -76,7 +92,7 @@ export class CommunityListComponent extends Vue {
   // 编辑关闭
   closeFrame() {
     this.currentRelationInfo = new RoleAreaCodeInfo();
-    this.framePpen();
+    this.frameClose();
   }
 
   // 打开编辑
@@ -88,5 +104,18 @@ export class CommunityListComponent extends Vue {
   frameClose() {
     const sideFrame: any = this.$refs['sideFrameCard'];
     sideFrame.close();
+  }
+
+  async repalceName(areacodeInfo: RoleAreaCodeInfo ) {
+    const codes = areacodeInfo.administrativeCodes.split('/');
+    const result = await ComAssocService.getAreaCodeBycode(codes);
+    areacodeInfo.name = result.map( (item: RoleAreaCodeInfo) => item.name ).join('');
+    return '';
+  }
+  replaceTime(time: string) {
+    if (time) {
+      return dataFormat.formatTime(time);
+    }
+    return '';
   }
 }

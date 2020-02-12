@@ -3,6 +3,14 @@
 .edit-community{
     border: 1px dashed #dcdfe6;
     background: #fff;
+    .title-p{
+        margin-left: 40px;
+    }
+    .iconfont{
+        color: #3498db;
+        font-size: 20px;
+        vertical-align: middle;
+    }
     .role-content,.area-content{
         margin-left: 40px;
         margin-top: 40px;
@@ -18,6 +26,7 @@
             background: #3498db;
             color: #fff;
             font-size: 24px;
+            vertical-align: middle;
         }
         .title{
             display: inline-block;

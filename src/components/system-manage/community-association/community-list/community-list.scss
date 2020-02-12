@@ -12,6 +12,7 @@
         flex-direction: column;
         .list-content{
             flex: 1;
+            overflow: auto;
         }
     }
     .adduser-btn {
@@ -32,6 +33,7 @@
             border: 1px solid #f6f7f8;
             border-radius: 5px;
             box-shadow: 3px 3px 5px #eaf0fc;
+            position: relative;
             &.active {
                 // background: #dadada;
                 border: 1px solid #b8daf2;
@@ -42,10 +44,24 @@
                 border-radius: 50%;
                 width: 45px;
             }
+            .time{
+                position: absolute;
+                right: 120px;
+                top: 17px;
+                display: flex;
+                flex-direction: column;
+                color: #888;
+            }
             .user-info {
                 float: left;
                 padding-left: 20px;
                 width: 70%;
+                position: relative;
+
+                .iconfont{
+                    color: #3498db;
+                    font-size: 20px;
+                }
                 &::before{
                     content: '';
                     display: inline-block;

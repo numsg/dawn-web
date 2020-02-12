@@ -64,6 +64,7 @@ export class AddCommunityComponent extends Vue {
     if (result) {
       this.currentRoles = [];
       this.currentCodes = [];
+      this.note = '';
       notifyUtil.success('关联成功');
     } else {
       notifyUtil.warning('关联失败');

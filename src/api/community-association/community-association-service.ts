@@ -43,9 +43,10 @@ export default {
             });
             let filterStr = '';
             codes.forEach( (code, index: number) => {
-                filterStr += '(districtCode eq \'' + code + '\')';
                 if ( index > 0 ) {
-                    filterStr += 'and (districtCode eq \'' + code + '\')';
+                    filterStr += ' or (districtCode eq \'' + code + '\')';
+                } else {
+                    filterStr += '(districtCode eq \'' + code + '\')';
                 }
             });
             return q.skip(0)
@@ -102,6 +103,7 @@ export default {
                 .skip(condition.pageSize * (condition.page - 1))
                 .top(condition.pageSize)
                 .filter(filterStr)
+                .orderby('updateTime', 'esc')
                 .count(true)
                 .get(null)
                 .then((response: any) => {
@@ -116,6 +118,7 @@ export default {
                 return q
                 .skip(condition.pageSize * (condition.page - 1))
                 .top(condition.pageSize)
+                .orderby('updateTime', 'esc')
                 .count(true)
                 .get(null)
                 .then((response: any) => {
@@ -156,7 +159,16 @@ export default {
      */
     editRelationsInfo(info: RoleAreaCodeInfo) {
         try {
-            return true;
+            const url: string = store.getters.configs.communityManagerUrl + 'role-ass-community/update';
+            return httpClient
+            .putPromise(url, [info])
+            .then(res => {
+                return res;
+            })
+            .catch(err => {
+                return false;
+            });
+
         } catch (e) {
             console.log(e);
             return false;
@@ -166,9 +178,17 @@ export default {
      * 删除角色与区划的关联关系
      * @param id
      */
-    deleteRelationInfos(id: string) {
+    deleteRelationInfos(ids: string[]) {
         try {
-            return true;
+            const url: string = store.getters.configs.communityManagerUrl + 'role-ass-community/delete';
+            return httpClient
+            .postPromise(url, ids)
+            .then(res => {
+                return res;
+            })
+            .catch(err => {
+                return false;
+            });
         } catch (e) {
             console.log(e);
             return false;
