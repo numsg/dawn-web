@@ -628,7 +628,7 @@ export default {
 
     // 江夏特定排查记录
     loadExportByJXExcel(info: any) {
-      const url = store.getters.configs.communityManagerUrl + 'daily-troubleshoot-record/group-condition';
+      const url = store.getters.configs.communityManagerUrl + 'timer/data';
       return httpClient
         .postPromise(url, info)
         .then(res => {

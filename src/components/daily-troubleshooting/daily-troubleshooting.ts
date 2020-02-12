@@ -178,27 +178,27 @@ export class DailyTroubleshootingComponent extends Vue {
       I3: { v: '其他症状' , s },
       // J3: { v: '分类诊疗医疗意见', s  },
       J3: { v: '是否有湖北旅居史', s },
-        [`K4`] : { v: '行程', s }, // 替换 疑似患者
-        [`L4`] : { v: '是否有新型肺炎接触史', s }, // 替换 疑似患者
-        [`M4`] : { v: '是否与湖北暴露史人员接触', s }, // 替换 一般发热患者
-        [`N4`] : { v: '体温', s }, // 替换 密切接触者
-        [`O4`] : { v: '有无咳嗽、胸闷等不适症状', s }, // 替换 密切接触者
-        [`P4`] : { v: '常德人入武汉后居住地' , s },
-        [`Q4`] : { v: '离开湖北日期' , s },
-        [`R4`] : { v: '交通工具飞机、火车、大巴、自驾车' , s },
-        [`S4`] : { v: '车次/航班' , s },
-        [`T4`] : { v: '沿途停留地点' , s },
-        [`U4`] : { v: '返回常德日期' , s },
-        [`V4`] : { v: '满14天日期' , s },
-        [`W4`] : { v: '是否外地返武陵区人员' , s },
-        [`X4`] : { v: '回程地点', s },
-        [`Y4`] : { v: '返回武汉方式', s },
-        [`Z4`] : { v: '返回武汉航班车次', s },
-        [`AA4`] : { v: '同程人员', s },
-        [`AB4`] : { v: '工作单位', s },
-        [`AC4`] : { v: '是否本街道常驻人口', s },
-        [`AD4`] : { v: '是否有相关证明', s },
-        [`AE4`] : { v: '备注', s },
+        [`K3`] : { v: '行程', s }, // 替换 疑似患者
+        [`L3`] : { v: '是否有新型肺炎接触史', s }, // 替换 疑似患者
+        [`M3`] : { v: '是否与湖北暴露史人员接触', s }, // 替换 一般发热患者
+        [`N3`] : { v: '体温', s }, // 替换 密切接触者
+        [`O3`] : { v: '有无咳嗽、胸闷等不适症状', s }, // 替换 密切接触者
+        [`P3`] : { v: '常德人入武汉后居住地' , s },
+        [`Q3`] : { v: '离开湖北日期' , s },
+        [`R3`] : { v: '交通工具飞机、火车、大巴、自驾车' , s },
+        [`S3`] : { v: '车次/航班' , s },
+        [`T3`] : { v: '沿途停留地点' , s },
+        [`U3`] : { v: '返回常德日期' , s },
+        [`V3`] : { v: '满14天日期' , s },
+        [`W3`] : { v: '是否外地返武陵区人员' , s },
+        [`X3`] : { v: '回程地点', s },
+        [`Y3`] : { v: '返回武汉方式', s },
+        [`Z3`] : { v: '返回武汉航班车次', s },
+        [`AA3`] : { v: '同程人员', s },
+        [`AB3`] : { v: '工作单位', s },
+        [`AC3`] : { v: '是否本街道常驻人口', s },
+        [`AD3`] : { v: '是否有相关证明', s },
+        [`AE3`] : { v: '备注', s },
       // J4: { v: '确认患者' , s },
       // K4: { v: '疑似患者' , s },
       // L4: { v: 'CT诊断肺炎患者', s  },
@@ -211,39 +211,39 @@ export class DailyTroubleshootingComponent extends Vue {
     result.forEach((person: RecordModel, index: number) => {
       dataRowHight.push({'hpx': rowHeight});
       const tableTr = {
-        [`A${5 + index}`] : { v: index + 1 , s },
-        [`B${5 + index}`] : { v: person.name },
-        [`C${5 + index}`] : { v:  this.replaceSex(person.sex) , s }, // 替换 性别
-        [`D${5 + index}`] : { v: person.idNumber, s  },
-        [`E${5 + index}`] : { v: person.phone , s },
-        [`F${5 + index}`] : { v: person.residence , s },
-        [`G${5 + index}`] : { v: person.fever ? '1' : '', s },
-        [`H${5 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '', s },
+        [`A${4 + index}`] : { v: index + 1 , s },
+        [`B${4 + index}`] : { v: person.name },
+        [`C${4 + index}`] : { v:  this.replaceSex(person.sex) , s }, // 替换 性别
+        [`D${4 + index}`] : { v: person.idNumber, s  },
+        [`E${4 + index}`] : { v: person.phone , s },
+        [`F${4 + index}`] : { v: person.residence , s },
+        [`G${4 + index}`] : { v: person.fever ? '1' : '', s },
+        [`H${4 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '', s },
 
-        [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.symptom)} , // 替换 其他症状
+        [`I${4 + index}`] : { v: this.replaceOtherSymptoms(person.symptom)} , // 替换 其他症状
         // [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
-        [`J${5 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '', s },
-        [`K${5 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者
-        [`L${5 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '', s }, // 替换 疑似患者
-        [`M${5 + index}`] : { v: person.touchHubei === '1' ? '是' : '' , s }, // 替换 一般发热患者
-        [`N${5 + index}`] : { v: person.temperature, s }, // 替换 密切接触者
-        [`O${5 + index}`] : { v: person.discomfort === '1' ? '是' : '' , s }, // 替换 密切接触者
-        [`P${5 + index}`] : { v: person.wuhanAddress , s },
-        [`Q${5 + index}`] : { v: person.leaveHubeiDate , s },
-        [`R${5 + index}`] : { v: person.vehicle , s },
-        [`S${5 + index}`] : { v: person.vehicleNo , s },
-        [`T${5 + index}`] : { v: person.stayPlace , s },
-        [`U${5 + index}`] : { v: person.backDate , s },
-        [`V${5 + index}`] : { v: person.fourteenDays === '1' ? '是' : '' , s },
-        [`W${5 + index}`] : { v: person.otherToWuling === '1' ? '是' : '' , s },
-        [`X${5 + index}`] : { v: person.whereToWuling, s },
-        [`Y${5 + index}`] : { v: person.howToWuling, s },
-        [`Z${5 + index}`] : { v: person.vehicleNoWuling, s },
-        [`AA${5 + index}`] : { v: person.togetherPersonWuling, s },
-        [`AB${5 + index}`] : { v: person.workUnitWuling, s },
-        [`AC${5 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '', s },
-        [`AD${5 + index}`] : { v: person.proveWuling === '1' ? '是' : '', s },
-        [`AE${5 + index}`] : { v: person.remark ? person.remark : '', s },
+        [`J${4 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '', s },
+        [`K${4 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者
+        [`L${4 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '', s }, // 替换 疑似患者
+        [`M${4 + index}`] : { v: person.touchHubei === '1' ? '是' : '' , s }, // 替换 一般发热患者
+        [`N${4 + index}`] : { v: person.temperature, s }, // 替换 密切接触者
+        [`O${4 + index}`] : { v: person.discomfort === '1' ? '是' : '' , s }, // 替换 密切接触者
+        [`P${4 + index}`] : { v: person.wuhanAddress , s },
+        [`Q${4 + index}`] : { v: person.leaveHubeiDate , s },
+        [`R${4 + index}`] : { v: person.vehicle , s },
+        [`S${4 + index}`] : { v: person.vehicleNo , s },
+        [`T${4 + index}`] : { v: person.stayPlace , s },
+        [`U${4 + index}`] : { v: person.backDate , s },
+        [`V${4 + index}`] : { v: person.fourteenDays === '1' ? '是' : '' , s },
+        [`W${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '' , s },
+        [`X${4 + index}`] : { v: person.whereToWuling, s },
+        [`Y${4 + index}`] : { v: person.howToWuling, s },
+        [`Z${4 + index}`] : { v: person.vehicleNoWuling, s },
+        [`AA${4 + index}`] : { v: person.togetherPersonWuling, s },
+        [`AB${4 + index}`] : { v: person.workUnitWuling, s },
+        [`AC${4 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '', s },
+        [`AD${4 + index}`] : { v: person.proveWuling === '1' ? '是' : '', s },
+        [`AE${4 + index}`] : { v: person.remark ? person.remark : '', s },
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -256,19 +256,19 @@ export class DailyTroubleshootingComponent extends Vue {
       { s: { c: 0, r: 0 }, e: { c: 14, r: 0 } }, // 社区疫情排查情况登记表
       { s: { c: 0, r: 1 }, e: { c: 0, r: 1 } }, // 社区(村)
       { s: { c: 6, r: 1 }, e: { c: 6, r: 1 } }, // 填表日期
-      { s: { c: 0, r: 2 }, e: { c: 0, r: 3 } }, // 序号
-      { s: { c: 1, r: 1 }, e: { c: 1, r: 1 } }, // 社区名称
-      { s: { c: 1, r: 2 }, e: { c: 1, r: 3 } }, // 姓名
-      { s: { c: 2, r: 2 }, e: { c: 2, r: 3 } }, // 性别
-      { s: { c: 3, r: 2 }, e: { c: 3, r: 3 } }, // 身份证号
-      { s: { c: 4, r: 2 }, e: { c: 4, r: 3 } }, // 联系方式
-      { s: { c: 5, r: 2 }, e: { c: 5, r: 3 } }, // 家庭住址
-      { s: { c: 6, r: 1 }, e: { c: 6, r: 1 } }, // 当前时间
-      { s: { c: 6, r: 2 }, e: { c: 6, r: 3 } }, // 发热(体温>37.3℃)
-      { s: { c: 7, r: 2 }, e: { c: 7, r: 3 } }, // 新型肺炎
-      { s: { c: 8, r: 2 }, e: { c: 8, r: 3 } }, // 其他症状
-      { s: { c: 9, r: 2 }, e: { c: 13, r: 2 } }, // 分类诊疗医疗意见
-      { s: { c: 14, r: 2 }, e: { c: 14, r: 3 } }, // 备注
+      // { s: { c: 0, r: 2 }, e: { c: 0, r: 3 } }, // 序号
+      // { s: { c: 1, r: 1 }, e: { c: 1, r: 1 } }, // 社区名称
+      // { s: { c: 1, r: 2 }, e: { c: 1, r: 3 } }, // 姓名
+      // { s: { c: 2, r: 2 }, e: { c: 2, r: 3 } }, // 性别
+      // { s: { c: 3, r: 2 }, e: { c: 3, r: 3 } }, // 身份证号
+      // { s: { c: 4, r: 2 }, e: { c: 4, r: 3 } }, // 联系方式
+      // { s: { c: 5, r: 2 }, e: { c: 5, r: 3 } }, // 家庭住址
+      // { s: { c: 6, r: 1 }, e: { c: 6, r: 1 } }, // 当前时间
+      // { s: { c: 6, r: 2 }, e: { c: 6, r: 3 } }, // 发热(体温>37.3℃)
+      // { s: { c: 7, r: 2 }, e: { c: 7, r: 3 } }, // 新型肺炎
+      // { s: { c: 8, r: 2 }, e: { c: 8, r: 3 } }, // 其他症状
+      // { s: { c: 9, r: 2 }, e: { c: 13, r: 2 } }, // 分类诊疗医疗意见
+      // { s: { c: 14, r: 2 }, e: { c: 14, r: 3 } }, // 备注
       // { s: { c: 9, r: 3 }, e: { c: 9, r: 3 } }, // 确认患者
       // { s: { c: 10, r: 3 }, e: { c: 10, r: 3 } }, // 疑似患者
       // { s: { c: 11, r: 3 }, e: { c: 11, r: 3 } }, // CT诊断肺炎患者
