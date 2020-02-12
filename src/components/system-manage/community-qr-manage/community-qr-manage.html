@@ -41,7 +41,7 @@
     <div ref="contentRef">
       <div class="qr-code-box">
         <div class="img-box">
-          <img class="img-style" style="width: 180px; height: 180px" :src="currentSelectRowInfo.image" fit="fit"></img>
+          <img class="img-style" style="width: 152px; height: 152px" :src="currentSelectRowInfo.image" fit="fit"></img>
         </div>
         <!-- <div class="desciption"> -->
           <!-- <p> <span>自查自报</span> <span class="item-right">共抗疫情</span></p>
@@ -56,7 +56,7 @@
     </div>
     <div slot="footer" class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="printQRCode">打印</el-button>
+      <el-button type="primary" @click="printQRCode">下载</el-button>
     </div>
   </el-dialog>
 

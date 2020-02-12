@@ -154,8 +154,8 @@ export class DetailTreeComponent extends Vue {
 
   mounted() {
     this._vectorIcon = this.vectorIcon;
-    this.text_component = store.getters.configs.cellTypeConfig.text_component;
-    this.online_component = store.getters.configs.cellTypeConfig.online_component;
+    // this.text_component = store.getters.configs.cellTypeConfig.text_component;
+    // this.online_component = store.getters.configs.cellTypeConfig.online_component;
 
     // const nodes = Generate.getChildren(this.treeModelList, []);
     // nodes.forEach((e: any) => {

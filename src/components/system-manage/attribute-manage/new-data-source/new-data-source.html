@@ -66,7 +66,7 @@
         </div>
       </div>
       <div class="second-step-box" v-show="currentStep === 'new_data_source'">
-        <el-form ref="newDataSource" :rules="rules" :model="newDataSource">
+        <el-form ref="newDataSource" label-position="top" :rules="rules" :model="newDataSource">
           <el-form-item :label="$t('common.name')" prop="name">
             <el-input
               :placeholder="$t('common.name_length_limit128')"
@@ -75,7 +75,7 @@
               @change="replaceLikeValue"
             ></el-input>
           </el-form-item>
-          <el-form-item :label="$t('common.description')" prop="description">
+          <!-- <el-form-item :label="$t('common.description')" prop="description">
             <el-input
               v-model="newDataSource.description"
               :placeholder="$t('common.description_length_under_2000')"
@@ -84,7 +84,17 @@
               maxlength="2000"
               type="textarea"
             ></el-input>
+          </el-form-item> -->
+          <el-form-item class="district" label="行政区划" prop="description">
+            <el-cascader 
+            placeholder="搜索" 
+            v-model="newDataSource.description"
+            :options="options" 
+            :props="props"  
+            filterable
+            clearable></el-cascader>
           </el-form-item>
+                    
           <el-form-item :label="$t('common.tag')">
             <div class="tag-container">
               <div class="tag-item" v-for="(tag, index) in tags">

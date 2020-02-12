@@ -14,6 +14,7 @@ import { ModelType } from '@/models/daily-troubleshooting/model-type';
 import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
+import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 
 import * as XLSX from 'xlsx';
 
@@ -98,20 +99,12 @@ export class DailyTroubleshootingComponent extends Vue {
 
   async addSuccess() {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
-    if (this.isShowgGroup) {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
-    } else {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
-      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
-    }
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 
   pullData() {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
-    if (!this.isShowgGroup) {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
-    }
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 
   async searchQuery(keyWord: string) {

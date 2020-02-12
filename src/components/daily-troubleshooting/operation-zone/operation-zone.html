@@ -11,10 +11,10 @@
           </el-button>
           <el-button @click="groupTypeClick(false)" :class="!isShowgGroup ? 'primary-btn' : 'default-btn'" class="radio-btn iconfont iconpms-icon_grid1">
           </el-button>
-          <el-button @click="modelTypeClick(modelType.checked)" :disabled="!isShowgGroup" :class="checkType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verifying-and-passing">
-            今日已排查({{isShowgGroup ? checkedTotalCount : totalCount}})
+          <el-button @click="modelTypeClick(modelType.checked)" :class="checkType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verifying-and-passing">
+            今日已排查({{checkedTotalCount}})
           </el-button>
-          <el-button @click="modelTypeClick(modelType.unChecked)" :disabled="!isShowgGroup" :class="checkType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verification-failed ">
+          <el-button @click="modelTypeClick(modelType.unChecked)" :class="checkType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verification-failed ">
             今日待排查({{unCheckedTotalCount}})
           </el-button>
         </div>

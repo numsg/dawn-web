@@ -9,6 +9,7 @@ import communityQrManageService from '@/api/community-qr-manage/community-qr-man
 import store from '@/store';
 import { QrcodeInfoAddComponent } from './qrcode-info-add/qrcode-info-add';
 import { SideFrameComponent } from '@/components/share/side-frame/side-frame';
+import sessionStorage from '@/utils/session-storage';
 
 @Component({
   template: communityQRManageHtml,
@@ -27,7 +28,8 @@ export class CommunityQRManageComponent extends Vue {
   // 社区信息
   communityInformation: any = [];
   // 当前社区id
-  currentCommunityId: any = 'a2e01f0e-6c86-4a41-bcf3-c07c1ffa2f82';
+  // currentCommunityId: any = 'a2e01f0e-6c86-4a41-bcf3-c07c1ffa2f82';
+  currentCommunityId: any = '';
   // 网格员角色code
   roleCode: any = '477174202197774088264551523168824749';
   // 网格员List
@@ -63,8 +65,9 @@ export class CommunityQRManageComponent extends Vue {
    * 搜索防抖
    */
   debounceSearch = debounce(this.search, 500);
-  created() {
+  async created() {
     this.qrCodeUrl = store.getters.configs.qrCodeUrl;
+    await this.getDataSOurceByDistrictCode();
     this.getCommunityInformationById(this.currentCommunityId);
     this.getCommunityGridMember();
   }
@@ -117,6 +120,8 @@ export class CommunityQRManageComponent extends Vue {
     this.qrcodeInfoForm = new QrcodeInfo();
     this.$set(this.qrcodeInfoForm, 'commuityCode', row.id);
     this.$set(this.qrcodeInfoForm, 'commuityName', row.name);
+    // 行政区编码从session获取  sessionStorage.get('district')
+    this.$set(this.qrcodeInfoForm, 'regionalismCode', sessionStorage.get('district-all'));
     for (let i = 0; i < this.gridMemberList.length; i++) {
       if (this.gridMemberList[i].address.indexOf(row.id) !== -1) {
         this.$set(this.qrcodeInfoForm, 'responsible', this.gridMemberList[i].name);
@@ -250,6 +255,17 @@ export class CommunityQRManageComponent extends Vue {
       this.gridMemberList = res.records;
     } else {
       this.gridMemberList = [];
+    }
+  }
+
+  /**
+   * 通过行政区划code获取数据源
+   */
+  async getDataSOurceByDistrictCode() {
+    const districtCode = sessionStorage.get('district');
+    const dataSource: any = await communityQrManageService.queryDataSourceByDistrict(String(districtCode));
+    if (dataSource.length > 0) {
+      this.currentCommunityId = dataSource[0].id;
     }
   }
 }

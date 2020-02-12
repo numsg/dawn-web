@@ -5,7 +5,7 @@ export class QrcodeInfo {
     // 小区名称
     commuityName!: string;
     // 行政区划code
-    regionalismCode!: string;
+    regionalismCode!: any;
     // 责任人
     responsible!: string;
     // 责任人电话

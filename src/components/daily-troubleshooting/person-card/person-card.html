@@ -6,20 +6,23 @@
             <div  class="collapse-title">
               <span class="unit-number">
                 <span class="building-num">{{group.building}} - {{group.unitNumber}}</span>
-                <span class="plot-name">&nbsp;&nbsp;{{group.plotName}}</span>
+                <span class="plot-name">&nbsp;&nbsp;{{replacePlot(group.plotId)}}</span>
                 <!-- <span v-if="group.feverCount > 0" class="fever-count">发热 {{group.feverCount}}人</span> -->
                 <span v-if="group.feverCount > 0" class="fever-count"><img class="thermometer" :src="thermometer" alt=""> <span>{{group.feverCount}}</span></span>
               </span>
               <div class="check-tag-container">
                 <!-- <el-tag class="check-tag"  type="success" effect="dark">排查({{group.checked}})</el-tag>
                 <el-tag class="check-tag" type="info" effect="dark"> 待排查({{group.unchecked}}) </el-tag> -->
-                <span class="check-tag" >今日排查：<span class="checked">{{group.checked}}</span></span>
-                <span class="check-tag" > 今日待排查：<span class="unchecked">{{group.unchecked}}</span></span>
+                <span class="check-tag" >今日排查：<span class="checked">{{group.checkedCount}}</span></span>
+                <span class="check-tag" > 今日待排查：<span class="unchecked">{{group.unCheckedCount}}</span></span>
               </div>
             </div>
           </template>
           <el-table  class="collapse-table" :data="groupPersonData" max-height="570"  stripe highlight-current-row style="width: 100%">
-            <el-table-column prop="name" label="姓名" >
+            <el-table-column  label="姓名" >
+              <template slot-scope="scope">
+                <span class="room-num">{{ scope.row.personBase.name}}</span>
+              </template>
             </el-table-column>
             <el-table-column  label="房号">
               <template slot-scope="scope">
@@ -28,13 +31,13 @@
             </el-table-column>
             <el-table-column  label="是否发热" width="80">
               <template slot-scope="scope">
-                <el-tag effect="dark" size="mini" :type="scope.row.exceedTemp ? 'danger' : 'parimary'"
-                  disable-transitions>{{scope.row.exceedTemp ? '发热' : '正常'}}</el-tag>
+                <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'parimary'"
+                  disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
               </template>
             </el-table-column>
             <el-table-column  label="是否有接触史" width="110">
               <template slot-scope="scope">
-                  {{scope.row.contact ? '是' : '否'}}
+                  {{scope.row.isContact ? '是' : '否'}}
               </template>
             </el-table-column>
             <el-table-column  label="其它症状" >
@@ -52,7 +55,10 @@
                 {{replaceTime(scope.row.createTime)}}
               </template>
             </el-table-column>
-            <el-table-column prop="phone" label="电话" width="120">
+            <el-table-column label="电话" width="120">
+              <template slot-scope="scope">
+                {{scope.row.personBase.phone}}
+              </template>
             </el-table-column>
             <el-table-column label="操作" width="120">
               <template slot-scope="scope">
@@ -128,7 +134,10 @@
               <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="姓名" width="130" :show-overflow-tooltip="true">
+          <el-table-column label="姓名" width="130" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              <span class="room-num">{{ scope.row.personBase.name}}</span>
+            </template>
           </el-table-column>
           <el-table-column  label="小区名称"  :show-overflow-tooltip="true">
             <template slot-scope="scope">
@@ -137,15 +146,15 @@
           </el-table-column>
           <el-table-column  label="是否发热" width="80">
             <template slot-scope="scope">
-              <el-tag effect="dark" size="mini" :type="scope.row.exceedTemp ? 'danger' : 'primary'"
-                disable-transitions>{{scope.row.exceedTemp ? '发热' : '正常'}}</el-tag>
+              <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'primary'"
+                disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column  label="是否有接触史" width="110">
             <template slot-scope="scope">
               <!-- <el-tag effect="dark" size="mini" :type="scope.row.contact ? 'danger' : 'info'"
                 disable-transitions></el-tag> -->
-                {{scope.row.contact ? '是' : '否'}}
+                {{scope.row.isContact ? '是' : '否'}}
             </template>
           </el-table-column>
           <el-table-column  label="其他症状" :show-overflow-tooltip="true" >
@@ -163,7 +172,10 @@
               {{replaceTime(scope.row.createTime)}}
             </template>
           </el-table-column>
-          <el-table-column prop="phone" label="电话" width="120" :show-overflow-tooltip="true">
+          <el-table-column  label="电话" width="120" :show-overflow-tooltip="true">
+            <template slot-scope="scope">
+              {{scope.row.personBase.phone}}
+            </template>
           </el-table-column>
           <el-table-column label="操作" width="110">
             <template slot-scope="scope">

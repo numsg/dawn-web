@@ -20,6 +20,25 @@ export const arrayToTree = (data: any[], parentId?: string, key = 'id') => {
   return tree;
 };
 
+export const arrayToTreeOhter = (data: any[], parentId?: string, key = 'id', pKey = 'pid') => {
+  const tree: any[] = [];
+  let temp;
+  if (data && data.length > 0) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i][pKey] === '-1' || data[i][pKey] === parentId) {
+        const obj = data[i];
+        const children = data.filter(e => e[pKey] !== '-1' && e[pKey] !== parentId);
+        temp = arrayToTreeOhter(children, obj[key], key, pKey);
+        if (temp && temp.length > 0) {
+          obj.children = temp;
+        }
+        tree.push(obj);
+      }
+    }
+  }
+  return tree;
+};
+
 export const treeToArray = (nodes: any, childKey: string = 'children') => {
   if (!nodes) {
     return [];
