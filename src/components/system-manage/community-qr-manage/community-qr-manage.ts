@@ -265,7 +265,13 @@ export class CommunityQRManageComponent extends Vue {
     const districtCode = sessionStorage.get('district');
     const dataSource: any = await communityQrManageService.queryDataSourceByDistrict(String(districtCode));
     if (dataSource.length > 0) {
-      this.currentCommunityId = dataSource[0].id;
+      // this.currentCommunityId = dataSource[0].id;
+      console.log(dataSource[0].tag);
+      dataSource.forEach((element: any) => {
+        if (element.tag === '[{\'id\':\'\',\'name\':\'code\',\'description\':\'\'}]') {
+         this.currentCommunityId = element.id;
+        }
+      });
     }
   }
 }

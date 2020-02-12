@@ -92,7 +92,8 @@
             :options="options" 
             :props="props"  
             filterable
-            clearable></el-cascader>
+            clearable
+            @change="handleChange"></el-cascader>
           </el-form-item>
                     
           <el-form-item :label="$t('common.tag')">

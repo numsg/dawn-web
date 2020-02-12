@@ -16,6 +16,7 @@ import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-rec
 import SessionStorage from '@/utils/session-storage';
 
 import moment from 'moment';
+import PersonBase from '@/models/daily-troubleshooting/person-base';
 @Component({
   template: Html,
   style: Style,
@@ -61,12 +62,13 @@ export class TroubleshootingInfoForm extends Vue {
 
   rules = {
     // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
-    name: [{ required: true, message: '请输入姓名', trigger: ['blur', 'change'] }],
+    'personBase.name': [{ required: true, message: '请输入姓名', trigger: ['blur', 'change'] }],
     age: [ { required: true}, { validator: this.validateAge, trigger: ['blur', 'change'] }],
-    identificationNumber: [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
-    sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-    phone: [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
-    address: [{ required: true, message: '请填写住址', trigger: 'change' }],
+    // 'personBase.identificationNumber': [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
+    'personBase.identificationNumber': [{ required: true, message: '请输入身份证号', trigger: 'blur, change'}],
+    'personBase.sex': [{ required: true, message: '请选择性别', trigger: 'change' }],
+    'personBase.phone': [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
+    'personBase.address': [{ required: true, message: '请填写住址', trigger: 'change' }],
     plot: [{ required: true, message: '请选择小区', trigger: 'change' }],
     building: [{ required: true, message: '请填写楼栋', trigger: 'change' }],
     unitNumber: [{ required: true, message: '请填写单元号', trigger: 'change' }],
@@ -113,8 +115,6 @@ export class TroubleshootingInfoForm extends Vue {
       callback();
     }
   }
-
-
 
   @Watch('formStatus')
   watchFormStatus(value: boolean) {
@@ -169,6 +169,8 @@ export class TroubleshootingInfoForm extends Vue {
               this.resetForm('recordForm');
               // this.troublePerson = new PersonInfo();
               this.troublePerson = new TroubleshootRecord();
+              this.troublePerson.personBase = new PersonBase();
+              this.otherSymptomsList = [];
             } else {
               notifyUtil.error('用户已存在, 请检查名称和手机号');
             }
@@ -203,6 +205,8 @@ export class TroubleshootingInfoForm extends Vue {
               this.resetForm('recordForm');
               // this.troublePerson = new PersonInfo();
               this.troublePerson = new TroubleshootRecord();
+              this.troublePerson.personBase = new PersonBase();
+              this.otherSymptomsList = [];
             } else {
               notifyUtil.error('修改失败');
             }

@@ -25,7 +25,10 @@ import store from '@/store';
 @Component({
   template: Html,
   style: Styles,
-  themes: [{ name: 'white', style: Styles }, { name: 'black', style: sourceBlackStyle }],
+  themes: [
+    { name: 'white', style: Styles },
+    { name: 'black', style: sourceBlackStyle }
+  ],
   name: 'new-data-source',
   components: {
     'el-detail-tree': DetailTreeComponent,
@@ -138,7 +141,8 @@ export class NewDataSourceComponent extends Vue {
       { min: 1, max: 512, message: i18n.t('common.length_limit128'), tigger: 'blur' }
     ],
     // description: [{ max: 2000, message: i18n.t('common.description_length_under_2000'), tigger: 'blur' }]
-    description: [{ required: true, message: '请选择行政区划', tigger: 'blur' }]
+    // description: [{ required: true, message: '请选择行政区划', tigger: 'change' }]
+    description: [{ required: true, message: '请选择行政区划', trigger: 'change' }]
   };
 
   imageUrl: string = '';
@@ -193,8 +197,7 @@ export class NewDataSourceComponent extends Vue {
   async lazyLoad(node: any, resolve: any) {
     const result = await communityQrManageService.queryAdmCodesByParentId(node.value);
     resolve(result);
-    }
-
+  }
 
   @Watch('isEdit')
   onIsEdit() {}
@@ -664,7 +667,7 @@ export class NewDataSourceComponent extends Vue {
     // if (flag) {
     //   return await externalResourceService.modifyDataSource(dataSource);
     // } else {
-      return await dataSourceService.modifyDataSource(dataSource);
+    return await dataSourceService.modifyDataSource(dataSource);
     // }
   }
 
@@ -677,5 +680,8 @@ export class NewDataSourceComponent extends Vue {
       }
     });
     return flag && this.useResourceServer;
+  }
+
+  handleChange(node: any) {
   }
 }
