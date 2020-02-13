@@ -3,6 +3,8 @@ import store from '@/store';
 import DataSource from '@/models/data-source/data-source';
 
 import odataClient from '@gsafety/odata-client/dist';
+import communityQrManageService from '../community-qr-manage/community-qr-manage.service';
+import SessionStorage from '@/utils/session-storage';
 
 export default {
 
@@ -120,5 +122,22 @@ export default {
       }
     });
     return tiledArr;
+  },
+
+  /**
+   * 获取社区数据源id
+   */
+  async getCommunityDataSourceId() {
+    const districtCode = SessionStorage.get('district');
+    const dataSource: any = await communityQrManageService.queryDataSourceByDistrict(String(districtCode));
+    let communityDataSourceId = '';
+    if (dataSource.length > 0) {
+      dataSource.forEach((element: any) => {
+        if (element.tag === '[{\'id\':\'\',\'name\':\'code\',\'description\':\'\'}]') {
+          communityDataSourceId = element.id;
+        }
+      });
+    }
+    return communityDataSourceId;
   }
 };

@@ -9,6 +9,8 @@ import { PersonOdataInfo } from '@/models/daily-troubleshooting/person-odata-inf
 import { eqBy, cond } from 'ramda';
 import moment from 'moment';
 import SessionStorage from '@/utils/session-storage';
+import communityQrManageService from '../community-qr-manage/community-qr-manage.service';
+import dataSourceService from '@/api/data-source/data-source.service';
 
 export default {
     // 新增填报记录
@@ -658,15 +660,15 @@ export default {
         return false;
       });
   },
-  queryCommunity() {
-    const id = store.getters.configs.communityDataSourceId;
+  async queryCommunity() {
+    const  dataSourceId = dataSourceService.getCommunityDataSourceId();
     const q = odataClient({
       service: store.getters.configs.communityManagerOdataUrl,
       resources: 'DataSourceEntity',
       format: 'json'
       });
     return q
-      .filter('id', 'eq', id)
+      .filter('id', 'eq', dataSourceId)
       .get()
       .then((response: any) => {
         return JSON.parse(response.body).value;
@@ -920,8 +922,8 @@ export default {
       });
   },
 
-  pullNewData() {
-    const communityId = store.getters.configs.communityDataSourceId;
+  async pullNewData() {
+    const communityId = await dataSourceService.getCommunityDataSourceId();
     const url = store.getters.configs.communityManagerUrl + `timer/${communityId}`;
     return httpClient
       .getPromise(url)

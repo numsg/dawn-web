@@ -2,6 +2,8 @@ import dSourceDataService from '@/api/data-source/d-data-source.service';
 import { treeToArray, arrayToTree } from '@/common/utils/utils';
 import District from '@/models/data-define/district';
 import store from '@/store';
+import dataSourceService from '@/api/data-source/data-source.service';
+
 const baseData = {
 
     state: {
@@ -40,7 +42,7 @@ const baseData = {
     actions: {
 
         SetCommunities: async ({ commit }: any) => {
-            const dataSourceId = store.getters.configs.communityDataSourceId;
+            const dataSourceId = await dataSourceService.getCommunityDataSourceId();
             const result = await dSourceDataService.findDDataSourceByDataSourceId(dataSourceId);
             commit('SET_COMMUNITIES', result);
         },
