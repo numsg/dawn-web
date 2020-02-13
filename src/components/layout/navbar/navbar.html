@@ -14,7 +14,7 @@
           <!-- <img :src="item.iconCls" alt="" /> -->
           <img :src="paichiImg" v-if=" item.name === 'troubleshoot' " alt="" />
           <img :src="guanliImg"  v-if=" item.name === 'outbreak' "  alt="" />
-          <img :src="guanliImg"  v-if=" item.name === 'system-manage' "  alt="" />
+          <img :src="peizhiImg"  v-if=" item.name === 'system-manage' "  alt="" />
         </div>
         <div class="fll">
           <span class="stair-name" >{{ $t('navbar.' + item.name) }}</span>
@@ -26,7 +26,7 @@
           <div class="el-dropdown-link">
             <div class="stair-nav-icon">
               <!-- <img :src="item.iconCls" alt="" /> -->
-              <img :src="guanliImg"   alt="" />
+              <img :src="peizhiImg"   alt="" />
             </div>
             <div class="stair-name-float">
               <span class="stair-name" >{{ $t('navbar.' + item.name) }}</span>
