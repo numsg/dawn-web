@@ -34,6 +34,16 @@
       flex-direction: row;
       .flex-one {
         flex: 1;
+        margin-right: 10px;
+        &:last-child{
+          margin-right: 0;
+        }
+      }
+      .flex-six {
+        flex: 6;
+      }
+      .flex-four {
+        flex: 4;
       }
     }
 

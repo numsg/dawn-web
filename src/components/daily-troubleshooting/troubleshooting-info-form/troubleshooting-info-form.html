@@ -9,14 +9,14 @@
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.phone"></el-input>
     </el-form-item>
     <div class="row-one">
-      <div class="flex-one">
+      <div class="flex-six">
         <el-form-item label="性别" prop="personBase.sex">
           <el-radio-group v-model="troublePerson.personBase.sex">
             <el-radio v-for="gender in genderClassification" :label="gender.id" :key="gender.id">{{gender.name}}</el-radio>
           </el-radio-group>
         </el-form-item>
       </div>
-      <div class="flex-one">
+      <div class="flex-four">
         <el-form-item label="年龄" prop="age">
           <el-input-number v-model="troublePerson.age" :min="1" :max="150"></el-input-number>
         </el-form-item>
@@ -35,18 +35,26 @@
       </el-radio-group>
     </el-form-item>
 
-    <el-form-item label="楼栋" prop="building" class="form-item">
-      <el-input v-model="troublePerson.building" maxlength="10"></el-input>
-      <span class="form-item-tip">{{troublePerson.building ? troublePerson.building.length : 0}}/10</span>
-    </el-form-item>
-    <el-form-item label="单元号" prop="unitNumber" class="form-item">
-      <el-input v-model="troublePerson.unitNumber" maxlength="10"></el-input>
-      <span class="form-item-tip">{{troublePerson.unitNumber ? troublePerson.unitNumber.length : 0}}/10</span>
-    </el-form-item>
-    <el-form-item label="房间号" prop="roomNo" class="form-item">
-      <el-input v-model="troublePerson.roomNo" maxlength="10"></el-input>
-      <span class="form-item-tip">{{troublePerson.roomNo ? troublePerson.roomNo.length : 0}}/10</span>
-    </el-form-item>
+    <div class="row-one">
+      <div class="flex-one">
+        <el-form-item label="楼栋" prop="building" class="form-item">
+          <el-input v-model="troublePerson.building" maxlength="10"></el-input>
+          <span class="form-item-tip">{{troublePerson.building ? troublePerson.building.length : 0}}/10</span>
+        </el-form-item>
+      </div>
+      <div class="flex-one">
+        <el-form-item label="单元号" prop="unitNumber" class="form-item">
+          <el-input v-model="troublePerson.unitNumber" maxlength="10"></el-input>
+          <span class="form-item-tip">{{troublePerson.unitNumber ? troublePerson.unitNumber.length : 0}}/10</span>
+        </el-form-item>
+      </div>
+      <div class="flex-one">
+        <el-form-item label="房间号" prop="roomNo" class="form-item">
+          <el-input v-model="troublePerson.roomNo" maxlength="10"></el-input>
+          <span class="form-item-tip">{{troublePerson.roomNo ? troublePerson.roomNo.length : 0}}/10</span>
+        </el-form-item>
+      </div>
+    </div>
 
     <el-form-item label="是否发热(体温 > 37.3℃)" prop="isExceedTemp">
       <el-radio-group v-model="troublePerson.isExceedTemp">
