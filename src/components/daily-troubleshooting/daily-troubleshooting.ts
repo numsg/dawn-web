@@ -203,7 +203,7 @@ export class DailyTroubleshootingComponent extends Vue {
       [`Z3`] : { v: '工作单位', s },
       [`AA3`] : { v: '是否本街道常驻人口？', s },
       [`AB3`] : { v: '是否有相关证明', s },
-      [`AC3`] : { v: '小区选择', s },
+      [`AC3`] : { v: '小区', s },
       [`AD3`] : { v: '楼号', s },
       [`AE3`] : { v: '单元', s },
       [`AF3`] : { v: '房间号', s },
