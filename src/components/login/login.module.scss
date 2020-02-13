@@ -1,6 +1,7 @@
 
 
 .login-form {
+  
   .c____5____el-form-item {
     margin-bottom: 10px;
 
@@ -36,6 +37,9 @@
       padding: 0 15px;
       transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
       width: 100%;
+      border: 0;
+      border-bottom: 2px solid #e6e6e6;
+      border-radius: 0;
 
       &::placeholder {
         color: #C0C4CC;
@@ -161,7 +165,13 @@
   justify-content: center;
   align-items: center;
   display: flex;
-
+  .copy-right{
+    position: absolute;
+    bottom: 7%;
+    margin: 0 auto;
+    color: #fff;
+    text-align: center;
+  }
 
   .login-bg {
     width: 100%;
@@ -223,16 +233,20 @@
       padding: 15px;
       background: #ffffff;
       border-radius: 5px;
-      width: 380px;
-      min-height: 400px;
+      width: 390px;
+      min-height: 420px;
 
       .login-title {
-        font-size: 18px;
-        height: 30px;
+        font-size: 20px;
         line-height: 30px;
         font-weight: bold;
         text-align: left;
-        color: #555;
+        color: #222;
+        width: 110px;
+        padding-bottom: 10px;
+        display: inline-block;
+        border-bottom: 3px solid #237dd9;
+        font-weight: 500;
       }
 
       >:nth-child(3) {
