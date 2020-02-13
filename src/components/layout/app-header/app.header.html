@@ -1,7 +1,8 @@
 <div class="header-container">
   <div class="nav-content">
     <span class="logo" style="margin-top:0px!important;" :title="systemSetOptions.systemName">
-      <img  :src="systemSetOptions.systemImg" />
+      <img  :src="loglImg" />
+
       <!--  -->
       <!-- <span @click="goHome" class="system-name">{{ systemSetOptions.systemName }}</span> -->
       <span class="system-name">{{systemSetOptions.systemName}}</span>
@@ -9,6 +10,8 @@
     <nav-bar></nav-bar>
   </div>
   <div class="header-right">
+    <img :src="qinghua" class="img" alt="">
+    <img :src="chenanlogo" alt="" class="img">
     <!-- 用户中心 -->
     <el-popover trigger="click" placement="bottom" width="420" popper-class="user-detail-popover">
       <div class="user-detail">
@@ -32,6 +35,7 @@
             </div>
             <div class="content">
               <div class="user-detail-image">
+                
                 <img v-if="userInfo.image" :src="userInfo.image" />
                 <i v-else class="iconfont iconpms-icon_User-roles header-icon"></i>
               </div>
@@ -69,8 +73,9 @@
         </div>
       </div>
       <!-- <div class="user-info" slot="reference"> -->
-      <img v-if="userInfo.image" :src="userInfo.image" class="header-icon-img" slot="reference" />
-      <i v-else class="iconfont  iconpms-icon_User-roles header-icon user-icon" slot="reference"></i>
+        <img :src="userImg" class="header-icon-img" slot="reference"/>
+      <!-- <img v-if="userInfo.image" :src="userInfo.image" class="header-icon-img" slot="reference" />
+      <i v-else class="iconfont  iconpms-icon_User-roles header-icon user-icon" slot="reference"></i> -->
       <!-- </div> -->
     </el-popover>
     <!-- 用户手册 -->

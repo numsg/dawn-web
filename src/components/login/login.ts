@@ -21,6 +21,8 @@ import CommunityAssocitionService from '@/api/community-association/community-as
 })
 export class LoginComponent extends Vue {
 
+  loglImg = require('@/assets/img/new-img/logo.png');
+
   @Getter('routerarr') routerArr: any;
 
   // 系统设置

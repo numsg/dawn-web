@@ -2,7 +2,9 @@
   <div class="login-bg"></div>
   <div class="loginWarp">
     <div class="system-logo">
-      <img :src="systemOptions.systemImg" />
+      
+      <img :src="loglImg" />
+      <!-- <img :src="systemOptions.systemImg" /> -->
       <!-- <p class="log-txt" :class="{ 'text-spacing':language !== 'zh'}">{{ systemOptions.systemName }}</p> -->
       <p class="log-txt" :class="{ 'text-spacing':language !== 'zh'}">{{systemOptions.systemName}}</p>
     </div>
@@ -48,7 +50,7 @@
             <el-checkbox id="savePwd" v-model="checked" :label="$t('login.remember_pwd')" @change="changePwd"> </el-checkbox>
           </div>
           <el-form-item class="login-item" style="margin-top:80px;">
-            <el-button size="medium" style="width:100%;font-size:14px;" icon="check" class="login-btn" @click="handleLogin">
+            <el-button size="medium" type="primary" style="width:100%;font-size:14px;background-color: #3498db !important; color: rgb(255, 255, 255)!important; " icon="check" class="login-btn" @click="handleLogin">
               {{ $t('login.login') }}</el-button
             >
           </el-form-item>

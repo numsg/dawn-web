@@ -28,6 +28,12 @@ import moment from 'moment';
   }
 })
 export class AppHeaderComponent extends Vue {
+  qinghua = require('@/assets/img/new-img/chenanlogo.png');
+  chenanlogo = require('@/assets/img/new-img/qinghua.png');
+
+  userImg = require('@/assets/img/new-img/user.png');
+  loglImg = require('@/assets/img/new-img/logo.png');
+
   sysName: any = 'VUE-SEED';
   collapsed = false;
   isChangePassword: boolean = false;

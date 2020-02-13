@@ -160,11 +160,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  display: flex;
+
 
   .login-bg {
     width: 100%;
     height: 100%;
-    background-image: url('../../assets/img/bg01.png');
+    background-image: url('../../assets/img/new-img/login.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     // filter: blur(3px);
@@ -173,9 +175,10 @@
   .loginWarp {
     /* margin: 280px auto 0 auto; */
     display: flex;
-    flex-direction: row;
-    /* width: 45%; */
+    flex-direction: column;
     position: absolute;
+    margin-left: 231px;
+    top: 77px;
     //right: 20%;
 
     .system-logo {
@@ -188,8 +191,6 @@
         float: left;
         position: relative;
         object-fit: contain;
-        width: 78px;
-        height: 78px;
       }
 
       .log-txt {
