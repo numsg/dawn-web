@@ -38,6 +38,15 @@ const baseData = {
         SET_MEDICAL_OPINIONS: (state: any, payloads: District[]) => {
             state.medicalOpinions = payloads;
         },
+        CLEAR_BASE_DATA: (state: any) => {
+            state.communities = []; // 社区数据
+            state.diagnosisSituations = []; // 诊断情况
+            state.medicalSituations = []; // 医疗情况
+            state.specialSituations = []; // 特殊情况
+            state.genderClassification = [];
+            state.otherSymptoms = []; // 其他症状
+            state.medicalOpinions = []; // 医疗意见
+        },
     },
     actions: {
 
@@ -75,7 +84,10 @@ const baseData = {
             const dataSourceId = store.getters.configs.medicalOpinionsId;
             const result = await dSourceDataService.findDDataSourceByDataSourceId(dataSourceId);
             commit('SET_MEDICAL_OPINIONS', result);
-        }
+        },
+        ClearBaseData: async ({ commit }: any) => {
+            commit('CLEAR_BASE_DATA');
+        },
 
     },
     getters: {

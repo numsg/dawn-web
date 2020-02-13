@@ -145,8 +145,7 @@ export class AppHeaderComponent extends Vue {
       showClose: false
     })
       .then(() => {
-        SessionStorage.set('district', '');
-        SessionStorage.set('district-all', '');
+        this.clearData();
         const userName = SessionStorage.get('userInfo').userName;
         if (userName === 'super' || userName === 'manager_pms') {
           _this.$router.push('/login');
@@ -364,6 +363,12 @@ export class AppHeaderComponent extends Vue {
       e.stopPropagation();
       e.preventDefault();
     };
+  }
+
+  clearData() {
+    SessionStorage.set('district', '');
+    SessionStorage.set('district-all', '');
+    this.$store.dispatch(eventNames.baseData.ClearBaseData);
   }
 
   beforeDestroyed() {
