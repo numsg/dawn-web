@@ -228,7 +228,7 @@ const dailyTroubleshooting = {
     },
     SetModelType: async ({ dispatch, commit, state }: any, type: any) => {
       commit('SET_MODEL_TYPE', type);
-      if (state.conditions.isShowGroup) {
+      if (state.conditions.isGroup) {
         dispatch('SetGroupPersonData');
       } else {
         dispatch('LoadPersonData');
