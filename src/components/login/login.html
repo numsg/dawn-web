@@ -18,7 +18,7 @@
     >
       <div class="login-title">
         <!-- Sign in -->
-        {{ $t('login.login') }}
+        欢迎登录
       </div>
       <div class="login-form">
         <el-form ref="loginForm" :model="form" :rules="rules">
@@ -45,13 +45,13 @@
           </el-form-item>
           <el-alert class="login-error" type="error" :title="$t('login.login_pro') + loginError" :closable="false" v-if="loginErr">
           </el-alert>
-          <div style="height: 16px;margin: 0,8;align-self: left;" class="option">
+          <div style="height: 16px;margin: 0,8;align-self: left;margin-top: 40px;" class="option">
             <!-- <el-checkbox id='savePwd' style="height: 16px;margin: 0,8;align-self: left;color: #fff" v-model='checked' label="记住密码"></el-checkbox> -->
             <el-checkbox id="savePwd" v-model="checked" :label="$t('login.remember_pwd')" @change="changePwd"> </el-checkbox>
           </div>
-          <el-form-item class="login-item" style="margin-top:80px;">
+          <el-form-item class="login-item" style="margin-top:40px;">
             <el-button size="medium" type="primary" style="width:100%;font-size:14px;background-color: #3498db !important; color: rgb(255, 255, 255)!important; " icon="check" class="login-btn" @click="handleLogin">
-              {{ $t('login.login') }}</el-button
+              登 &nbsp; &nbsp;  录</el-button
             >
           </el-form-item>
         </el-form>
@@ -77,4 +77,5 @@
       </div>
     </div>
   </div>
+  <p class="copy-right">Copyright©2020 北京辰安科技股份有限公司</p>
 </div>
