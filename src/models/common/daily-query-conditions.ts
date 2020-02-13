@@ -12,7 +12,7 @@ export class DailyQueryConditions {
     // 是否为排查
     isChecked = true;
     // 是否分组
-    isGroup = true;
+    isGroup = false;
     // 小区,楼栋,单元号
     checkedPlot = '';
     checkedBuilding = '';
