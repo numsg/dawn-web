@@ -221,36 +221,36 @@ export class DailyTroubleshootingComponent extends Vue {
         [`D${4 + index}`] : { v: person.idNumber, s  }, // 身份证号
         [`E${4 + index}`] : { v: person.phone , s }, // 联系方式
         [`F${4 + index}`] : { v: person.residence , s }, // 家庭住址
-        [`G${4 + index}`] : { v: person.fever === '1' ? '是' : '', s }, // 是否发热（体温大于37.3度）
+        [`G${4 + index}`] : { v: person.fever === '1' ? '是' : '否', s }, // 是否发热（体温大于37.3度）
 
         [`H${4 + index}`] : { v: person.symptom} , // 替换 其他症状
         // [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
-        [`I${4 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '', s },
+        [`I${4 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '否', s },
         [`J${4 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者
-        [`K${4 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '', s }, // 替换 疑似患者
-        [`L${4 + index}`] : { v: person.touchHubei === '1' ? '是' : '' , s }, // 替换 一般发热患者
+        [`K${4 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '否', s }, // 替换 疑似患者
+        [`L${4 + index}`] : { v: person.touchHubei === '1' ? '是' : '否' , s }, // 替换 一般发热患者
         [`M${4 + index}`] : { v: person.temperature, s }, // 替换 密切接触者
-        [`N${4 + index}`] : { v: person.discomfort === '1' ? '是' : '' , s }, // 替换 密切接触者
+        [`N${4 + index}`] : { v: person.discomfort === '1' ? '是' : '否' , s }, // 替换 密切接触者
         [`O${4 + index}`] : { v: person.wuhanAddress , s },
         [`P${4 + index}`] : { v: person.leaveHubeiDate , s },
         [`Q${4 + index}`] : { v: person.vehicle , s },
         [`R${4 + index}`] : { v: person.vehicleNo , s },
         [`S${4 + index}`] : { v: person.stayPlace , s },
         [`T${4 + index}`] : { v: person.backDate , s },
-        [`U${4 + index}`] : { v: person.fourteenDays === '1' ? '是' : '' , s },
-        [`V${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '' , s },
+        [`U${4 + index}`] : { v: person.fourteenDays === '1' ? '是' : '否' , s },
+        [`V${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '否' , s },
         [`W${4 + index}`] : { v: person.whereToWuling, s },
         [`X${4 + index}`] : { v: person.howToWuling, s },
         [`Y${4 + index}`] : { v: person.vehicleNoWuling, s },
         [`Z${4 + index}`] : { v: person.togetherPersonWuling, s },
         [`AA${4 + index}`] : { v: person.workUnitWuling, s },
-        [`AB${4 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '', s },
-        [`AC${4 + index}`] : { v: person.proveWuling === '1' ? '是' : '', s },
+        [`AB${4 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '否', s },
+        [`AC${4 + index}`] : { v: person.proveWuling === '1' ? '是' : '否', s },
         [`AD${4 + index}`] : { v: person.community, s },
         [`AE${4 + index}`] : { v: person.building, s },
         [`AF${4 + index}`] : { v: person.unit, s },
         [`AG${4 + index}`] : { v: person.roomNumber, s },
-        [`AH${4 + index}`] : { v: person.remark ? person.remark : '', s },
+        [`AH${4 + index}`] : { v: person.remark, s },
       };
       data = Object.assign({}, data, tableTr);
     });
