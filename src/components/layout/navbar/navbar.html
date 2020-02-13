@@ -14,8 +14,9 @@
           <img :src="item.iconCls" alt="" />
         </div>
         <div class="fll">
-          <span class="stair-name" v-if="stairMenu === item.id">{{ $t('navbar.' + item.name) }}</span>
+          <span class="stair-name" >{{ $t('navbar.' + item.name) }}</span>
         </div>
+        
       </div>
       <el-dropdown v-else @command="handleCmomand" trigger="click" placement="bottom-start">
         <div class="stair-nav" :title="$t('navbar.'+item.name)">
@@ -24,7 +25,7 @@
               <img :src="item.iconCls" alt="" />
             </div>
             <div class="stair-name-float">
-              <span class="stair-name" v-if="stairMenu === item.id">{{ $t('navbar.' + item.name) }}</span>
+              <span class="stair-name" >{{ $t('navbar.' + item.name) }}</span>
             </div>
           </div>
         </div>
@@ -41,6 +42,7 @@
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      <div v-if="stairMenu === item.id" class="active"></div>
     </li>
   </ul>
 </div>

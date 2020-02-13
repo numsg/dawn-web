@@ -25,7 +25,17 @@
       // line-height: 72px;
       height: 100%;
       list-style: none;
-
+      position: relative;
+      .active{
+        width: 100px;
+        height: 4px;
+        background: #0371da;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+      }
       .stair-nav {
         padding: 0 20px;
         font-size: 18px;
@@ -48,7 +58,7 @@
           text-indent: 20px;
           display: inline;
           padding: 0 20px;
-          color: rgb(85, 85, 85);
+          color: #ffffff;
           line-height: 80px;
         }
 
@@ -75,7 +85,7 @@
     }
 
     .is-active {
-      background: rgb(236, 237, 241);
+      background: #5ba2ff;
     }
   }
 }
@@ -97,4 +107,5 @@
   .nav-child-name {
     margin-left: 5px;
   }
+
 }
