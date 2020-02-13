@@ -139,6 +139,8 @@ export class AppHeaderComponent extends Vue {
       showClose: false
     })
       .then(() => {
+        SessionStorage.set('district', '');
+        SessionStorage.set('district-all', '');
         const userName = SessionStorage.get('userInfo').userName;
         if (userName === 'super' || userName === 'manager_pms') {
           _this.$router.push('/login');
