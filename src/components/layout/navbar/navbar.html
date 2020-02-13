@@ -11,7 +11,10 @@
       </div> -->
       <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'troubleshoot' || item.name === 'emergency' || item.name === 'gov' || item.name ==='enterprice'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
         <div class="stair-nav-icon">
-          <img :src="item.iconCls" alt="" />
+          <!-- <img :src="item.iconCls" alt="" /> -->
+          <img :src="paichiImg" v-if=" item.name === 'troubleshoot' " alt="" />
+          <img :src="guanliImg"  v-if=" item.name === 'outbreak' "  alt="" />
+          <img :src="guanliImg"  v-if=" item.name === '' "  alt="" />
         </div>
         <div class="fll">
           <span class="stair-name" >{{ $t('navbar.' + item.name) }}</span>
