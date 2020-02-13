@@ -16,6 +16,7 @@ import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 import sessionStorage from '@/utils/session-storage';
+import notifyUtil from '@/common/utils/notifyUtil';
 
 import * as XLSX from 'xlsx';
 
@@ -147,7 +148,13 @@ export class DailyTroubleshootingComponent extends Vue {
     // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
     // const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
     const result: RecordModel[] = await DailyTroubleshootingService.loadExportByJXExcel({  startDate , endDate, currentVillageId});
+    if ( !result ) {
+      notifyUtil.warning('查找记录失败');
+    }
     const res = await DailyTroubleshootingService.queryCommunity();
+    if ( !res ) {
+      notifyUtil.warning('查询社区失败');
+    }
     let communityName = '';
     if ( res && Array.isArray(res) && res.length > 0 ) {
       communityName = res[0].name;
