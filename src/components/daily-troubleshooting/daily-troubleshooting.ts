@@ -198,7 +198,11 @@ export class DailyTroubleshootingComponent extends Vue {
         [`AA3`] : { v: '工作单位', s },
         [`AB3`] : { v: '是否本街道常驻人口', s },
         [`AC3`] : { v: '是否有相关证明', s },
-        [`AD3`] : { v: '备注', s },
+        [`AD3`] : { v: '社区', s },
+        [`AE3`] : { v: '楼栋', s },
+        [`AF3`] : { v: '单元', s },
+        [`AG3`] : { v: '房间号', s },
+        [`AH3`] : { v: '备注', s },
       // J4: { v: '确认患者' , s },
       // K4: { v: '疑似患者' , s },
       // L4: { v: 'CT诊断肺炎患者', s  },
@@ -213,13 +217,13 @@ export class DailyTroubleshootingComponent extends Vue {
       const tableTr = {
         [`A${4 + index}`] : { v: index + 1 , s }, // 序号
         [`B${4 + index}`] : { v: person.name }, // 姓名
-        [`C${4 + index}`] : { v:  this.replaceSex(person.sex) , s }, // 替换 性别
+        [`C${4 + index}`] : { v:  person.sex === '0' ?  '男' : '女' , s }, // 替换 性别
         [`D${4 + index}`] : { v: person.idNumber, s  }, // 身份证号
         [`E${4 + index}`] : { v: person.phone , s }, // 联系方式
         [`F${4 + index}`] : { v: person.residence , s }, // 家庭住址
-        [`G${4 + index}`] : { v: person.fever ? '1' : '', s }, // 是否发热（体温大于37.3度）
+        [`G${4 + index}`] : { v: person.fever === '1' ? '是' : '', s }, // 是否发热（体温大于37.3度）
 
-        [`H${4 + index}`] : { v: this.replaceOtherSymptoms(person.symptom)} , // 替换 其他症状
+        [`H${4 + index}`] : { v: person.symptom} , // 替换 其他症状
         // [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
         [`I${4 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '', s },
         [`J${4 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者
@@ -242,7 +246,11 @@ export class DailyTroubleshootingComponent extends Vue {
         [`AA${4 + index}`] : { v: person.workUnitWuling, s },
         [`AB${4 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '', s },
         [`AC${4 + index}`] : { v: person.proveWuling === '1' ? '是' : '', s },
-        [`AD${4 + index}`] : { v: person.remark ? person.remark : '', s },
+        [`AD${4 + index}`] : { v: person.community, s },
+        [`AE${4 + index}`] : { v: person.building, s },
+        [`AF${4 + index}`] : { v: person.unit, s },
+        [`AG${4 + index}`] : { v: person.roomNumber, s },
+        [`AH${4 + index}`] : { v: person.remark ? person.remark : '', s },
       };
       data = Object.assign({}, data, tableTr);
     });

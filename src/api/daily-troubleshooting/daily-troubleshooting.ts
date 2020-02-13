@@ -689,7 +689,7 @@ export default {
       });
   },
   async queryCommunity() {
-    const  dataSourceId = dataSourceService.getCommunityDataSourceId();
+    const  dataSourceId = await dataSourceService.getCommunityDataSourceId();
     const q = odataClient({
       service: store.getters.configs.communityManagerOdataUrl,
       resources: 'DataSourceEntity',
