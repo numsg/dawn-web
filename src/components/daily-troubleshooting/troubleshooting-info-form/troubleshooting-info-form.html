@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <el-form-item label="是否发热(体温 > 37.3℃)" prop="isExceedTemp">
+    <el-form-item label="是否发热(体温 >= 37.3℃)" prop="isExceedTemp">
       <el-radio-group v-model="troublePerson.isExceedTemp">
         <el-radio :label="true">是</el-radio>
         <el-radio :label="false">否</el-radio>
