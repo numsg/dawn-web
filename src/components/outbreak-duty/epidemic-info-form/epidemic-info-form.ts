@@ -44,7 +44,7 @@ export class EpidemicInfoFormComponent extends Vue {
     // 'personBase.identificationNumber': [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
     'personBase.identificationNumber': [{ required: true, message: '请输入身份证号', trigger: ['blur', 'change']}],
     gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
-    mobileNumber: [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
+    mobileNumber: [{ required: true, message: '请输入联系方式', trigger: ['blur', 'change']}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
     // submitTime: [{ type: 'date', required: true, message: '请选择报送时间', trigger: 'change' }],
     villageId: [{ required: true, message: '请选择小区', trigger: ['blur', 'change'] }],
     building: [{ required: true, message: '请填写楼栋', trigger: ['blur', 'change'] }],

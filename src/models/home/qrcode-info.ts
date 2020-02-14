@@ -7,9 +7,9 @@ export class QrcodeInfo {
     // 行政区划code
     regionalismCode!: any;
     // 责任人
-    responsible!: string;
+    responsible: string =  '';
     // 责任人电话
-    responsiblePhone!: string;
+    responsiblePhone: string = '';
 
   }
   export default QrcodeInfo;
