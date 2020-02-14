@@ -180,20 +180,20 @@
   }
 
   .loginWarp {
-    /* margin: 280px auto 0 auto; */
     display: flex;
     flex-direction: column;
     position: absolute;
     margin-left: 231px;
-    top: 77px;
-    //right: 20%;
 
     .system-logo {
       // margin: 14% 20px 0px 0px;
       display: flex;
       justify-content: center;
       align-items: center;
-
+      position: absolute;
+      top: -182px;
+      left: 0;
+      padding-left: 10px;
       img {
         float: left;
         position: relative;
@@ -202,10 +202,10 @@
 
       .log-txt {
         float: left; //text-indent: 40px;
-        font-size: 36px;
+        font-size: 38px;
         line-height: 110px;
         color: #ffffff;
-        font-weight: bold;
+        // font-weight: bold;
         letter-spacing: 0.2em;
         position: relative;
         margin-left: 15px;
@@ -226,7 +226,7 @@
     }
 
     .login-account {
-      margin-left: 20px;
+      // margin-left: 20px;
       padding: 15px;
       background: #ffffff;
       border-radius: 5px;
