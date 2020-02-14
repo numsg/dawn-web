@@ -29,6 +29,7 @@
         </div> -->
       </div>
       <el-button
+      v-if="rolePrivilege.operate"
       type="primary"
       class="iconfont iconpms-icon_add primary-btn btn-new dawn-data-source-btn"
       @click="onMakeNewDataSource"

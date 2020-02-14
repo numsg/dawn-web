@@ -41,6 +41,11 @@ export default class TroubleshootRecord {
     // 多租户
     multiTenancy: string = '';
 
+        /**
+     * 行政区划code
+     */
+    districtCode: string = '';
+
     // 体温是否大于37.3
     isExceedTemp: boolean = false;
 

@@ -110,6 +110,7 @@ const StoreEvents = {
     SetActiveName: 'SetActiveName',
     ResetData: 'ResetData',
     SetModelType: 'SetModelType',
+    ReloadGroupsData: 'ReloadGroupsData',
   }
 };
 

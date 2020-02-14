@@ -27,11 +27,13 @@ import eventTypeServie from '@/api/base-data-define/event-type.service';
 import notifyUtil from '@/common/utils/notifyUtil';
 import i18n from '@/i18n';
 
-
 @Component({
   template: Html,
   style: Styles,
-  themes: [{ name: 'white', style: attributeStyle }, { name: 'black', style: attributeBlackStyle }],
+  themes: [
+    { name: 'white', style: attributeStyle },
+    { name: 'black', style: attributeBlackStyle }
+  ],
   components: {
     'el-level-define-content': LevelDefinecontentComponent,
     'new-data-source': NewDataSourceComponent,
@@ -357,9 +359,25 @@ export class AttributeManageComponent extends Vue {
     } else {
       // 使用本系统数据
       result = await dataSourceService.queryDataSource();
+      const userString = sessionStorage.getItem('userInfo');
+      if (userString) {
+        const userInfo = JSON.parse(userString);
+        if (userInfo.userName === 'manager_pms') {
+          return result;
+        }
+      }
+      const districtCode = sessionStorage.getItem('district');
+      // 过滤 1. 显示所有数据源的权限  2.当前社区code过滤
+      if (!this.rolePrivilege.displayAll) {
+        result = result.filter((a: any) => a.description === districtCode && a.tag === '[{\'id\':\'\',\'name\':\'code\',\'description\':\'\'}]');
+      } else {
+        const publicDataSOurce = result.filter((a: any) => a.description === '');
+        const curDataSource = result.filter(
+          (a: any) => a.description === districtCode && a.tag === '[{\'id\':\'\',\'name\':\'code\',\'description\':\'\'}]'
+        );
+        result = publicDataSOurce.concat(curDataSource);
+      }
     }
     return result;
   }
-
-
 }

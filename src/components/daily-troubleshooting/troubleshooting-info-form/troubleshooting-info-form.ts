@@ -67,8 +67,8 @@ export class TroubleshootingInfoForm extends Vue {
     // 'personBase.identificationNumber': [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
     'personBase.identificationNumber': [{ required: true, message: '请输入身份证号', trigger: ['blur', 'change']}],
     'personBase.sex': [{ required: true, message: '请选择性别', trigger: 'change' }],
-    // 'personBase.phone': [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
-    'personBase.phone': [{ required: true, message: '请输入联系方式', trigger: ['blur', 'change']}],
+    'personBase.phone': [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
+    // 'personBase.phone': [{ required: true, message: '请输入联系方式', trigger: ['blur', 'change']}],
     'personBase.address': [{ required: true, message: '请填写住址', trigger: ['blur', 'change'] }],
     plot: [{ required: true, message: '请选择小区', trigger: ['blur', 'change'] }],
     building: [{ required: true, message: '请填写楼栋', trigger: ['blur', 'change'] }],
@@ -151,13 +151,19 @@ export class TroubleshootingInfoForm extends Vue {
 
   submitForm(formName: string) {
     const form: any = this.$refs[formName];
-    form.validate((valid: any) => {
+    form.validate(async (valid: any) => {
       if (valid) {
+        const {name, phone} = this.troublePerson.personBase;
+        const isDuplicate = await DailyTroubleshootingService.isUserDuplicate(name, phone);
+        if (isDuplicate) {
+          notifyUtil.error('用户已存在, 请检查名称和手机号');
+          return;
+        }
         this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
-        console.log(this.troublePerson, 'this.troublePerson');
         this.troublePerson.createTime = moment(this.troublePerson.createTime).format('YYYY-MM-DD HH:mm:ss');
         this.troublePerson.multiTenancy = SessionStorage.get('district');
+        this.troublePerson.districtCode = SessionStorage.get('district-all');
         this.troublePerson.personBase.multiTenancy = SessionStorage.get('district');
         this.troublePerson.personBase.districtCode = SessionStorage.get('district-all');
         // DailyTroubleshootingService.addDailyTroubleshooting(JSON.parse( JSON.stringify(this.troublePerson) ))
@@ -173,7 +179,7 @@ export class TroubleshootingInfoForm extends Vue {
               this.troublePerson.personBase = new PersonBase();
               this.otherSymptomsList = [];
             } else {
-              notifyUtil.error('用户已存在, 请检查名称和手机号');
+              notifyUtil.error('添加失败');
             }
           })
           .catch(err => {
@@ -202,7 +208,7 @@ export class TroubleshootingInfoForm extends Vue {
             if ( res ) {
               notifyUtil.success('修改填报记录成功');
               this.$emit('colse');
-              this.$emit('success');
+              this.$emit('edit-success');
               this.resetForm('recordForm');
               // this.troublePerson = new PersonInfo();
               this.troublePerson = new TroubleshootRecord();
@@ -232,7 +238,6 @@ export class TroubleshootingInfoForm extends Vue {
   }
 
   cancel() {
-    this.resetForm('recordForm');
     this.colse();
   }
 }

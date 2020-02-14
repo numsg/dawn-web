@@ -114,7 +114,7 @@ const dailyTroubleshooting = {
       state.statisticsData = [];
       state.totalCount = 0;
       state.personData = [];
-      // state.isShowgGroup = false;
+      state.isShowgGroup = false;
       state.conditions = new DailyQueryConditions();
       state.groupsOriginalData = [];
       state.groupsData = [];
@@ -123,6 +123,7 @@ const dailyTroubleshooting = {
       state.groupPersonTotalCount = 0;
       state.checkedTotalCount = 0;
       state.unCheckedTotalCount = 0;
+      state.modelType = ModelType.checked;
     },
     SET_CHECK_GROUP_INFO: (state: any, result: any) => {
       state.conditions.checkedPlot = result.checkedPlot;
@@ -190,6 +191,16 @@ const dailyTroubleshooting = {
       } else {
         const result = await DailyTroubleshootingService.queryGroupsData();
         state.groupsOriginalData = result;
+        commit('SET_GROUPS_DATA', result);
+      }
+    },
+    ReloadGroupsData: async ({ dispatch, commit, state }: any) => {
+      const result = await DailyTroubleshootingService.queryGroupsData();
+      state.groupsOriginalData = result;
+      if (state.conditions && state.conditions.plots && state.conditions.plots.length > 0) {
+        const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
+        commit('SET_GROUPS_DATA', result);
+      } else {
         commit('SET_GROUPS_DATA', result);
       }
     },

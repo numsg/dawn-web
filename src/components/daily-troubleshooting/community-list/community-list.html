@@ -1,0 +1,16 @@
+<div class="community-list">
+    <div class="title header-title">
+        <i></i>
+        <span>小区填报人数</span>
+    </div>
+    <div class="total">
+        <div class="count">42367</div>
+        <div class="txt">累计上报总人数</div>
+    </div>
+    <ul class="list">
+        <li v-for="data in statisticsData">
+            <div class="name">{{data.name}}</div>
+            <div class="count">{{data.count}}</div>
+        </li>
+    </ul>
+</div>

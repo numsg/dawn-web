@@ -76,101 +76,6 @@ export default {
             return false;
         });
     },
-    // 查询所有日常排查记录
-    queryAllDailyRecord(page: number, count: number, keyowrds?: string, ids?: string[]) {
-      const q = odataClient({
-        service: store.getters.configs.communityManagerOdataUrl,
-        resources: 'DailyTroubleshootRecordEntity'
-      });
-      let filterStr = '';
-      if (keyowrds) {
-        filterStr += 'contains( name, \'' + keyowrds + '\') or contains( address, \'' + keyowrds + '\') or contains( phone, \'' + keyowrds + '\')';
-
-        const keywordList = keyowrds.split('-');
-        let building = '';
-        let unitNumber = '';
-        let roomNo = '';
-        let bstr = '';
-        if ( keywordList.length > 0 ) {
-          building =  keywordList[0];
-          bstr += 'contains( building, \'' + building + '\')';
-        }
-        if ( keywordList.length > 1 ) {
-          unitNumber =  keywordList[1];
-          bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
-        }
-        if ( keywordList.length > 2 ) {
-          roomNo =  keywordList[2];
-          bstr += ' and contains( roomNo, \'' + roomNo + '\')';
-        }
-        if (bstr) {
-          filterStr = '(' + filterStr + ' or ' + bstr + ')';
-        }
-      }
-      if (ids && ids.length > 0) {
-        let str = '';
-        for (let i = 0, len = ids.length - 1; i < ids.length; i++) {
-            const id = ids[i];
-            if (i !== len) {
-                str += '(plot eq \'' + id + '\') or ';
-            } else {
-                str = '(' + str + '(plot eq \'' + id + '\')' + ')';
-                if (filterStr) {
-                  filterStr = filterStr + ' and ' + str;
-                } else {
-                  filterStr += str;
-                }
-            }
-        }
-      }
-      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      if (filterStr) {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ') and ' + filterStr;
-      } else {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ')';
-      }
-      if (filterStr) {
-        return q
-          .skip(count * (page))
-          .top(count)
-          .filter(filterStr)
-          .orderby('building', 'asc')
-          .orderby('unitNumber', 'asc')
-          .orderby('roomNo', 'asc')
-          .orderby('createTime', 'asc')
-          .count(true)
-          .get(null)
-          .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
-          })
-          .catch((error: any) => {});
-      } else {
-        return q
-          .skip(count * (page))
-          .top(count)
-          .orderby('building', 'asc')
-          .orderby('unitNumber', 'asc')
-          .orderby('roomNo', 'asc')
-          .orderby('createTime', 'asc')
-          .count(true)
-          .get(null)
-          .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
-          })
-          .catch((error: any) => {});
-      }
-    },
 
     // 江夏特定查询接口
     queryDailyRecordByTime(param: any) {
@@ -183,136 +88,6 @@ export default {
         .catch(err => {
             return false;
         });
-    },
-
-
-    // 查询所有日常排查记录
-    loadAllDailyRecord(conditions: DailyQueryConditions) {
-      const q = odataClient({
-        service: store.getters.configs.communityManagerOdataUrl,
-        resources: 'DailyTroubleshootRecordEntity'
-      });
-      let filterStr = '';
-      if (conditions.keyWord) {
-        filterStr += 'contains( name, \'' + conditions.keyWord + '\') or contains( address, \'' + conditions.keyWord + '\') or contains( phone, \'' + conditions.keyWord + '\')';
-        const keywordList = conditions.keyWord.split('-');
-        let building = '';
-        let unitNumber = '';
-        let roomNo = '';
-        let bstr = '';
-        if ( keywordList.length > 0 ) {
-          building =  keywordList[0];
-          bstr += 'contains( building, \'' + building + '\')';
-        }
-        if ( keywordList.length > 1 ) {
-          unitNumber =  keywordList[1];
-          bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
-        }
-        if ( keywordList.length > 2 ) {
-          roomNo =  keywordList[2];
-          bstr += ' and contains( roomNo, \'' + roomNo + '\')';
-        }
-        if (bstr) {
-          filterStr = '(' + filterStr + ' or ' + bstr + ')';
-        }
-      }
-      if (conditions.plots && conditions.plots.length > 0) {
-        let str = '';
-        for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
-            const id = conditions.plots[i];
-            if (i !== len) {
-                str += '(plot eq \'' + id + '\') or ';
-            } else {
-                str = '(' + str + '(plot eq \'' + id + '\')' + ')';
-                if (filterStr) {
-                  filterStr = filterStr + ' and ' + str;
-                } else {
-                  filterStr += str;
-                }
-            }
-        }
-      }
-
-      if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
-        let str = '';
-        for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
-            const id = conditions.medicalOpinion[i];
-            if (i !== len) {
-                str += '(medicalOpinion eq \'' + id + '\') or ';
-            } else {
-                str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
-                if (filterStr) {
-                  filterStr = filterStr + ' and ' + str;
-                } else {
-                  filterStr += str;
-                }
-            }
-        }
-      }
-
-      if (conditions.isFaver && conditions.isFaver.length > 0) {
-        let str = '';
-        for (let i = 0, len = conditions.isFaver.length - 1; i < conditions.isFaver.length; i++) {
-            const value = conditions.isFaver[i];
-            if (i !== len) {
-                str += '(isExceedTemp eq ' + value + ') or ';
-            } else {
-                str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
-                if (filterStr) {
-                  filterStr = filterStr + ' and ' + str;
-                } else {
-                  filterStr += str;
-                }
-            }
-        }
-      }
-      const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      const endTime = moment().endOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      if (filterStr) {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ') and ' + filterStr;
-      } else {
-        filterStr = '(createTime gt ' + startTime + ') and '
-                  + '(createTime lt ' + endTime + ')';
-      }
-      if (filterStr) {
-        return q
-          .skip(conditions.pageSize * (conditions.page))
-          .top(conditions.pageSize)
-          .filter(filterStr)
-          .orderby('building', 'asc')
-          .orderby('unitNumber', 'asc')
-          .orderby('roomNo', 'asc')
-          .orderby('createTime', 'asc')
-          .count(true)
-          .get(null)
-          .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
-          })
-          .catch((error: any) => {});
-      } else {
-        return q
-          .skip(conditions.pageSize * (conditions.page))
-          .top(conditions.pageSize)
-          .orderby('building', 'asc')
-          .orderby('unitNumber', 'asc')
-          .orderby('roomNo', 'asc')
-          .orderby('createTime', 'asc')
-          .count(true)
-          .get(null)
-          .then((response: any) => {
-            const result = {
-              count: JSON.parse(response.body)['@odata.count'],
-              value: this.buildDailyRecord(JSON.parse(response.toJSON().body).value)
-            };
-            return result;
-          })
-          .catch((error: any) => {});
-      }
     },
 
      // 查询所有日常排查记录
@@ -640,38 +415,6 @@ export default {
           return false;
         });
       },
-
-    buildDailyRecord(result: any[]) {
-      const res: any[] = [];
-      if (Array.isArray(result) && result.length > 0) {
-        result.forEach((data: PersonOdataInfo) => {
-          const item = new PersonInfo();
-          item.id = data.id;
-          item.name = data.name;
-          item.address = data.address;
-          item.age = data.age;
-          item.building = data.building;
-          item.code = data.code;
-          item.confirmed_diagnosis = data.confirmed_diagnosis;
-          item.createTime = data.createTime;
-          item.identificationNumber = data.identificationNumber;
-          item.contact = data.isContact;
-          item.exceedTemp = data.isExceedTemp;
-          // item.leaveArea = data.isLeaveArea;
-          item.medicalOpinion = data.medicalOpinion;
-          item.multiTenancy = data.multiTenancy;
-          item.note = data.note;
-          item.otherSymptoms = data.otherSymptoms;
-          item.phone = data.phone;
-          item.plot = data.plot;
-          item.roomNo = data.roomNo;
-          item.sex = data.sex;
-          item.unitNumber = data.unitNumber;
-          res.push(item);
-        });
-      }
-      return res;
-    },
 
   queryAttachments(businessId: any): Promise<any> {
     const q = odataClient({
@@ -1189,5 +932,23 @@ export default {
         .catch((error: any) => {});
     }
   },
+
+  /**
+   * 判断用户是否存在
+   * @param {string} name
+   * @param {number} phoneNumber
+   */
+  isUserDuplicate(name: string, phone: string) {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'PersonBaseEntity'
+    });
+    const filterStr = '(name eq \'' + name + '\') and (phone eq \'' + phone + '\')';
+    return q.skip(0).filter(filterStr).count(true).get(null).then((response: any) => {
+      console.log(JSON.parse(response.body)['@odata.count']);
+      return JSON.parse(response.body)['@odata.count'] > 0 ? true : false;
+    })
+    .catch((error: any) => {});
+  }
 
 };
