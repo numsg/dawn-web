@@ -204,7 +204,7 @@ export class DailyTroubleshootingComponent extends Vue {
         [`Q${4 + index}`] : { v: person.vehicleNo , s },
         [`R${4 + index}`] : { v: person.stayPlace , s },
         [`S${4 + index}`] : { v: person.backDate , s },
-        [`T${4 + index}`] : { v: this.checkTime(person.leaveHubeiDate), s },
+        [`T${4 + index}`] : { v: this.checkTime(person.backDate), s },
         [`U${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '否' , s },
         [`V${4 + index}`] : { v: person.whereToWuling, s },
         [`W${4 + index}`] : { v: person.howToWuling, s },
