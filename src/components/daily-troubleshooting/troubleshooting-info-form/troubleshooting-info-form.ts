@@ -67,7 +67,7 @@ export class TroubleshootingInfoForm extends Vue {
     // 'personBase.identificationNumber': [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
     'personBase.identificationNumber': [{ required: true, message: '请输入身份证号', trigger: ['blur', 'change']}],
     'personBase.sex': [{ required: true, message: '请选择性别', trigger: 'change' }],
-    'personBase.phone': [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
+    'personBase.phone': [{ required: true, message: '请输入联系方式', trigger: ['blur', 'change']}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
     // 'personBase.phone': [{ required: true, message: '请输入联系方式', trigger: ['blur', 'change']}],
     'personBase.address': [{ required: true, message: '请填写住址', trigger: ['blur', 'change'] }],
     plot: [{ required: true, message: '请选择小区', trigger: ['blur', 'change'] }],
