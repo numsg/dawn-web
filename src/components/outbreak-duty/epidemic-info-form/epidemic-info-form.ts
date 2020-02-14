@@ -7,6 +7,7 @@ import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.serv
 import * as format from 'dateformat';
 import { Getter } from 'vuex-class';
 import SessionStorage from '@/utils/session-storage';
+import moment from 'moment';
 
 @Component({
   template: epidemicInfoFormHtml,
@@ -97,9 +98,9 @@ export class EpidemicInfoFormComponent extends Vue {
     const form: any = this.$refs[formName];
     form.validate((valid: any) => {
       if (valid) {
-        this.curEpidemicPerson.diseaseTime = format.default(this.curEpidemicPerson.diseaseTime, 'yyyy-mm-dd HH:mm:ss');
-        this.curEpidemicPerson.submitTime = format.default(this.curEpidemicPerson.submitTime, 'yyyy-mm-dd HH:mm:ss');
-        this.curEpidemicPerson.updateTime = format.default(new Date, 'yyyy-mm-dd HH:mm:ss');
+        this.curEpidemicPerson.diseaseTime = moment(this.curEpidemicPerson.diseaseTime).format('YYYY-MM-DD HH:mm:ss');
+        this.curEpidemicPerson.submitTime = moment(this.curEpidemicPerson.submitTime).format('YYYY-MM-DD HH:mm:ss');
+        this.curEpidemicPerson.updateTime = moment(this.curEpidemicPerson.updateTime).format('YYYY-MM-DD HH:mm:ss');
         if (!this.isEdit) {
           this.curEpidemicPerson.multiTenancy = SessionStorage.get('district');
           epidemicDynamicService

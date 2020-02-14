@@ -19,6 +19,7 @@ import sessionStorage from '@/utils/session-storage';
 import notifyUtil from '@/common/utils/notifyUtil';
 // import { CommunityList } from '@/components/daily-troubleshooting/community-list/community-list';
 import * as XLSX from 'xlsx';
+import moment from 'moment';
 
 @Component({
   template: dailyTroubleshootingHtml,
@@ -109,7 +110,10 @@ export class DailyTroubleshootingComponent extends Vue {
     const  {  startDate , endDate} = param;
     let { currentVillageId } = param;
     currentVillageId = sessionStorage.get('district') + '';
-    const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
+    // const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
+    const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    console.log('---now---');
+    console.log(now);
     const taskListName = `日常排查数据${now}.xlsx`;
     // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
     // const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
@@ -204,7 +208,7 @@ export class DailyTroubleshootingComponent extends Vue {
         [`Q${4 + index}`] : { v: person.vehicleNo , s },
         [`R${4 + index}`] : { v: person.stayPlace , s },
         [`S${4 + index}`] : { v: person.backDate , s },
-        [`T${4 + index}`] : { v: this.checkTime(person.leaveHubeiDate), s },
+        [`T${4 + index}`] : { v: this.checkTime(person.backDate), s },
         [`U${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '否' , s },
         [`V${4 + index}`] : { v: person.whereToWuling, s },
         [`W${4 + index}`] : { v: person.howToWuling, s },
