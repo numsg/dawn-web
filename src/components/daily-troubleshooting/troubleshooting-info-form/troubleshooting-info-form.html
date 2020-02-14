@@ -25,9 +25,9 @@
     <el-form-item label="身份证">
       <el-input v-model="troublePerson.personBase.identificationNumber" maxlength="18"></el-input>
     </el-form-item>
-    <el-form-item label="现居住地址" prop="personBase.address" class="form-item">
-      <el-input v-model="troublePerson.personBase.address" maxlength="300"></el-input>
-      <span class="form-item-tip">{{troublePerson.personBase.address ? troublePerson.personBase.address.length : 0}}/300</span>
+    <el-form-item label="常德人入武汉后居住地" prop="personBase.address" class="form-item">
+      <el-input v-model="troublePerson.personBase.address" maxlength="250"></el-input>
+      <span class="form-item-tip">{{troublePerson.personBase.address ? troublePerson.personBase.address.length : 0}}/250</span>
     </el-form-item>
     <el-form-item label="小区" prop="plot">
       <el-radio-group v-model="troublePerson.plot">
