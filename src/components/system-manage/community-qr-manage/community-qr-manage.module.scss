@@ -24,9 +24,10 @@
 
     .qr-code-box {
       width: 100%;
-      height: 600px;
+      height: 760px;
       background-size: 100% auto;
       background-image: url(../../../assets/img/qrcode_bg.png);
+      background-repeat: no-repeat;
       .img-box {
         width: 100%;
         height: 365px;
