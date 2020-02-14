@@ -68,8 +68,8 @@ export class CommunityQRManageComponent extends Vue {
   async created() {
     this.qrCodeUrl = store.getters.configs.qrCodeUrl;
     await this.getDataSOurceByDistrictCode();
-    this.getCommunityInformationById(this.currentCommunityId);
-    this.getCommunityGridMember();
+    await this.getCommunityInformationById(this.currentCommunityId);
+    await this.getCommunityGridMember();
   }
 
   /**
