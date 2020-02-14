@@ -127,6 +127,7 @@ export class DailyTroubleshootingComponent extends Vue {
     }
     let data = {};
 
+
     const s = {
       alignment: {
         horizontal: 'center',
@@ -137,7 +138,7 @@ export class DailyTroubleshootingComponent extends Vue {
     const headers = {
       A1: { v: '社区疫情排查情况登记表', s },
       A2: { v: '社区(村)', s },
-      F2: { v: '填表日期' , s},
+      F2: { v: '制表日期' , s},
       A3: { v: '序号' , s},
       B2: { v:  communityName , s},
       B3: { v: '姓名' , s},
@@ -162,7 +163,7 @@ export class DailyTroubleshootingComponent extends Vue {
       [`S3`] : { v: '返回常德日期' , s },
       [`T3`] : { v: '是否满14天日期' , s },
       [`U3`] : { v: '是否外地来武进区人员' , s },
-      [`V3`] : { v: '现住地址', s },
+      [`V3`] : { v: '原居地址(从何处来)', s },
       [`W3`] : { v: '来武进区方式', s },
       [`X3`] : { v: '来武进区班次/车次', s },
       [`Y3`] : { v: '同程人员', s },
@@ -173,6 +174,7 @@ export class DailyTroubleshootingComponent extends Vue {
       [`AD3`] : { v: '楼号', s },
       [`AE3`] : { v: '单元', s },
       [`AF3`] : { v: '房间号', s },
+      ['AG3'] : { v: '采集时间' , s},
     };
     // 合并 headers 和 data
     const dataRowHight: any[] = [];
@@ -200,7 +202,7 @@ export class DailyTroubleshootingComponent extends Vue {
         [`Q${4 + index}`] : { v: person.vehicleNo , s },
         [`R${4 + index}`] : { v: person.stayPlace , s },
         [`S${4 + index}`] : { v: person.backDate , s },
-        [`T${4 + index}`] : { v: person.fourteenDays === '1' ? '是' : '否' , s },
+        [`T${4 + index}`] : { v: this.checkTime(person.leaveHubeiDate), s },
         [`U${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '否' , s },
         [`V${4 + index}`] : { v: person.whereToWuling, s },
         [`W${4 + index}`] : { v: person.howToWuling, s },
@@ -213,6 +215,7 @@ export class DailyTroubleshootingComponent extends Vue {
         [`AD${4 + index}`] : { v: person.building, s },
         [`AE${4 + index}`] : { v: person.unit, s },
         [`AF${4 + index}`] : { v: person.roomNumber, s },
+        [`AG${4 + index}`] : { v: person.createTime, s},
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -298,6 +301,20 @@ export class DailyTroubleshootingComponent extends Vue {
     // const wb: XLSX.WorkBook = XLSX.utils.book_new();
     // XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
     // XLSX.writeFile(wb, taskListName + '.xlsx');
+  }
+
+  checkTime(time: string) {
+    if (!time) {
+      return '';
+    }
+    const timeList = time.split('-');
+    if ( Array.isArray(timeList) && timeList.length > 2 ) {
+      const oldTime = new Date( Number(timeList[0]), Number(timeList[1]) - 1, Number(timeList[2]), 0, 0, 0   );
+      const newTime = new Date();
+      return newTime.getTime() > oldTime.getTime() + 14 * 24 * 60 * 60 * 1000 ? '是': '否';
+    } else {
+      return '否';
+    }
   }
 
   replaceSex(sex: any) {
