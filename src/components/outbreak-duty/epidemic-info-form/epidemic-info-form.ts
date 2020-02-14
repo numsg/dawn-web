@@ -20,18 +20,74 @@ export class EpidemicInfoFormComponent extends Vue {
 
   curEpidemicPerson: EpidemicPerson = new EpidemicPerson();
 
+  // rules = {
+  //   name: [
+  //     { required: true, message: '请输入姓名', trigger: 'blur' }
+  //     // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+  //   ],
+  //   gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
+  //   address: [{ required: true, message: '请输入地址', trigger: 'change' }],
+  //   district: [{ required: true, message: '请输入行政区划', trigger: 'change' }],
+  //   // medicalCondition: [{ required: true, message: '请输入医疗情况', trigger: 'change' }],
+  //   submitTime: [{ type: 'date', required: true, message: '请选择报送时间', trigger: 'change' }]
+  //   // diseaseTime: [{ type: 'date', required: true, message: '请选择发病时间', trigger: 'change' }]
+  // };
+
   rules = {
-    name: [
-      { required: true, message: '请输入姓名', trigger: 'blur' }
-      // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-    ],
+    // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
+    name: [{ required: true, message: '请输入姓名', trigger: ['blur', 'change'] }],
+    age: [ { required: true}, { validator: this.validateAge, trigger: ['blur', 'change'] }],
+    // 'personBase.identificationNumber': [{ required: true}, { validator: this.validateIdentificationNumber, trigger: ['blur', 'change'] }],
+    'personBase.identificationNumber': [{ required: true, message: '请输入身份证号', trigger: ['blur', 'change']}],
     gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
-    address: [{ required: true, message: '请输入地址', trigger: 'change' }],
-    district: [{ required: true, message: '请输入行政区划', trigger: 'change' }],
-    // medicalCondition: [{ required: true, message: '请输入医疗情况', trigger: 'change' }],
-    submitTime: [{ type: 'date', required: true, message: '请选择报送时间', trigger: 'change' }]
-    // diseaseTime: [{ type: 'date', required: true, message: '请选择发病时间', trigger: 'change' }]
+    mobileNumber: [{ required: true}, { validator: this.validatePhone, trigger: ['blur', 'change'] }],
+    // submitTime: [{ type: 'date', required: true, message: '请选择报送时间', trigger: 'change' }],
+    villageId: [{ required: true, message: '请选择小区', trigger: ['blur', 'change'] }],
+    building: [{ required: true, message: '请填写楼栋', trigger: ['blur', 'change'] }],
+    unitNumber: [{ required: true, message: '请填写单元号', trigger: ['blur', 'change'] }],
+    roomNo: [{ required: true, message: '请填写房间号', trigger: ['blur', 'change'] }],
+    // bodyTemperature: [{ required: true, message: '请填写体温', trigger: 'change' }],
+    // leaveArea: [{ required: true, message: '请选择是否过去14天是否离开过本地区', trigger: 'change' }],
+    // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
+    isExceedTemp: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }],
+    isContact: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }]
   };
+
+  validateIdentificationNumber (rule: any, value: any, callback: any) {
+    if (value === '') {
+      callback(new Error('请输入身份证账号'));
+    } else if (
+      ! (/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(value) )
+    ) {
+      callback(new Error('身份证不符合规范'));
+    } else {
+      callback();
+    }
+  }
+
+  validateAge (rule: any, value: any, callback: any) {
+    if (value === '') {
+      callback(new Error('请输入年龄'));
+    } else if (
+      ! ( /^(?:[0-9][0-9]?|1[04][0-9]|150)$/.test(value) )
+    ) {
+      callback(new Error('年龄限制为0 - 150岁'));
+    } else {
+      callback();
+    }
+  }
+
+  validatePhone (rule: any, value: any, callback: any) {
+    if (value === '') {
+      callback(new Error('请输入电话号码'));
+    } else if (
+      !( /^([1]\d{10}|([\(（]?0[0-9]{2,3}[）\)]?[-]?)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?)$/.test(value) )
+    ) {
+      callback(new Error('电话号码不符合规范'));
+    } else {
+      callback();
+    }
+  }
 
   // 本社区小区
   @Getter('baseData_communities')

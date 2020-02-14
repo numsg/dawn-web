@@ -6,7 +6,7 @@
       <span class="form-item-tip" v-if="!isEdit">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
     </el-form-item>
     <el-form-item label="电话" prop="personBase.phone">
-      <el-input :disabled="isEdit" v-model="troublePerson.personBase.phone"></el-input>
+      <el-input :disabled="isEdit" v-model="troublePerson.personBase.phone" ></el-input>
     </el-form-item>
     <div class="row-one">
       <div class="flex-six">
@@ -22,8 +22,8 @@
         </el-form-item>
       </div>
     </div>
-    <el-form-item label="身份证" prop="personBase.identificationNumber">
-      <el-input v-model="troublePerson.personBase.identificationNumber"></el-input>
+    <el-form-item label="身份证">
+      <el-input v-model="troublePerson.personBase.identificationNumber" maxlength="18"></el-input>
     </el-form-item>
     <el-form-item label="现居住地址" prop="personBase.address" class="form-item">
       <el-input v-model="troublePerson.personBase.address" maxlength="300"></el-input>

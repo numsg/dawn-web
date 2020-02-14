@@ -153,7 +153,7 @@ export default {
    */
   getEpidemicStaticalData() {
     const multiTenancy = SessionStorage.get('district');
-    const url = store.getters.configs.communityManagerUrl + `epidemic-person/total/all`;
+    const url = store.getters.configs.communityManagerUrl + `epidemic-person/total/all/${multiTenancy}`;
     return httpClient.getPromise(url);
   }
 

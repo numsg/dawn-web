@@ -4,7 +4,9 @@
     <el-form-item label="姓名" prop="name">
       <el-input v-model="curEpidemicPerson.name" :disabled="isEdit"></el-input>
     </el-form-item>
-
+    <el-form-item label="手机号" prop="mobileNumber">
+      <el-input v-model="curEpidemicPerson.mobileNumber"></el-input>
+    </el-form-item>
     <div class="row-one">
       <div class="flex-one">
         <el-form-item label="性别" prop="gender">
@@ -19,9 +21,6 @@
         </el-form-item>
       </div>
     </div>
-    <el-form-item label="手机号" prop="mobileNumber">
-      <el-input v-model="curEpidemicPerson.mobileNumber"></el-input>
-    </el-form-item>
     <el-form-item label="小区 " prop="villageId" class="select-item">
       <!-- <el-input v-model="curEpidemicPerson.villageId"></el-input> -->
       <el-select v-model="curEpidemicPerson.villageId" clearable placeholder="请选择小区">
