@@ -213,7 +213,6 @@ export class PersonStatistical extends Vue {
       }
     });
     ids = ids.filter(e => e !== undefined);
-    // this.$emit('statistics-click', ids);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
       plots: ids,
       page: 0

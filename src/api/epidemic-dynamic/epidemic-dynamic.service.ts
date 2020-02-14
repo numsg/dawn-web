@@ -7,6 +7,7 @@ import EpidemicPerson from '@/models/home/epidemic-persion';
 import odataClient from '@gsafety/odata-client/dist';
 import moment from 'moment';
 import mapperManagerService from '@/common/odata/mapper-manager.service';
+import SessionStorage from '@/utils/session-storage';
 
 export default {
   /**
@@ -80,38 +81,27 @@ export default {
       type: conditions.sort ? conditions.sort.type : 'submitTime',
       flag: conditions.sort ? conditions.sort.flag : 'desc'
     };
+    const multiTenancy = SessionStorage.get('district');
     if (filterStr) {
-      return q
-        .skip(conditions.count * conditions.page)
-        .top(conditions.count)
-        .filter(filterStr)
-        .orderby(oorder.type, oorder.flag)
-        .count(true)
-        .get(null)
-        .then((response: any) => {
-          const result = {
-            count: JSON.parse(response.body)['@odata.count'],
-            value: this.buildEpidemicPersons(JSON.parse(response.toJSON().body).value)
-          };
-          return result;
-        })
-        .catch((error: any) => {});
+      filterStr = filterStr + ' and (multiTenancy eq \'' + multiTenancy + '\')';
     } else {
-      return q
-        .skip(conditions.count * conditions.page)
-        .top(conditions.count)
-        .orderby(oorder.type, oorder.flag)
-        .count(true)
-        .get(null)
-        .then((response: any) => {
-          const result = {
-            count: JSON.parse(response.body)['@odata.count'],
-            value: this.buildEpidemicPersons(JSON.parse(response.toJSON().body).value)
-          };
-          return result;
-        })
-        .catch((error: any) => {});
+      filterStr = '(multiTenancy eq \'' + multiTenancy + '\')';
     }
+    return q
+      .skip(conditions.count * conditions.page)
+      .top(conditions.count)
+      .filter(filterStr)
+      .orderby(oorder.type, oorder.flag)
+      .count(true)
+      .get(null)
+      .then((response: any) => {
+        const result = {
+          count: JSON.parse(response.body)['@odata.count'],
+          value: this.buildEpidemicPersons(JSON.parse(response.toJSON().body).value)
+        };
+        return result;
+      })
+      .catch((error: any) => {});
   },
 
   buildEpidemicPersons(result: any[]) {
@@ -162,6 +152,7 @@ export default {
    * 获取统计数据
    */
   getEpidemicStaticalData() {
+    const multiTenancy = SessionStorage.get('district');
     const url = store.getters.configs.communityManagerUrl + `epidemic-person/total/all`;
     return httpClient.getPromise(url);
   }

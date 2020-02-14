@@ -46,6 +46,8 @@ export class EpidemicListComponent extends Vue {
 
   sort: any = { type: 'submitTime', flag: 'desc' };
 
+  formTitle: string = '疫情人员信息登记';
+
   async mounted() {
     this.queryEpidemicPersons();
   }
@@ -70,6 +72,7 @@ export class EpidemicListComponent extends Vue {
   addEpidemicPersion() {
     this.editEpidemicPerson = new EpidemicPerson();
     const sideFrame: any = this.$refs['sideFrame'];
+    this.formTitle = '疫情人员信息登记';
     sideFrame.open();
   }
 
@@ -97,6 +100,7 @@ export class EpidemicListComponent extends Vue {
   handleEdit(data: EpidemicPerson) {
     this.editEpidemicPerson = data;
     const sideFrame: any = this.$refs['sideFrame'];
+    this.formTitle = '修改疫情人员信息';
     sideFrame.open();
   }
 
@@ -126,5 +130,10 @@ export class EpidemicListComponent extends Vue {
       this.sort.flag = 'desc';
     }
     this.queryEpidemicPersons();
+  }
+
+  cancelEdit() {
+    const sideFrame: any = this.$refs['sideFrame'];
+    sideFrame.close();
   }
 }

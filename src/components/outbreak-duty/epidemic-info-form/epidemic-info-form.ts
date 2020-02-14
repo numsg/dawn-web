@@ -6,6 +6,8 @@ import EpidemicPerson from '@/models/home/epidemic-persion';
 import epidemicDynamicService from '@/api/epidemic-dynamic/epidemic-dynamic.service';
 import * as format from 'dateformat';
 import { Getter } from 'vuex-class';
+import SessionStorage from '@/utils/session-storage';
+
 @Component({
   template: epidemicInfoFormHtml,
   style: epidemicInfoFormStyle,
@@ -57,6 +59,7 @@ export class EpidemicInfoFormComponent extends Vue {
         this.curEpidemicPerson.submitTime = format.default(this.curEpidemicPerson.submitTime, 'yyyy-mm-dd HH:mm:ss');
         this.curEpidemicPerson.updateTime = format.default(new Date, 'yyyy-mm-dd HH:mm:ss');
         if (!this.isEdit) {
+          this.curEpidemicPerson.multiTenancy = SessionStorage.get('district');
           epidemicDynamicService
             .addEpidemicPerson(this.curEpidemicPerson)
             .then(res => {
@@ -101,6 +104,11 @@ export class EpidemicInfoFormComponent extends Vue {
   resetForm(formName: string) {
     const form: any = this.$refs[formName];
     form.resetFields();
+    this.$emit('cancel');
+  }
+
+  cancel() {
+    this.$emit('cancel');
   }
 
   @Watch('editEpidemicPerson')

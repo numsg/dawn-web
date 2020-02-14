@@ -58,7 +58,7 @@ export class PersonCard extends Vue {
   @Getter('dailyTroubleshooting_groupPersonTotalCount')
   groupPersonTotalCount!: number;
 
-  private currentPerson = new PersonInfo();
+  private currentPerson = new TroubleshootRecord();
 
   get activeName() {
     return this.$store.state.dailyTroubleshooting.activeName;
@@ -89,12 +89,6 @@ export class PersonCard extends Vue {
 
   @Getter('dailyTroubleshooting_groupPersonData')
   groupPersonData!: any[];
-
-  // collapseClick(index: any) {
-  //   console.log('---collapseClick---');
-  //   console.log(index);
-  //   this.$store.dispatch(eventNames.DailyTroubleshooting.SetActiveName, index);
-  // }
 
   @Getter('dailyTroubleshooting_conditions')
   conditions!: DailyQueryConditions;
@@ -148,9 +142,9 @@ export class PersonCard extends Vue {
 
   handleCardClick() {}
 
-  success() {
-    // this.$emit('refesh');
+  editSuccess() {
     if (this.isShowgGroup) {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.ReloadGroupsData);
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
     } else {
       this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
@@ -159,9 +153,9 @@ export class PersonCard extends Vue {
   }
 
   // 编辑
-  edit(person: PersonInfo) {
+  edit(troubleshootRecord: TroubleshootRecord) {
     this.open();
-    this.currentPerson = person;
+    this.currentPerson = troubleshootRecord;
   }
   // 页数码改变
   handleSizeChange(value: any) {

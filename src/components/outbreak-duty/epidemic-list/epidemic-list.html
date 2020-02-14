@@ -93,11 +93,11 @@
     <div class="side-frame-header" slot="header">
       <div class="header-title side-frame-title">
         <i></i>
-        <span>疫情人员信息登记</span>
+        <span>{{formTitle}}</span>
       </div>
     </div>
     <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
-      <epidemic-info-form :editEpidemicPerson="editEpidemicPerson" @save-person-success="savePersonSuccess"></epidemic-info-form>
+      <epidemic-info-form :editEpidemicPerson="editEpidemicPerson" @save-person-success="savePersonSuccess" @cancel="cancelEdit"></epidemic-info-form>
     </div>
   </side-frame>
 </div>

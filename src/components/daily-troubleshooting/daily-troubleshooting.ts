@@ -15,7 +15,7 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
-
+// import { CommunityList } from '@/components/daily-troubleshooting/community-list/community-list';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -25,7 +25,7 @@ import * as XLSX from 'xlsx';
     OperationZone,
     PersonCard,
     PersonStatistical,
-    FilterPanelComponent
+    // CommunityList
   }
 })
 export class DailyTroubleshootingComponent extends Vue {
@@ -70,9 +70,7 @@ export class DailyTroubleshootingComponent extends Vue {
   conditions!: DailyQueryConditions;
 
   async created() {
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
-    this.personData = result.value;
-    this.totalCount = result.count;
+
   }
 
   modelTypeChange(type: ModelType) {
@@ -86,9 +84,6 @@ export class DailyTroubleshootingComponent extends Vue {
   async reset() {
     this.hasReset = false;
     this.currentPage = 1;
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
-    this.personData = result.value;
-    this.totalCount = result.count;
     this.hasReset = true;
   }
 
@@ -105,35 +100,6 @@ export class DailyTroubleshootingComponent extends Vue {
   pullData() {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
-  }
-
-  async searchQuery(keyWord: string) {
-    this.keyWord = keyWord;
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize, keyWord, this.selectedIds);
-    this.personData = result.value;
-    this.totalCount = result.count;
-  }
-
-  async uploadSuccess() {
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize);
-    this.personData = result.value;
-    this.totalCount = result.count;
-  }
-
-  async paginationChange(pagination: { pageSize: number; currentPage: number }) {
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(pagination.currentPage, pagination.pageSize);
-    this.personData = result.value;
-    this.totalCount = result.count;
-    this.currentPage = pagination.currentPage;
-    this.pageSize = pagination.pageSize;
-  }
-
-  async handleStatisticsClick(ids: string[]) {
-    this.selectedIds = ids;
-    this.currentPage = 1;
-    const result = await DailyTroubleshootingService.queryAllDailyRecord(this.currentPage, this.pageSize, this.keyWord, ids);
-    this.personData = result.value;
-    this.totalCount = result.count;
   }
 
   // 导出excel
