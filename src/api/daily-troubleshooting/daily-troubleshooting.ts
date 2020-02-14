@@ -233,6 +233,9 @@ export default {
     buildTroubleshootingRecord(result: any) {
       const res: any[] = [];
       if (Array.isArray(result) && result.length > 0) {
+        result.forEach( (item: any) => {
+          item.age = 1;  // 常德年纪默认为1,不显示
+        });
         return result;
       }
       return res;
