@@ -175,8 +175,8 @@ export class DailyTroubleshootingComponent extends Vue {
       [`AE3`] : { v: '单元', s },
       [`AF3`] : { v: '房间号', s },
       ['AG3'] : { v: '采集时间' , s},
-      ['AH3'] : { v: '责任人' , s},
-      ['AI3'] : { v: '责任人电话' , s},
+      ['AH3'] : { v: '包保人' , s},
+      ['AI3'] : { v: '包保人电话' , s},
     };
     // 合并 headers 和 data
     const dataRowHight: any[] = [];
@@ -218,8 +218,8 @@ export class DailyTroubleshootingComponent extends Vue {
         [`AE${4 + index}`] : { v: person.unit, s },
         [`AF${4 + index}`] : { v: person.roomNumber, s },
         [`AG${4 + index}`] : { v: person.createTime, s},
-        [`AH${4 + index}`] : { v: person.reporterName , s},
-        [`AI${4 + index}`] : { v: person.reporterPhone , s},
+        [`AH${4 + index}`] : { v: this.replaceUndefined(person.reporterName) , s},
+        [`AI${4 + index}`] : { v: this.replaceUndefined(person.reporterPhone) , s},
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -404,6 +404,13 @@ export class DailyTroubleshootingComponent extends Vue {
       return '既非常德人又非武汉人，途径武汉进入常德';
     }
     return '';
+  }
+
+  replaceUndefined(str: string) {
+    if ( str === 'undefined' ) {
+      return '';
+    }
+    return str;
   }
 
   beforeDestroy() {
