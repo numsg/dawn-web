@@ -17,6 +17,7 @@ import eventNames from '@/common/events/store-events';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 // import { CommunityList } from '@/components/daily-troubleshooting/community-list/community-list';
 import * as XLSX from 'xlsx';
+import moment from 'moment';
 
 @Component({
   template: dailyTroubleshootingHtml,
@@ -105,7 +106,7 @@ export class DailyTroubleshootingComponent extends Vue {
   // 导出excel
   async exportExcel() {
 
-    const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
+    const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const taskListName = `日常排查数据${now}.xlsx`;
     // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
     const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
