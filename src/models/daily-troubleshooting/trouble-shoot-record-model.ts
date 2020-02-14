@@ -47,4 +47,6 @@ export class RecordModel {
      proveWuling!: string;  // 是否有相关证明(1是0否)
      remark!: string; // 备注
      createTime!: string;
+     reporterName!: string;
+     reporterPhone!: string;
 }

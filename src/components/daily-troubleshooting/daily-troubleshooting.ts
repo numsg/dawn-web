@@ -175,6 +175,8 @@ export class DailyTroubleshootingComponent extends Vue {
       [`AE3`] : { v: '单元', s },
       [`AF3`] : { v: '房间号', s },
       ['AG3'] : { v: '采集时间' , s},
+      ['AH3'] : { v: '责任人' , s},
+      ['AI3'] : { v: '责任人电话' , s},
     };
     // 合并 headers 和 data
     const dataRowHight: any[] = [];
@@ -216,6 +218,8 @@ export class DailyTroubleshootingComponent extends Vue {
         [`AE${4 + index}`] : { v: person.unit, s },
         [`AF${4 + index}`] : { v: person.roomNumber, s },
         [`AG${4 + index}`] : { v: person.createTime, s},
+        [`AH${4 + index}`] : { v: person.reporterName , s},
+        [`AI${4 + index}`] : { v: person.reporterPhone , s},
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -311,7 +315,7 @@ export class DailyTroubleshootingComponent extends Vue {
     if ( Array.isArray(timeList) && timeList.length > 2 ) {
       const oldTime = new Date( Number(timeList[0]), Number(timeList[1]) - 1, Number(timeList[2]), 0, 0, 0   );
       const newTime = new Date();
-      return newTime.getTime() > oldTime.getTime() + 14 * 24 * 60 * 60 * 1000 ? '是': '否';
+      return newTime.getTime() > oldTime.getTime() + 14 * 24 * 60 * 60 * 1000 ? '是' : '否';
     } else {
       return '否';
     }
