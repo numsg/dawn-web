@@ -178,7 +178,7 @@
 
 .logo {
   line-height: 80px;
-  font-size: 30px;
+  font-size: 28px;
   padding: 0 20px 0 15px;
   font-weight: bolder;
   color: rgb(58, 158, 225);
@@ -188,7 +188,8 @@
   right: 2px;
   cursor: pointer;
   margin-right: .5em;
-
+  display: flex;
+  align-items: center;
   .logo-name {
     font-weight: bolder;
     line-height: 35px;
@@ -196,11 +197,11 @@
 
   img {
     float: left;
-    margin: 0 0px 10px 0;
     object-fit: contain;
-    width: 48px;
-    height: 48px;
-    margin: 16px 10px 19px 10px;
+    width: 45px;
+    height: 45px;
+    vertical-align: middle;
+    margin-right: 10px;
   }
 
   .txt {

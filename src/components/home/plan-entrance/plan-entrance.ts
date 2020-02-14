@@ -13,9 +13,6 @@ import PlanEntranceBlackStyle from './plan-entrance.black.module.scss';
   components: {}
 })
 export class PlanEntranceComponent extends Vue {
-  tipsPassingImage = require('@/assets/img/home/authorized.png');
-
-  tipsFailedImage = require('@/assets/img/home/unauthorized.png');
 
   popoverVisible: boolean = false;
 

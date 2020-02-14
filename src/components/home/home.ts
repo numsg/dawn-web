@@ -182,7 +182,7 @@ export class HomeComponent extends Vue {
       id: '1',
       title: '江夏区确诊病例分布总览',
       added: false,
-      image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
       componentName: 'regional-statistics',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
@@ -191,7 +191,7 @@ export class HomeComponent extends Vue {
       id: '2',
       title: '本社区 新增确诊/疑似 趋势图',
       added: false,
-      image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
       componentName: 'epidemic-trends',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
@@ -200,7 +200,7 @@ export class HomeComponent extends Vue {
       id: '3',
       title: '本社区 累计确诊/疑似 趋势图',
       added: false,
-      image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
       componentName: 'epidemic-cumulative-trends',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
@@ -209,7 +209,7 @@ export class HomeComponent extends Vue {
       id: '4',
       title: '本社区 累计治愈/死亡 趋势图',
       added: false,
-      image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
       componentName: 'epidemic-death-trends',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'

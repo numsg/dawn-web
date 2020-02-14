@@ -39,8 +39,8 @@ export class QrcodeInfoAddComponent extends Vue {
   disabledFlag: any = true;
   rules = {
     // regionalismCode: [{ required: true, message: '行政区划code', trigger: 'change' }],
-    responsible: [{ required: true, message: '责任人', trigger: 'change' }],
-    responsiblePhone: [{ required: true, message: '责任人电话', trigger: 'change' }]
+    // responsible: [{ required: true, message: '责任人', trigger: 'change' }],
+    // responsiblePhone: [{ required: true, message: '责任人电话', trigger: 'change' }]
   };
   @Watch('qrcodeInfoForm')
   onQrCode() {
@@ -70,6 +70,7 @@ export class QrcodeInfoAddComponent extends Vue {
             this.currentQRCodeForm.responsiblePhone
         };
         communityQrManageService.generateQRCodeImage(obj).then((res: any) => {
+          notifyUtil.success('生成二维码成功');
           this.$emit('save-qrcode-success');
         });
       } else {
