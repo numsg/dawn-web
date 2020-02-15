@@ -61,7 +61,7 @@ export class EpidemicInfoFormComponent extends Vue {
     isExceedTemp: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }],
     isContact: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }]
   };
-  isNew: boolean;
+  isNew: boolean = false;
 
   validateIdentificationNumber(rule: any, value: any, callback: any) {
     if (value === '') {
