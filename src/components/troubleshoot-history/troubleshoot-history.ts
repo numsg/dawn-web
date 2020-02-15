@@ -26,9 +26,6 @@ export class TroubleshootHistoryComponent extends Vue {
   @Getter('troubleshootingHistory_historyRecords')
   historyRecords!: TroubleshootHistoryRecord[];
 
-  //   @Getter('dailyTroubleshooting_personData')
-  //   historyRecords!: TroubleshootRecord[];
-
   @Getter('troubleshootingHistory_totalCount')
   totalCount!: number;
 
