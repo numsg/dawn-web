@@ -75,58 +75,6 @@
       </el-collapse> 
     </div>
     <div class="card-content" v-else>
-      <!-- <div class="box-card-container" v-for="(person, index)  in personData" @dblclick="showDetail" @click="handleCardClick">
-        <el-card class="box-card" :class="{isDefault: false}">
-          <div slot="header" class="card-header">
-            <span class="name">
-              {{ person.building }} - {{person.unitNumber}} - {{person.roomNo}}
-              <span class="person-name">{{person.name}}</span>
-            </span>
-            <span class="prev-color confirmed_diagnosis" v-if="person.exceedTemp" >
-              发热
-            </span>
-            <span class="phone">
-              <span>电话:</span>
-              <span>{{person.phone}}</span>
-            </span>
-          </div>
-          <div class="body">
-            <div class="item event-type">
-              <div class="title">
-                <i class="iconfont iconpms-icon_Event-type"></i>
-                <span>小区名称</span>
-              </div>
-              <div class="name">{{replacePlot(person.plot)}}</div>
-            </div>
-            <div class="item plan-type">
-              <div class="title">
-                <i class="iconfont iconpms-icon_txt"></i>
-                <span>是否有接触史</span>
-              </div>
-              <div class="name">{{person.contact ? '是' : '否' }}</div>
-            </div>
-            
-            <div class="item create-time">
-              <div class="title">
-                <i class="iconfont iconpms-icon_time"></i>
-                <span>填报时间</span>
-              </div>
-              <div class="name">{{replaceTime(person.createTime)}}</div>
-            </div>
-            <div class="card-btn">
-              <div class="flr">
-                <el-button
-                  title="编辑"
-                  size="small"
-                  type="primary"
-                  icon="iconfont iconpms-icon_edit"
-                  @click="edit(person)"
-                ></el-button>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div> -->
       <div class="cart-table">
         <el-table  :cell-style="{padding:'16px 0px'}" class="collapse-table cart-table-item" :data="personData" stripe highlight-current-row style="width: 100%">
           <el-table-column  label="房号"  width="100" :show-overflow-tooltip="true">
@@ -185,8 +133,6 @@
           </el-table-column>
         </el-table>
       </div>
-
-
     </div>
     <div v-if="personData.length === 0" class="no-plan"></div>
     <el-pagination v-if="!isShowgGroup" class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"

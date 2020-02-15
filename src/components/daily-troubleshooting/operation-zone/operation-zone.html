@@ -1,26 +1,32 @@
 <div class="operation-zone clearfix">
-    <div class="top-operation">
-        <div class="top-operation-left">
-          <!-- <el-switch
+  <div class="top-operation">
+    <div class="top-operation-left">
+      <!-- <el-switch
             v-model="isShowgGroup"
             active-text="分组显示"
            >
           </el-switch> -->
 
-          <el-button @click="groupTypeClick(true)"  :class="isShowgGroup ? 'primary-btn' : 'default-btn'" class="radio-btn iconfont iconpms-icon_classification">
-          </el-button>
-          <el-button @click="groupTypeClick(false)" :class="!isShowgGroup ? 'primary-btn' : 'default-btn'" class="radio-btn iconfont iconpms-icon_grid1">
-          </el-button>
-          <el-button @click="modelTypeClick(modelType.checked)" :class="checkType === modelType.checked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verifying-and-passing">
-            今日已排查({{checkedTotalCount}})
-          </el-button>
-          <el-button @click="modelTypeClick(modelType.unChecked)" :class="checkType === modelType.unChecked ? 'primary-btn' : 'default-btn'" class="type-btn iconfont iconpms-icon_Verification-failed ">
-            今日待排查({{unCheckedTotalCount}})
-          </el-button>
-        </div>
-        <div class="top-operation-right">
-            <el-button class="add type-btn primary-btn el-icon-refresh" @click="pullNewData">刷新数据</el-button>
-            <!-- <el-upload
+      <el-button @click="groupTypeClick(true)" :class="isShowgGroup ? 'primary-btn' : 'default-btn'"
+        class="radio-btn iconfont iconpms-icon_classification">
+      </el-button>
+      <el-button @click="groupTypeClick(false)" :class="!isShowgGroup ? 'primary-btn' : 'default-btn'"
+        class="radio-btn iconfont iconpms-icon_grid1">
+      </el-button>
+      <el-button @click="modelTypeClick(modelType.checked)"
+        :class="checkType === modelType.checked ? 'primary-btn' : 'default-btn'"
+        class="type-btn iconfont iconpms-icon_Verifying-and-passing">
+        今日已排查({{checkedTotalCount}})
+      </el-button>
+      <el-button @click="modelTypeClick(modelType.unChecked)"
+        :class="checkType === modelType.unChecked ? 'primary-btn' : 'default-btn'"
+        class="type-btn iconfont iconpms-icon_Verification-failed ">
+        今日待排查({{unCheckedTotalCount}})
+      </el-button>
+    </div>
+    <div class="top-operation-right">
+      <el-button class="add type-btn primary-btn el-icon-refresh" @click="pullNewData">刷新数据</el-button>
+      <!-- <el-upload
               class="upload-demo"
               ref="upload"
               action=""
@@ -35,73 +41,53 @@
                 导入
               </el-button>
             </el-upload> -->
-            <el-button  @click="exportExcel" class=" type-btn primary-btn  el-icon-download">
-              导出
-            </el-button>
-            <el-button @click="addTroubleShoot" class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
-          </div>
-
-          <side-frame ref="sideFrame" :top="80" @close="formClose">
-            <div class="side-frame-header" slot="header">
-              <div class="header-title side-frame-title">
-                <i></i>
-                <span>日常排查登记表</span>
-              </div>
-            </div>
-            <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
-              <TroubleshootingInfoForm @colse="colse" @success="success"/>
-            </div>
-          </side-frame>
+      <el-button @click="exportExcel" class=" type-btn primary-btn  el-icon-download">
+        导出
+      </el-button>
+      <el-button @click="addTroubleShoot" class="add iconfont type-btn primary-btn iconpms-icon_Blow-Up">新增</el-button>
     </div>
 
-    <div class="botton-operation" v-if="!isShowgGroup">
-      <el-select v-model="isFaver" size="mini" multiple placeholder="是否发热">
-        <el-option
-          v-for="item in feverOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-select multiple collapse-tags v-model="medicalOpinionIds" size="mini" multiple placeholder="分类诊疗医疗意见">
-        <el-option
-          v-for="item in medicalOpinions"
-          :key="item.id"
-          :label="item.name"
-          :value="item.id"
-          >
-        </el-option>
-      </el-select>
-      <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
+    <side-frame ref="sideFrame" :top="80" @close="formClose">
+      <div class="side-frame-header" slot="header">
+        <div class="header-title side-frame-title">
+          <i></i>
+          <span>日常排查登记表</span>
+        </div>
+      </div>
+      <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
+        <TroubleshootingInfoForm @colse="colse" @success="success" />
+      </div>
+    </side-frame>
+  </div>
+  <div class="botton-operation" v-if="!isShowgGroup">
+    <el-select v-model="isFaver" size="mini" multiple placeholder="是否发热">
+      <el-option v-for="item in feverOptions" :key="item.value" :label="item.label" :value="item.value">
+      </el-option>
+    </el-select>
+    <el-select multiple collapse-tags v-model="medicalOpinionIds" size="mini" multiple placeholder="分类诊疗医疗意见">
+      <el-option v-for="item in medicalOpinions" :key="item.id" :label="item.name" :value="item.id">
+      </el-option>
+    </el-select>
+    <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
         $t('plan_manage.reset')
       }}</el-button>
-      <div class="input-search">
-        <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
-          placeholder="请输入关键字" />
-        <span class="iconfont iconpms-icon_search iconfont-size"></span>
+    <div class="input-search">
+      <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords" placeholder="请输入关键字" />
+      <span class="iconfont iconpms-icon_search iconfont-size"></span>
+    </div>
+  </div>
+  <el-dialog title="导出文件时间段筛选" :visible.sync="dialogVisible" width="30%">
+    <div>
+      <div class="block">
+        <el-date-picker v-model="startTime" :picker-options="pickerOptions" type="datetimerange" range-separator="至"
+          start-placeholder="开始日期" end-placeholder="结束日期">
+        </el-date-picker>
       </div>
     </div>
-
-    <el-dialog
-      title="导出文件时间段筛选"
-      :visible.sync="dialogVisible"
-      width="30%"
-      >
-        <div>
-          <div class="block">
-            <el-date-picker
-              v-model="startTime"
-              :picker-options="pickerOptions"
-              type="datetimerange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期">
-            </el-date-picker>
-          </div>
-        </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="exportConfim" :disabled="!this.startTime || this.startTime.length !== 2" >确 定</el-button>
-      </span>
-    </el-dialog>
-  </div>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false">取 消</el-button>
+      <el-button type="primary" @click="exportConfim" :disabled="!this.startTime || this.startTime.length !== 2">确 定
+      </el-button>
+    </span>
+  </el-dialog>
+</div>

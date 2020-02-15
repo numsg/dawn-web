@@ -131,7 +131,7 @@ export class TroubleshootingInfoForm extends Vue {
   }
 
   @Watch('currentPerson', { deep: true })
-  watchCurrentPerson(value: PersonInfo) {
+  watchCurrentPerson(value: any) {
     if (value) {
       this.troublePerson = JSON.parse(JSON.stringify(value));
       this.otherSymptomsList = this.troublePerson.otherSymptoms.split(',');
