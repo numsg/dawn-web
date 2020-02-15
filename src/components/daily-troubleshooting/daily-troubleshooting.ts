@@ -230,7 +230,7 @@ export class DailyTroubleshootingComponent extends Vue {
     console.log(data);
     const output = Object.assign({}, headers, data);
     // 表格范围，范围越大生成越慢
-    const ref = 'A1:ZZ100';
+    const ref = 'A1:ZZ2000';
     // 合并单元格设置
     const merges = [
       { s: { c: 0, r: 0 }, e: { c: 14, r: 0 } }, // 社区疫情排查情况登记表
