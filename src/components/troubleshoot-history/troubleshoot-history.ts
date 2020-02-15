@@ -10,12 +10,17 @@ import { debounce } from 'lodash';
 import { HistoryQueryConditions } from '@/models/daily-troubleshooting/history-query-conditions';
 import i18n from '@/i18n';
 import notifyUtil from '@/common/utils/notifyUtil';
+import { TroubleshootingInfoForm } from '../daily-troubleshooting/troubleshooting-info-form/troubleshooting-info-form';
+import { SideFrameComponent } from '../share/side-frame/side-frame';
 const DATE_PICKER_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
 
 @Component({
   template: html,
   style: styles,
-  components: {}
+  components: {
+    'side-frame': SideFrameComponent,
+    TroubleshootingInfoForm
+  }
 })
 export class TroubleshootHistoryComponent extends Vue {
   @Getter('troubleshootingHistory_historyRecords')
