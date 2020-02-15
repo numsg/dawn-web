@@ -26,6 +26,8 @@ import dataFormat from '@/utils/data-format';
 export class OperationZone extends Vue {
     dialogVisible = false;
     startTime: any[] = [];
+    startDate: any = '';
+    endDate: any = '';
 
 
     fileList: any = [];
@@ -103,6 +105,19 @@ export class OperationZone extends Vue {
   }
 
   debounceSearch = debounce(this.handleSearch, 500);
+
+  pickerOptions = {
+    onPick: (dateRange: any) => {
+      this.startDate = dateRange.minDate;
+      this.endDate = dateRange.maxDate;
+    },
+    disabledDate: (time: any) => {
+      if (this.startDate) {
+        return time.getTime() < this.startDate.getTime() || time.getTime() >= this.startDate.getTime() + 7 * 8.64e7;
+    }
+      return false;
+    },
+  };
 
   created() {
     this.startTime = [
