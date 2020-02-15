@@ -155,7 +155,7 @@ export class PersonCard extends Vue {
   // 编辑
   edit(troubleshootRecord: TroubleshootRecord) {
     this.open();
-    this.currentPerson = troubleshootRecord;
+    this.currentPerson = JSON.parse(JSON.stringify(troubleshootRecord));
   }
   // 页数码改变
   handleSizeChange(value: any) {
