@@ -26,9 +26,6 @@ import navbarBlackStyle from './navbar.black.module.scss';
   }
 })
 export class NavbarComponent extends Vue {
-  paichiImg = require('@/assets/img/new-img/paichi.png');
-  guanliImg = require('@/assets/img/new-img/guanli.png');
-  peizhiImg = require('@/assets/img/new-img/peizhi.png');
 
   // 系统模块标题
   moduleTitle: any = [];
