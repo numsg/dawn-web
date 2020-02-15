@@ -111,6 +111,10 @@ const StoreEvents = {
     ResetData: 'ResetData',
     SetModelType: 'SetModelType',
     ReloadGroupsData: 'ReloadGroupsData',
+  },
+  TroubleshootingHistory: {
+    SetHistoryRecords: 'SetHistoryRecords',
+    ResetHistoryRecordData: 'ResetHistoryRecordData',
   }
 };
 

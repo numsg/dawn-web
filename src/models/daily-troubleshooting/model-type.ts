@@ -8,4 +8,6 @@ export  enum ModelType {
     checked = 'checked',
 
     unChecked = 'unChecked',
+
+    history = 'history',
 }

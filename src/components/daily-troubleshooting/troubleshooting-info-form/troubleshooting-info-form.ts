@@ -224,6 +224,7 @@ export class TroubleshootingInfoForm extends Vue {
           });
       } else {
         console.log('error submit!!');
+        this.$message.error('校验失败');
         return false;
       }
     });
