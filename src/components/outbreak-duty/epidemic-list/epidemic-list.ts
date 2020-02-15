@@ -47,15 +47,21 @@ export class EpidemicListComponent extends Vue {
   sort: any = { type: 'submitTime', flag: 'desc' };
 
   formTitle: string = '疫情人员信息登记';
+  canClose: boolean = true;
 
   async mounted() {
     this.queryEpidemicPersons();
+  }
+
+  handleCreate(val: boolean) {
+    this.canClose = !val;
   }
 
   async queryEpidemicPersons() {
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
       page: this.currentPage - 1,
       count: this.pageSize,
+      keywords: this.keyWords,
       sort: this.sort
     });
   }
@@ -64,7 +70,7 @@ export class EpidemicListComponent extends Vue {
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
       page: 0,
       count: this.pageSize,
-      keyowrds: this.keyWords,
+      keywords: this.keyWords,
       sort: this.sort
     });
   }
@@ -117,6 +123,7 @@ export class EpidemicListComponent extends Vue {
   }
 
   resetData() {
+    this.keyWords = '';
     this.currentPage = 1;
     this.pageSize = 10;
     this.queryEpidemicPersons();

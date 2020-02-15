@@ -1,8 +1,6 @@
 import transformToColor from './../../common/filters/colorformat';
 import * as httpClient from '@gsafety/vue-httpclient/dist/httpclient';
 import store from '@/store';
-import { treeToArray } from '@/common/utils/utils';
-import mapperManager from '@/common/odata/mapper-manager.service';
 import EpidemicPerson from '@/models/home/epidemic-persion';
 import odataClient from '@gsafety/odata-client/dist';
 import moment from 'moment';
@@ -58,23 +56,26 @@ export default {
       resources: 'EpidemicPersonEntity'
     });
     let filterStr = '';
-    if (conditions.keyowrds) {
-      filterStr += 'contains( name, \'' + conditions.keyowrds + '\') or contains( mobileNumber, \'' + conditions.keyowrds + '\')';
+    if (conditions.keywords && conditions.keywords !== '') {
+      // tslint:disable-next-line:quotemark
+      filterStr += "contains( name, '" + conditions.keywords + "') or contains( mobileNumber, '" + conditions.keywords + "')";
     }
     if (conditions.diagnosisIds && conditions.diagnosisIds.length > 0) {
       let str = '';
       for (let i = 0, len = conditions.diagnosisIds.length - 1; i < conditions.diagnosisIds.length; i++) {
-          const id = conditions.diagnosisIds[i];
-          if (i !== len) {
-              str += '(diagnosisSituation eq \'' + id + '\') or ';
+        const id = conditions.diagnosisIds[i];
+        if (i !== len) {
+          // tslint:disable-next-line:quotemark
+          str += "(diagnosisSituation eq '" + id + "') or ";
+        } else {
+          // tslint:disable-next-line:quotemark
+          str = '(' + str + "(diagnosisSituation eq '" + id + "')" + ')';
+          if (filterStr) {
+            filterStr = filterStr + ' and ' + str;
           } else {
-              str = '(' + str + '(diagnosisSituation eq \'' + id + '\')' + ')';
-              if (filterStr) {
-                filterStr = filterStr + ' and ' + str;
-              } else {
-                filterStr += str;
-              }
+            filterStr += str;
           }
+        }
       }
     }
     const oorder = {
@@ -83,9 +84,11 @@ export default {
     };
     const multiTenancy = SessionStorage.get('district');
     if (filterStr) {
-      filterStr = filterStr + ' and (multiTenancy eq \'' + multiTenancy + '\')';
+      // tslint:disable-next-line:quotemark
+      filterStr = filterStr + " and (multiTenancy eq '" + multiTenancy + "')";
     } else {
-      filterStr = '(multiTenancy eq \'' + multiTenancy + '\')';
+      // tslint:disable-next-line:quotemark
+      filterStr = "(multiTenancy eq '" + multiTenancy + "')";
     }
     return q
       .skip(conditions.count * conditions.page)
@@ -156,5 +159,4 @@ export default {
     const url = store.getters.configs.communityManagerUrl + `epidemic-person/total/all/${multiTenancy}`;
     return httpClient.getPromise(url);
   }
-
 };

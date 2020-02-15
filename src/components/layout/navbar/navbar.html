@@ -9,7 +9,8 @@
           <span class="stair-name" v-if="stairMenu === item.id">{{ $t('navbar.' + item.name) }}</span>
         </div>
       </div> -->
-      <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'troubleshoot' || item.name === 'emergency' || item.name === 'gov' || item.name ==='enterprice'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
+      <!-- <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'troubleshoot' || item.name === 'emergency' || item.name === 'gov' || item.name ==='enterprice'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)"> -->
+      <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'emergency' || item.name === 'gov' || item.name ==='enterprice'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
         <div class="stair-nav-icon">
           <!-- <img :src="item.iconCls" alt="" /> -->
           <img :src="paichiImg" v-if=" item.name === 'troubleshoot' " alt="" />

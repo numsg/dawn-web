@@ -37,16 +37,11 @@
         .picker {
           margin-left: 5px;
         }
-
-        .add {
-          float: right;
-          border-radius: 15px;
-        }
       }
 
       .type-btn {
         font-size: 14px;
-        padding: 5px 15px 5px 15px;
+        padding: 7px 15px;
         // line-height: 18px;
         border-radius: 15px;
         background-color: #43a5e3;
@@ -61,10 +56,10 @@
           vertical-align: top;
         }
 
-        &.isdesc {
-          background-color: #9ab2e9;
-          border-color: #a7bae6;
-          color: white;
+        &.add {
+          float: right;
+          border-radius: 15px;
+          line-height: 16px;
         }
 
         &.reset {
@@ -73,6 +68,12 @@
           color: white;
           float: right;
           margin-left: 10px;
+        }
+
+        &.isdesc {
+          background-color: #9ab2e9;
+          border-color: #a7bae6;
+          color: white;
         }
       }
 
@@ -282,7 +283,7 @@
         .diagnosis {
           background: #10aeb5;
         }
-        
+
         .submit-time {
           display: inline-block;
           position: absolute;
@@ -298,8 +299,6 @@
           padding: 2px 0px 0px 15px;
           font-size: 16px;
         }
-
-
       }
 
       .body {

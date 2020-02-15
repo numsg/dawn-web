@@ -1,3 +1,4 @@
+import { HistoryQueryConditions } from './../../models/daily-troubleshooting/history-query-conditions';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import * as httpClient from '@gsafety/vue-httpclient/dist/httpclient';
@@ -952,6 +953,132 @@ export default {
       return JSON.parse(response.body)['@odata.count'] > 0 ? true : false;
     })
     .catch((error: any) => {});
-  }
+  },
+
+  // 查询所有日常排查记录
+  queryTroubleshootingHistoryRecords(conditions: HistoryQueryConditions) {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'TroubleshootHistoryRecordEntity'
+    });
+    let filterStr = '';
+    if (conditions.keyWord) {
+      // tslint:disable-next-line:max-line-length
+      filterStr += 'contains( personBase/name, \'' + conditions.keyWord + '\') or contains( personBase/address, \'' + conditions.keyWord + '\') or contains( personBase/phone, \'' + conditions.keyWord + '\')';
+      const keywordList = conditions.keyWord.split('-');
+      let building = '';
+      let unitNumber = '';
+      let roomNo = '';
+      let bstr = '';
+      if ( keywordList.length > 0 ) {
+        building =  keywordList[0];
+        bstr += 'contains( building, \'' + building + '\')';
+      }
+      if ( keywordList.length > 1 ) {
+        unitNumber =  keywordList[1];
+        bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+      }
+      if ( keywordList.length > 2 ) {
+        roomNo =  keywordList[2];
+        bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+      }
+      if (bstr) {
+        filterStr = '(' + filterStr + ' or ' + bstr + ')';
+      }
+    }
+    if (conditions.plots && conditions.plots.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+          const id = conditions.plots[i];
+          if (i !== len) {
+              str += '(plot eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+          const id = conditions.medicalOpinion[i];
+          if (i !== len) {
+              str += '(medicalOpinion eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.favers && conditions.favers.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.favers.length - 1; i < conditions.favers.length; i++) {
+          const value = conditions.favers[i];
+          if (i !== len) {
+              str += '(isExceedTemp eq ' + value + ') or ';
+          } else {
+              str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    // const startTime = moment().startOf('day').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+    // if (filterStr) {
+    //   filterStr = filterStr + ' and (createTime lt ' + startTime + ')';
+    // } else {
+    //   filterStr = '(createTime lt ' + startTime + ')';
+    // }
+
+    if (conditions.dateRange && conditions.dateRange.length === 2) {
+      const str = '(createTime gt ' + conditions.dateRange[0] + ') and '
+          + '(createTime lt ' + conditions.dateRange[1] + ')';
+      if (filterStr) {
+        filterStr = filterStr + ' and ' + str;
+      } else {
+        filterStr += str;
+      }
+     }
+
+    const multiTenancy = SessionStorage.get('district');
+    if (filterStr) {
+      filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
+    } else {
+      filterStr = '(multiTenancy eq \'' + multiTenancy + '\')';
+    }
+    return q
+      .skip(conditions.pageSize * (conditions.page))
+      .top(conditions.pageSize)
+      .expand('personBase')
+      .filter(filterStr)
+      .orderby('building', 'asc')
+      .orderby('unitNumber', 'asc')
+      .orderby('roomNo', 'asc')
+      .orderby('createTime', 'asc')
+      .count(true)
+      .get(null)
+      .then((response: any) => {
+        const result = {
+          count: JSON.parse(response.body)['@odata.count'],
+          value: this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value)
+        };
+        return result;
+      })
+      .catch((error: any) => {});
+  },
 
 };

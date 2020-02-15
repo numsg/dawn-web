@@ -7,7 +7,10 @@ import sideStyle from './side-frame.module.scss';
 @Component({
   template: Html,
   style: Style,
-  themes: [{ name: 'white', style: sideStyle }, { name: 'black', style: sideBlackStyle }],
+  themes: [
+    { name: 'white', style: sideStyle },
+    { name: 'black', style: sideBlackStyle }
+  ],
   components: {}
 })
 export class SideFrameComponent extends Vue {
@@ -21,6 +24,9 @@ export class SideFrameComponent extends Vue {
   showFrame: boolean = false;
 
   showWrapper: boolean = false;
+
+  @Prop({ default: true })
+  canClose!: boolean;
 
   @Prop({
     default: 0
@@ -71,6 +77,8 @@ export class SideFrameComponent extends Vue {
   }
 
   outsideClick() {
-    this.close();
+    if (this.canClose) {
+      this.close();
+    }
   }
 }
