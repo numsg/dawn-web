@@ -294,7 +294,7 @@ export class DailyTroubleshootingComponent extends Vue {
       {'hpx': rowHeight},
     ];
     const wb = {
-      SheetNames: ['mySheet'],
+      SheetNames: ['日常排查记录表'],
       Sheets: {
         mySheet: Object.assign({}, output, { '!ref': ref, '!merges': merges, '!cols': cols, '!rows': rows })
       }

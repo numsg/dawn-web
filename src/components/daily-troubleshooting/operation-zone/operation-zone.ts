@@ -25,10 +25,7 @@ import dataFormat from '@/utils/data-format';
 })
 export class OperationZone extends Vue {
     dialogVisible = false;
-    startTime = [
-      new Date(new Date().setHours(0, 0, 0, 0)),
-      new Date(new Date().setHours(23, 59, 59, 59))
-    ];
+    startTime: any[] = [];
 
 
     fileList: any = [];
@@ -107,6 +104,13 @@ export class OperationZone extends Vue {
 
   debounceSearch = debounce(this.handleSearch, 500);
 
+  created() {
+    this.startTime = [
+      new Date(new Date().setHours(0, 0, 0, 0)),
+      new Date(new Date().setHours(23, 59, 59, 59))
+    ];
+  }
+
   handleSearch() {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
       keyWord: this.keyWords,
@@ -124,6 +128,8 @@ export class OperationZone extends Vue {
     watchCurrentModelType(value: any) {
       this.$emit('modelTypeChange');
     }
+
+
 
     handleSort() {
 
@@ -204,7 +210,7 @@ export class OperationZone extends Vue {
 
     exportConfim() {
       console.log(this.startTime);
-      if ( this.startTime.length === 2 ) {
+      if ( Array.isArray(this.startTime) && this.startTime.length === 2 ) {
         const startTime = this.replaceTime(this.startTime[0]);
         const endTime = this.replaceTime(this.startTime[1]);
         const param = {  startDate: startTime, endDate: endTime, currentVillageId: ''};
