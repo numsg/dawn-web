@@ -53,6 +53,9 @@ export class TroubleshootingInfoForm extends Vue {
   @Prop({ default: false })
   isEdit!: boolean;
 
+  @Prop({default: false})
+  isDetail!: boolean;
+
   @Prop({ default: () => null })
   currentPerson!: PersonInfo;
 

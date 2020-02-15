@@ -112,8 +112,8 @@
         <span>修改日常排查登记表</span>
       </div>
     </div>
-    <div class="side-frame-content choose-disaster" :isEdit="false" style="width: 500px;" slot="frame">
-      <TroubleshootingInfoForm :currentPerson="currentRecord" @colse="colse" :isEdit="false" />
+    <div class="side-frame-content choose-disaster"  style="width: 500px;" slot="frame">
+      <TroubleshootingInfoForm :currentPerson="currentRecord" @colse="colse" :isDetail="true" />
     </div>
   </side-frame>
 </div>

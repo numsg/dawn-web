@@ -205,10 +205,10 @@ export class TroubleshootHistoryComponent extends Vue {
    * @param timeZone
    */
   onTimeZoneChange(timeZone: any) {
+    this.$store.dispatch(eventNames.TroubleshootingHistory.SetHistoryRecords, {
+      dateRange: this.dateRange
+    });
     if (timeZone.length > 0) {
-      this.$store.dispatch(eventNames.TroubleshootingHistory.SetHistoryRecords, {
-        dateRange: this.dateRange
-      });
     }
   }
 
