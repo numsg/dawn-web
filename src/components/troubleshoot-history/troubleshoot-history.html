@@ -1,33 +1,28 @@
 <div class="troubleshoot-history">
   <div class="operation-zone">
     <el-select v-model="favers" multiple placeholder="是否发热">
-      <el-option v-for="item in feverOptions" :key="item.value" :label="item.label" :value="item.value">
-      </el-option>
+      <el-option v-for="item in feverOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
     </el-select>
     <el-select multiple collapse-tags v-model="medicalOpinionIds" multiple placeholder="分类诊疗医疗意见">
-      <el-option v-for="item in medicalOpinions" :key="item.id" :label="item.name" :value="item.id">
-      </el-option>
+      <el-option v-for="item in medicalOpinions" :key="item.id" :label="item.name" :value="item.id"> </el-option>
     </el-select>
     <el-select multiple collapse-tags v-model="plots" multiple placeholder="请选择小区">
-        <el-option v-for="item in communities" :key="item.id" :label="item.name" :value="item.id">
-        </el-option>
+      <el-option v-for="item in communities" :key="item.id" :label="item.name" :value="item.id"> </el-option>
     </el-select>
     <el-date-picker
-        class="picker"
-        :start-placeholder="$t('system_log.start_time')"
-        :end-placeholder="$t('system_log.end_time')"
-        v-model="dateRange"
-        type="datetimerange"
-        :range-separator="$t('system_log.to')"
-        value-format="yyyy-MM-dd[T]HH:mm:ss[Z]"
-        @change="onTimeZoneChange"
-        :pickerOptions="pickerOptions"
-        ref="picker"
-        >
+      class="picker"
+      :start-placeholder="$t('system_log.start_time')"
+      :end-placeholder="$t('system_log.end_time')"
+      v-model="dateRange"
+      type="datetimerange"
+      :range-separator="$t('system_log.to')"
+      value-format="yyyy-MM-dd[T]HH:mm:ss[Z]"
+      @change="onTimeZoneChange"
+      :pickerOptions="pickerOptions"
+      ref="picker"
+    >
     </el-date-picker>
-    <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
-          $t('plan_manage.reset')
-        }}</el-button>
+    <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{ $t('plan_manage.reset') }}</el-button>
     <div class="input-search">
       <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords" placeholder="请输入关键字" />
       <span class="iconfont iconpms-icon_search iconfont-size"></span>
@@ -35,8 +30,15 @@
   </div>
   <div class="cart-table">
     <!-- max-height="calc(100vh - 215px)" -->
-    <el-table :cell-style="{padding:'16px 0px'}"  max-height="755"  class="table-content cart-table-item" :data="historyRecords" stripe
-      highlight-current-row style="width: 100%">
+    <el-table
+      :cell-style="{padding:'16px 0px'}"
+      max-height="755"
+      class="table-content cart-table-item"
+      :data="historyRecords"
+      stripe
+      highlight-current-row
+      style="width: 100%"
+    >
       <el-table-column label="房号" width="100" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
@@ -55,7 +57,8 @@
       <el-table-column label="是否发热" width="80">
         <template slot-scope="scope">
           <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'primary'" disable-transitions>
-            {{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
+            {{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag
+          >
         </template>
       </el-table-column>
       <el-table-column label="是否有接触史" width="110">
@@ -85,26 +88,32 @@
       </el-table-column>
       <el-table-column label="操作" width="110">
         <template slot-scope="scope">
-          <el-button size="mini" class="iconfont edit-btn primary-btn iconpms-icon_edit" @click="edit(scope.row)">编辑
-          </el-button>
+          <el-button size="mini" class="iconfont edit-btn primary-btn iconpms-icon_edit" @click="edit(scope.row)">详情</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
-  <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-      :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
-      layout="total, prev, pager, next, jumper" :total="totalCount">
-    </el-pagination>
+  <el-pagination
+    class="pagination"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+    :page-sizes="pageSizes"
+    :page-size="pageSize"
+    layout="total, prev, pager, next, jumper"
+    :total="totalCount"
+  >
+  </el-pagination>
 
-    <side-frame ref="sideFrameCard" :top="80">
-        <div class="side-frame-header" slot="header">
-          <div class="header-title side-frame-title">
-            <i></i>
-            <span>修改日常排查登记表</span>
-          </div>
-        </div>
-        <div class="side-frame-content choose-disaster" :isEdit="true" style="width: 500px;" slot="frame">
-          <TroubleshootingInfoForm :currentPerson="currentRecord" @colse="colse" :isEdit="true" @edit-success="editSuccess"/>
-        </div>
-      </side-frame>
+  <side-frame ref="sideFrameCard" :top="80">
+    <div class="side-frame-header" slot="header">
+      <div class="header-title side-frame-title">
+        <i></i>
+        <span>修改日常排查登记表</span>
+      </div>
+    </div>
+    <div class="side-frame-content choose-disaster" :isEdit="false" style="width: 500px;" slot="frame">
+      <TroubleshootingInfoForm :currentPerson="currentRecord" @colse="colse" :isEdit="false" />
+    </div>
+  </side-frame>
 </div>
