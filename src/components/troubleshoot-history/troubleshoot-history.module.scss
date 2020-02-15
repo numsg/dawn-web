@@ -10,12 +10,9 @@
   }
   .cart-table {
     flex: 1;
-    .table-content {
-        // max-height: calc(100vh - 215px);
-    }
   }
   .operation-zone {
-    padding: 10px 0;
+    padding: 10px;
     .input-search {
       width: 350px;
       position: relative;

@@ -22,7 +22,7 @@
       ref="picker"
     >
     </el-date-picker>
-    <el-button @click="reset" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{ $t('plan_manage.reset') }}</el-button>
+    <el-button @click="reset" class="iconfont primary-btn reset iconfont iconpms-icon_Reset">{{ $t('plan_manage.reset') }}</el-button>
     <div class="input-search">
       <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords" placeholder="请输入关键字" />
       <span class="iconfont iconpms-icon_search iconfont-size"></span>
@@ -39,7 +39,7 @@
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column label="房号" width="100" :show-overflow-tooltip="true">
+      <el-table-column label="房号" width="120" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
         </template>
