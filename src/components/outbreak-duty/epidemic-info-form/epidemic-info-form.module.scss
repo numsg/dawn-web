@@ -1,5 +1,5 @@
 .epidemic-info-form {
-//   padding: 15px;
+  //   padding: 15px;
   overflow: auto;
   background: #fff;
   width: 100%;
@@ -7,8 +7,11 @@
   form {
     padding: 15px;
     border: 1px dashed #dcdfe6;
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
     .operation {
-        text-align: right;
+      text-align: right;
     }
 
     .row-one {
@@ -21,7 +24,7 @@
     .select-item {
       > div {
         width: 100%;
-        >div {
+        > div {
           width: 100%;
         }
       }

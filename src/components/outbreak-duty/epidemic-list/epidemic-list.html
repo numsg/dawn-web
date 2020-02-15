@@ -11,14 +11,18 @@
         <el-button v-else @click="handleSort" class="iconfont type-btn iconfont iconpms-icon_Chronological-ascent">
           {{ $t('plan_manage.time_sort') }}
         </el-button>
-        
+
         <el-button @click="addEpidemicPersion" class="add iconfont primary-btn iconpms-icon_Blow-Up">新增</el-button>
-        <el-button @click="resetData" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{
-              $t('plan_manage.reset')
-            }}</el-button>
+        <el-button @click="resetData" class="iconfont type-btn reset iconfont iconpms-icon_Reset">{{ $t('plan_manage.reset') }}</el-button>
         <div class="input-search">
-          <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords"
-            :placeholder="$t('tempMgr.keywords_search_placeholder')" />
+          <input
+            ref="searchInput"
+            type="text"
+            autofocus
+            @input="debounceSearch"
+            v-model="keyWords"
+            placeholder="请输入姓名或电话号码进行过滤"
+          />
           <span class="iconfont iconpms-icon_search iconfont-size"></span>
         </div>
       </div>
@@ -37,8 +41,16 @@
               :style="{'background-color': transformEventBgColor(data.eventType)}">
               <img :src="data.eventType.image.iconfont" alt="" />
             </i> -->
-            <span class="name" :title="data.name">{{ data.name }} &nbsp; <span class="community-name">{{data.communityModel.name}}</span></span>
-            <span class="prev-color diagnosis" v-if="data.diagnosisSituationModel.name" :style="{'background': data.diagnosisSituationModel.imgColor}"> {{ data.diagnosisSituationModel.name }}</span>
+            <span class="name" :title="data.name"
+              >{{ data.name }} &nbsp; <span class="community-name">{{data.communityModel.name}}</span></span
+            >
+            <span
+              class="prev-color diagnosis"
+              v-if="data.diagnosisSituationModel.name"
+              :style="{'background': data.diagnosisSituationModel.imgColor}"
+            >
+              {{ data.diagnosisSituationModel.name }}</span
+            >
             <!-- <span class="prev-color diagnosis" > {{ data.diagnosisSituationModel.name }}</span> -->
             <!-- <span class="prev-color istemplate" v-else>{{ $t('system_log.plan') }}</span> -->
             <span class="submit-time">报送时间:{{data.submitTime}}</span>
@@ -69,8 +81,14 @@
               <div class="flr">
                 <!-- <el-button :title="$t('plan_manage.history_vision')" size="small" type="primary"
                   icon="iconfont iconpms-icon_File" round></el-button> -->
-                <el-button @click=handleEdit(data) size="small" icon="iconfont iconpms-icon_edit" :title=" $t('common.edit')" type="primary"
-                  round>
+                <el-button
+                  @click="handleEdit(data)"
+                  size="small"
+                  icon="iconfont iconpms-icon_edit"
+                  :title=" $t('common.edit')"
+                  type="primary"
+                  round
+                >
                 </el-button>
                 <!-- <el-button @click="handleDelete(data)" :title="$t('common.delete')" size="small" type="danger" icon="iconfont iconpms-icon_delet"
                   round></el-button> -->
@@ -84,12 +102,19 @@
     </div>
     <div v-if="epidemicPersonList.length === 0" class="no-plan"></div>
   </div>
-  <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-    :current-page="currentPage" :page-sizes="[10, 20, 30]" :page-size="pageSize"
-    layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
+  <el-pagination
+    class="pagination"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage"
+    :page-sizes="[10, 20, 30]"
+    :page-size="pageSize"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="totalCount"
+  >
   </el-pagination>
 
-  <side-frame ref="sideFrame" :top="80">
+  <side-frame ref="sideFrame" :top="80" :canClose="canClose">
     <div class="side-frame-header" slot="header">
       <div class="header-title side-frame-title">
         <i></i>
@@ -97,7 +122,12 @@
       </div>
     </div>
     <div class="side-frame-content choose-disaster" style="width: 500px;" slot="frame">
-      <epidemic-info-form :editEpidemicPerson="editEpidemicPerson" @save-person-success="savePersonSuccess" @cancel="cancelEdit"></epidemic-info-form>
+      <epidemic-info-form
+        :editEpidemicPerson="editEpidemicPerson"
+        @save-person-success="savePersonSuccess"
+        @cancel="cancelEdit"
+        @on-create-data="handleCreate"
+      ></epidemic-info-form>
     </div>
   </side-frame>
 </div>
