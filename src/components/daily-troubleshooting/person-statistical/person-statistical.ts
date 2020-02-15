@@ -57,7 +57,7 @@ export class PersonStatistical extends Vue {
     strokeStyle: '#990000'
   };
 
-  totalCount: number = 1;
+  totalCount: number = 0;
 
   @Getter('dailyTroubleshooting_statisticsData')
   statisticsData!: any[];

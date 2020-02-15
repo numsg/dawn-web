@@ -7,11 +7,11 @@
     ref="recordForm"
     label-width="100px"
     class="demo-ruleForm"
-    :disabled="!isEdit"
+    :disabled="isDetail"
   >
     <el-form-item label="姓名" prop="personBase.name" class="form-item">
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.name" maxlength="20"></el-input>
-      <span class="form-item-tip" v-if="!isEdit">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
+      <span class="form-item-tip" v-if="!isEdit && !isDetail">{{troublePerson.personBase.name ? troublePerson.personBase.name.length : 0}}/20</span>
     </el-form-item>
     <el-form-item label="电话" prop="personBase.phone">
       <el-input :disabled="isEdit" v-model="troublePerson.personBase.phone"></el-input>
@@ -34,8 +34,8 @@
       <el-input v-model="troublePerson.personBase.identificationNumber" maxlength="18"></el-input>
     </el-form-item>
     <el-form-item label="现居住地址" prop="personBase.address" class="form-item">
-      <el-input v-model="troublePerson.personBase.address" maxlength="300"></el-input>
-      <span class="form-item-tip">{{troublePerson.personBase.address ? troublePerson.personBase.address.length : 0}}/300</span>
+      <el-input v-model="troublePerson.personBase.address" maxlength="250"></el-input>
+      <span class="form-item-tip" v-if="!isDetail">{{troublePerson.personBase.address ? troublePerson.personBase.address.length : 0}}/250</span>
     </el-form-item>
     <el-form-item label="小区" prop="plot">
       <el-radio-group v-model="troublePerson.plot">
@@ -47,19 +47,19 @@
       <div class="flex-one">
         <el-form-item label="楼栋" prop="building" class="form-item">
           <el-input v-model="troublePerson.building" maxlength="10"></el-input>
-          <span class="form-item-tip">{{troublePerson.building ? troublePerson.building.length : 0}}/10</span>
+          <span class="form-item-tip" v-if="!isDetail">{{troublePerson.building ? troublePerson.building.length : 0}}/10</span>
         </el-form-item>
       </div>
       <div class="flex-one">
         <el-form-item label="单元号" prop="unitNumber" class="form-item">
           <el-input v-model="troublePerson.unitNumber" maxlength="10"></el-input>
-          <span class="form-item-tip">{{troublePerson.unitNumber ? troublePerson.unitNumber.length : 0}}/10</span>
+          <span class="form-item-tip" v-if="!isDetail">{{troublePerson.unitNumber ? troublePerson.unitNumber.length : 0}}/10</span>
         </el-form-item>
       </div>
       <div class="flex-one">
         <el-form-item label="房间号" prop="roomNo" class="form-item">
           <el-input v-model="troublePerson.roomNo" maxlength="10"></el-input>
-          <span class="form-item-tip">{{troublePerson.roomNo ? troublePerson.roomNo.length : 0}}/10</span>
+          <span class="form-item-tip" v-if="!isDetail">{{troublePerson.roomNo ? troublePerson.roomNo.length : 0}}/10</span>
         </el-form-item>
       </div>
     </div>
@@ -90,7 +90,7 @@
     </el-form-item>
     <el-form-item label="其他情况和有关困难" prop="note">
       <el-input type="textarea" :rows="2" maxlength="255" placeholder="请输入内容" v-model="troublePerson.note"> </el-input>
-      <span>
+      <span v-if="!isDetail">
         {{ troublePerson.note ? troublePerson.note.length : 0 }}/255
       </span>
     </el-form-item>
