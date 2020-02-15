@@ -1,33 +1,19 @@
 <div class="nav-bar-box">
   <ul class="nav-bar-container">
     <li v-for="(item,index) in moduleTitle" v-if="!item.hidden && item.children.length > 0" class="nav-item" :class="{'is-active': stairMenu === item.id}">
-      <!-- <div v-if="item.name==='home'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
+      <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'emergency' || item.name === 'gov' || item.name ==='enterprice'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
         <div class="stair-nav-icon">
           <img :src="item.iconCls" alt="" />
         </div>
         <div class="fll">
-          <span class="stair-name" v-if="stairMenu === item.id">{{ $t('navbar.' + item.name) }}</span>
-        </div>
-      </div> -->
-      <!-- <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'troubleshoot' || item.name === 'emergency' || item.name === 'gov' || item.name ==='enterprice'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)"> -->
-      <div v-if="item.name === 'home' || item.name=== 'outbreak' || item.name === 'emergency' || item.name === 'gov' || item.name ==='enterprice'" @click="goHome(item)" class="stair-nav" :title="$t('navbar.'+item.name)">
-        <div class="stair-nav-icon">
-          <!-- <img :src="item.iconCls" alt="" /> -->
-          <img :src="paichiImg" v-if=" item.name === 'troubleshoot' " alt="" />
-          <img :src="guanliImg"  v-if=" item.name === 'outbreak' "  alt="" />
-          <img :src="peizhiImg"  v-if=" item.name === 'system-manage' "  alt="" />
-        </div>
-        <div class="fll">
           <span class="stair-name" >{{ $t('navbar.' + item.name) }}</span>
         </div>
-        
       </div>
       <el-dropdown v-else @command="handleCmomand" trigger="click" placement="bottom-start">
         <div class="stair-nav" :title="$t('navbar.'+item.name)">
           <div class="el-dropdown-link">
             <div class="stair-nav-icon">
-              <!-- <img :src="item.iconCls" alt="" /> -->
-              <img :src="peizhiImg"   alt="" />
+              <img :src="item.iconCls" alt="" />
             </div>
             <div class="stair-name-float">
               <span class="stair-name" >{{ $t('navbar.' + item.name) }}</span>
