@@ -151,7 +151,8 @@ export class DailyTroubleshootingComponent extends Vue {
       E3: { v: '电话' , s},
       // F3: { v: '家庭住址', s },
       G2: { v:  now, s },
-      F3: { v: '是否发热(体温>=37.3℃) ', s },
+      // F3: { v: '是否发热(体温>=37.3℃) ', s },
+      F3: { v: '体温', s },
       G3: { v: '其他症状' , s },
       H3: { v: '是否有湖北旅居史或接触史', s },
       [`I3`] : { v: '接触人员类型', s }, // 替换 疑似患者
@@ -194,7 +195,8 @@ export class DailyTroubleshootingComponent extends Vue {
         [`D${4 + index}`] : { v: person.idNumber, s  }, // 身份证号
         [`E${4 + index}`] : { v: person.phone , s }, // 联系方式
         // [`F${4 + index}`] : { v: person.residence , s }, // 家庭住址
-        [`F${4 + index}`] : { v: person.fever === '1' ? '是' : '否', s }, // 是否发热（体温大于37.3度）
+        // [`F${4 + index}`] : { v: person.fever === '1' ? '是' : '否', s }, // 是否发热（体温大于37.3度）
+        [`F${4 + index}`] : { v: person.fever, s }, // 是否发热（体温大于37.3度）
         [`G${4 + index}`] : { v: person.symptom} , // 替换 其他症状
         [`H${4 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '否', s },
         [`I${4 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者

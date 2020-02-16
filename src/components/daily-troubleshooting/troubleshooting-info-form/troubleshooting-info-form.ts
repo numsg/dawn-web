@@ -63,6 +63,8 @@ export class TroubleshootingInfoForm extends Vue {
 
   troublePerson: TroubleshootRecord = new TroubleshootRecord();
 
+  customTemperature: number = 37.4;
+
   rules = {
     // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
     'personBase.name': [{ required: true, message: '请输入姓名', trigger: ['blur', 'change'] }],
@@ -80,9 +82,32 @@ export class TroubleshootingInfoForm extends Vue {
     // bodyTemperature: [{ required: true, message: '请填写体温', trigger: 'change' }],
     // leaveArea: [{ required: true, message: '请选择是否过去14天是否离开过本地区', trigger: 'change' }],
     // confirmed_diagnosis: [{ required: true, message: '请填写确诊情况', trigger: 'change' }],
-    isExceedTemp: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }],
-    isContact: [{ required: true, message: '请选择发热情况', trigger: ['blur', 'change'] }]
+    isExceedTemp: [{ required: true, message: '请选择体温', trigger: ['blur', 'change'] }],
+    isContact: [{ required: true, message: '请选择是否有新型肺炎接触史', trigger: ['blur', 'change'] }]
   };
+
+  feverOptions = [
+    {
+      label: '小于36℃',
+      value: 'a'
+    },
+    {
+      label: '36-36.5℃',
+      value: 'b'
+    },
+    {
+      label: '36.5-37℃',
+      value: 'c'
+    },
+    {
+      label: '37-37.3℃',
+      value: 'd'
+    },
+    {
+      label: '自定义',
+      value: 'e'
+    }
+  ];
 
   validateIdentificationNumber (rule: any, value: any, callback: any) {
     if (value === '') {
@@ -134,6 +159,13 @@ export class TroubleshootingInfoForm extends Vue {
   watchCurrentPerson(value: any) {
     if (value) {
       this.troublePerson = JSON.parse(JSON.stringify(value));
+      // this.troublePerson.isExceedTemp = this.troublePerson.isExceedTemp[0];
+      const temperature = this.troublePerson.isExceedTemp;
+      const level = this.troublePerson.isExceedTemp[0];
+      if (temperature[0] === 'e') {
+        this.customTemperature = Number((temperature.split(':')[1]).split('℃')[0]);
+        this.troublePerson.isExceedTemp = temperature[0];
+      }
       this.otherSymptomsList = this.troublePerson.otherSymptoms.split(',');
     }
   }
@@ -163,6 +195,7 @@ export class TroubleshootingInfoForm extends Vue {
         // //   return;
         // // }
         this.troublePerson.id = getUuid32();
+        this.convertTemperature();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         this.troublePerson.createTime = moment(this.troublePerson.createTime).format('YYYY-MM-DD HH:mm:ss');
         this.troublePerson.multiTenancy = SessionStorage.get('district');
@@ -201,6 +234,7 @@ export class TroubleshootingInfoForm extends Vue {
     const form: any = this.$refs[formName];
     form.validate((valid: any) => {
       if (valid) {
+        this.convertTemperature();
         const troublePerson = JSON.parse( JSON.stringify(this.troublePerson) );
         troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         troublePerson.createTime = dataFormat.formatTime(this.troublePerson.createTime);
@@ -231,6 +265,35 @@ export class TroubleshootingInfoForm extends Vue {
         return false;
       }
     });
+  }
+
+  convertTemperature() {
+    if (this.troublePerson.isExceedTemp === 'e') {
+      this.troublePerson.isExceedTemp = 'e:' + this.customTemperature + '℃';
+    } else {
+      this.feverOptions.forEach(e => {
+        if (this.troublePerson.isExceedTemp === e.value) {
+          this.troublePerson.isExceedTemp =  e.value + ':' + e.label;
+        }
+      });
+    }
+  }
+
+  temperatureChange(val: string) {
+    console.log(val);
+    if (val === 'e') {
+      this.feverOptions.forEach(e => {
+        if (e.value === val) {
+          e.label = '';
+        }
+      });
+    } else {
+      this.feverOptions.forEach(e => {
+        if (e.value === 'e') {
+          e.label = '自定义';
+        }
+      });
+    }
   }
 
   resetForm(formName: string) {

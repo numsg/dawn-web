@@ -60,11 +60,11 @@
     </side-frame>
   </div>
   <div class="botton-operation" v-if="!isShowgGroup">
-    <el-select v-model="isFaver" size="mini" multiple placeholder="是否发热">
+    <el-select v-model="isFaver" collapse-tags size="mini" multiple placeholder="是否发热">
       <el-option v-for="item in feverOptions" :key="item.value" :label="item.label" :value="item.value">
       </el-option>
     </el-select>
-    <el-select multiple collapse-tags v-model="medicalOpinionIds" size="mini" multiple placeholder="分类诊疗医疗意见">
+    <el-select  v-model="medicalOpinionIds" collapse-tags size="mini" multiple placeholder="分类诊疗医疗意见">
       <el-option v-for="item in medicalOpinions" :key="item.id" :label="item.name" :value="item.id">
       </el-option>
     </el-select>

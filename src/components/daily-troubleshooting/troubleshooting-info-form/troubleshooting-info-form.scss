@@ -48,6 +48,22 @@
       }
     }
 
+    .temperature {
+      position: relative;
+      .tem-custom {
+        position: absolute;
+        bottom: 15px;
+        right: 195px;
+      }
+    }
+
+    .tem-group {
+      display: inline-block;
+    }
+    .tem-custom {
+      display: inline-block;
+    }
+
   }
   .btn-box{
     text-align: right;

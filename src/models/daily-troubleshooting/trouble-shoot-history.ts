@@ -44,7 +44,8 @@ export default class TroubleshootHistoryRecord {
     multiTenancy: string = '';
 
     // 体温是否大于37.3
-    isExceedTemp: boolean = false;
+    // isExceedTemp: boolean = false;
+    isExceedTemp: string = '';
 
     // 是否有接触史
     isContact: boolean = false;

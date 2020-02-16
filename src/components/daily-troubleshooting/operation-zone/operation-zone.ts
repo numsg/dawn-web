@@ -14,6 +14,7 @@ import { Getter, Mutation } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import { debounce } from 'lodash';
 import dataFormat from '@/utils/data-format';
+import { Temperature } from '@/models/daily-troubleshooting/temperature';
 
 @Component({
   template: Html,
@@ -38,14 +39,59 @@ export class OperationZone extends Vue {
 
     // isShowgGroup = true;
 
+  // feverOptions = [
+  //   {
+  //     label: '是',
+  //     value: true
+  //   },
+  //   {
+  //     label: '否',
+  //     value: false
+  //   }
+  // ];
+  // feverOptions = [
+  //   {
+  //     label: '小于36℃',
+  //     value: 'a'
+  //   },
+  //   {
+  //     label: '36-36.5℃',
+  //     value: 'b'
+  //   },
+  //   {
+  //     label: '36.5-37℃',
+  //     value: 'c'
+  //   },
+  //   {
+  //     label: '37-37.3℃',
+  //     value: 'd'
+  //   },
+  //   {
+  //     label: '大于37.3℃',
+  //     value: 'e'
+  //   }
+  // ];
+
   feverOptions = [
     {
-      label: '是',
-      value: true
+      label: '小于36℃',
+      value: Temperature.A
     },
     {
-      label: '否',
-      value: false
+      label: '36-36.5℃',
+      value: Temperature.B
+    },
+    {
+      label: '36.5-37℃',
+      value: Temperature.C
+    },
+    {
+      label: '37-37.3℃',
+      value: Temperature.D
+    },
+    {
+      label: '大于37.3℃',
+      value: Temperature.E
     }
   ];
 

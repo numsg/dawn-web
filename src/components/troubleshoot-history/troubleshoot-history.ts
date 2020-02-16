@@ -7,13 +7,18 @@ import eventNames from '@/common/events/store-events';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
 import moment from 'moment';
 import { debounce } from 'lodash';
-import { HistoryQueryConditions } from '@/models/daily-troubleshooting/history-query-conditions';
 import i18n from '@/i18n';
 import notifyUtil from '@/common/utils/notifyUtil';
 import { TroubleshootingInfoForm } from '../daily-troubleshooting/troubleshooting-info-form/troubleshooting-info-form';
 import { SideFrameComponent } from '../share/side-frame/side-frame';
-const DATE_PICKER_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
+import * as XLSX from 'xlsx';
+import { RecordModel } from '@/models/daily-troubleshooting/trouble-shoot-record-model';
+import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
+import HistoryQueryConditions from './../../models/daily-troubleshooting/history-query-conditions';
+import SessionStorage from '@/utils/session-storage';
+import { Temperature } from '@/models/daily-troubleshooting/temperature';
 
+const DATE_PICKER_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
 @Component({
   template: html,
   style: styles,
@@ -48,14 +53,40 @@ export class TroubleshootHistoryComponent extends Vue {
   @State((state: any) => state.troubleshootingHistory.conditions.pageSize)
   pageSize!: number;
 
+  @State((state: any) => state.troubleshootingHistory.conditions)
+  conditions!: HistoryQueryConditions;
+
+  // feverOptions = [
+  //   {
+  //     label: '是',
+  //     value: true
+  //   },
+  //   {
+  //     label: '否',
+  //     value: false
+  //   }
+  // ];
+
   feverOptions = [
     {
-      label: '是',
-      value: true
+      label: '小于36℃',
+      value: Temperature.A
     },
     {
-      label: '否',
-      value: false
+      label: '36-36.5℃',
+      value: Temperature.B
+    },
+    {
+      label: '36.5-37℃',
+      value: Temperature.C
+    },
+    {
+      label: '37-37.3℃',
+      value: Temperature.D
+    },
+    {
+      label: '大于37.3℃',
+      value: Temperature.E
     }
   ];
 
@@ -240,6 +271,254 @@ export class TroubleshootHistoryComponent extends Vue {
   reset() {
     this.dateRange = [];
     this.$store.dispatch(eventNames.TroubleshootingHistory.SetHistoryRecords, new HistoryQueryConditions);
+  }
+
+  // 导出excel
+  async exportExcel( param:  {  startDate: string, endDate: string, currentVillageId:  string}) {
+    const  {  startDate , endDate} = param;
+    let { currentVillageId } = param;
+    currentVillageId = SessionStorage.get('district') + '';
+    // const now = format.default(new Date(), 'yyyy-mm-dd HH:mm:ss');
+    const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    console.log('---now---');
+    console.log(now);
+    const taskListName = `日常排查数据${now}.xlsx`;
+    // const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
+    // const result: RecordModel[] = await DailyTroubleshootingService.loadExportByJXExcel({  startDate , endDate, currentVillageId});
+    const result: RecordModel[] = await DailyTroubleshootingService.exportHistoryRecords(this.conditions);
+    if ( !result ) {
+      notifyUtil.warning('查找记录失败');
+    }
+    const res = await DailyTroubleshootingService.queryCommunity();
+    if ( !res ) {
+      notifyUtil.warning('查询社区失败');
+    }
+    let communityName = '';
+    if ( res && Array.isArray(res) && res.length > 0 ) {
+      communityName = res[0].name;
+    }
+    let data = {};
+
+    const s = {
+      alignment: {
+        horizontal: 'center',
+        vertical: 'center'
+      },
+    };
+    // 表头
+    const headers = {
+      A1: { v: '社区疫情排查情况登记表', s },
+      A2: { v: '社区(村)', s },
+      F2: { v: '制表日期' , s},
+      A3: { v: '序号' , s},
+      B2: { v:  communityName , s},
+      B3: { v: '姓名' , s},
+      C3: { v: '性别' , s},
+      D3: { v: '身份证号' , s },
+      E3: { v: '电话' , s},
+      // F3: { v: '家庭住址', s },
+      G2: { v:  now, s },
+      F3: { v: '是否发热(体温>=37.3℃) ', s },
+      G3: { v: '其他症状' , s },
+      H3: { v: '是否有湖北旅居史或接触史', s },
+      [`I3`] : { v: '接触人员类型', s }, // 替换 疑似患者
+      [`J3`] : { v: '是否与确诊病例或者疑似病例密切接触', s }, // 替换 疑似患者
+      [`K3`] : { v: '是否与湖北暴露史人员接触', s }, // 替换 一般发热患者
+      [`L3`] : { v: '体温', s }, // 替换 密切接触者
+      [`M3`] : { v: '有无咳嗽、胸闷等不适症状', s }, // 替换 密切接触者
+      [`N3`] : { v: '常德人入武汉后居住地' , s },
+      [`O3`] : { v: '离开湖北日期' , s },
+      [`P3`] : { v: '交通工具' , s },
+      [`Q3`] : { v: '班次/车次' , s },
+      [`R3`] : { v: '沿途停留地点' , s },
+      [`S3`] : { v: '返回常德日期' , s },
+      [`T3`] : { v: '是否满14天日期' , s },
+      [`U3`] : { v: '是否外地来武陵区人员' , s },
+      [`V3`] : { v: '原居地址(从何处来)', s },
+      [`W3`] : { v: '来武陵区方式', s },
+      [`X3`] : { v: '来武陵区班次/车次', s },
+      [`Y3`] : { v: '同程人员', s },
+      [`Z3`] : { v: '工作单位', s },
+      [`AA3`] : { v: '是否本街道常驻人口', s },
+      [`AB3`] : { v: '是否有相关证明', s },
+      [`AC3`] : { v: '小区', s },
+      [`AD3`] : { v: '楼号', s },
+      [`AE3`] : { v: '单元', s },
+      [`AF3`] : { v: '房间号', s },
+      ['AG3'] : { v: '采集时间' , s},
+      ['AH3'] : { v: '包保人' , s},
+      ['AI3'] : { v: '包保人电话' , s},
+    };
+    // 合并 headers 和 data
+    const dataRowHight: any[] = [];
+    const rowHeight = 24;
+    result.forEach((person: RecordModel, index: number) => {
+      dataRowHight.push({'hpx': rowHeight});
+      const tableTr = {
+        [`A${4 + index}`] : { v: index + 1 , s }, // 序号
+        [`B${4 + index}`] : { v: person.name }, // 姓名
+        [`C${4 + index}`] : { v:  person.sex === '0' ?  '男' : '女' , s }, // 替换 性别
+        [`D${4 + index}`] : { v: person.idNumber, s  }, // 身份证号
+        [`E${4 + index}`] : { v: person.phone , s }, // 联系方式
+        // [`F${4 + index}`] : { v: person.residence , s }, // 家庭住址
+        [`F${4 + index}`] : { v: person.fever === '1' ? '是' : '否', s }, // 是否发热（体温大于37.3度）
+        [`G${4 + index}`] : { v: person.symptom} , // 替换 其他症状
+        [`H${4 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '否', s },
+        [`I${4 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者
+        [`J${4 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '否', s }, // 替换 疑似患者
+        [`K${4 + index}`] : { v: person.touchHubei === '1' ? '是' : '否' , s }, // 替换 一般发热患者
+        [`L${4 + index}`] : { v: person.temperature, s }, // 替换 密切接触者
+        [`M${4 + index}`] : { v: person.discomfort === '1' ? '是' : '否' , s }, // 替换 密切接触者
+        [`N${4 + index}`] : { v: person.wuhanAddress , s },
+        [`O${4 + index}`] : { v: person.leaveHubeiDate , s },
+        [`P${4 + index}`] : { v: person.vehicle , s },
+        [`Q${4 + index}`] : { v: person.vehicleNo , s },
+        [`R${4 + index}`] : { v: person.stayPlace , s },
+        [`S${4 + index}`] : { v: person.backDate , s },
+        [`T${4 + index}`] : { v: this.checkTime(person.backDate), s },
+        [`U${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '否' , s },
+        [`V${4 + index}`] : { v: person.whereToWuling, s },
+        [`W${4 + index}`] : { v: person.howToWuling, s },
+        [`X${4 + index}`] : { v: person.vehicleNoWuling, s },
+        [`Y${4 + index}`] : { v: person.togetherPersonWuling, s },
+        [`Z${4 + index}`] : { v: person.workUnitWuling, s },
+        [`AA${4 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '否', s },
+        [`AB${4 + index}`] : { v: person.proveWuling === '1' ? '是' : '否', s },
+        [`AC${4 + index}`] : { v: person.community, s },
+        [`AD${4 + index}`] : { v: person.building, s },
+        [`AE${4 + index}`] : { v: person.unit, s },
+        [`AF${4 + index}`] : { v: person.roomNumber, s },
+        [`AG${4 + index}`] : { v: person.createTime, s},
+        [`AH${4 + index}`] : { v: this.replaceUndefined(person.reporterName) , s},
+        [`AI${4 + index}`] : { v: this.replaceUndefined(person.reporterPhone) , s},
+      };
+      data = Object.assign({}, data, tableTr);
+    });
+    console.log(data);
+    const output = Object.assign({}, headers, data);
+    // 表格范围，范围越大生成越慢
+    const ref = 'A1:ZZ2000';
+    // 合并单元格设置
+    const merges = [
+      { s: { c: 0, r: 0 }, e: { c: 14, r: 0 } }, // 社区疫情排查情况登记表
+      { s: { c: 0, r: 1 }, e: { c: 0, r: 1 } }, // 社区(村)
+      { s: { c: 6, r: 1 }, e: { c: 6, r: 1 } }, // 填表日期
+    ];
+    // 构建 workbook 对象
+    const cols = [
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 12},
+      {'wch': 22},
+    ];
+    const rows = [
+      ...dataRowHight,
+      {'hpx': rowHeight},
+      {'hpx': rowHeight},
+      {'hpx': rowHeight},
+    ];
+    const wb = {
+      SheetNames: ['日常排查记录表'],
+      Sheets: {
+        mySheet: Object.assign({}, output, { '!ref': ref, '!merges': merges, '!cols': cols, '!rows': rows })
+      }
+    };
+    // 导出 Excel
+    // bookType: 'xlsx', // 要生成的文件类型
+    // bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
+    // type: 'binary'
+    XLSX.writeFile(wb, taskListName, {bookType: 'xlsx',  bookSST: false, type: 'binary' });
+
+    // const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    // XLSX.utils.book_append_sheet(wb, ws, 'sheet1');
+    // XLSX.writeFile(wb, taskListName + '.xlsx');
+  }
+
+  replacetrip(trip: string) {
+    if (trip === '1') {
+      return '武汉以外的湖北人入常德人员';
+    }
+    if (trip === '2') {
+      return '武汉入常德';
+    }
+    if (trip === '3') {
+      return '常德入武汉以外的湖北辖区后返回常德';
+    }
+    if (trip === '4') {
+      return '常德入武汉后返回常德';
+    }
+    if (trip === '5') {
+      return '既非常德人又非湖北人，途径湖北进入常德';
+    }
+    if (trip === '6') {
+      return '既非常德人又非武汉人，途径武汉进入常德';
+    }
+    return '';
+  }
+
+  checkTime(time: string) {
+    if (!time) {
+      return '';
+    }
+    const timeList = time.split('-');
+    if ( Array.isArray(timeList) && timeList.length > 2 ) {
+      const oldTime = new Date( Number(timeList[0]), Number(timeList[1]) - 1, Number(timeList[2]), 0, 0, 0   );
+      const newTime = new Date();
+      return newTime.getTime() > oldTime.getTime() + 14 * 24 * 60 * 60 * 1000 ? '是' : '否';
+    } else {
+      return '否';
+    }
+  }
+
+  replaceUndefined(str: string) {
+    if ( str === 'undefined' ) {
+      return '';
+    }
+    return str;
   }
 
   beforeDestroy() {

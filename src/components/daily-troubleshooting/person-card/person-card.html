@@ -29,10 +29,15 @@
                 <span>{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
               </template>
             </el-table-column>
-            <el-table-column  label="是否发热" width="80">
+            <!-- <el-table-column  label="是否发热" width="80">
               <template slot-scope="scope">
                 <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'parimary'"
                   disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
+              </template>
+            </el-table-column> -->
+            <el-table-column label="体温" width="120">
+              <template slot-scope="scope">
+                {{scope.row.isExceedTemp.split(':')[1]}}
               </template>
             </el-table-column>
             <el-table-column  label="是否有接触史" width="110">
@@ -92,10 +97,15 @@
               {{replacePlot(scope.row.plot)}}
             </template>
           </el-table-column>
-          <el-table-column  label="是否发热" width="80">
+          <!-- <el-table-column  label="是否发热" width="80">
             <template slot-scope="scope">
               <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'primary'"
                 disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
+            </template>
+          </el-table-column> -->
+          <el-table-column label="体温" width="120">
+            <template slot-scope="scope">
+              {{scope.row.isExceedTemp.split(':')[1]}}
             </template>
           </el-table-column>
           <el-table-column  label="是否有接触史" width="110">
