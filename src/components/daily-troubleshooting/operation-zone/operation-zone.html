@@ -60,7 +60,7 @@
     </side-frame>
   </div>
   <div class="botton-operation" v-if="!isShowgGroup">
-    <el-select v-model="isFaver" collapse-tags size="mini" multiple placeholder="是否发热">
+    <el-select v-model="isFaver" collapse-tags size="mini" multiple placeholder="体温记录情况">
       <el-option v-for="item in feverOptions" :key="item.value" :label="item.label" :value="item.value">
       </el-option>
     </el-select>

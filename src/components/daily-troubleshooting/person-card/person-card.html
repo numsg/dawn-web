@@ -37,7 +37,9 @@
             </el-table-column> -->
             <el-table-column label="体温" width="120">
               <template slot-scope="scope">
-                {{scope.row.isExceedTemp.split(':')[1]}}
+                <span v-if="scope.row.isExceedTemp[0]!=='e'">{{scope.row.isExceedTemp.split(':')[1]}}</span>
+                <el-tag v-else effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'parimary'"
+                  disable-transitions>{{scope.row.isExceedTemp.split(':')[1]}}</el-tag>
               </template>
             </el-table-column>
             <el-table-column  label="是否有接触史" width="110">

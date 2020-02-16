@@ -1,6 +1,6 @@
 <div class="troubleshoot-history">
   <div class="operation-zone">
-    <el-select v-model="favers" multiple collapse-tags  placeholder="是否发热">
+    <el-select v-model="favers" multiple collapse-tags  placeholder="体温记录情况">
       <el-option v-for="item in feverOptions" :key="item.value" :label="item.label" :value="item.value"> </el-option>
     </el-select>
     <el-select multiple collapse-tags v-model="medicalOpinionIds" placeholder="分类诊疗医疗意见">
