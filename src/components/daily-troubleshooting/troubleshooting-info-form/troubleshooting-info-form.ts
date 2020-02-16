@@ -162,9 +162,9 @@ export class TroubleshootingInfoForm extends Vue {
       // this.troublePerson.isExceedTemp = this.troublePerson.isExceedTemp[0];
       const temperature = this.troublePerson.isExceedTemp;
       const level = this.troublePerson.isExceedTemp[0];
+      this.troublePerson.isExceedTemp = temperature[0];
       if (temperature[0] === 'e') {
         this.customTemperature = Number((temperature.split(':')[1]).split('℃')[0]);
-        this.troublePerson.isExceedTemp = temperature[0];
       }
       this.otherSymptomsList = this.troublePerson.otherSymptoms.split(',');
     }
