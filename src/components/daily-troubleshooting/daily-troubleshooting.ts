@@ -158,30 +158,30 @@ export class DailyTroubleshootingComponent extends Vue {
       [`I3`] : { v: '接触人员类型', s }, // 替换 疑似患者
       [`J3`] : { v: '是否与确诊病例或者疑似病例密切接触', s }, // 替换 疑似患者
       [`K3`] : { v: '是否与湖北暴露史人员接触', s }, // 替换 一般发热患者
-      [`L3`] : { v: '体温', s }, // 替换 密切接触者
-      [`M3`] : { v: '有无咳嗽、胸闷等不适症状', s }, // 替换 密切接触者
-      [`N3`] : { v: '常德人入武汉后居住地' , s },
-      [`O3`] : { v: '离开湖北日期' , s },
-      [`P3`] : { v: '交通工具' , s },
-      [`Q3`] : { v: '班次/车次' , s },
-      [`R3`] : { v: '沿途停留地点' , s },
-      [`S3`] : { v: '返回常德日期' , s },
-      [`T3`] : { v: '是否满14天日期' , s },
-      [`U3`] : { v: '是否外地来武陵区人员' , s },
-      [`V3`] : { v: '原居地址(从何处来)', s },
-      [`W3`] : { v: '来武陵区方式', s },
-      [`X3`] : { v: '来武陵区班次/车次', s },
-      [`Y3`] : { v: '同程人员', s },
-      [`Z3`] : { v: '工作单位', s },
-      [`AA3`] : { v: '是否本街道常驻人口', s },
-      [`AB3`] : { v: '是否有相关证明', s },
-      [`AC3`] : { v: '小区', s },
-      [`AD3`] : { v: '楼号', s },
-      [`AE3`] : { v: '单元', s },
-      [`AF3`] : { v: '房间号', s },
-      ['AG3'] : { v: '采集时间' , s},
-      ['AH3'] : { v: '包保人' , s},
-      ['AI3'] : { v: '包保人电话' , s},
+      // [`L3`] : { v: '体温', s }, // 替换 密切接触者
+      [`L3`] : { v: '有无咳嗽、胸闷等不适症状', s }, // 替换 密切接触者
+      [`M3`] : { v: '常德人入武汉后居住地' , s },
+      [`N3`] : { v: '离开湖北日期' , s },
+      [`O3`] : { v: '交通工具' , s },
+      [`P3`] : { v: '班次/车次' , s },
+      [`Q3`] : { v: '沿途停留地点' , s },
+      [`R3`] : { v: '返回常德日期' , s },
+      [`S3`] : { v: '是否满14天日期' , s },
+      [`T3`] : { v: '是否外地来武陵区人员' , s },
+      [`U3`] : { v: '原居地址(从何处来)', s },
+      [`V3`] : { v: '来武陵区方式', s },
+      [`W3`] : { v: '来武陵区班次/车次', s },
+      [`X3`] : { v: '同程人员', s },
+      [`Y3`] : { v: '工作单位', s },
+      [`Z3`] : { v: '是否本街道常驻人口', s },
+      [`AA3`] : { v: '是否有相关证明', s },
+      [`AB3`] : { v: '小区', s },
+      [`AC3`] : { v: '楼号', s },
+      [`AD3`] : { v: '单元', s },
+      [`AE3`] : { v: '房间号', s },
+      ['AF3'] : { v: '采集时间' , s},
+      ['AG3'] : { v: '包保人' , s},
+      ['AH3'] : { v: '包保人电话' , s},
     };
     // 合并 headers 和 data
     const dataRowHight: any[] = [];
@@ -196,36 +196,36 @@ export class DailyTroubleshootingComponent extends Vue {
         [`E${4 + index}`] : { v: person.phone , s }, // 联系方式
         // [`F${4 + index}`] : { v: person.residence , s }, // 家庭住址
         // [`F${4 + index}`] : { v: person.fever === '1' ? '是' : '否', s }, // 是否发热（体温大于37.3度）
-        [`F${4 + index}`] : { v: person.fever, s }, // 是否发热（体温大于37.3度）
+        [`F${4 + index}`] : { v: person.fever.split(':')[1], s }, // 是否发热（体温大于37.3度）
         [`G${4 + index}`] : { v: person.symptom} , // 替换 其他症状
         [`H${4 + index}`] : { v: person.travelLivingHubei === '1' ? '是' : '否', s },
         [`I${4 + index}`] : { v: this.replacetrip(person.trip), s }, // 替换 疑似患者
         [`J${4 + index}`] : { v: person.touchPersonIsolation === '1' ? '是' : '否', s }, // 替换 疑似患者
         [`K${4 + index}`] : { v: person.touchHubei === '1' ? '是' : '否' , s }, // 替换 一般发热患者
-        [`L${4 + index}`] : { v: person.temperature, s }, // 替换 密切接触者
-        [`M${4 + index}`] : { v: person.discomfort === '1' ? '是' : '否' , s }, // 替换 密切接触者
-        [`N${4 + index}`] : { v: person.wuhanAddress , s },
-        [`O${4 + index}`] : { v: person.leaveHubeiDate , s },
-        [`P${4 + index}`] : { v: person.vehicle , s },
-        [`Q${4 + index}`] : { v: person.vehicleNo , s },
-        [`R${4 + index}`] : { v: person.stayPlace , s },
-        [`S${4 + index}`] : { v: person.backDate , s },
-        [`T${4 + index}`] : { v: this.checkTime(person.backDate), s },
-        [`U${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '否' , s },
-        [`V${4 + index}`] : { v: person.whereToWuling, s },
-        [`W${4 + index}`] : { v: person.howToWuling, s },
-        [`X${4 + index}`] : { v: person.vehicleNoWuling, s },
-        [`Y${4 + index}`] : { v: person.togetherPersonWuling, s },
-        [`Z${4 + index}`] : { v: person.workUnitWuling, s },
-        [`AA${4 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '否', s },
-        [`AB${4 + index}`] : { v: person.proveWuling === '1' ? '是' : '否', s },
-        [`AC${4 + index}`] : { v: person.community, s },
-        [`AD${4 + index}`] : { v: person.building, s },
-        [`AE${4 + index}`] : { v: person.unit, s },
-        [`AF${4 + index}`] : { v: person.roomNumber, s },
-        [`AG${4 + index}`] : { v: person.createTime, s},
-        [`AH${4 + index}`] : { v: this.replaceUndefined(person.reporterName) , s},
-        [`AI${4 + index}`] : { v: this.replaceUndefined(person.reporterPhone) , s},
+        // [`L${4 + index}`] : { v: person.temperature, s }, // 替换 密切接触者
+        [`L${4 + index}`] : { v: person.discomfort === '1' ? '是' : '否' , s }, // 替换 密切接触者
+        [`M${4 + index}`] : { v: person.wuhanAddress , s },
+        [`N${4 + index}`] : { v: person.leaveHubeiDate , s },
+        [`O${4 + index}`] : { v: person.vehicle , s },
+        [`P${4 + index}`] : { v: person.vehicleNo , s },
+        [`Q${4 + index}`] : { v: person.stayPlace , s },
+        [`R${4 + index}`] : { v: person.backDate , s },
+        [`S${4 + index}`] : { v: this.checkTime(person.backDate), s },
+        [`T${4 + index}`] : { v: person.otherToWuling === '1' ? '是' : '否' , s },
+        [`U${4 + index}`] : { v: person.whereToWuling, s },
+        [`V${4 + index}`] : { v: person.howToWuling, s },
+        [`W${4 + index}`] : { v: person.vehicleNoWuling, s },
+        [`X${4 + index}`] : { v: person.togetherPersonWuling, s },
+        [`Y${4 + index}`] : { v: person.workUnitWuling, s },
+        [`Z${4 + index}`] : { v: person.permanentWuling  === '1' ? '是' : '否', s },
+        [`AA${4 + index}`] : { v: person.proveWuling === '1' ? '是' : '否', s },
+        [`AB${4 + index}`] : { v: person.community, s },
+        [`AC${4 + index}`] : { v: person.building, s },
+        [`AD${4 + index}`] : { v: person.unit, s },
+        [`AE${4 + index}`] : { v: person.roomNumber, s },
+        [`AF${4 + index}`] : { v: person.createTime, s},
+        [`AG${4 + index}`] : { v: this.replaceUndefined(person.reporterName) , s},
+        [`AH${4 + index}`] : { v: this.replaceUndefined(person.reporterPhone) , s},
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -235,7 +235,7 @@ export class DailyTroubleshootingComponent extends Vue {
     const ref = 'A1:ZZ2000';
     // 合并单元格设置
     const merges = [
-      { s: { c: 0, r: 0 }, e: { c: 14, r: 0 } }, // 社区疫情排查情况登记表
+      { s: { c: 0, r: 0 }, e: { c: 33, r: 0 } }, // 社区疫情排查情况登记表
       { s: { c: 0, r: 1 }, e: { c: 0, r: 1 } }, // 社区(村)
       { s: { c: 6, r: 1 }, e: { c: 6, r: 1 } }, // 填表日期
     ];
@@ -298,7 +298,7 @@ export class DailyTroubleshootingComponent extends Vue {
     const wb = {
       SheetNames: ['日常排查记录表'],
       Sheets: {
-        mySheet: Object.assign({}, output, { '!ref': ref, '!merges': merges, '!cols': cols, '!rows': rows })
+        '日常排查记录表': Object.assign({}, output, { '!ref': ref, '!merges': merges, '!cols': cols, '!rows': rows })
       }
     };
     // 导出 Excel
