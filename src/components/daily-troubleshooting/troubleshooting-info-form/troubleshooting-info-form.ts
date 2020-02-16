@@ -156,12 +156,12 @@ export class TroubleshootingInfoForm extends Vue {
     const form: any = this.$refs[formName];
     form.validate(async (valid: any) => {
       if (valid) {
-        const {name, phone} = this.troublePerson.personBase;
-        const isDuplicate = await DailyTroubleshootingService.isUserDuplicate(name, phone);
-        if (isDuplicate) {
-          notifyUtil.error('用户已存在, 请检查名称和手机号');
-          return;
-        }
+        // const {name, phone} = this.troublePerson.personBase;
+        // // const isDuplicate = await DailyTroubleshootingService.isUserDuplicate(name, phone);
+        // // if (isDuplicate) {
+        // //   notifyUtil.error('用户已存在, 请检查名称和手机号');
+        // //   return;
+        // // }
         this.troublePerson.id = getUuid32();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
         this.troublePerson.createTime = moment(this.troublePerson.createTime).format('YYYY-MM-DD HH:mm:ss');

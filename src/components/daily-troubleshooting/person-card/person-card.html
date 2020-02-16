@@ -50,7 +50,7 @@
                   {{replaceMedicalOpinion(scope.row.medicalOpinion)}}
               </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="填报时间" width="160">
+            <el-table-column prop="createTime" sortable label="填报时间" width="160">
               <template slot-scope="scope">
                 {{replaceTime(scope.row.createTime)}}
               </template>
@@ -115,7 +115,7 @@
               {{replaceMedicalOpinion(scope.row.medicalOpinion)}}
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="填报时间" width="160" :show-overflow-tooltip="true">
+          <el-table-column prop="createTime" sortable label="填报时间" width="160" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{replaceTime(scope.row.createTime)}}
             </template>
