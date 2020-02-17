@@ -1,4 +1,5 @@
 import PersonBase from './person-base';
+import RecordExpend from './record-expend';
 
 /**
  * @create 2020-02-08 12:17
@@ -68,5 +69,12 @@ export default class TroubleshootHistoryRecord {
      * 行政区划code
      */
     districtCode: string = '';
+
+    /**
+     * 扩展属性
+     */
+    expendProperty: string = '';
+
+    expendModel: RecordExpend = new RecordExpend();
 
 }

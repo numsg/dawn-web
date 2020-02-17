@@ -1237,23 +1237,6 @@ export default {
       }
     }
 
-    // if (conditions.favers && conditions.favers.length > 0) {
-    //   let str = '';
-    //   for (let i = 0, len = conditions.favers.length - 1; i < conditions.favers.length; i++) {
-    //       const value = conditions.favers[i];
-    //       if (i !== len) {
-    //           str += '(isExceedTemp eq ' + value + ') or ';
-    //       } else {
-    //           str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
-    //           if (filterStr) {
-    //             filterStr = filterStr + ' and ' + str;
-    //           } else {
-    //             filterStr += str;
-    //           }
-    //       }
-    //   }
-    // }
-
     if (conditions.favers && conditions.favers.length > 0) {
       let str = '';
       for (let i = 0, len = conditions.favers.length - 1; i < conditions.favers.length; i++) {

@@ -23,7 +23,7 @@
     >
     </el-date-picker>
     <el-button @click="reset" class="iconfont primary-btn reset iconpms-icon_Reset">{{ $t('plan_manage.reset') }}</el-button>
-    <!-- <el-button @click="exportExcel" class=" primary-btn  el-icon-download"> 导出 </el-button> -->
+    <el-button @click="exportExcel" class=" primary-btn  el-icon-download"> 导出 </el-button>
     <div class="input-search">
       <input ref="searchInput" type="text" autofocus @input="debounceSearch" v-model="keyWords" placeholder="请输入关键字" />
       <span class="iconfont iconpms-icon_search iconfont-size"></span>

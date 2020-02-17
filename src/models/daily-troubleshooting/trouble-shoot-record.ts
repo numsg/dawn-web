@@ -1,4 +1,5 @@
 import PersonBase from './person-base';
+import RecordExpend from './record-expend';
 
 /**
  * 最新的排查记录
@@ -66,4 +67,10 @@ export default class TroubleshootRecord {
      */
     isByPhone: boolean = false;
 
+    /**
+     * 扩展属性
+     */
+    expendProperty: string = '';
+
+    expendModel: RecordExpend = new RecordExpend();
 }
