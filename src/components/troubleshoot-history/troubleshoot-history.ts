@@ -277,19 +277,7 @@ export class TroubleshootHistoryComponent extends Vue {
 
   // 导出excel
   async exportExcel() {
-    const startDate = moment(this.conditions.dateRange[0])
-      .utc(false)
-      .format('YYYY-MM-DD HH:mm:ss');
-    const endDate = moment(this.conditions.dateRange[1])
-      .utc(false)
-      .format('YYYY-MM-DD HH:mm:ss');
-    const currentVillageId = SessionStorage.get('district') + '';
-    // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
-    // const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
-    // const result: RecordModel[] = await DailyTroubleshootingService.loadExportByJXExcel({ startDate, endDate, currentVillageId });
     const result: TroubleshootHistoryRecord[] = await DailyTroubleshootingService.exportHistoryRecords(this.conditions);
-    console.log('---RecordModel---');
-    console.log(result);
     if (!result) {
       notifyUtil.warning('查找记录失败');
     }
@@ -344,8 +332,6 @@ export class TroubleshootHistoryComponent extends Vue {
     // 构造表格数据
     let data = {};
     const execlData = this.convretToExeclData(result);
-    console.log('---execlData---');
-    console.log(execlData);
     execlData.forEach((item, index) => {
       let rowData = {};
       const colProps = Object.keys(item);
