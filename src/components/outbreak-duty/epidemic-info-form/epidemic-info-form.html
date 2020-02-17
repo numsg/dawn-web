@@ -1,5 +1,6 @@
 <div class="epidemic-info-form">
   <el-form
+    v-if="!readOnlyMode"
     :model="curEpidemicPerson"
     :rules="rules"
     label-position="top"
@@ -78,4 +79,49 @@
       <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
     </el-form-item>
   </el-form>
+  <div class="person-detail" v-else>
+    <h3>{{curEpidemicPerson.name}}</h3>
+    <div class="detail-content">
+      <div class="content-item">
+        <span class="content-label">年龄</span>
+        <span>{{curEpidemicPerson.age}}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">性别</span>
+        <span>{{ returnDicDataName(curEpidemicPerson.gender, 'genderClassification') }}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">手机号</span>
+        <span>{{curEpidemicPerson.mobileNumber}}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">小区</span>
+        <span>{{ returnDicDataName(curEpidemicPerson.villageId, 'communities') }}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">诊断情况</span>
+        <span>{{ returnDicDataName(curEpidemicPerson.diagnosisSituation, 'diagnosisSituations') }}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">就医情况</span>
+        <span>{{ returnDicDataName(curEpidemicPerson.medicalCondition, 'medicalSituations') }}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">特殊情况</span>
+        <span>{{ returnDicDataName(curEpidemicPerson.specialSituation, 'specialSituations') }}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">报送时间</span>
+        <span>{{ replaceTime(curEpidemicPerson.submitTime) }}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">发病时间</span>
+        <span>{{ replaceTime(curEpidemicPerson.diseaseTime) }}</span>
+      </div>
+      <div class="content-item">
+        <span class="content-label">备注</span>
+        <span>{{curEpidemicPerson.note}}</span>
+      </div>
+    </div>
+  </div>
 </div>

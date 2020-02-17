@@ -8,11 +8,18 @@
     flex: 4;
     padding: 20px;
     margin-right: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    .type-statistics {
+      margin-bottom: 10px;
+      text-align: right;
+    }
   }
   .epidemic-list {
     background-color: #f7f8fc;
     flex: 6;
-    display: flex;
+    display: inline-flex;
+    flex-direction: column;
     padding: 10px;
     height: 100%;
     overflow: auto;

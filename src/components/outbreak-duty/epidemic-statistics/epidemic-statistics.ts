@@ -30,6 +30,10 @@ export class EpidemicStatisticsComponent extends Vue {
 
   @Prop()
   showStatistics!: boolean;
+  @Prop({
+    default: '1'
+  })
+  dimension!: string;
 
   clearable: boolean = false;
 
@@ -89,8 +93,7 @@ export class EpidemicStatisticsComponent extends Vue {
 
   @Getter('outbreakDuty_epidemicStaticalData')
   epidemicStaticalData!: any[];
-
-  totalCount = 1;
+  totalCount: number = 0;
   constructor() {
     super();
     // const startDate = moment()
@@ -104,15 +107,21 @@ export class EpidemicStatisticsComponent extends Vue {
     const doughnut: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
     this.chart = echarts.init(doughnut);
     this.addEventListener();
-    await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
+    // await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData, { dimension: this.dimension });
   }
 
   @Watch('epidemicStaticalData')
   onStaticalDataLoad(val: any) {
-    this.totalCount = val.reduce((prev: any, cur: any) => {
-      return Number(cur.count) + Number(prev);
-    }, 0);
+    // this.totalCount = val.reduce((prev: any, cur: any) => {
+    //   return Number(cur.value) + Number(prev);
+    // }, 0);
+    this.totalCount = this.$store.state.outbreakDuty.medicalConditionStatisticTotal;
     this.setOption();
+  }
+
+  @Watch('dimension')
+  async handleDimensionOfStatisticsChange(val: string) {
+    await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData, { dimension: this.dimension });
   }
 
   setOption() {
@@ -226,7 +235,7 @@ export class EpidemicStatisticsComponent extends Vue {
       this.epidemicStaticalData.forEach((item, index) => {
         if (item.name === evt.name) {
           item.selected = !item.selected;
-          this.filterEpidemicPersons();
+          // this.filterEpidemicPersons();
         }
       });
     });

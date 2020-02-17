@@ -42,7 +42,7 @@ const StoreEvents = {
     SetGenderClassification: 'SetGenderClassification',
     SetOtherSymptoms: 'SetOtherSymptoms',
     SetMedicalOpinions: 'SetMedicalOpinions',
-    ClearBaseData: 'ClearBaseData',
+    ClearBaseData: 'ClearBaseData'
   },
 
   Login: {
@@ -98,7 +98,9 @@ const StoreEvents = {
   },
   OutbreakDuty: {
     SetEpidemicStaticalData: 'SetEpidemicStaticalData',
-    SetEpidemicPersons: 'SetEpidemicPersons'
+    SetEpidemicPersons: 'SetEpidemicPersons',
+    SetCommunityFocusOnPersonData: 'SetCommunityFocusOnPersonData',
+    UpdatePersonMedicalSituation: 'UpdatePersonMedicalSituation'
   },
   DailyTroubleshooting: {
     SetStatisticsData: 'SetStatisticsData',
@@ -110,11 +112,11 @@ const StoreEvents = {
     SetActiveName: 'SetActiveName',
     ResetData: 'ResetData',
     SetModelType: 'SetModelType',
-    ReloadGroupsData: 'ReloadGroupsData',
+    ReloadGroupsData: 'ReloadGroupsData'
   },
   TroubleshootingHistory: {
     SetHistoryRecords: 'SetHistoryRecords',
-    ResetHistoryRecordData: 'ResetHistoryRecordData',
+    ResetHistoryRecordData: 'ResetHistoryRecordData'
   }
 };
 

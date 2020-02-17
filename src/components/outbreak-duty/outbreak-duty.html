@@ -2,12 +2,23 @@
   <!-- outbreak-duty -->
   <!-- 疫情统计 -->
   <div class="statistical">
+    <el-radio-group v-model="currentDimension" class="type-statistics">
+      <el-radio-button v-for="(item, index) in typeOfStatistics" :key="index" :label="item.id">{{item.label}}</el-radio-button>
+    </el-radio-group>
     <!-- 疫情统计 -->
-    <epidemic-statistics></epidemic-statistics>
+    <epidemic-statistics :dimension="currentDimension" style="flex:2.5"></epidemic-statistics>
+    <!-- 按社区统计重点关注人员 -->
+    <community-statistics :dimension="currentDimension" style="flex:4; overflow-y: auto;"></community-statistics>
   </div>
   <!-- 疫情列表 -->
   <div class="epidemic-list">
-    <!-- 疫情列表 -->
-    <epidemic-list></epidemic-list>
+    <!-- 重点关注人员列表 -->
+    <epidemic-list
+      style="flex:1.5"
+      @on-person-selection-change="handlePersonSelected"
+      @on-edit-person="handleCurrentPersonEdit"
+    ></epidemic-list>
+    <!-- 重点关注人员信息 -->
+    <epidemic-info style="flex:1" :editEpidemicPerson="currentPerson" :readOnlyMode="true"></epidemic-info>
   </div>
 </div>

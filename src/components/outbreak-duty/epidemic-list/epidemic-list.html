@@ -12,35 +12,50 @@
           {{ $t('plan_manage.time_sort') }}
         </el-button>
 
-        <el-button @click="addEpidemicPersion" class="type-btn add iconfont primary-btn iconpms-icon_Blow-Up">新增</el-button>
-        <el-button @click="resetData" class="type-btn reset iconfont iconpms-icon_Reset">{{ $t('plan_manage.reset') }}</el-button>
-        <div class="input-search">
-          <input
-            ref="searchInput"
-            type="text"
-            autofocus
-            @input="debounceSearch"
-            v-model="keyWords"
-            placeholder="请输入姓名或电话号码进行过滤"
-          />
-          <span class="iconfont iconpms-icon_search iconfont-size"></span>
+        <el-button @click="addEpidemicPersion" class="type-btn add iconfont primary-btn iconpms-icon_Blow-Up">新增 </el-button>
+      </div>
+      <div class="btn-group" style="margin-top: 10px;">
+        <div class="filter-options">
+          <!-- <span>按小区过滤</span> -->
+          <el-select v-model="selectionCommunities" clearable multiple collapse-tags placeholder="请选择小区">
+            <el-option v-for="item in communities" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+          </el-select>
+        </div>
+        <div class="filter-options">
+          <!-- <span>按就诊情况过滤</span> -->
+          <el-select v-model="selectionDiagnosisSituation" clearable multiple collapse-tags placeholder="请选择就诊情况">
+            <el-option v-for="item in diagnosisSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+          </el-select>
+        </div>
+        <div class="filter-options">
+          <!-- <span>按就医情况过滤</span> -->
+          <el-select v-model="selectionMedicalSituations" clearable multiple collapse-tags placeholder="请选择就医情况">
+            <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+          </el-select>
+        </div>
+        <div class="filter-options" style="margin-left: 4.4em; margin-right: 0;">
+          <el-button @click="resetData" class="type-btn reset iconfont iconpms-icon_Reset">{{ $t('plan_manage.reset') }} </el-button>
+          <div class="input-search">
+            <input
+              ref="searchInput"
+              type="text"
+              autofocus
+              @input="debounceSearch"
+              v-model="keyWords"
+              placeholder="请输入姓名或电话号码进行过滤"
+            />
+            <span class="iconfont iconpms-icon_search iconfont-size"></span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="wrapper infinite-list-wrapper" ref="list-wrapper">
-    <div class="content">
-      <div v-for="(data, index)  in epidemicPersonList">
+    <!-- 按照卡片的方式进行展示 -->
+    <div class="content" v-if="displayMode==='card'">
+      <div v-for="(data, index)  in epidemicPersonList" :key="data.id">
         <el-card class="box-card">
           <div slot="header" class="card-header">
-            <!-- <i v-if="data.eventType && data.eventType.image && data.eventType.image.isIcon"
-              class="iconfont event-type-icon" :style="{'background-color': transformEventBgColor(data.eventType)}"
-              :class="['' + data.eventType.image.iconfont + '']"></i>
-            <i v-if="data.eventType && data.eventType.image && data.eventType.image.iconfont && !data.eventType.image.isIcon"
-              class="iconfont event-type-icon event-type-img-wrapper"
-              :style="{'background-color': transformEventBgColor(data.eventType)}">
-              <img :src="data.eventType.image.iconfont" alt="" />
-            </i> -->
             <span class="name" :title="data.name"
               >{{ data.name }} &nbsp; <span class="community-name">{{data.communityModel.name}}</span></span
             >
@@ -51,8 +66,6 @@
             >
               {{ data.diagnosisSituationModel.name }}</span
             >
-            <!-- <span class="prev-color diagnosis" > {{ data.diagnosisSituationModel.name }}</span> -->
-            <!-- <span class="prev-color istemplate" v-else>{{ $t('system_log.plan') }}</span> -->
             <span class="submit-time">报送时间:{{data.submitTime}}</span>
           </div>
           <div class="body">
@@ -79,8 +92,6 @@
             </div>
             <div class="card-btn">
               <div class="flr">
-                <!-- <el-button :title="$t('plan_manage.history_vision')" size="small" type="primary"
-                  icon="iconfont iconpms-icon_File" round></el-button> -->
                 <el-button
                   @click="handleEdit(data)"
                   size="small"
@@ -90,8 +101,6 @@
                   round
                 >
                 </el-button>
-                <!-- <el-button @click="handleDelete(data)" :title="$t('common.delete')" size="small" type="danger" icon="iconfont iconpms-icon_delet"
-                  round></el-button> -->
               </div>
             </div>
           </div>
@@ -100,7 +109,83 @@
       <!-- <div v-infinite-scroll="queryEpidemicPersons" infinite-scroll-delay="500" infinite-scroll-distance="40"
         infinite-scroll-immediate="false" infinite-scroll-disable="disabled"></div> -->
     </div>
-    <div v-if="epidemicPersonList.length === 0" class="no-plan"></div>
+    <!-- 按照列表的方式进行展示 -->
+    <div class="content" v-if="displayMode==='table'">
+      <el-table
+        ref="personDataTable"
+        :cell-style="{padding:'16px 0px'}"
+        max-height="755"
+        class="table-content cart-table-item"
+        :data="epidemicPersonList"
+        stripe
+        highlight-current-row
+        style="width: 100%"
+        @cell-click="handleClickRow"
+      >
+        <el-table-column label="姓名" width="130" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span class="room-num">{{ scope.row.name}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="小区名称" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            {{ scope.row.communityModel.name }}
+            <!-- {{replacePlot(scope.row.plot)}} -->
+          </template>
+        </el-table-column>
+        <el-table-column label="房号" width="120" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column label="是否有接触史" width="110">
+          <template slot-scope="scope">
+            {{scope.row.isContact ? '是' : '否'}}
+          </template>
+        </el-table-column> -->
+        <!-- <el-table-column label="其他症状" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
+          </template>
+        </el-table-column> -->
+        <el-table-column label="就医情况" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            {{scope.row.medicalConditionModel.name}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" sortable label="填报时间" width="160" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            {{replaceTime(scope.row.submitTime)}}
+          </template>
+        </el-table-column>
+        <el-table-column label="发热情况" width="80">
+          <template slot-scope="scope">
+            <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'primary'" disable-transitions>
+              {{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag
+            >
+          </template>
+        </el-table-column>
+        <el-table-column label="" width="160" label="操作">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              class="iconfont edit-btn primary-btn iconpms-icon_edit"
+              title="编辑"
+              @click="handleEdit(scope.row)"
+            ></el-button>
+
+            <el-button
+              size="mini"
+              class="iconfont edit-btn primary-btn iconpms-icon_Preview-document"
+              title="就医情况变更"
+              @click="handleShowChangeMedical(scope.row)"
+            >
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!-- <div v-if="epidemicPersonList.length === 0" class="no-plan"></div> -->
   </div>
   <el-pagination
     class="pagination"
@@ -130,4 +215,21 @@
       ></epidemic-info-form>
     </div>
   </side-frame>
+
+  <el-dialog width="450px" title="变更就医情况" top="32vh" :visible.sync="showChangeModal" :show-close="false">
+    <p class="dialog-info-title">姓名</p>
+    <p class="dialog-info-content">{{editEpidemicPerson.name}}</p>
+    <p class="dialog-info-title">手机号</p>
+    <p class="dialog-info-content">{{editEpidemicPerson.mobileNumber}}</p>
+    <p class="dialog-info-title">当前就医情况</p>
+    <p class="dialog-info-content">{{editEpidemicPerson.medicalConditionModel? editEpidemicPerson.medicalConditionModel.name: '未知'}}</p>
+    <p class="dialog-info-title">变更为</p>
+    <el-select v-model="currentMedicalSituation" style="width: 100%; margin-bottom: 18px;" clearable placeholder="请选择医疗情况">
+      <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+    </el-select>
+    <div style="text-align: right; margin:10px 0">
+      <el-button size="mini" type="text" @click="showChangeModal=false">取消</el-button>
+      <el-button type="primary" size="mini" @click="handleSubmitMedicalSituationChange">确定</el-button>
+    </div>
+  </el-dialog>
 </div>

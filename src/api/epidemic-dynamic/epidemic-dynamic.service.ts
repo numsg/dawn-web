@@ -6,6 +6,7 @@ import odataClient from '@gsafety/odata-client/dist';
 import moment from 'moment';
 import mapperManagerService from '@/common/odata/mapper-manager.service';
 import SessionStorage from '@/utils/session-storage';
+import { isJsonString } from '@gsafety/whatever/dist/util';
 
 export default {
   /**
@@ -24,6 +25,24 @@ export default {
   editEpidemicPerson(epidemicPerson: EpidemicPerson) {
     const url = store.getters.configs.communityManagerUrl + `epidemic-person/${epidemicPerson.id}`;
     return httpClient.putPromise(url, epidemicPerson);
+  },
+
+  /**
+   * 更新人员就医情况
+   *
+   * @param {EpidemicPerson} epidemicPerson 重点关注人员信息
+   * @param {string} medicalSituation 待变更的就医情况
+   * @returns
+   */
+  updatePersonMedicalSituation(epidemicPerson: EpidemicPerson, medicalSituation: string) {
+    const url = store.getters.configs.communityManagerUrl + `epidemic-person/medical-treatment`;
+    const user: any = sessionStorage.getItem('userInfo');
+    const updateInfo = {
+      id: epidemicPerson.id,
+      medicalTreatmentId: medicalSituation,
+      operator: isJsonString(user) ? JSON.parse(user).id : user ? user.id : ''
+    };
+    return httpClient.putPromise(url, updateInfo);
   },
 
   /**
@@ -70,6 +89,60 @@ export default {
         } else {
           // tslint:disable-next-line:quotemark
           str = '(' + str + "(diagnosisSituation eq '" + id + "')" + ')';
+          if (filterStr) {
+            filterStr = filterStr + ' and ' + str;
+          } else {
+            filterStr += str;
+          }
+        }
+      }
+    }
+    if (conditions.villageIds && conditions.villageIds.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.villageIds.length - 1; i < conditions.villageIds.length; i++) {
+        const id = conditions.villageIds[i];
+        if (i !== len) {
+          // tslint:disable-next-line:quotemark
+          str += "(villageId eq '" + id + "') or ";
+        } else {
+          // tslint:disable-next-line:quotemark
+          str = '(' + str + "(villageId eq '" + id + "')" + ')';
+          if (filterStr) {
+            filterStr = filterStr + ' and ' + str;
+          } else {
+            filterStr += str;
+          }
+        }
+      }
+    }
+    if (conditions.confirmedDiagnosis && conditions.confirmedDiagnosis.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.confirmedDiagnosis.length - 1; i < conditions.confirmedDiagnosis.length; i++) {
+        const id = conditions.confirmedDiagnosis[i];
+        if (i !== len) {
+          // tslint:disable-next-line:quotemark
+          str += "(confirmedDiagnosis eq '" + id + "') or ";
+        } else {
+          // tslint:disable-next-line:quotemark
+          str = '(' + str + "(confirmedDiagnosis eq '" + id + "')" + ')';
+          if (filterStr) {
+            filterStr = filterStr + ' and ' + str;
+          } else {
+            filterStr += str;
+          }
+        }
+      }
+    }
+    if (conditions.medicalCondition && conditions.medicalCondition.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.medicalCondition.length - 1; i < conditions.medicalCondition.length; i++) {
+        const id = conditions.medicalCondition[i];
+        if (i !== len) {
+          // tslint:disable-next-line:quotemark
+          str += "(medicalCondition eq '" + id + "') or ";
+        } else {
+          // tslint:disable-next-line:quotemark
+          str = '(' + str + "(medicalCondition eq '" + id + "')" + ')';
           if (filterStr) {
             filterStr = filterStr + ' and ' + str;
           } else {
@@ -154,9 +227,22 @@ export default {
   /**
    * 获取统计数据
    */
-  getEpidemicStaticalData() {
+  getEpidemicStaticalData(dimension: string) {
     const multiTenancy = SessionStorage.get('district');
-    const url = store.getters.configs.communityManagerUrl + `epidemic-person/total/all/${multiTenancy}`;
+    // const url = store.getters.configs.communityManagerUrl + `epidemic-person/total/all/${multiTenancy}`;
+    let conditionUrl = '';
+    let apiUrl = '';
+    if (dimension === '1') {
+      conditionUrl = store.getters.configs.medicalOpinionsId;
+      apiUrl = `epidemic-person/overall-classification/${multiTenancy}/${conditionUrl}`;
+    } else if (dimension === '2') {
+      conditionUrl = store.getters.configs.medicalConditionDataSourceId;
+      apiUrl = `epidemic-person/overall-medical/${multiTenancy}/${conditionUrl}`;
+    } else {
+      conditionUrl = store.getters.configs.medicalOpinionsId;
+      apiUrl = `epidemic-person/overall-classification/${multiTenancy}/${conditionUrl}`;
+    }
+    const url = store.getters.configs.communityManagerUrl + apiUrl;
     return httpClient.getPromise(url);
   }
 };

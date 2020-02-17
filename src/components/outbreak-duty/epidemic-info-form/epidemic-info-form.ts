@@ -38,6 +38,11 @@ export class EpidemicInfoFormComponent extends Vue {
   @Getter('baseData_genderClassification')
   genderClassification!: any[];
 
+  @Prop({
+    default: false
+  })
+  readOnlyMode!: boolean;
+
   isEdit: boolean = false;
   rules = {
     // code: [{ required: true, message: '请输入编号', trigger: 'blur' }],
@@ -131,10 +136,10 @@ export class EpidemicInfoFormComponent extends Vue {
             .editEpidemicPerson(this.curEpidemicPerson)
             .then(res => {
               if (res) {
-                notifyUtil.success('修改成功');
-                this.$emit('save-person-success');
-                this.resetForm('ruleForm');
                 this.curEpidemicPerson = new EpidemicPerson();
+                notifyUtil.success('修改成功');
+                this.$emit('save-person-success', res);
+                this.resetForm('ruleForm');
               } else {
                 notifyUtil.error('修改失败');
               }
@@ -175,5 +180,28 @@ export class EpidemicInfoFormComponent extends Vue {
       this.isNew = true;
       this.$emit('on-create-data', this.isNew);
     }
+  }
+
+  returnDicDataName(id: string, dicDataName: string) {
+    let component: any = this;
+    const dicDatas = component[dicDataName];
+    let result: any = [];
+    if (Array.isArray(dicDatas) && dicDatas.length > 0) {
+      result = dicDatas.filter((d: any) => {
+        return d.id === id;
+      });
+    }
+    const name = result.length > 0 ? result[0].name : '未知';
+    component = null;
+    result = null;
+    return name;
+  }
+
+  replaceTime(time: string) {
+    if (time) {
+      // return format.default(time, 'yyyy-mm-dd HH:mm:ss');
+      return moment(time).format('YYYY-MM-DD HH:mm:ss');
+    }
+    return '';
   }
 }

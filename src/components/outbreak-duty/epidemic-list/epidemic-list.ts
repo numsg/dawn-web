@@ -28,17 +28,30 @@ export class EpidemicListComponent extends Vue {
   epidemicPersonList!: EpidemicPerson[];
   @Getter('outbreakDuty_totalCount')
   totalCount!: number;
+  // 本社区小区
+  @Getter('baseData_communities')
+  communities!: any[];
+  // 当前小区
+  selectionCommunities = [];
+  // 就诊情况
+  @Getter('baseData_diagnosisSituations')
+  diagnosisSituations!: any[];
+  // 当前就诊情况
+  selectionDiagnosisSituation = [];
+  // 医疗情况
+  @Getter('baseData_medicalSituations')
+  medicalSituations!: any[];
+  selectionMedicalSituations = [];
   currentPage: number = 1;
   pageSize: number = 10;
   keyWords: string = '';
 
   // 当前省疫情数据
   curProEpidemicData: any = {};
-
   citiesEpidemicData: any[] = [];
-
   editEpidemicPerson: EpidemicPerson = new EpidemicPerson();
-
+  currentMedicalSituation = '';
+  showChangeModal = false;
   /**
    * 搜索防抖
    */
@@ -48,13 +61,46 @@ export class EpidemicListComponent extends Vue {
 
   formTitle: string = '疫情人员信息登记';
   canClose: boolean = true;
+  personDataTable: Element | any = {};
+  @Prop({
+    default: 'table'
+  })
+  displayMode!: string;
+
+  @Watch('epidemicPersonList', { deep: true })
+  handlePersonListChange(val: any) {
+    if (Array.isArray(val) && val.length > 0) {
+      setTimeout(() => {
+        this.handleClickRow(this.editEpidemicPerson);
+      }, 500);
+    }
+  }
 
   async mounted() {
     this.queryEpidemicPersons();
+    this.personDataTable = this.$refs['personDataTable'];
   }
 
   handleCreate(val: boolean) {
     this.canClose = !val;
+  }
+
+  async handleSubmitMedicalSituationChange() {
+    await this.$store.dispatch(eventNames.OutbreakDuty.UpdatePersonMedicalSituation, {
+      person: this.editEpidemicPerson,
+      newSituation: this.currentMedicalSituation
+    });
+    setTimeout(() => {
+      this.queryEpidemicPersons();
+      this.showChangeModal = false;
+    }, 500);
+  }
+
+  handleShowChangeMedical(data: EpidemicPerson) {
+    this.showChangeModal = true;
+    this.$nextTick(() => {
+      this.editEpidemicPerson = data;
+    });
   }
 
   async queryEpidemicPersons() {
@@ -66,25 +112,42 @@ export class EpidemicListComponent extends Vue {
     });
   }
 
+  @Watch('selectionCommunities')
+  handleSelectionCommunitiesChange(val: any) {
+    this.handleSearch();
+  }
+  @Watch('selectionDiagnosisSituation')
+  handleSelectionDiagnosisSituationChange(val: any) {
+    this.handleSearch();
+  }
+  @Watch('selectionMedicalSituations')
+  handleselectionMedicalSituationsChange(val: any) {
+    this.handleSearch();
+  }
+
   handleSearch() {
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
       page: 0,
       count: this.pageSize,
       keywords: this.keyWords,
+      villageIds: this.selectionCommunities,
+      confirmedDiagnosis: this.selectionDiagnosisSituation,
+      medicalCondition: this.selectionMedicalSituations,
       sort: this.sort
     });
   }
 
   addEpidemicPersion() {
-    this.editEpidemicPerson = new EpidemicPerson();
     const sideFrame: any = this.$refs['sideFrame'];
     this.formTitle = '疫情人员信息登记';
     sideFrame.open();
+    this.editEpidemicPerson = new EpidemicPerson();
   }
 
-  savePersonSuccess() {
+  savePersonSuccess(personData: EpidemicPerson) {
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.close();
+    this.editEpidemicPerson = personData;
     this.queryEpidemicPersons();
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
   }
@@ -100,6 +163,14 @@ export class EpidemicListComponent extends Vue {
     console.log(`当前页: ${val}`);
   }
 
+  replaceTime(time: string) {
+    if (time) {
+      // return format.default(time, 'yyyy-mm-dd HH:mm:ss');
+      return moment(time).format('YYYY-MM-DD HH:mm:ss');
+    }
+    return '';
+  }
+
   /**
    * 编辑
    */
@@ -108,6 +179,7 @@ export class EpidemicListComponent extends Vue {
     const sideFrame: any = this.$refs['sideFrame'];
     this.formTitle = '修改疫情人员信息';
     sideFrame.open();
+    this.$emit('on-edit-person', data);
   }
 
   handleDelete(data: EpidemicPerson) {
@@ -126,6 +198,9 @@ export class EpidemicListComponent extends Vue {
     this.keyWords = '';
     this.currentPage = 1;
     this.pageSize = 10;
+    this.selectionCommunities = [];
+    this.selectionDiagnosisSituation = [];
+    this.selectionMedicalSituations = [];
     this.queryEpidemicPersons();
     this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
   }
@@ -142,5 +217,13 @@ export class EpidemicListComponent extends Vue {
   cancelEdit() {
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.close();
+  }
+
+  handleClickRow(data: EpidemicPerson) {
+    if (this.personDataTable) {
+      this.personDataTable.setCurrentRow(data);
+    }
+    this.editEpidemicPerson = data;
+    this.$emit('on-person-selection-change', data);
   }
 }

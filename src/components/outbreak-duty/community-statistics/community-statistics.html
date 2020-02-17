@@ -1,0 +1,28 @@
+<div class="community-statistics">
+  <h2 style="margin-bottom: 1em;">各社区情况统计</h2>
+  <!-- <div v-for="(item, index) in communityStatisticsData" :key="index"></div> -->
+  <div style="height: 90%; overflow-y: auto;">
+    <div class="community-item" v-for="(item, index) in communityStatisticsData" :key="index">
+      <div class="community-data">
+        <span class="data-flag">
+          <i class="iconfont iconpms-icon_home-icon"></i>
+        </span>
+        <div class="community-address">
+          <!-- <span>
+            武汉市洪山区
+          </span> -->
+          <span>
+            {{item.name}}
+          </span>
+        </div>
+        <span class="data-total">{{item.count}}</span>
+      </div>
+      <div class="type-total-region">
+        <div class="type-items" v-for="(con, i) in item.nodeModels" :key="i">
+          <span>{{con.typeName}}</span>
+          <span>{{con.count}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
