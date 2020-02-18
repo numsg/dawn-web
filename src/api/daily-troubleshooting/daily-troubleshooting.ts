@@ -1066,6 +1066,119 @@ export default {
       .catch(err => {
         return false;
       });
-  }
+  },
+
+  // 查询历史排查记录
+  exportHistoryRecords(conditions: HistoryQueryConditions) {
+    const q = odataClient({
+      service: store.getters.configs.communityManagerOdataUrl,
+      resources: 'TroubleshootHistoryRecordEntity'
+    });
+    let filterStr = '';
+    if (conditions.keyWord) {
+      // tslint:disable-next-line:max-line-length
+      filterStr += 'contains( personBase/name, \'' + conditions.keyWord + '\') or contains( personBase/address, \'' + conditions.keyWord + '\') or contains( personBase/phone, \'' + conditions.keyWord + '\')';
+      const keywordList = conditions.keyWord.split('-');
+      let building = '';
+      let unitNumber = '';
+      let roomNo = '';
+      let bstr = '';
+      if ( keywordList.length > 0 ) {
+        building =  keywordList[0];
+        bstr += 'contains( building, \'' + building + '\')';
+      }
+      if ( keywordList.length > 1 ) {
+        unitNumber =  keywordList[1];
+        bstr += ' and contains( unitNumber, \'' + unitNumber + '\')';
+      }
+      if ( keywordList.length > 2 ) {
+        roomNo =  keywordList[2];
+        bstr += ' and contains( roomNo, \'' + roomNo + '\')';
+      }
+      if (bstr) {
+        filterStr = '(' + filterStr + ' or ' + bstr + ')';
+      }
+    }
+    if (conditions.plots && conditions.plots.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.plots.length - 1; i < conditions.plots.length; i++) {
+          const id = conditions.plots[i];
+          if (i !== len) {
+              str += '(plot eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(plot eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.medicalOpinion && conditions.medicalOpinion.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.medicalOpinion.length - 1; i < conditions.medicalOpinion.length; i++) {
+          const id = conditions.medicalOpinion[i];
+          if (i !== len) {
+              str += '(medicalOpinion eq \'' + id + '\') or ';
+          } else {
+              str = '(' + str + '(medicalOpinion eq \'' + id + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.favers && conditions.favers.length > 0) {
+      let str = '';
+      for (let i = 0, len = conditions.favers.length - 1; i < conditions.favers.length; i++) {
+          const value = conditions.favers[i];
+          if (i !== len) {
+              str += 'startswith(isExceedTemp, \'' + value + '\') or ';
+          } else {
+              str = '(' + str + 'startswith(isExceedTemp, \'' + value + '\')' + ')';
+              if (filterStr) {
+                filterStr = filterStr + ' and ' + str;
+              } else {
+                filterStr += str;
+              }
+          }
+      }
+    }
+
+    if (conditions.dateRange && conditions.dateRange.length === 2) {
+      const str = '(createTime gt ' + conditions.dateRange[0] + ') and '
+          + '(createTime lt ' + conditions.dateRange[1] + ')';
+      if (filterStr) {
+        filterStr = filterStr + ' and ' + str;
+      } else {
+        filterStr += str;
+      }
+     }
+
+    const multiTenancy = SessionStorage.get('district');
+    if (filterStr) {
+      filterStr += ' and (multiTenancy eq \'' + multiTenancy + '\')';
+    } else {
+      filterStr = '(multiTenancy eq \'' + multiTenancy + '\')';
+    }
+    return q
+      .skip(0)
+      .expand('personBase')
+      .filter(filterStr)
+      .orderby('building', 'asc')
+      .orderby('unitNumber', 'asc')
+      .orderby('roomNo', 'asc')
+      .orderby('createTime', 'asc')
+      .get(null)
+      .then((response: any) => {
+          return this.buildTroubleshootingRecord(JSON.parse(response.toJSON().body).value);
+      })
+      .catch((error: any) => {});
+  },
 
 };

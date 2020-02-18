@@ -270,11 +270,12 @@ export class DailyTroubleshootingComponent extends Vue {
     return plotItem ? plotItem.name : '';
   }
 
-  replaceOtherSymptoms(OtherSymptoms: string) {
-    if (!OtherSymptoms) {
+  replaceOtherSymptoms(otherSymptoms: string) {
+    if (!otherSymptoms) {
       return '';
     }
-    const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => OtherSymptoms.includes(item.id));
+    const others = otherSymptoms.split(',');
+    const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => others.includes(item.id));
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
   }
 

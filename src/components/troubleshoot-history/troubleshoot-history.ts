@@ -14,6 +14,8 @@ import { TroubleshootingInfoForm } from '../daily-troubleshooting/troubleshootin
 import { SideFrameComponent } from '../share/side-frame/side-frame';
 import { DATE_PICKER_FORMAT } from '@/common/filters/dateformat';
 // const DATE_PICKER_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
+import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
+import XLSXUtils from '@/common/utils/XLSXUtils';
 
 @Component({
   template: html,
@@ -48,6 +50,9 @@ export class TroubleshootHistoryComponent extends Vue {
 
   @State((state: any) => state.troubleshootingHistory.conditions.pageSize)
   pageSize!: number;
+
+  @State((state: any) => state.troubleshootingHistory.conditions)
+  conditions!: HistoryQueryConditions;
 
   feverOptions = [
     {
@@ -175,11 +180,12 @@ export class TroubleshootHistoryComponent extends Vue {
     return plotItem ? plotItem.name : '';
   }
 
-  replaceOtherSymptoms(otherSymptoms: string[]) {
+  replaceOtherSymptoms(otherSymptoms: string) {
     if (!otherSymptoms) {
       return '';
     }
-    const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => otherSymptoms.includes(item.id));
+    const others = otherSymptoms.split(',');
+    const otherSymptomsItemList = this.otherSymptoms.filter((item: any) => others.includes(item.id));
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name).join('、') : '';
   }
 
@@ -245,5 +251,71 @@ export class TroubleshootHistoryComponent extends Vue {
 
   beforeDestroy() {
     this.$store.dispatch(eventNames.TroubleshootingHistory.ResetHistoryRecordData);
+  }
+
+  async exportExcel() {
+    const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    const execlName = `日常排查数据${now}`;
+    const result = await DailyTroubleshootingService.exportHistoryRecords(this.conditions);
+    const res = await DailyTroubleshootingService.queryCommunity();
+    let communityName = '';
+    if ( res && Array.isArray(res) && res.length > 0 ) {
+      communityName = res[0].name;
+    }
+    // 构造表头数据
+    const headerNames = this.getHeaderNames();
+    // 构造表格数据
+    const execlData = this.convertToExeclData(result);
+    XLSXUtils.exportExcel({
+      title: '社区疫情排查情况登记表',
+      communityName: communityName,
+      sheetName: '日常排查记录表',
+      execlName: execlName,
+      headerNames: headerNames,
+      data: execlData
+    });
+  }
+
+  getHeaderNames() {
+    return [
+    '序号',
+    '姓名',
+    '性别',
+    '身份证号',
+    '联系方式',
+    '家庭住址',
+    '发热(体温>37.3℃)',
+    '新型肺炎',
+    '其他症状',
+    '确认患者',
+    '疑似患者',
+    'CT诊断肺炎患者',
+    '一般发热患者',
+    '密切接触者',
+    '备注'];
+  }
+
+  convertToExeclData(result: TroubleshootHistoryRecord[]) {
+    const execlData = [] as any[];
+    result.forEach((person, index) => {
+      const data = {} as any;
+      data.index = index + 1;
+      data.name = person.personBase.name;
+      data.sex = this.replaceSex(person.personBase.sex) ;  // 替换 性别
+      data.identificationNumber = person.personBase.identificationNumber;
+      data.phone = person.personBase.phone ;
+      data.address = person.personBase.address ;
+      data.isExceedTemp = person.isExceedTemp ? '是' : '';
+      data.isContact = person.isContact ? '是' : '';
+      data.otherSymptoms = this.replaceOtherSymptoms(person.otherSymptoms); // 替换 其他症状
+      data.isAdmit = this.replaceMedicalOpinion(person.medicalOpinion) === '确诊患者' ? '是' : '' ;  // 替换 确认患者
+      data.isSuspected = this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' ;  // 替换 疑似患者
+      data.isCT = this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '';   // 替换 CT诊断肺炎患者
+      data.isNormal = this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' ;  // 替换 一般发热患者
+      data.isClose = this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' ;  // 替换 密切接触者
+      data.note = person.note ? person.note : '';
+      execlData.push(data);
+    });
+    return execlData;
   }
 }
