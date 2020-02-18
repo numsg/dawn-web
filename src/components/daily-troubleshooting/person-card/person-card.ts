@@ -4,7 +4,7 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator';
 import Html from './person-card.html';
 import Style from './person-card.module.scss';
 
-import { Getter, Mutation } from 'vuex-class';
+import { Getter, Mutation, State } from 'vuex-class';
 
 import eventNames from '@/common/events/store-events';
 
@@ -28,7 +28,7 @@ export class PersonCard extends Vue {
 
   pageSizes = [10, 20, 30];
   pageSize = 10;
-
+  groupPageSize = 5;
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
@@ -58,6 +58,9 @@ export class PersonCard extends Vue {
   @Getter('dailyTroubleshooting_groupPersonTotalCount')
   groupPersonTotalCount!: number;
 
+  @State((state: any) => state.dailyTroubleshooting.groupTotalCount)
+  groupTotalCount!: number;
+
   private currentPerson = new TroubleshootRecord();
 
   get activeName() {
@@ -84,6 +87,16 @@ export class PersonCard extends Vue {
     }
   }
 
+  get currentGroupPage() {
+    return this.$store.state.dailyTroubleshooting.conditions.groupPage + 1;
+  }
+
+  set currentGroupPage(val: number) {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData, {
+      page: val - 1
+    });
+  }
+
   @Getter('dailyTroubleshooting_groupsData')
   groupsData!: any[];
 
@@ -98,6 +111,14 @@ export class PersonCard extends Vue {
   genderClassification!: any[];
 
   thermometer = require('@/assets/img/thermometer.png');
+
+  get currentRowKey() {
+    return this.$store.state.dailyTroubleshooting.activeName;
+  }
+
+  // set currentRowKey(val: string) {
+  //   this.$store.dispatch(eventNames.DailyTroubleshooting.SetActiveName, val);
+  // }
 
   @Watch('reset')
   handleResetPersonData(val: boolean) {
@@ -118,8 +139,7 @@ export class PersonCard extends Vue {
   }
 
   created() {
-    this.pageSize = this.pageSizes[0];
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
+    // this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions);
   }
 
@@ -144,7 +164,7 @@ export class PersonCard extends Vue {
 
   editSuccess() {
     if (this.isShowgGroup) {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.ReloadGroupsData);
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
     } else {
       this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
@@ -207,6 +227,19 @@ export class PersonCard extends Vue {
     return sexItem ? sexItem.name : '';
   }
 
+
+  rowKeyFunc(row: any) {
+    return row.plotId + '-' + row.building + '-' + row.unitNumber;
+  }
+
+  rowClick(row: any) {
+    const currentRowKey = row.plotId + '-' + row.building + '-' + row.unitNumber;
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetActiveName, currentRowKey);
+  }
+
+  groupCurrentChange(value: any) {
+
+  }
 
   activeChange() {
 

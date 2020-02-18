@@ -7,9 +7,29 @@
   .pagination {
     text-align: right;
     padding: 10px;
+    span:not([class*=suffix]) {
+      padding: 0 5px;
+    }
   }
   .cart-table {
     flex: 1;
+    thead {
+      color: #187ADC;
+      th {
+        background-color: #E9EBF5;
+        padding: 5px 0;
+        font-size: 15px;
+        height: 45px;
+      }
+    }
+    .isExceedTemp {
+      display: inline-block;
+      border-radius: 100%;
+      background: #f40;
+      width: 25px;
+      color: #FFF;
+      height: 25px;
+    }
   }
   .operation-zone {
     padding: 10px;

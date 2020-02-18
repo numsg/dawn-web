@@ -10,4 +10,8 @@ export  enum ModelType {
     unChecked = 'unChecked',
 
     history = 'history',
+
+    fillRate = 'fillRate',
+
+    abnormalNumber = 'abnormalNumber'
 }

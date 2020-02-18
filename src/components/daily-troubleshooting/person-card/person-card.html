@@ -79,85 +79,93 @@
       </div>
       
       <div class="group-table">
-        <el-table :cell-style="{padding:'16px 0px'}"   class="table-content" :data="groupsData" max-height="320"  stripe highlight-current-row style="width: 100%">
-          <el-table-column  label="楼栋/单元" >
+        <el-table :cell-style="{padding:'16px 0px', 'font-size': '16px', cursor: 'pointer'}" @row-click="rowClick" :current-row-key="currentRowKey" :row-key="rowKeyFunc" class="table-content" :data="groupsData" max-height="320" highlight-current-row style="width: 100%">
+          <el-table-column align="center" label="楼栋-单元" >
             <template slot-scope="scope">
               <span class="room-num">{{scope.row.building}}-{{scope.row.unitNumber}}</span>
             </template>
           </el-table-column>
-          <el-table-column  label="小区名称">
+          <el-table-column align="center" label="小区名称">
             <template slot-scope="scope">
-              <span>{{replacePlot(scope.row.plotId)}}</span>
+              <span class="community-cell">
+                <span>{{replacePlot(scope.row.plotId)}}</span>
+                <span v-if="scope.row.feverCount > 0" class="fever-count"> 
+                  <span>发热{{scope.row.feverCount}}人</span>
+                  <span class="angle"><i></i></span>
+                </span>
+              </span>
               <!-- <span v-if="scope.row.feverCount > 0" class="fever-count"><img class="thermometer" :src="thermometer" alt=""> <span>{{scope.row.feverCount}}</span></span> -->
+              
             </template>
           </el-table-column>
-          <el-table-column  label="排查情况">
+          <el-table-column align="center" label="排查情况">
             <template slot-scope="scope">
-              {{scope.row.checkedCount}}
+              排查: <span class="checked">{{scope.row.checkedCount}}</span>
             </template>
           </el-table-column>
-          <el-table-column  label="待排查情况">
+          <el-table-column align="center" label="待排查情况">
             <template slot-scope="scope">
-                {{scope.row.unCheckedCount}}
+                待排查: <span class="unchecked">{{scope.row.unCheckedCount}}</span>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination  class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          :current-page="currentPage" :page-size="pageSize"
-          layout="total, prev, pager, next, jumper" :total="groupPersonTotalCount">
+        <el-pagination  class="pagination" background prev-text="上一页" next-text="下一页" @current-change="groupCurrentChange"
+          :current-page="currentGroupPage" :page-size="groupPageSize"
+          layout="total, prev, pager, next, jumper" :total="groupTotalCount">
         </el-pagination>
       </div>
       <div class="group-record-table">
-        <el-table :cell-style="{padding:'16px 0px'}"  class="table-content" :data="groupPersonData" max-height="320"  stripe highlight-current-row style="width: 100%">
-          <el-table-column  label="姓名" >
+        <el-table :cell-style="{padding:'16px 0px', 'font-size': '16px'}"  class="table-content" :data="groupPersonData" max-height="325"  stripe highlight-current-row style="width: 100%">
+          <el-table-column align="center" label="姓名" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span class="room-num">{{ scope.row.personBase.name}}</span>
             </template>
           </el-table-column>
-          <el-table-column  label="房号">
+          <el-table-column align="center" label="房号" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               <span>{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
             </template>
           </el-table-column>
-          <el-table-column  label="是否发热" width="80">
+          <el-table-column align="center" label="是否发热" width="80">
             <template slot-scope="scope">
-              <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'parimary'"
-                disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
+              <!-- <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'parimary'"
+                disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag> -->
+                <span :class="{'isExceedTemp': scope.row.isExceedTemp}">{{scope.row.isExceedTemp ? '是' : '否'}}</span>
             </template>
           </el-table-column>
-          <el-table-column  label="是否有接触史" width="110">
+          <el-table-column align="center" label="是否有接触史" width="110">
             <template slot-scope="scope">
                 {{scope.row.isContact ? '是' : '否'}}
             </template>
           </el-table-column>
-          <el-table-column  label="其它症状" >
+          <el-table-column align="center" label="其它症状" :show-overflow-tooltip="true" >
             <template slot-scope="scope">
               {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
             </template>
           </el-table-column>
-          <el-table-column  label="诊疗医疗意见" >
+          <el-table-column align="center"  label="诊疗医疗意见" :show-overflow-tooltip="true" >
             <template slot-scope="scope">
                 {{replaceMedicalOpinion(scope.row.medicalOpinion)}}
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" sortable label="填报时间" width="160">
+          <el-table-column align="center" prop="createTime" sortable label="填报时间" width="170" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{replaceTime(scope.row.createTime)}}
             </template>
           </el-table-column>
-          <el-table-column label="电话" width="120">
+          <el-table-column align="center" label="电话" width="120" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{scope.row.personBase.phone}}
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="120">
+          <el-table-column align="center" label="操作" width="120">
             <template slot-scope="scope">
               <el-button size="mini" class="iconfont primary-btn edit-btn iconpms-icon_edit" @click="edit(scope.row)" >编辑
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination  class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        <el-pagination  class="pagination" background prev-text="上一页" next-text="下一页" @size-change="handleSizeChange" @current-change="handleCurrentChange"
           :current-page="currentPage" :page-size="pageSize"
           layout="total, prev, pager, next, jumper" :total="groupPersonTotalCount">
         </el-pagination>
@@ -166,15 +174,15 @@
     </div>
     <div class="container" v-else>
       <div class="cart-table">
-        <el-table  :cell-style="{padding:'16px 0px'}" class=" cart-table-inner"  max-height="680" :data="personData" stripe highlight-current-row style="width: 100%">
-          <el-table-column align="center" label="房号"  width="100" :show-overflow-tooltip="true">
+        <el-table  :cell-style="{padding:'16px 0px', 'font-size': '16px'}" class=" cart-table-inner"  max-height="680" :data="personData" stripe highlight-current-row style="width: 100%">
+          <el-table-column align="center" label="房号"  :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
+              <span>{{ scope.row.building }}-{{scope.row.unitNumber}}-{{scope.row.roomNo}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="姓名" width="130" :show-overflow-tooltip="true">
+          <el-table-column align="center" label="姓名"  :show-overflow-tooltip="true">
             <template slot-scope="scope">
-              <span class="room-num">{{ scope.row.personBase.name}}</span>
+              <span>{{ scope.row.personBase.name}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="小区名称"  :show-overflow-tooltip="true">
@@ -184,18 +192,17 @@
           </el-table-column>
           <el-table-column align="center" label="是否发热" width="80">
             <template slot-scope="scope">
-              <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'primary'"
-                disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag>
+              <!-- <el-tag effect="dark" size="mini" :type="scope.row.isExceedTemp ? 'danger' : 'primary'"
+                disable-transitions>{{scope.row.isExceedTemp ? '发热' : '正常'}}</el-tag> -->
+                <span :class="{'isExceedTemp': scope.row.isExceedTemp}">{{scope.row.isExceedTemp ? '是' : '否'}}</span>
             </template>
           </el-table-column>
           <el-table-column  align="center" label="是否有接触史" width="110">
             <template slot-scope="scope">
-              <!-- <el-tag effect="dark" size="mini" :type="scope.row.contact ? 'danger' : 'info'"
-                disable-transitions></el-tag> -->
                 {{scope.row.isContact ? '是' : '否'}}
             </template>
           </el-table-column>
-          <el-table-column  label="其他症状" :show-overflow-tooltip="true" >
+          <el-table-column align="center" label="其他症状" :show-overflow-tooltip="true" >
             <template slot-scope="scope">
                 {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
             </template>
@@ -205,24 +212,24 @@
               {{replaceMedicalOpinion(scope.row.medicalOpinion)}}
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" sortable label="填报时间" width="160" :show-overflow-tooltip="true">
+          <el-table-column align="center" prop="createTime" sortable label="填报时间" width="170" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{replaceTime(scope.row.createTime)}}
             </template>
           </el-table-column>
-          <el-table-column  label="电话" width="120" :show-overflow-tooltip="true">
+          <el-table-column align="center"  label="电话" width="130" :show-overflow-tooltip="true">
             <template slot-scope="scope">
               {{scope.row.personBase.phone}}
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="110">
+          <el-table-column align="center" label="操作" width="110">
             <template slot-scope="scope">
               <el-button size="mini" class="iconfont edit-btn primary-btn iconpms-icon_edit" @click="edit(scope.row)" >编辑
               </el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination v-if="!isShowgGroup" class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        <el-pagination v-if="!isShowgGroup" background prev-text="上一页" next-text="下一页" class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
           :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize"
           layout="total, prev, pager, next, jumper" :total="totalCount">
         </el-pagination>

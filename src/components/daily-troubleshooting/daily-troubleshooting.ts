@@ -2,16 +2,11 @@ import { DailyQueryConditions } from '@/models/common/daily-query-conditions';
 import { Vue, Component } from 'vue-property-decorator';
 import dailyTroubleshootingHtml from './daily-troubleshooting.html';
 import dailyTroubleshootingStyle from './daily-troubleshooting.scss';
-
 import { OperationZone } from './operation-zone/operation-zone';
 import { PersonCard } from './person-card/person-card';
-import { PersonStatistical } from './person-statistical/person-statistical';
-import FilterPanelComponent from './filter-panel/filter-panel';
-import dDataSourceService from '@/api/data-source/d-data-source.service';
+// import { PersonStatistical } from './person-statistical/person-statistical';
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
-import * as format from 'dateformat';
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
-import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
@@ -25,7 +20,7 @@ import moment from 'moment';
   components: {
     OperationZone,
     PersonCard,
-    PersonStatistical,
+    // PersonStatistical,
     CommunityList
   }
 })
@@ -94,12 +89,14 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   async addSuccess() {
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+    // this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetCommunityBrief);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 
   pullData() {
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+    // this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetCommunityBrief);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 

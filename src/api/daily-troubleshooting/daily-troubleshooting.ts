@@ -1052,4 +1052,20 @@ export default {
       .catch((error: any) => {});
   },
 
+  /**
+   * 获取社区简报数据
+   */
+  queryCommunityBrief() {
+    const multiTenancy = SessionStorage.get('district');
+    const url = store.getters.configs.communityManagerUrl + `plot-reporting-staff/${multiTenancy}/multiTenancy`;
+    return httpClient
+      .getPromise(url)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
+  }
+
 };

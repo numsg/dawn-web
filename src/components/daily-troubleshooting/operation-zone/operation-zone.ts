@@ -210,7 +210,8 @@ export class OperationZone extends Vue {
       this.keyWords = '';
       // this.$emit('reset');
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, new DailyQueryConditions);
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+      // this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetCommunityBrief);
     }
 
     exportExcel() {

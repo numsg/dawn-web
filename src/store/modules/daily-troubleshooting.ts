@@ -5,6 +5,7 @@ import { ModelType } from '@/models/daily-troubleshooting/model-type';
 import store from '@/store';
 import eventNames from '@/common/events/store-events';
 import * as R from 'ramda';
+import CommunityBrief from '@/models/daily-troubleshooting/community-brief';
 
 const dailyTroubleshooting = {
   state: {
@@ -21,7 +22,10 @@ const dailyTroubleshooting = {
     checkedTotalCount: 0,
     unCheckedTotalCount: 0,
     modelType: ModelType.checked,
-    formStatus: false
+    formStatus: false,
+    groupPage: 1,
+    groupTotalCount: 0,
+    communityBrief: new CommunityBrief,
   },
   mutations: {
     SET_STATISTICS_DATA: (state: any, result: any) => {
@@ -41,32 +45,6 @@ const dailyTroubleshooting = {
       });
       state.statisticsData = res;
     },
-    // SET_STATISTICS_DATA: (state: any, result: any) => {
-    //   const communities = store.getters.baseData_communities;
-    //   const arr = R.groupWith(R.equals, [result]);
-    //   const statistics = [] as any[];
-    //   arr.forEach(e => {
-    //     const data = {
-    //       plotId: e[0],
-    //       count: e.length
-    //     };
-    //     statistics.push(data);
-    //   });
-    //   const res = [] as any[];
-    //   communities.forEach((com: any) => {
-    //     const community = statistics.find((c: any) => c.plotId === com.id);
-    //     const data = {
-    //       name: com.name,
-    //       id: com.id,
-    //       selected: false,
-    //       strokeStyle:  com.imgColor ? com.imgColor : transformToColor(com.name),
-    //       count: community ? community.count : 0,
-    //       value: community ? community.count : 0,
-    //     };
-    //     res.push(data);
-    //   });
-    //   state.statisticsData = res;
-    // },
     SET_PERSON_DATA: (state: any, result: any) => {
       if (result) {
         state.totalCount = result.count;
@@ -87,15 +65,6 @@ const dailyTroubleshooting = {
       Object.assign(state.conditions, conditions);
     },
     SET_GROUPS_DATA: (state: any, result: any) => {
-      console.log('---SET_GROUPS_DATA---');
-      // if (result && Array.isArray(result)) {
-      //   state.checkedTotalCount = result.reduce((prev: any, cur: any) => {
-      //     return Number(cur.checkedCount) + Number(prev);
-      //   }, 0);
-      //   state.unCheckedTotalCount = result.reduce((prev: any, cur: any) => {
-      //     return Number(cur.unCheckedCount) + Number(prev);
-      //   }, 0);
-      // }
       state.groupsData = result;
     },
     SET_GROUP_PERSON_DATA: (state: any, result: any) => {
@@ -124,6 +93,7 @@ const dailyTroubleshooting = {
       state.checkedTotalCount = 0;
       state.unCheckedTotalCount = 0;
       state.modelType = ModelType.checked;
+      state.communityBrief = new CommunityBrief();
     },
     SET_CHECK_GROUP_INFO: (state: any, result: any) => {
       state.conditions.checkedPlot = result.checkedPlot;
@@ -134,6 +104,9 @@ const dailyTroubleshooting = {
       state.conditions.isChecked = result;
     },
     SET_DAILY_TROUBLE_SHOOTING_FORM_STATUS: (state: any, result: any) => {
+      state.communityBrief = result;
+    },
+    SET_COMMUNITY_BRIEF_REPORT_DATA: (state: any, result: any) => {
       state.formStatus = result;
     },
     SET_RECORD_COUNT: (state: any, result: any) => {
@@ -166,13 +139,14 @@ const dailyTroubleshooting = {
       if (payloads) {
         state.conditions.isFaver = [];
         state.conditions.medicalOpinion = [];
-        dispatch('SetGroupsData');
+        state.conditions.plots = [];
+        dispatch('ReloadGroupsData');
       } else {
         state.activeName = '';
         state.groupPersonData = [];
         dispatch('LoadPersonData');
       }
-      dispatch('SetStatisticsData');
+      // dispatch('SetStatisticsData');
       commit('SET_IS_SHOW_GROUP', payloads);
     },
     SetConditions: async ({ dispatch, commit, state }: any, conditions: DailyQueryConditions) => {
@@ -201,6 +175,11 @@ const dailyTroubleshooting = {
         const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
         commit('SET_GROUPS_DATA', result);
       } else {
+        if (result && Array.isArray(result) && result.length > 0) {
+          const item = result[0];
+          const activeName = item.plotId + '-' + item.building + '-' + item.unitNumber;
+          dispatch('SetActiveName', activeName);
+        }
         commit('SET_GROUPS_DATA', result);
       }
     },
@@ -211,31 +190,21 @@ const dailyTroubleshooting = {
         commit('SET_GROUP_PERSON_DATA', result);
       }
     },
-    SetUncheckedData: async ({ dispatch, commit, state }: any, conditions: any) => {
-      const con = {
-        building: state.conditions.dailyStatisticModel.building,
-        page: state.conditions.page,
-        pageSize: state.conditions.pageSize,
-        plot: state.conditions.dailyStatisticModel.plotId,
-        unitNumber: state.conditions.dailyStatisticModel.unitNumber
-      };
-      const result = await DailyTroubleshootingService.queryUncheckedData(con);
-
-      state.groupPersonTotalCount = result.total;
-      state.groupPersonData = result.dailyTroubleshootRecordModels;
-      // commit('SET_GROUP_PERSON_DATA', result);
-    },
     SetActiveName: async ({ dispatch, commit, state }: any, payloads: any) => {
       console.log('---SetActiveName---');
       commit('SET_ACTIVE_NAME', payloads);
       state.conditions.page = 0;
-      if (typeof payloads === 'number') {
-        state.conditions.dailyStatisticModel = state.groupsData[payloads];
-        dispatch('SetGroupPersonData');
-      } else {
-        state.groupPersonData = [];
-        state.groupPersonTotalCount = 0;
-      }
+      // if (typeof payloads === 'number') {
+      //   state.conditions.dailyStatisticModel = state.groupsData[payloads];
+      //   dispatch('SetGroupPersonData');
+      // } else {
+      //   state.groupPersonData = [];
+      //   state.groupPersonTotalCount = 0;
+      // }
+      state.conditions.dailyStatisticModel = state.groupsData.find((e: any) => {
+        return  payloads === e.plotId + '-' + e.building + '-' + e.unitNumber;
+      });
+      dispatch('SetGroupPersonData');
     },
     SetModelType: async ({ dispatch, commit, state }: any, type: any) => {
       commit('SET_MODEL_TYPE', type);
@@ -253,6 +222,10 @@ const dailyTroubleshooting = {
         unCheckedCount
       };
       commit('SET_RECORD_COUNT', result);
+    },
+    SetCommunityBrief: async ({ dispatch, commit, state }: any)  => {
+      const result =  await DailyTroubleshootingService.getCheckedCount(state.conditions);
+      commit('SET_COMMUNITY_BRIEF', result);
     },
     ResetData: ({ commit }: any) => {
       commit('RESET_DATA');

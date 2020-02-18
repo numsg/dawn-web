@@ -29,6 +29,16 @@
       </div>
     </div>
   </div>
+  <div class="sort">
+    <el-button @click="sort(modelType.fillRate)"
+        :class="checkType === modelType.fillRate ? 'primary-btn' : 'unchecked-btn'">
+        今日填报率
+      </el-button>
+      <el-button @click="sort(modelType.abnormalNumber)"
+        :class="checkType === modelType.abnormalNumber ? 'primary-btn' : 'unchecked-btn'">
+        异常人数
+      </el-button>
+  </div>
   <ul class="list">
     <li v-for="data in statisticsData">
       <div class="header">

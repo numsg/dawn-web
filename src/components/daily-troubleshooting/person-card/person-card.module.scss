@@ -15,6 +15,15 @@ $danger-color: #f8662f;
         height: 100%;
         // overflow: auto;
         position: relative;
+        thead {
+          color: #187ADC;
+          th {
+            background-color: #E9EBF5;
+            padding: 5px 0;
+            font-size: 15px;
+            height: 45px;
+          }
+        }
         .card-collapse-item {
           >div:first-child {
             border-bottom: 1px solid #e6e8eb
@@ -120,15 +129,6 @@ $danger-color: #f8662f;
           .cart-table-inner{
             width: 100%;
             flex: 1;
-            thead {
-              color: #187ADC;
-              height: 45px;
-              th {
-                background-color: #E9EBF5;
-                padding: 5px 0;
-                font-size: 15px;
-              }
-            }
           }
           .room-num {
             font-weight: bold;
@@ -145,6 +145,49 @@ $danger-color: #f8662f;
         .group-table {
           border-bottom: 4px dashed #6FACE9;
           padding-bottom: 15px;
+          .checked {
+            color: #35B953;
+            font-size: 22px;
+            font-weight: bold;
+          }
+          .unchecked {
+            color: #FF6517;
+            font-size: 22px;
+            font-weight: bold;
+          }
+          .community-cell {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            .fever-count {
+              position: absolute;
+              display: inline-block;
+              background-color: #F84C4B;
+              right: 0;
+              color: #fff;
+              padding: 0px 10px;
+              border-radius: 0 10px 10px 10px;
+              .angle {
+                position: absolute;
+                width: 12px;
+                height: 12px;
+                left: -12px;
+                top: 0;
+                background-color: #F84C4B;
+                i {
+                  display: inline-block;
+                  background-color: #fff;
+                  border-radius: 0 21px 0 0;
+                  width: 100%;
+                  height: 100%;
+                  top: 0;
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                }
+              }
+            }
+          }
         }
         .group-record-table {
           padding-top: 15px;
@@ -179,9 +222,20 @@ $danger-color: #f8662f;
           }
         }
         
+        .isExceedTemp {
+          display: inline-block;
+          border-radius: 100%;
+          background: #f40;
+          width: 25px;
+          color: #FFF;
+          height: 25px;
+        }
     }
     .pagination{
         text-align: right;
+        span:not([class*=suffix]) {
+          padding: 0 5px;
+        }
     }
     .person-name{
       font-size: 18px;
