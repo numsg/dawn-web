@@ -1,6 +1,7 @@
 import PlotBrief from './plot-brief';
 
 export class CommunityBrief {
+    communityName: string = '';
     communityCode: string = '';
     plotTotal: number = 0; // 社区下面的小区数量
     troubleshootTotal: number = 0; // 应填报总人数

@@ -1057,7 +1057,7 @@ export default {
    */
   queryCommunityBrief() {
     const multiTenancy = SessionStorage.get('district');
-    const url = store.getters.configs.communityManagerUrl + `plot-reporting-staff/${multiTenancy}/multiTenancy`;
+    const url = store.getters.configs.communityManagerUrl + `community-daily-briefing/${multiTenancy}/multiTenancy`;
     return httpClient
       .getPromise(url)
       .then(res => {

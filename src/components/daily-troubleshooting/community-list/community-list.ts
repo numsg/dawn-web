@@ -7,6 +7,7 @@ import eventNames from '@/common/events/store-events';
 import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
 import CommunityBrief from '@/models/daily-troubleshooting/community-brief';
 import { ModelType } from '@/models/daily-troubleshooting/model-type';
+import PlotBrief from '@/models/daily-troubleshooting/plot-brief';
 
 @Component({
   name: 'epidemic-statistics',
@@ -18,9 +19,6 @@ import { ModelType } from '@/models/daily-troubleshooting/model-type';
 })
 export class CommunityList extends Vue {
 
-    @Getter('dailyTroubleshooting_statisticsData')
-    statisticsData!: any[];
-
     modelType = ModelType;
 
     checkType = ModelType.fillRate;
@@ -31,28 +29,47 @@ export class CommunityList extends Vue {
     abnormalImg = require('@/assets/img/trouble-shoot-record/abnormal.png');
     communityImg = require('@/assets/img/trouble-shoot-record/community.png');
 
-    communityName: string = '';
-
-
     @State((state: any) => state.dailyTroubleshooting.communityBrief)
     communityBrief!: CommunityBrief;
 
+    plotsBrief: PlotBrief[] = [];
+
     created() {
-      DailyTroubleshootingService.queryCommunity().then((res: any) => {
-        if ( res && Array.isArray(res) && res.length > 0 ) {
-          this.communityName = res[0].name;
-        }
-      });
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetCommunityBrief);
     }
 
     mounted() {
-        this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
-        console.log(this.statisticsData);
+    }
+
+    @Watch('communityBrief')
+    onCommunityBriefChange() {
+      this.plotsBrief = JSON.parse(JSON.stringify(this.communityBrief.plotBriefModels));
+      this.sort(this.checkType);
     }
 
     sort(type: ModelType) {
       this.checkType = type;
+      if (this.checkType === ModelType.fillRate) {
+        this.plotsBrief = this.plotsBrief.sort((a, b) => {
+          if (a.plotAbnormalTotal < b.plotAbnormalTotal) {
+            return -1;
+          } else if (a.plotAbnormalTotal === b.plotAbnormalTotal) {
+            return 0;
+          } else {
+            return 1;
+          }
+        });
+      } else {
+        this.plotsBrief = this.plotsBrief.sort((a, b) => {
+          if (parseFloat(a.troubleshootRate) < parseFloat(b.troubleshootRate)) {
+            return -1;
+          } else if (parseFloat(a.troubleshootRate) === parseFloat(b.troubleshootRate)) {
+            return 0;
+          } else {
+            return 1;
+          }
+        });
+      }
     }
 
 }

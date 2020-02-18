@@ -104,10 +104,12 @@ const dailyTroubleshooting = {
       state.conditions.isChecked = result;
     },
     SET_DAILY_TROUBLE_SHOOTING_FORM_STATUS: (state: any, result: any) => {
-      state.communityBrief = result;
-    },
-    SET_COMMUNITY_BRIEF_REPORT_DATA: (state: any, result: any) => {
       state.formStatus = result;
+    },
+    SET_COMMUNITY_BRIEF: (state: any, result: any) => {
+      console.log('---SET_COMMUNITY_BRIEF---');
+      console.log(result);
+      state.communityBrief = result;
     },
     SET_RECORD_COUNT: (state: any, result: any) => {
       state.checkedTotalCount = result.checkedCount;
@@ -224,7 +226,7 @@ const dailyTroubleshooting = {
       commit('SET_RECORD_COUNT', result);
     },
     SetCommunityBrief: async ({ dispatch, commit, state }: any)  => {
-      const result =  await DailyTroubleshootingService.getCheckedCount(state.conditions);
+      const result =  await DailyTroubleshootingService.queryCommunityBrief();
       commit('SET_COMMUNITY_BRIEF', result);
     },
     ResetData: ({ commit }: any) => {

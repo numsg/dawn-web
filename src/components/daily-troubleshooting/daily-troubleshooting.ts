@@ -13,6 +13,7 @@ import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-rec
 import { CommunityList } from '@/components/daily-troubleshooting/community-list/community-list';
 import * as XLSX from 'xlsx';
 import moment from 'moment';
+import XLSXUtils from '@/common/utils/XLSXUtils';
 
 @Component({
   template: dailyTroubleshootingHtml,
@@ -100,9 +101,31 @@ export class DailyTroubleshootingComponent extends Vue {
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 
-  // 导出excel
   async exportExcel() {
+    const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+    const execlName = `日常排查数据${now}`;
+    const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
+    const res = await DailyTroubleshootingService.queryCommunity();
+    let communityName = '';
+    if ( res && Array.isArray(res) && res.length > 0 ) {
+      communityName = res[0].name;
+    }
+    // 构造表头数据
+    const headerNames = this.getHeaderNames();
+    // 构造表格数据
+    const execlData = this.convertToExeclData(result);
+    XLSXUtils.exportExcel({
+      title: '社区疫情排查情况登记表',
+      communityName: communityName,
+      sheetName: '日常排查记录表',
+      execlName: execlName,
+      headerNames: headerNames,
+      data: execlData
+    });
+  }
 
+  // 导出excel
+  async exportExcelOld() {
     const now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
     const taskListName = `日常排查数据${now}.xlsx`;
     // const result = await DailyTroubleshootingService.queryExportExcel(this.keyWord);
@@ -113,7 +136,6 @@ export class DailyTroubleshootingComponent extends Vue {
       communityName = res[0].name;
     }
     let data = {};
-
     const s = {
       alignment: {
         horizontal: 'center',
@@ -125,14 +147,14 @@ export class DailyTroubleshootingComponent extends Vue {
       A1: { v: '社区疫情排查情况登记表', s },
       A2: { v: '社区(村)', s },
       F2: { v: '填表日期' , s},
-      A3: { v: '序号' , s},
       B2: { v:  communityName , s},
+      G2: { v:  now, s },
+      A3: { v: '序号' , s},
       B3: { v: '姓名' , s},
       C3: { v: '性别' , s},
       D3: { v: '身份证号' , s },
       E3: { v: '联系方式' , s},
       F3: { v: '家庭住址', s },
-      G2: { v:  now, s },
       G3: { v: '发热(体温>37.3℃)', s },
       H3: { v: '新型肺炎', s  },
       I3: { v: '其他症状' , s },
@@ -215,10 +237,10 @@ export class DailyTroubleshootingComponent extends Vue {
       {'wch': 22},
     ];
     const rows = [
+      {'hpx': rowHeight},
+      {'hpx': rowHeight},
+      {'hpx': rowHeight},
       ...dataRowHight,
-      {'hpx': rowHeight},
-      {'hpx': rowHeight},
-      {'hpx': rowHeight},
     ];
     const wb = {
       SheetNames: ['mySheet'],
@@ -260,6 +282,49 @@ export class DailyTroubleshootingComponent extends Vue {
   replaceMedicalOpinion(medicalOpinion: any) {
     const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
     return otherSymptomsItem ? otherSymptomsItem.name : '';
+  }
+
+  getHeaderNames() {
+    return [
+    '序号',
+    '姓名',
+    '性别',
+    '身份证号',
+    '联系方式',
+    '家庭住址',
+    '发热(体温>37.3℃)',
+    '新型肺炎',
+    '其他症状',
+    '确认患者',
+    '疑似患者',
+    'CT诊断肺炎患者',
+    '一般发热患者',
+    '密切接触者',
+    '备注'];
+  }
+
+  convertToExeclData(result: TroubleshootRecord[]) {
+    const execlData = [] as any[];
+    result.forEach((person, index) => {
+      const data = {} as any;
+      data.index = index + 1;
+      data.name = person.personBase.name;
+      data.sex = this.replaceSex(person.personBase.sex) ;  // 替换 性别
+      data.identificationNumber = person.personBase.identificationNumber;
+      data.phone = person.personBase.phone ;
+      data.address = person.personBase.address ;
+      data.isExceedTemp = person.isExceedTemp ? '是' : '';
+      data.isContact = person.isContact ? '是' : '';
+      data.otherSymptoms = this.replaceOtherSymptoms(person.otherSymptoms); // 替换 其他症状
+      data.isAdmit = this.replaceMedicalOpinion(person.medicalOpinion) === '确诊患者' ? '是' : '' ;  // 替换 确认患者
+      data.isSuspected = this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' ;  // 替换 疑似患者
+      data.isCT = this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '';   // 替换 CT诊断肺炎患者
+      data.isNormal = this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' ;  // 替换 一般发热患者
+      data.isClose = this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' ;  // 替换 密切接触者
+      data.note = person.note ? person.note : '';
+      execlData.push(data);
+    });
+    return execlData;
   }
 
   beforeDestroy() {
