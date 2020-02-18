@@ -1,0 +1,17 @@
+.daily-ivestigate-box {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    .top{
+        display: flex;
+        flex-direction: row-reverse;
+        .choose-hou{
+            width: 300px;
+        }
+    }
+    .map {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  

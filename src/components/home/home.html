@@ -138,6 +138,8 @@
                 :span="draggableItem.span"
               ></epidemic-cumulative-trends>
               <epidemic-death-trends v-if="data.componentName==='epidemic-death-trends'" :span="draggableItem.span"></epidemic-death-trends>
+              <daily-investigate v-if="data.componentName==='daily-investigate-statistics'" :span="draggableItem.span"></daily-investigate>
+              <hebdomad-diagonsis v-if="data.componentName==='hebdomad-diagonsis'" :span="draggableItem.span"></hebdomad-diagonsis>
               <!-- <EpidemicDynamicComponent :span="draggableItem.span"></EpidemicDynamicComponent> -->
             </div>
           </div>

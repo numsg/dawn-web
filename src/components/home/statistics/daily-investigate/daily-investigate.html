@@ -1,0 +1,8 @@
+<div class="daily-ivestigate-box">
+    <div class="top">
+        <el-select class="choose-hou" v-model="currenHousingEstate"  @change="changeHousingEstate">
+            <el-option v-for="item in housingEstateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
+    </div>
+    <div ref="staffStatisticsChart" class="map" id="staffStatisticsChart"></div>
+</div>

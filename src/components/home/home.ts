@@ -30,6 +30,8 @@ import { RegionalStatistics } from './regional-statistics/regional-statistics';
 import { EpidemicTrends } from './epidemic-trends/epidemic-trends';
 import { EpidemicCumulativeTrends } from './epidemic-cumulative-trends/epidemic-cumulative-trends';
 import { EpidemicDeathTrends } from './epidemic-death-trends/epidemic-death-trends';
+import { DailyInvestigate } from './statistics/daily-investigate/daily-investigate';
+import { HebdomadDiagonsis} from './statistics/hebdomad-diagonsis/hebdomad-diagonsis';
 
 @Component({
   template: HomeHtml,
@@ -47,7 +49,9 @@ import { EpidemicDeathTrends } from './epidemic-death-trends/epidemic-death-tren
     EpidemicTrends,
     RegionalStatistics,
     EpidemicCumulativeTrends,
-    EpidemicDeathTrends
+    EpidemicDeathTrends,
+    DailyInvestigate,
+    HebdomadDiagonsis
   },
   beforeRouteLeave(to: any, from: any, next: any) {
     const el: any = this;
@@ -187,7 +191,7 @@ export class HomeComponent extends Vue {
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
     },
-    {
+  {
       id: '2',
       title: '本社区 新增确诊/疑似 趋势图',
       added: false,
@@ -209,11 +213,28 @@ export class HomeComponent extends Vue {
       id: '4',
       title: '本社区 累计治愈/死亡 趋势图',
       added: false,
-      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale +· '.png'),
       componentName: 'epidemic-death-trends',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
-    }
+    },
+    {
+      id: '5',
+      title: '日常排查人员统计',
+      added: false,
+      componentName: 'daily-investigate-statistics',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
+    },
+    {
+      id: '6',
+      title: '确诊 疑似 发热 接触人员7日数据统计',
+      added: false,
+      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+      componentName: 'epidemic-trends',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
+    },
     // {
     //   id: '2',
     //   title: '社区要素信息',
