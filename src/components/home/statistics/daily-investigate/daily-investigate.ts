@@ -33,7 +33,6 @@ housingEstateData:any = [
 currenHousingEstate:any = '1';
 
 mounted(){
-    //// test
 // 默认显示某个小区
 this.initDailyCharts();
 this.setOptions([]);
