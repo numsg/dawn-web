@@ -33,26 +33,4 @@
       }
     }
   }
-  .person-detail {
-    padding: 10px;
-    h3 {
-      color: #909399;
-    }
-    .detail-content {
-      margin-top: 16px;
-      padding-left: 10px;
-      .content-item {
-        margin: 10px;
-        display: inline-flex;
-        flex-direction: column;
-        align-items: flex-start;
-        min-width: 31%;
-        .content-label {
-          color: #909399;
-          font-weight: bold;
-          margin-bottom: 10px;
-        }
-      }
-    }
-  }
 }

@@ -6,9 +6,9 @@
       <el-radio-button v-for="(item, index) in typeOfStatistics" :key="index" :label="item.id">{{item.label}}</el-radio-button>
     </el-radio-group>
     <!-- 疫情统计 -->
-    <epidemic-statistics :dimension="currentDimension" style="flex:2.5"></epidemic-statistics>
+    <epidemic-statistics ref="epidemic-statistics" :dimension="currentDimension" style="flex:2.5"></epidemic-statistics>
     <!-- 按社区统计重点关注人员 -->
-    <community-statistics :dimension="currentDimension" style="flex:4; overflow-y: auto;"></community-statistics>
+    <community-statistics ref="community-statistics" :dimension="currentDimension" style="flex:4; overflow-y: auto;"></community-statistics>
   </div>
   <!-- 疫情列表 -->
   <div class="epidemic-list">
@@ -17,8 +17,9 @@
       style="flex:1.5"
       @on-person-selection-change="handlePersonSelected"
       @on-edit-person="handleCurrentPersonEdit"
+      @on-person-data-change="handlePageRefresh"
     ></epidemic-list>
     <!-- 重点关注人员信息 -->
-    <epidemic-info style="flex:1" :editEpidemicPerson="currentPerson" :readOnlyMode="true"></epidemic-info>
+    <epidemic-info-detail style="flex:1" :currentPerson="currentPerson"></epidemic-info-detail>
   </div>
 </div>

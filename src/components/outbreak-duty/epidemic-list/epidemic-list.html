@@ -116,7 +116,8 @@
       <el-table
         ref="personDataTable"
         :cell-style="{padding:'16px 0px'}"
-        max-height="755"
+        height="440"
+        max-height="490"
         class="table-content cart-table-item"
         :data="epidemicPersonList"
         stripe
@@ -127,6 +128,7 @@
         <el-table-column label="姓名" width="130" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span class="room-num">{{ scope.row.name}}</span>
+            <span class="special-flag" v-if="canShowSpecialFlag(scope.row)">{{ scope.row.specialSituationModel.name}}</span>
           </template>
         </el-table-column>
         <el-table-column label="小区名称" :show-overflow-tooltip="true">
@@ -137,7 +139,7 @@
         </el-table-column>
         <el-table-column label="房号" width="120" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNo}}</span>
+            <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNumber}}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column label="是否有接触史" width="110">
@@ -183,7 +185,7 @@
             ></el-button>
 
             <el-button
-              style="padding: 7px 10px;"
+              style="padding: 7px 10px; background-color: #67c23a !important; border-color: #67c23a;"
               size="mini"
               type="success"
               class="iconfont edit-btn primary-btn iconpms-icon_Health"
@@ -228,11 +230,13 @@
 
   <el-dialog width="450px" title="变更就医情况" top="32vh" :visible.sync="showChangeModal" :show-close="false">
     <p class="dialog-info-title">姓名</p>
-    <p class="dialog-info-content">{{editEpidemicPerson.name}}</p>
+    <p class="dialog-info-content">{{editEpidemicPerson? editEpidemicPerson.name : ''}}</p>
     <p class="dialog-info-title">手机号</p>
-    <p class="dialog-info-content">{{editEpidemicPerson.mobileNumber}}</p>
+    <p class="dialog-info-content">{{editEpidemicPerson? editEpidemicPerson.mobileNumber : ''}}</p>
     <p class="dialog-info-title">当前就医情况</p>
-    <p class="dialog-info-content">{{editEpidemicPerson.medicalConditionModel? editEpidemicPerson.medicalConditionModel.name: '未知'}}</p>
+    <p class="dialog-info-content">
+      {{editEpidemicPerson && editEpidemicPerson.medicalConditionModel? editEpidemicPerson.medicalConditionModel.name: '未知'}}
+    </p>
     <p class="dialog-info-title">变更为</p>
     <el-select v-model="currentMedicalSituation" style="width: 100%; margin-bottom: 18px;" clearable placeholder="请选择医疗情况">
       <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>

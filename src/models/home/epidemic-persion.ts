@@ -20,6 +20,20 @@ export class EpidemicPerson {
   diagnosisSituationModel: any;
   medicalCondition!: string;
   /**
+   * 是否通过移动端上报
+   *
+   * @type {false}
+   * @memberof EpidemicPerson
+   */
+  isByPhone = false;
+  /**
+   * 是否有密切接触史
+   *
+   * @type {false}
+   * @memberof EpidemicPerson
+   */
+  isContact = false;
+  /**
    * 就医情况对象，包含ID及对应名称
    *
    * @type {*}

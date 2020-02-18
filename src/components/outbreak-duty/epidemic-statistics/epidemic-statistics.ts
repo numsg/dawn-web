@@ -120,7 +120,7 @@ export class EpidemicStatisticsComponent extends Vue {
   }
 
   @Watch('dimension')
-  async handleDimensionOfStatisticsChange(val: string) {
+  async handleDimensionOfStatisticsChange() {
     await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData, { dimension: this.dimension });
   }
 

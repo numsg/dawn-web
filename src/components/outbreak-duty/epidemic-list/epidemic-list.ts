@@ -41,6 +41,9 @@ export class EpidemicListComponent extends Vue {
   // 医疗情况
   @Getter('baseData_medicalSituations')
   medicalSituations!: any[];
+  // 特殊情况
+  @Getter('baseData_specialSituations')
+  specialSituations!: any[];
   selectionMedicalSituations = [];
   currentPage: number = 1;
   pageSize: number = 10;
@@ -71,9 +74,31 @@ export class EpidemicListComponent extends Vue {
   handlePersonListChange(val: any) {
     if (Array.isArray(val) && val.length > 0) {
       setTimeout(() => {
-        this.handleClickRow(this.editEpidemicPerson);
+        let focusData = null;
+        if (this.editEpidemicPerson && this.editEpidemicPerson.id) {
+          const result = val.filter((d: any) => {
+            return d.id && d.id !== '' && d.id === this.editEpidemicPerson.id;
+          });
+          if (result.length > 0) {
+            focusData = result[0];
+          }
+        } else {
+          focusData = val[0];
+        }
+        if (focusData && focusData['id'] && focusData.id !== '') {
+          this.handleClickRow(focusData);
+        }
       }, 500);
     }
+  }
+
+  canShowSpecialFlag(person: EpidemicPerson) {
+    return (
+      person.specialSituation !== '20b8e1da-284c-4d90-9a97-898b1e5b4c66' &&
+      this.specialSituations.filter((d: any) => {
+        return d.id === person.specialSituation;
+      }).length > 0
+    );
   }
 
   async mounted() {
@@ -144,12 +169,14 @@ export class EpidemicListComponent extends Vue {
     this.editEpidemicPerson = new EpidemicPerson();
   }
 
-  savePersonSuccess(personData: EpidemicPerson) {
+  async savePersonSuccess(personData: EpidemicPerson) {
     const sideFrame: any = this.$refs['sideFrame'];
     sideFrame.close();
     this.editEpidemicPerson = personData;
     this.queryEpidemicPersons();
-    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
+    await this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicStaticalData);
+    this.$emit('on-person-data-change', this.editEpidemicPerson);
+    this.handleClickRow(this.editEpidemicPerson);
   }
 
   handleSizeChange(val: any) {
@@ -220,9 +247,10 @@ export class EpidemicListComponent extends Vue {
   }
 
   handleClickRow(data: EpidemicPerson) {
-    if (this.personDataTable) {
-      this.personDataTable.setCurrentRow(data);
+    if (!this.personDataTable) {
+      this.personDataTable = this.$refs['personDataTable'];
     }
+    this.personDataTable.setCurrentRow(data);
     this.editEpidemicPerson = data;
     this.$emit('on-person-selection-change', data);
   }

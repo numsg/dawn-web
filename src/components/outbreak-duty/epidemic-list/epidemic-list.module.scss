@@ -16,6 +16,7 @@
   background: white;
   margin-bottom: 10px;
   max-height: 590px;
+  min-height: 590px;
 
   .list-header {
     height: 70px;
@@ -72,6 +73,8 @@
           float: right;
           border-radius: 15px;
           line-height: 16px;
+          padding: 7px 20px;
+          width: 91px;
         }
 
         &.reset {
@@ -80,6 +83,7 @@
           color: white;
           float: right;
           margin-left: 10px;
+          padding: 7px 20px;
         }
 
         &.isdesc {
@@ -432,5 +436,14 @@
   .dialog-info-title {
     color: #909399;
     font-weight: bold;
+  }
+
+  .special-flag {
+    background-color: indianred;
+    padding: 3px 8px;
+    color: wheat;
+    border-radius: 8px;
+    margin-left: 5px;
+    font-size: 12px;
   }
 }

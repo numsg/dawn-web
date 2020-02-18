@@ -120,7 +120,7 @@ export class EpidemicInfoFormComponent extends Vue {
             .then(res => {
               if (res) {
                 notifyUtil.success('添加人员成功');
-                this.$emit('save-person-success');
+                this.$emit('save-person-success', res);
                 this.resetForm('ruleForm');
                 this.curEpidemicPerson = new EpidemicPerson();
               } else {

@@ -1,0 +1,63 @@
+<div class="person-detail" v-else>
+  <h3>
+    {{currentPerson.name}}
+    <!-- <div class="content-item">
+      <span class="content-label">特殊情况</span> -->
+    <span v-if="CanShowSpecialFlag" class="special-flag">{{ returnDicDataName(currentPerson.specialSituation, 'specialSituations') }}</span>
+    <!-- </div> -->
+  </h3>
+  <div class="detail-content">
+    <div class="content-item">
+      <span class="content-label">年龄</span>
+      <span>{{currentPerson.age}}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">性别</span>
+      <span>{{ returnDicDataName(currentPerson.gender, 'genderClassification') }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">手机号</span>
+      <span>{{currentPerson.mobileNumber}}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">小区</span>
+      <span>{{ returnDicDataName(currentPerson.villageId, 'communities') }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">房号</span>
+      <span>{{ currentPerson.building }} - {{ currentPerson.unitNumber }} - {{ currentPerson.roomNumber }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">是否发热</span>
+      <span>{{ currentPerson.temperature ? '发热' : '正常' }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">是否有密切接触史</span>
+      <span>{{ currentPerson.isContact ? '是' : '否' }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">诊断情况</span>
+      <span>{{ returnDicDataName(currentPerson.confirmedDiagnosis, 'diagnosisSituations') }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">就医情况</span>
+      <span>{{ returnDicDataName(currentPerson.medicalCondition, 'medicalSituations') }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">就医情况变更时间</span>
+      <span>{{ replaceTime(currentPerson.diseaseTime) }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">报送时间</span>
+      <span>{{ replaceTime(currentPerson.submitTime) }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">发病时间</span>
+      <span>{{ replaceTime(currentPerson.diseaseTime) }}</span>
+    </div>
+    <div class="content-item">
+      <span class="content-label">备注</span>
+      <span style="white-space: pre-wrap; word-break: break-all; width: 100%;">{{currentPerson.note}}</span>
+    </div>
+  </div>
+</div>
