@@ -52,21 +52,21 @@ export class CommunityList extends Vue {
       if (this.checkType === ModelType.fillRate) {
         this.plotsBrief = this.plotsBrief.sort((a, b) => {
           if (a.plotAbnormalTotal < b.plotAbnormalTotal) {
-            return -1;
+            return 1;
           } else if (a.plotAbnormalTotal === b.plotAbnormalTotal) {
             return 0;
           } else {
-            return 1;
+            return -1;
           }
         });
       } else {
         this.plotsBrief = this.plotsBrief.sort((a, b) => {
           if (parseFloat(a.troubleshootRate) < parseFloat(b.troubleshootRate)) {
-            return -1;
+            return 1;
           } else if (parseFloat(a.troubleshootRate) === parseFloat(b.troubleshootRate)) {
             return 0;
           } else {
-            return 1;
+            return -1;
           }
         });
       }
