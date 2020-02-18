@@ -1,62 +1,119 @@
 .community-statistics {
   height: 100%;
   .community-item {
-    background: aliceblue;
-    padding: 10px 15px;
+    background: #fff;
+    // padding: 10px 15px;
     border-radius: 5px;
     margin: 0 auto;
-    margin-bottom: 10px;
     width: 98%;
-    box-shadow: 0 3px 9px 0px lightgrey;
+    // box-shadow: 0 3px 9px 0px lightgrey;
+    margin-bottom: 1em;
     .community-data {
       display: inline-flex;
       width: 100%;
       align-items: center;
-      margin-bottom: 18px;
       padding-top: 10px;
+      background: #f7f8fb;
+      padding: 5px 10px;
       .data-flag {
-        background: #63a0ec;
-        padding: 12px 13px;
+        // padding: 4px 6px;
         border-radius: 50%;
         margin-right: 15px;
-        width: 50px;
-        height: 50px;
-        i {
-          color: #f5f5f5;
-          font-size: 24px;
-        }
+        width: 36px;
+        height: 36px;
+        background-image: url(../../../assets/img/trouble-shoot-record/community.png);
+        background-position: 50% 50%;
+        // i {
+        //   color: #f5f5f5;
+        //   font-size: 24px;
+        // }
       }
       .community-address {
         display: inline-flex;
         flex-direction: column;
         padding: 5px;
         flex: 8;
-        span {
-          margin-bottom: 5px;
-        }
+        // span {
+        //   margin-bottom: 5px;
+        // }
       }
       .data-total {
-        flex: 1;
-        font-size: 32px;
-        color: #0f6fcf;
+        flex: 2;
+        font-size: 14px;
         text-align: right;
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 10px;
+        .title {
+          color: #838383;
+          margin-right: 10px;
+        }
+        .content {
+          color: #555;
+          font-size: 24px;
+          font-weight: bold;
+        }
       }
     }
     .type-total-region {
       display: inline-flex;
       width: 100%;
-      border-top: 1px dashed #ecedf1;
-      padding-top: 10px;
+      // border-top: 1px dashed #ecedf1;
+      padding: 15px;
       .type-items {
         display: inline-flex;
         flex-direction: column;
         flex: 1;
+        text-align: center;
         span {
           flex: 1;
           margin-right: 10px;
           padding: 5px;
-          color: #909399;
+          // color: #909399;
           font-weight: bold;
+        }
+        span[flag='确诊患者'] {
+          color: #ce3636;
+        }
+        span[flag='疑似患者'] {
+          color: #ee8240;
+        }
+        span[flag='CT诊断肺炎者'] {
+          color: #d07f30;
+        }
+        span[flag='一般发热患者'] {
+          color: #f0b605;
+        }
+        span[flag='密切接触者'] {
+          color: #b081e6;
+        }
+        span[flag='治愈'] {
+          color: #10aeb5;
+        }
+        span[flag='住院'] {
+          color: #b65b7d;
+        }
+        span[flag='隔离'] {
+          color: #5179bc;
+        }
+        span[flag='自行隔离'] {
+          color: #5e98c0;
+        }
+        span[flag='排除'] {
+          color: #63a0ec;
+        }
+        span[flag='死亡'] {
+          color: #757575;
+        }
+        span[flag*='无'] {
+          color: #a4bdec;
+        }
+        .number {
+          font-size: 22px;
+        }
+        .content {
+          color: #555;
+          font-weight: normal;
         }
       }
     }

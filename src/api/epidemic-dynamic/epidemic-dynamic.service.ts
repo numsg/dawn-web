@@ -194,11 +194,13 @@ export default {
         const medicalSituations: any[] = store.getters.baseData_medicalSituations;
         const specialSituations: any[] = store.getters.baseData_specialSituations;
         const genderClassification: any[] = store.getters.baseData_genderClassification;
+        const medicalOpinions: any[] = store.getters.baseData_medicalOpinions;
         ep.communityModel = communities.find(k => k.id === ep.villageId) || {};
         ep.diagnosisSituationModel = diagnosisSituations.find(k => k.id === ep.diagnosisSituation) || {};
         if (ep.diagnosisSituationModel && ep.diagnosisSituationModel.name && !ep.diagnosisSituationModel.imageColor) {
           ep.diagnosisSituationModel.imageColor = transformToColor(ep.diagnosisSituationModel.name);
         }
+        ep.medicalOpinionModel = medicalOpinions.find(k => k.id === ep.confirmedDiagnosis) || {};
         ep.medicalConditionModel = medicalSituations.find(k => k.id === ep.medicalCondition) || {};
         ep.specialSituationModel = specialSituations.find(k => k.id === ep.specialSituation) || {};
         ep.genderModel = genderClassification.find(k => k.id === ep.gender) || {};

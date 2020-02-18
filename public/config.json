@@ -1,15 +1,15 @@
 {
   "lang": "zh-CN",
   "planPreparationUrl": "http://116.62.205.14:30001/api/v1/",
-  "baseSupportUrl": "http://116.62.205.14:30028/api/v1/",
+  "baseSupportUrl": "http://116.62.205.14:30022/api/v1/",
   "planFileUrl": "http://116.62.205.14:30005/api/v1/",
   "externalAccessUrl": "http://116.62.205.14:30007/api/v1/",
   "odataUrl": "http://116.62.205.14:30001/OdataService.svc",
-  "baseSupportOdataUrl": "http://116.62.205.14:30028/OdataService.svc",
-  "communityManagerUrl": "http://116.62.205.14:30028/api/v1/",
-  "communityManagerOdataUrl": "http://116.62.205.14:30028/OdataService.svc",
+  "baseSupportOdataUrl": "http://116.62.205.14:30022/OdataService.svc",
+  "communityManagerUrl": "http://116.62.205.14:30022/api/v1/",
+  "communityManagerOdataUrl": "http://116.62.205.14:30022/OdataService.svc",
   "system": "pre-plan management system",
-  "uapUrl": "http://116.62.205.14:30026",
+  "uapUrl": "http://116.62.205.14:30023",
   "clientId": "e133660e7e86f6af8ef3m1ni5",
   "clientSecret": "a36d4a159da571a23eeaym1zh",
   "scope": "super,userManage,personal",
@@ -17,8 +17,8 @@
   "systemSetId": "337b76d8-742d-4f60-ba95-7e143badc305",
   "superUserName": "super",
   "remoteServerConfig": {
-    "odataServiceHost": "http://116.62.205.14:30028/OdataService.svc",
-    "normalServiceHost": "http://116.62.205.14:30028/api/v1",
+    "odataServiceHost": "http://116.62.205.14:30013/OdataService.svc",
+    "normalServiceHost": "http://116.62.205.14:30013/api/v1",
     "componentPostUrl": "/cells",
     "componentLoadUrl": "/CellEntitys",
     "componentDeleteUrl": "/cells/{cellId}",
@@ -43,6 +43,6 @@
   "genderDataSourceId": "d92014f0-b8ae-4d04-b4f3-3850a5c40330",
   "otherSymptomsId": "582daff0-56a5-45a4-9ca7-dc098c688753",
   "medicalOpinionsId": "fdd092c0-3227-495b-a83a-0bdc68e67708",
-  "qrCodeUrl": "http://ncov.gsafety.com/#/cdPersonInforation",
-  "nationwide":"000000"
+  "qrCodeUrl": "http://39.105.209.108:8899/#/personInforation",
+  "nationwide": "000000"
 }

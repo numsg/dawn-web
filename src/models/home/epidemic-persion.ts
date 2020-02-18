@@ -19,8 +19,40 @@ export class EpidemicPerson {
   diagnosisSituation!: string;
   diagnosisSituationModel: any;
   medicalCondition!: string;
+  /**
+   * 就医情况对象，包含ID及对应名称
+   *
+   * @type {*}
+   * @memberof EpidemicPerson
+   */
   medicalConditionModel: any;
+  /**
+   * 特殊情况ID
+   *
+   * @type {string}
+   * @memberof EpidemicPerson
+   */
   specialSituation!: string;
+  /**
+   * 特殊情况对象，包含ID及对应名称
+   *
+   * @type {*}
+   * @memberof EpidemicPerson
+   */
   specialSituationModel: any;
+  /**
+   * 分类诊疗意见 / 就诊情况ID
+   *
+   * @type {*}
+   * @memberof EpidemicPerson
+   */
+  confirmedDiagnosis: any;
+  /**
+   * 分类诊疗意见 / 就诊情况 对象
+   *
+   * @type {*}
+   * @memberof EpidemicPerson
+   */
+  medicalOpinionModel: any;
 }
 export default EpidemicPerson;

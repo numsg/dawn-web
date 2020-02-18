@@ -34,7 +34,7 @@ export class EpidemicListComponent extends Vue {
   // 当前小区
   selectionCommunities = [];
   // 就诊情况
-  @Getter('baseData_diagnosisSituations')
+  @Getter('baseData_medicalOpinions')
   diagnosisSituations!: any[];
   // 当前就诊情况
   selectionDiagnosisSituation = [];

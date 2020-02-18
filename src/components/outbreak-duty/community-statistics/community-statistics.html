@@ -5,7 +5,7 @@
     <div class="community-item" v-for="(item, index) in communityStatisticsData" :key="index">
       <div class="community-data">
         <span class="data-flag">
-          <i class="iconfont iconpms-icon_home-icon"></i>
+          <!-- <i class="iconfont iconpms-icon_home-icon"></i> -->
         </span>
         <div class="community-address">
           <!-- <span>
@@ -15,12 +15,12 @@
             {{item.name}}
           </span>
         </div>
-        <span class="data-total">{{item.count}}</span>
+        <div class="data-total"><span class="title">重点关注人数</span><span class="content">{{item.count}}</span></div>
       </div>
       <div class="type-total-region">
         <div class="type-items" v-for="(con, i) in item.nodeModels" :key="i">
-          <span>{{con.typeName}}</span>
-          <span>{{con.count}}</span>
+          <span class="number" :flag="con.typeName">{{con.count}}</span>
+          <span class="content">{{con.typeName}}</span>
         </div>
       </div>
     </div>

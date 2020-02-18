@@ -25,10 +25,10 @@ export class EpidemicInfoFormComponent extends Vue {
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
-  // 确诊情况
-  @Getter('baseData_diagnosisSituations')
+  // 就诊情况
+  @Getter('baseData_medicalOpinions')
   diagnosisSituations!: any[];
-  // 医疗情况
+  // 就医情况
   @Getter('baseData_medicalSituations')
   medicalSituations!: any[];
   // 特殊情况

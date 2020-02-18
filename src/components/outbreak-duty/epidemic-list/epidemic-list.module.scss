@@ -15,7 +15,6 @@
   padding: 10px;
   background: white;
   margin-bottom: 10px;
-  border-radius: 5px;
   max-height: 590px;
 
   .list-header {
@@ -46,9 +45,9 @@
         .filter-options {
           float: left;
           margin-right: 1em;
-          span {
-            margin-right: 10px;
-          }
+          // span {
+          //   margin-right: 10px;
+          // }
         }
       }
 

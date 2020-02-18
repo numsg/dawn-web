@@ -35,12 +35,12 @@
         <el-option v-for="item in communities" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="确诊情况" prop="diagnosisSituation" class="select-item">
+    <el-form-item label="就诊情况" prop="diagnosisSituation" class="select-item">
       <el-select v-model="curEpidemicPerson.diagnosisSituation" clearable placeholder="请选择确诊情况">
         <el-option v-for="item in diagnosisSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="医疗情况" prop="medicalCondition" class="select-item">
+    <el-form-item label="就医情况" prop="medicalCondition" class="select-item">
       <el-select v-model="curEpidemicPerson.medicalCondition" clearable placeholder="请选择医疗情况">
         <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select>
