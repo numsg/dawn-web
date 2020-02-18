@@ -177,12 +177,12 @@ const dailyTroubleshooting = {
         const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
         commit('SET_GROUPS_DATA', result);
       } else {
+        commit('SET_GROUPS_DATA', result);
         if (result && Array.isArray(result) && result.length > 0) {
           const item = result[0];
           const activeName = item.plotId + '-' + item.building + '-' + item.unitNumber;
           dispatch('SetActiveName', activeName);
         }
-        commit('SET_GROUPS_DATA', result);
       }
     },
     SetGroupPersonData: async ({ dispatch, commit, state }: any, conditions?: DailyQueryConditions) => {
