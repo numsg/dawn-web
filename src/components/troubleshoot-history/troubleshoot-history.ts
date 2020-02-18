@@ -12,7 +12,8 @@ import i18n from '@/i18n';
 import notifyUtil from '@/common/utils/notifyUtil';
 import { TroubleshootingInfoForm } from '../daily-troubleshooting/troubleshooting-info-form/troubleshooting-info-form';
 import { SideFrameComponent } from '../share/side-frame/side-frame';
-const DATE_PICKER_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
+import { DATE_PICKER_FORMAT } from '@/common/filters/dateformat';
+// const DATE_PICKER_FORMAT = 'YYYY-MM-DD[T]HH:mm:ss[Z]';
 
 @Component({
   template: html,

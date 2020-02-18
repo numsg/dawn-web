@@ -13,6 +13,8 @@ import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troub
 import { Getter, Mutation } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import { debounce } from 'lodash';
+import moment from 'moment';
+import { DATE_PICKER_FORMAT } from '@/common/filters/dateformat';
 
 @Component({
   template: Html,
@@ -97,6 +99,24 @@ export class OperationZone extends Vue {
     });
   }
 
+    // 本社区小区
+  @Getter('baseData_communities')
+  communities!: any[];
+  get plots() {
+    return this.$store.state.dailyTroubleshooting.conditions.plots;
+  }
+
+  set plots(val: any) {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+      plots: val,
+      page: 0
+    });
+  }
+
+  dateRange: string[] = [];
+
+  pickerOptions: any;
+
   debounceSearch = debounce(this.handleSearch, 500);
 
   handleSearch() {
@@ -104,6 +124,63 @@ export class OperationZone extends Vue {
       keyWord: this.keyWords,
       page: 0
     });
+  }
+
+  created() {
+    const self = this;
+    this.pickerOptions = {
+      shortcuts: [
+        {
+          text: '过去一周',
+          onClick(picker: any) {
+            self.datePickerClick(picker, 1);
+          }
+        },
+        {
+          text: '过去二周',
+          onClick(picker: any) {
+            self.datePickerClick(picker, 2);
+          }
+        }
+      ],
+      onPick: (zone: any) => {
+        if (zone.maxDate && zone.minDate) {
+          const startTime = moment(zone.minDate).format(DATE_PICKER_FORMAT);
+          const endTime = moment(zone.maxDate)
+            .add(1, 'day')
+            .format(DATE_PICKER_FORMAT);
+          self.dateRange = [startTime, endTime];
+          console.log(self.dateRange);
+        }
+      },
+      disabledDate: (date: Date) => {
+        return (
+          date >
+          moment()
+            .endOf('day')
+            // .subtract(1, 'day')
+            .toDate()
+        );
+      }
+    };
+  }
+
+  /**
+   * @param timeZone
+   */
+  onTimeZoneChange(timeZone: any) {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+      dateRange: this.dateRange
+    });
+  }
+
+  datePickerClick(picker: any, subtract: any) {
+    const startTime = moment()
+      .startOf('day')
+      .subtract(subtract, 'week');
+    const endTime = moment().endOf('day');
+    picker.$emit('pick', [startTime.toDate(), endTime.toDate()]);
+    this.dateRange = [startTime.format(DATE_PICKER_FORMAT), endTime.format(DATE_PICKER_FORMAT)];
   }
 
   modelTypeClick(type: ModelType) {

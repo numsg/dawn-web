@@ -1,16 +1,58 @@
 <div class="community-list">
-    <div class="title header-title">
-        <i></i>
-        <span>小区填报人数</span>
+  <div class="title header-title">
+    <i></i>
+    <span>{{communityName}}日常排查简报</span>
+  </div>
+  <div class="summary">
+    <div class="row">
+      <div class="com-count">
+        <img :src="comCountImg" alt="">
+          <div class="txt">小区总数</div>
+          <div class="count">4</div>
+      </div>
+      <div class="total-report-count">
+        <img :src="totalCountImg" alt="">
+          <div class="txt">应填报总人数</div>
+          <div class="count">5213</div>
+      </div>
     </div>
-    <div class="total">
-        <div class="count">42367</div>
-        <div class="txt">累计上报总人数</div>
+    <div class="row">
+      <div class="taday-report-count">
+        <img :src="todayCountImg" alt="">
+          <div class="txt">当日填报人数</div>
+          <div class="count">4721</div>
+      </div>
+      <div class="abnormal-count">
+        <img :src="abnormalImg" alt="">
+          <div class="txt">异常人数</div>
+          <div class="count">82</div>
+      </div>
     </div>
-    <ul class="list">
-        <li v-for="data in statisticsData">
-            <div class="name">{{data.name}}</div>
-            <div class="count">{{data.count}}</div>
-        </li>
-    </ul>
+  </div>
+  <ul class="list">
+    <li v-for="data in statisticsData">
+      <div class="header">
+          <img :src="communityImg" alt="">
+          <span>{{data.name}}</span>
+      </div>
+      <div class="bottom">
+          <div class="total">
+              <div class="count">1123</div>
+              <div class="txt">总人数</div>
+          </div>
+          <div class="today">
+            <div class="count">821</div>
+            <div class="txt">当日填报人数</div>
+          </div>
+          <div class="abnormal">
+            <div class="count">12</div>
+            <div class="txt">异常人数</div>
+          </div>
+          <div class="percent">
+            <div class="count">83.2%</div>
+            <div class="txt">今日填报率</div>
+          </div>
+      </div>
+    </li>
+  </ul>
 </div>

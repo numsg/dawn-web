@@ -1,3 +1,129 @@
 .community-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+     .header-title {
+         i {
+             display: inline-block;
+             width: 6px;
+             height: 16px;
+             background-color: #3498db;
+             margin-right: 10px;
+             vertical-align: text-top;
+         }
+         span {
+            letter-spacing: 0.1em;
+            font-size: 18px;
+            color: #868686;
+         }
+    }
+    .summary {
+        display: flex;
+        flex-direction: column;
+        background: url('@/assets/img/trouble-shoot-record/brief-report-bg.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        .row {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            > div {
+                flex: 1;
+                text-align: center;
+                color: #9B9B9B;
+                padding: 20px 40px;
+                .count {
+                    font-size: 30px;
+                    line-height: 60px;
+                    font-weight: bold;
+                }
+                img {
+                    float: left;
+                }
+                &.com-count {
+                    border-right: 1px solid #ECEEF0;
+                    border-bottom: 1px solid #ECEEF0;
+                    .count {
+                        color: #4293FF;
+                    }
+                }
+                &.total-report-count {
+                    .count {
+                        color: #6D76E8;
+                    }
+                }
+                &.taday-report-count {
+                    .count {
+                        color: #52B8A5;
+                    }
+                }
+                &.abnormal-count {
+                    border-top: 1px solid #ECEEF0;
+                    border-left: 1px solid #ECEEF0;
+                    .count {
+                        color: #FF8859;
+                    }
+                }
+            }
+        }
+    }
 
+    .list {
+        flex: 1;
+        overflow: auto;
+        li {
+            .header {
+                background: #F7F8FB;
+                line-height: 42px;
+                color: #9B9B9B;
+                img {
+                    vertical-align: top;
+                }
+                span {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+            .bottom {
+                height: 110px;
+                display: flex;
+                flex-direction: row;
+                > div {
+                    flex: 1;
+                    display: inline-block;
+                    text-align: center;
+                    .txt {
+                        color: #9B9B9B;
+                    }
+                    .count {
+                        font-size: 22px;
+                        line-height: 60px;
+                        font-weight: bold;
+                    }
+                }
+                .total {
+                    .count {
+                        color: #6D76E8;
+                    }
+                }
+                .today {
+                    .count {
+                        color: #52B8A5;
+                    }
+                }
+                .abnormal {
+                    .count {
+                        color: #FF8859;
+                    }
+                }
+                .percent {
+                    .count {
+                        color: #54A6FD;
+                    }
+                }
+            }
+        }
+    }
 }

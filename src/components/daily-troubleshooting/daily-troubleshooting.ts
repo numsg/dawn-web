@@ -15,7 +15,7 @@ import { PersonInfo } from '@/models/daily-troubleshooting/person-info';
 import { Getter } from 'vuex-class';
 import eventNames from '@/common/events/store-events';
 import TroubleshootRecord from '@/models/daily-troubleshooting/trouble-shoot-record';
-// import { CommunityList } from '@/components/daily-troubleshooting/community-list/community-list';
+import { CommunityList } from '@/components/daily-troubleshooting/community-list/community-list';
 import * as XLSX from 'xlsx';
 import moment from 'moment';
 
@@ -26,7 +26,7 @@ import moment from 'moment';
     OperationZone,
     PersonCard,
     PersonStatistical,
-    // CommunityList
+    CommunityList
   }
 })
 export class DailyTroubleshootingComponent extends Vue {
