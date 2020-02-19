@@ -24,6 +24,7 @@ const dailyTroubleshooting = {
     modelType: ModelType.checked,
     formStatus: false,
     groupPage: 1,
+    groupPageSize: 5,
     groupTotalCount: 0,
     communityBrief: new CommunityBrief,
   },
@@ -65,7 +66,10 @@ const dailyTroubleshooting = {
       Object.assign(state.conditions, conditions);
     },
     SET_GROUPS_DATA: (state: any, result: any) => {
-      state.groupsData = result;
+      if (result) {
+        state.groupTotalCount = result.totalPages;
+        state.groupsData = result.pageContent;
+      }
     },
     SET_GROUP_PERSON_DATA: (state: any, result: any) => {
       state.groupPersonTotalCount = result.count;
@@ -93,6 +97,8 @@ const dailyTroubleshooting = {
       state.checkedTotalCount = 0;
       state.unCheckedTotalCount = 0;
       state.modelType = ModelType.checked;
+      state.groupPage = 1;
+      state.groupTotalCount = 0;
       state.communityBrief = new CommunityBrief();
     },
     SET_CHECK_GROUP_INFO: (state: any, result: any) => {
@@ -117,7 +123,7 @@ const dailyTroubleshooting = {
     }
   },
   actions: {
-    async SetStatisticsData({ commit, dispatch, state }: any) {
+    SetStatisticsData: async ({ commit, dispatch, state }: any) => {
       const communities = store.getters.baseData_communities;
       if (!communities || communities.length === 0) {
         await dispatch(eventNames.baseData.SetCommunities);
@@ -127,12 +133,12 @@ const dailyTroubleshooting = {
       // const result = await DailyTroubleshootingService.getStatistics(state.conditions);
       commit('SET_STATISTICS_DATA', result);
     },
-    async LoadPersonData({ commit, state }: any) {
+    LoadPersonData: async({ commit, state }: any) => {
       // const result = await DailyTroubleshootingService.loadAllDailyRecord(state.conditions);
       const result = await DailyTroubleshootingService.queryTroubleshootingRecords(state.conditions);
       commit('LOAD_PERSON_DATA', result);
     },
-    SetIsShowGroup({ dispatch, commit, state }: any, payloads: any) {
+    SetIsShowGroup: ({ dispatch, commit, state }: any, payloads: any) => {
       state.conditions.page = 0;
       // 设置是否为组查看
       state.conditions.isGroup = payloads;
@@ -142,6 +148,7 @@ const dailyTroubleshooting = {
         state.conditions.isFaver = [];
         state.conditions.medicalOpinion = [];
         state.conditions.plots = [];
+        state.groupPage = 1;
         dispatch('ReloadGroupsData');
       } else {
         state.activeName = '';
@@ -160,26 +167,28 @@ const dailyTroubleshooting = {
       }
       dispatch('SetCRecordCount');
     },
-    SetGroupsData: async ({ dispatch, commit, state }: any) => {
+    SetGroupsData: async ({ dispatch, commit, state }: any, payloads: {page: number, pageSize: number}) => {
       if (state.conditions && state.conditions.plots && state.conditions.plots.length > 0) {
         const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
-        commit('SET_GROUPS_DATA', result);
+        // commit('SET_GROUPS_DATA', result);
       } else {
-        const result = await DailyTroubleshootingService.queryGroupsData();
-        state.groupsOriginalData = result;
+        const param = Object.assign({page: state.groupPage, pageSize: state.groupPageSize}, payloads);
+        const result = await DailyTroubleshootingService.queryGroupsData(param);
+        // state.groupsOriginalData = result.pageContent;
         commit('SET_GROUPS_DATA', result);
       }
     },
     ReloadGroupsData: async ({ dispatch, commit, state }: any) => {
-      const result = await DailyTroubleshootingService.queryGroupsData();
-      state.groupsOriginalData = result;
+      const param = {page: state.groupPage, pageSize: state.groupPageSize};
+      const result = await DailyTroubleshootingService.queryGroupsData(param);
+      // state.groupsOriginalData = result.pageContent;
       if (state.conditions && state.conditions.plots && state.conditions.plots.length > 0) {
         const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
-        commit('SET_GROUPS_DATA', result);
+        // commit('SET_GROUPS_DATA', result);
       } else {
         commit('SET_GROUPS_DATA', result);
-        if (result && Array.isArray(result) && result.length > 0) {
-          const item = result[0];
+        if (result && result.pageContent && Array.isArray(result.pageContent) && result.pageContent.length > 0) {
+          const item = result.pageContent[0];
           const activeName = item.plotId + '-' + item.building + '-' + item.unitNumber;
           dispatch('SetActiveName', activeName);
         }

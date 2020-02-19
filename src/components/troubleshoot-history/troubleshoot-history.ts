@@ -213,10 +213,8 @@ export class TroubleshootHistoryComponent extends Vue {
    */
   onTimeZoneChange(timeZone: any) {
     this.$store.dispatch(eventNames.TroubleshootingHistory.SetHistoryRecords, {
-      dateRange: this.dateRange
+      dateRange: timeZone ? this.dateRange : []
     });
-    if (timeZone.length > 0) {
-    }
   }
 
   datePickerClick(picker: any, subtract: any) {
