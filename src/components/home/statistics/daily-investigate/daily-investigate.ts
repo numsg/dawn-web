@@ -13,9 +13,8 @@ import _ from 'lodash';
   components: {}
 })
 export class DailyInvestigate extends Vue {
-// 柱状图配置
+
 histogramChartOptions = {};
-// Echart对象
 histogramChart!: ECharts;
 
 staffStatisticsData = {};
