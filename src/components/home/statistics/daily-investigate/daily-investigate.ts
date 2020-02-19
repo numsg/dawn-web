@@ -13,7 +13,6 @@ import _ from 'lodash';
   components: {}
 })
 export class DailyInvestigate extends Vue {
-
 histogramChartOptions = {};
 histogramChart!: ECharts;
 staffStatisticsData = {};
