@@ -207,32 +207,30 @@ export class HomeComponent extends Vue {
     //   privilege: this.rolePrivilege.navigation,
     //   desc: 'home.plan_system_meaning'
     // },
-    // {
-    //   id: '4',
-    //   title: '本社区 累计治愈/死亡 趋势图',
-    //   added: false,
-    //   // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale +· '.png'),
-    //   componentName: 'epidemic-death-trends',
-    //   privilege: this.rolePrivilege.navigation,
-    //   desc: 'home.plan_system_meaning'
-    // },
     {
-      id: '5',
+      id: '4',
       title: '日常排查人员统计',
       added: false,
       componentName: 'daily-investigate-statistics',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
     },
-    // {
-    //   id: '6',
-    //   title: '确诊 疑似 发热 接触人员7日数据统计',
-    //   added: false,
-    //   // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
-    //   componentName: 'epidemic-trends',
-    //   privilege: this.rolePrivilege.navigation,
-    //   desc: 'home.plan_system_meaning'
-    // },
+    {
+      id: '5',
+      title: '本社区 累计治愈/死亡 趋势图',
+      added: false,
+      componentName: 'epidemic-death-trends',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
+    },
+    {
+      id: '6',
+      title: '确诊 疑似 发热 接触人员7日数据统计',
+      added: false,
+      componentName: 'epidemic-trends',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
+    },
     {
       id: '7',
       title: '社区疫情分布情况统计',
