@@ -13,5 +13,3 @@ import _ from 'lodash';
   components: {}
 })
 export class HebdomadDiagonsis extends Vue {}
-
-

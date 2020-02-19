@@ -86,7 +86,6 @@ export default {
     return httpClient.getPromise(url);
   },
 
-
   /**
    * 通过事件类型id 查询数据源数据
    * @param {string} id
@@ -122,7 +121,8 @@ export default {
    * @param {String} name
    */
   isNameDuplicate(name: string) {
-    const url = store.getters.configs.externalAccessUrl + `rms/resource-types/d-source-data/${encodeURIComponent(name.toString())}/check-repeat`;
+    const url =
+      store.getters.configs.externalAccessUrl + `rms/resource-types/d-source-data/${encodeURIComponent(name.toString())}/check-repeat`;
     return httpClient.getPromise(url);
   },
 
@@ -219,7 +219,8 @@ export default {
    * @returns
    */
   queryContactResourceData() {
-    const url = store.getters.configs.externalAccessUrl + `rms/resources/types/code/${store.getters.configs.resourceDataSourceIds.contactId}`;
+    const url =
+      store.getters.configs.externalAccessUrl + `rms/resources/types/code/${store.getters.configs.resourceDataSourceIds.contactId}`;
     return httpClient.getPromise(url);
   },
 

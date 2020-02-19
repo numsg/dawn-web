@@ -3,8 +3,12 @@ import styles from './daily-investigate.module.scss';
 import template from './daily-investigate.html';
 import { ECharts, EChartOption } from 'echarts';
 import * as echarts from 'echarts';
-import { verifyArrayEmptyOrUndefined } from '@gsafety/whatever/dist/util';
+
 import _ from 'lodash';
+import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
+import ddatasourceService from '@/api/data-source/d-data-source.service';
+import SessionStorage from '@/utils/session-storage';
+import analysisOutbreakService from '@/api/statistic/analysisOutbreak.service';
 
 @Component({
   name: 'daily-investigate',
@@ -13,95 +17,107 @@ import _ from 'lodash';
   components: {}
 })
 export class DailyInvestigate extends Vue {
-histogramChartOptions = {};
-histogramChart!: ECharts;
-staffStatisticsData = {};
-housingEstateData:any = [
-    {
-        id: '1',
-        name:'常德市武陵区丹阳街道紫桥社区'
-    },
-    {  
-        id:'2',
-        name:'武汉市江夏区纸坊街道西港社区'
+  histogramChartOptions = {};
+  histogramChart!: ECharts;
+  staffStatisticsData = {};
+  housingEstateData: any = [];
+  currenHousingEstate: any = [];
+  districtCode: any = '';
+  mounted() {
+    this.districtCode = SessionStorage.get('district');
+    if (this.districtCode) {
+      this.initDailyCharts();
+      this.getHousingEstate();
     }
-];
+  }
 
-currenHousingEstate:any = '1';
+  async getHousingEstate() {
+    const dataSource: any = await communityQrManageService.queryDataSourceByDistrict(this.districtCode.toString());
+    if (!dataSource) {
+      return;
+    }
+    const dataSourcedata: any = await ddatasourceService.queryDDataSourceIdAndName(dataSource[0].id);
+    if (dataSourcedata && Array.isArray(dataSourcedata)) {
+      this.housingEstateData = dataSourcedata;
+      if (dataSourcedata.length > 0) {
+        this.currenHousingEstate = [this.housingEstateData[0].id];
+        const data = await analysisOutbreakService.queryPlotsRecord(this.districtCode.toString(), [this.housingEstateData[0].id]);
+        this.buildOptionsData([this.housingEstateData[0].id], data);
+      }
+    }
+  }
+  // 切换小区显示该小区排查历史
+  async changeHousingEstate(val: any) {
+    const data = await analysisOutbreakService.queryPlotsRecord(this.districtCode.toString(), val);
+    this.buildOptionsData(val, data);
+  }
 
-mounted(){
-// 默认显示某个小区
-this.initDailyCharts();
-this.setOptions([]);
-}
-// 切换小区显示该小区排查历史
-changeHousingEstate(val:any){
-console.log(val);
-}
-
-private async initDailyCharts(){
+  private async initDailyCharts() {
     const lineChartEle: HTMLDivElement = document.querySelector('#staffStatisticsChart') || document.createElement('div');
     this.histogramChart = echarts.init(lineChartEle);
-    // TroublesootHistoryRecordEntity  日常排查人员统计
-    const data:any = [
-        {
-           createTime:'2020-02-10',
-           count:100
-        },
-        {
-            createTime:'2020-02-11',
-            count:150
-         },
-         {
-            createTime:'2020-02-12',
-            count:200
-         },
-         {
-            createTime:'2020-02-13',
-            count:155
-         },
-    ];
-    this.setOptions(data);
-}
-private setOptions(datas: Array<any>) {
-  const options:any = {
-    color: ['#3398DB'],
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+  }
+
+  buildOptionsData(plotsids: any, data: any) {
+    const xdata: any = [];
+    const ydata: any = [];
+    plotsids.forEach((p: any) => {
+      Object.getOwnPropertyNames(data).forEach(function(key) {
+        if (key === p) {
+          if (data[key]) {
+            data[key].forEach((plotdaily: any) => {
+              const index = xdata.findIndex((date: any) => date === plotdaily.date);
+              if (index >= 0) {
+                ydata[index] += plotdaily.count;
+              } else {
+                xdata.push(plotdaily.date);
+                ydata.push(plotdaily.count);
+              }
+            });
+          }
         }
-    },
-    grid: {
+      });
+    });
+    this.setOptions(xdata, ydata);
+  }
+
+  private setOptions(xdata: any, ydata: any) {
+    const options: any = {
+      color: ['#3398DB'],
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      grid: {
         left: '3%',
         right: '4%',
-        bottom: '3%', 
+        bottom: '3%',
         containLabel: true
-    },
-    xAxis: [
+      },
+      xAxis: [
         {
-            type: 'category',
-            data: ['2020-02-10', '2020-02-11', '2020-02-12', '2020-02-13', '2020-02-14', '2020-02-15', '2020-02-16'],
-            axisTick: {
-                alignWithLabel: true
-            }
+          type: 'category',
+          data: xdata,
+          axisTick: {
+            alignWithLabel: true
+          }
         }
-    ],
-    yAxis: [
+      ],
+      yAxis: [
         {
-            type: 'value'
+          type: 'value'
         }
-    ],
-    series: [
+      ],
+      series: [
         {
-            name: '',
-            type: 'bar',
-            barWidth: '60%',
-            data: [100, 152, 200, 334, 390, 330, 220]
+          name: '',
+          type: 'bar',
+          barWidth: '60%',
+          data: ydata
         }
-    ]
+      ]
+    };
+    this.histogramChart.setOption(options);
   }
-  this.histogramChart.setOption(options);
-}  
 }
-
