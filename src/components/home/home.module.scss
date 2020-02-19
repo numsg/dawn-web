@@ -346,7 +346,7 @@
             line-height: 40px;
             padding: 0 20px;
             position: relative;
-            border-bottom: 1px dotted #eaeaea;
+            // border-bottom: 1px dotted #eaeaea;
 
             &.edit-mode {
               cursor: move;
@@ -366,10 +366,22 @@
               height: 40px;
               float: left;
 
+              i {
+                display: inline-block;
+                width: 5px;
+                height: 16px;
+                background-color: #3498db;
+                position: absolute;
+                top: 12px;
+              }
+
               .title {
-                margin-left: 10px;
+                margin-left: 15px;
                 vertical-align: super;
                 font-weight: bold;
+                letter-spacing: 0.1em;
+                font-size: 18px;
+                color: #868686;
               }
             }
 

@@ -40,7 +40,7 @@ export class EpidemicDistribution extends Vue {
 
   dateRange: string[] = [];
 
-  pickerOptions: any;
+  pickerOptions: any = {};
 
   // 就医情况
   @Getter('baseData_medicalSituations')
@@ -49,7 +49,7 @@ export class EpidemicDistribution extends Vue {
   analysisObject: any = '';
 
   created() {
-      if (this.medicalSituations) {
+      if (Array.isArray(this.medicalSituations) && this.medicalSituations.length > 0) {
         this.analysisObject = this.medicalSituations[0].id;
       }
 
@@ -114,6 +114,7 @@ export class EpidemicDistribution extends Vue {
       legend: {
         orient: 'vertical',
         right: 10,
+        bottom: 10,
         data: ['武昌大道', '环卫所', '西郊路', '西市街'],
         tooltip: {
           show: true

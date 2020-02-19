@@ -5,6 +5,11 @@
   height: 100%;
   padding: 10px 20px;
   .operation {
+    form {
+      > div {
+        margin-bottom: 0;
+      }
+    }
     input {
       width: 150px;
     }
@@ -25,7 +30,8 @@
   }
   .doughnut {
     // width: 700px;
-    height: 350px;
+    // height: 350px;
+    height: 100%;
     width: 100%;
   }
 }
