@@ -34,9 +34,9 @@ export class EpidemicCumulativeTrends extends Vue {
   private async initialNewCaseTrends() {
     const lineChartEle: HTMLDivElement = document.querySelector('#cumulativeLineChart') || document.createElement('div');
     this.lineChart = echarts.init(lineChartEle);
-    let data = await regionalStatisticsService.loadNewCaseData('');
-    this.setOptions(data);
-    data = null;
+    // let data = await regionalStatisticsService.loadNewCaseData('');
+    // this.setOptions(data);
+    // data = null;
   }
 
   private setOptions(datas: Array<any>) {

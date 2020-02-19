@@ -49,8 +49,7 @@ import { EpidemicDistribution } from './epidemic-distribution/epidemic-distribut
     EpidemicDeathTrends,
     DailyInvestigate,
     HebdomadDiagonsis,
-    EpidemicDistribution,
-    HebdomadDiagonsis
+    EpidemicDistribution
   },
   beforeRouteLeave(to: any, from: any, next: any) {
     const el: any = this;
