@@ -14,6 +14,8 @@ import _ from 'lodash';
 })
 export class DailyInvestigate extends Vue {
 
+
+    
 histogramChartOptions = {};
 histogramChart!: ECharts;
 
