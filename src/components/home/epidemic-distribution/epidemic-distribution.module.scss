@@ -1,0 +1,37 @@
+.epidemic-distribution {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  padding: 10px 20px;
+  .operation {
+    form {
+      > div {
+        margin-bottom: 0;
+      }
+    }
+    input {
+      width: 145px;
+    }
+    .date-picker {
+      > div {
+        width: 345px;
+        > div {
+          width: 345px;
+          > span {
+            width: 7%;
+          }
+        }
+      }
+    }
+  }
+  .chart-container {
+    flex: 1;
+  }
+  .doughnut {
+    // width: 700px;
+    // height: 350px;
+    height: 100%;
+    width: 100%;
+  }
+}

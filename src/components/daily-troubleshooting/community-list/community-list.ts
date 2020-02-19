@@ -49,7 +49,7 @@ export class CommunityList extends Vue {
 
     sort(type: ModelType) {
       this.checkType = type;
-      if (this.checkType === ModelType.fillRate) {
+      if (this.checkType === ModelType.abnormalNumber) {
         this.plotsBrief = this.plotsBrief.sort((a, b) => {
           if (a.plotAbnormalTotal < b.plotAbnormalTotal) {
             return 1;

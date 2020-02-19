@@ -16,7 +16,7 @@
   background: white;
   margin-bottom: 10px;
   max-height: 590px;
-  min-height: 590px;
+  min-height: 510px;
 
   .list-header {
     height: 70px;
@@ -45,7 +45,7 @@
 
         .filter-options {
           float: left;
-          margin-right: 1em;
+          margin-right: 5px;
           // span {
           //   margin-right: 10px;
           // }
@@ -60,13 +60,21 @@
         background-color: #43a5e3;
         border-color: #43a5e3;
         color: white;
+        height: 30px;
+        font-size: 14px;
 
         //margin-top: 3px;
         &.iconpms-icon_Time-descending::before,
         &.iconpms-icon_Chronological-ascent::before,
         &.iconpms-icon_Reset::before {
-          font-size: 16px;
-          vertical-align: top;
+          font-size: 14px;
+          // vertical-align: top;
+        }
+
+        &.export-xlsx {
+          float: right;
+          width: 89px;
+          height: 30px;
         }
 
         &.add {
@@ -74,14 +82,19 @@
           border-radius: 15px;
           line-height: 16px;
           padding: 7px 20px;
-          width: 91px;
+          width: 89px;
+          height: 30px;
+          background-color: #7ccb90 !important;
+          border: 1px solid #7ccb90;
         }
 
         &.reset {
-          background-color: #f07865;
-          border-color: #f07865;
-          color: white;
+          background-color: #f0f0f2 !important;
+          border-color: #e5e8f0;
+          color: #177bdc;
           float: right;
+          width: 89px;
+          height: 30px;
           margin-left: 10px;
           padding: 7px 20px;
         }
@@ -433,17 +446,36 @@
     word-break: break-all;
   }
 
+  .dialog-info-item {
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+    .dialog-info-content {
+      margin-right: 10px;
+    }
+  }
+
+  .person-name {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
   .dialog-info-title {
-    color: #909399;
+    // color: #909399;
+    color: #3588d8;
     font-weight: bold;
   }
 
   .special-flag {
     background-color: indianred;
-    padding: 3px 8px;
+    padding: 4px 8px;
     color: wheat;
     border-radius: 8px;
-    margin-left: 5px;
+    // margin-left: 5px;
     font-size: 12px;
+  }
+
+  thead {
+    color: #187adc !important;
   }
 }

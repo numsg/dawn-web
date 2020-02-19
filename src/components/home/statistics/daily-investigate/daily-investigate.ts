@@ -4,7 +4,6 @@ import template from './daily-investigate.html';
 import { ECharts, EChartOption } from 'echarts';
 import * as echarts from 'echarts';
 
-import _ from 'lodash';
 import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
 import ddatasourceService from '@/api/data-source/d-data-source.service';
 import SessionStorage from '@/utils/session-storage';

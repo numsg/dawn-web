@@ -1,24 +1,27 @@
 .person-detail {
-  padding: 10px;
+  padding: 5px 10px;
   background-color: #fff;
   overflow-y: auto;
   h3 {
-    color: #909399;
+    // color: #909399;
+    color: #555;
     font-size: 24px;
-    padding: 10px;
+    padding: 5px 10px;
     border-bottom: 1px dashed lightgrey;
+    line-height: 40px;
     .special-flag {
       margin-left: 10px;
       color: wheat;
       background: indianred;
       padding: 4px 14px;
       border-radius: 14px;
-      font-size: 14px;
+      font-size: 8px;
       display: block;
       float: right;
-      margin-top: -1px;
+      margin-top: 5px;
       text-align: center;
       width: 56px;
+      line-height: 20px;
     }
   }
   .detail-content {
@@ -31,7 +34,8 @@
       align-items: flex-start;
       min-width: 31%;
       .content-label {
-        color: #909399;
+        color: #3588d8;
+        // color: #909399;
         font-weight: bold;
         margin-bottom: 10px;
       }

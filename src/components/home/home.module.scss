@@ -3,7 +3,7 @@
   flex: 1;
   flex-direction: row;
   overflow: auto;
-  background: #fff;
+  background: #EBECF1;
 
   .operate {
     position: absolute;
@@ -306,7 +306,7 @@
 
     .wrapper {
       display: flex;
-      margin-right: 7px;
+      margin-right: 15px;
       box-sizing: border-box;
 
       &:last-child {
@@ -323,7 +323,7 @@
 
       .data-item {
         min-height: 200px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
         background: #fff;
         box-shadow: 0 2px 4px 0 rgba(28, 31, 33, 0.06), 0 4px 8px 0 rgba(28, 31, 33, 0.06), 0 8px 16px 0 rgba(28, 31, 33, 0.06),
           0 12px 24px 0 rgba(28, 31, 33, 0.06), 0 16px 32px 0 rgba(28, 31, 33, 0.06);
@@ -346,7 +346,7 @@
             line-height: 40px;
             padding: 0 20px;
             position: relative;
-            border-bottom: 1px dotted #eaeaea;
+            // border-bottom: 1px dotted #eaeaea;
 
             &.edit-mode {
               cursor: move;
@@ -366,10 +366,22 @@
               height: 40px;
               float: left;
 
+              i {
+                display: inline-block;
+                width: 5px;
+                height: 16px;
+                background-color: #3498db;
+                position: absolute;
+                top: 12px;
+              }
+
               .title {
-                margin-left: 10px;
+                margin-left: 15px;
                 vertical-align: super;
                 font-weight: bold;
+                letter-spacing: 0.1em;
+                font-size: 18px;
+                color: #868686;
               }
             }
 
@@ -394,7 +406,7 @@
 
           .item-content {
             &.style-one {
-              height: calc((100vh - 110px) / 2 - 45px);
+              height: calc((100vh - 110px) / 2 - 48px);
             }
 
             &.style-two {

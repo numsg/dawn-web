@@ -12,7 +12,8 @@
           {{ $t('plan_manage.time_sort') }}
         </el-button>
 
-        <el-button @click="addEpidemicPersion" class="type-btn add iconfont primary-btn iconpms-icon_Blow-Up">新增 </el-button>
+        <el-button @click="addEpidemicPersion" type="success" class="type-btn add iconfont iconpms-icon_Blow-Up">新增</el-button>
+        <el-button @click="exportExcel" class="type-btn export-xlsx iconfont iconpms-icon_Upload-files">导出</el-button>
       </div>
       <div class="btn-group" style="margin-top: 10px;">
         <div class="filter-options">
@@ -22,8 +23,8 @@
           </el-select>
         </div>
         <div class="filter-options">
-          <!-- <span>按就诊情况过滤</span> -->
-          <el-select v-model="selectionDiagnosisSituation" clearable multiple collapse-tags placeholder="请选择就诊情况">
+          <!-- <span>按诊疗情况过滤</span> -->
+          <el-select v-model="selectionDiagnosisSituation" clearable multiple collapse-tags placeholder="请选择诊疗情况">
             <el-option v-for="item in diagnosisSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
           </el-select>
         </div>
@@ -35,7 +36,7 @@
         </div>
       </div>
       <div style="float: right;">
-        <div class="filter-options" style="margin-left: 4.4em; margin-right: 0;">
+        <div class="filter-options" style="margin-left: 2.4em; margin-right: 0;">
           <el-button @click="resetData" class="type-btn reset iconfont iconpms-icon_Reset">{{ $t('plan_manage.reset') }} </el-button>
           <div class="input-search">
             <input
@@ -81,7 +82,7 @@
             <div class="item plan-type">
               <div class="title">
                 <i class="iconfont iconpms-icon_txt"></i>
-                <span>医疗情况</span>
+                <span>就医情况</span>
               </div>
               <div class="name">{{ data.medicalConditionModel.name }}</div>
             </div>
@@ -116,7 +117,7 @@
       <el-table
         ref="personDataTable"
         :cell-style="{padding:'16px 0px'}"
-        height="440"
+        height="366"
         max-height="490"
         class="table-content cart-table-item"
         :data="epidemicPersonList"
@@ -125,9 +126,14 @@
         style="width: 100%"
         @cell-click="handleClickRow"
       >
-        <el-table-column label="姓名" width="130" :show-overflow-tooltip="true">
+        <el-table-column label="姓名" width="70" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span class="room-num">{{ scope.row.name}}</span>
+            <!-- <span class="special-flag" v-if="canShowSpecialFlag(scope.row)">{{ scope.row.specialSituationModel.name}}</span> -->
+          </template>
+        </el-table-column>
+        <el-table-column width="70">
+          <template slot-scope="scope">
             <span class="special-flag" v-if="canShowSpecialFlag(scope.row)">{{ scope.row.specialSituationModel.name}}</span>
           </template>
         </el-table-column>
@@ -152,19 +158,19 @@
             {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
           </template>
         </el-table-column> -->
-        <el-table-column label="发热情况" width="80">
+        <el-table-column label="发热情况" width="100">
           <template slot-scope="scope">
             <el-tag effect="dark" size="mini" :type="scope.row.temperature ? 'danger' : 'primary'" disable-transitions>
               {{scope.row.temperature ? '发热' : '正常'}}</el-tag
             >
           </template>
         </el-table-column>
-        <el-table-column label="就诊情况" :show-overflow-tooltip="true">
+        <el-table-column label="诊疗情况" width="130" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             {{scope.row.medicalOpinionModel.name}}
           </template>
         </el-table-column>
-        <el-table-column label="就医情况" :show-overflow-tooltip="true">
+        <el-table-column label="就医情况" width="130" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             {{scope.row.medicalConditionModel.name}}
           </template>
@@ -229,21 +235,49 @@
   </side-frame>
 
   <el-dialog width="450px" title="变更就医情况" top="32vh" :visible.sync="showChangeModal" :show-close="false">
-    <p class="dialog-info-title">姓名</p>
-    <p class="dialog-info-content">{{editEpidemicPerson? editEpidemicPerson.name : ''}}</p>
-    <p class="dialog-info-title">手机号</p>
-    <p class="dialog-info-content">{{editEpidemicPerson? editEpidemicPerson.mobileNumber : ''}}</p>
-    <p class="dialog-info-title">当前就医情况</p>
-    <p class="dialog-info-content">
-      {{editEpidemicPerson && editEpidemicPerson.medicalConditionModel? editEpidemicPerson.medicalConditionModel.name: '未知'}}
-    </p>
-    <p class="dialog-info-title">变更为</p>
-    <el-select v-model="currentMedicalSituation" style="width: 100%; margin-bottom: 18px;" clearable placeholder="请选择医疗情况">
-      <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-    </el-select>
+    <div class="dialog-info-item">
+      <span class="dialog-info-content person-name">{{editEpidemicPerson? editEpidemicPerson.name : ''}}</span>
+    </div>
+    <div class="dialog-info-item">
+      <span class="dialog-info-content special-flag" v-if="canShowSpecialFlag(editEpidemicPerson)"
+        >{{ editEpidemicPerson.specialSituationModel.name}}</span
+      >
+      <span class="dialog-info-content">
+        <i class="iconfont iconpms-icon_home-icon"></i>
+        {{ editEpidemicPerson.building }}-{{editEpidemicPerson.unitNumber}}-{{editEpidemicPerson.roomNumber}}
+      </span>
+      <span class="dialog-info-content"
+        ><i class="iconfont iconpms-icon_role"></i> {{editEpidemicPerson? editEpidemicPerson.mobileNumber : ''}}</span
+      >
+    </div>
+    <div class="dialog-info-item" style="margin-bottom: -10px;">
+      <p class="dialog-info-title">当前就医情况</p>
+      <p class="dialog-info-content">
+        {{editEpidemicPerson && editEpidemicPerson.medicalConditionModel? editEpidemicPerson.medicalConditionModel.name: '暂无'}}
+      </p>
+    </div>
+    <div class="dialog-info-item">
+      <p class="dialog-info-title">变更为</p>
+      <el-select v-model="currentMedicalSituation" style="width: 100%; margin-bottom: 18px;" clearable placeholder="请选择就医情况">
+        <el-option
+          v-if="item.id!== editEpidemicPerson.medicalCondition"
+          v-for="item in medicalSituations"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        >
+        </el-option>
+      </el-select>
+    </div>
     <div style="text-align: right; margin:10px 0">
       <el-button size="mini" type="text" @click="showChangeModal=false">取消</el-button>
-      <el-button type="primary" size="mini" @click="handleSubmitMedicalSituationChange">确定</el-button>
+      <el-button
+        type="primary"
+        size="mini"
+        :disabled="!currentMedicalSituation || currentMedicalSituation === ''"
+        @click="handleSubmitMedicalSituationChange"
+        >确定</el-button
+      >
     </div>
   </el-dialog>
 </div>

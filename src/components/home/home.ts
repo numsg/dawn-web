@@ -32,6 +32,7 @@ import { EpidemicCumulativeTrends } from './epidemic-cumulative-trends/epidemic-
 import { EpidemicDeathTrends } from './epidemic-death-trends/epidemic-death-trends';
 import { DailyInvestigate } from './statistics/daily-investigate/daily-investigate';
 import { HebdomadDiagonsis} from './statistics/hebdomad-diagonsis/hebdomad-diagonsis';
+import { EpidemicDistribution } from './epidemic-distribution/epidemic-distribution';
 
 @Component({
   template: HomeHtml,
@@ -42,16 +43,13 @@ import { HebdomadDiagonsis} from './statistics/hebdomad-diagonsis/hebdomad-diago
   ],
   components: {
     Draggable,
-    PlanAppliedComponent,
-    RecentWorkListComponent,
-    NavigationGuidanceComponent,
-    PlanEntranceComponent,
     EpidemicTrends,
     RegionalStatistics,
     EpidemicCumulativeTrends,
     EpidemicDeathTrends,
     DailyInvestigate,
-    HebdomadDiagonsis
+    HebdomadDiagonsis,
+    EpidemicDistribution
   },
   beforeRouteLeave(to: any, from: any, next: any) {
     const el: any = this;
@@ -182,44 +180,35 @@ export class HomeComponent extends Vue {
   currentType: PageType = new PageType();
 
   moduleList = [
-    {
-      id: '1',
-      title: '江夏区确诊病例分布总览',
-      added: false,
-      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
-      componentName: 'regional-statistics',
-      privilege: this.rolePrivilege.navigation,
-      desc: 'home.plan_system_meaning'
-    },
-  {
-      id: '2',
-      title: '本社区 新增确诊/疑似 趋势图',
-      added: false,
-      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
-      componentName: 'epidemic-trends',
-      privilege: this.rolePrivilege.navigation,
-      desc: 'home.plan_system_meaning'
-    },
-    {
-      id: '3',
-      title: '本社区 累计确诊/疑似 趋势图',
-      added: false,
-      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
-      componentName: 'epidemic-cumulative-trends',
-      privilege: this.rolePrivilege.navigation,
-      desc: 'home.plan_system_meaning'
-    },
+    // {
+    //   id: '1',
+    //   title: '江夏区确诊病例分布总览',
+    //   added: false,
+    //   // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+    //   componentName: 'regional-statistics',
+    //   privilege: this.rolePrivilege.navigation,
+    //   desc: 'home.plan_system_meaning'
+    // },
+  // {
+  //     id: '2',
+  //     title: '本社区 新增确诊/疑似 趋势图',
+  //     added: false,
+  //     // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+  //     componentName: 'epidemic-trends',
+  //     privilege: this.rolePrivilege.navigation,
+  //     desc: 'home.plan_system_meaning'
+  //   },
+    // {
+    //   id: '3',
+    //   title: '本社区 累计确诊/疑似 趋势图',
+    //   added: false,
+    //   // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
+    //   componentName: 'epidemic-cumulative-trends',
+    //   privilege: this.rolePrivilege.navigation,
+    //   desc: 'home.plan_system_meaning'
+    // },
     {
       id: '4',
-      title: '本社区 累计治愈/死亡 趋势图',
-      added: false,
-      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale +· '.png'),
-      componentName: 'epidemic-death-trends',
-      privilege: this.rolePrivilege.navigation,
-      desc: 'home.plan_system_meaning'
-    },
-    {
-      id: '5',
       title: '日常排查人员统计',
       added: false,
       componentName: 'daily-investigate-statistics',
@@ -227,23 +216,29 @@ export class HomeComponent extends Vue {
       desc: 'home.plan_system_meaning'
     },
     {
+      id: '5',
+      title: '本社区 累计治愈/死亡 趋势图',
+      added: false,
+      componentName: 'epidemic-death-trends',
+      privilege: this.rolePrivilege.navigation,
+      desc: 'home.plan_system_meaning'
+    },
+    {
       id: '6',
       title: '确诊 疑似 发热 接触人员7日数据统计',
       added: false,
-      // image: require('@/assets/img/home/navigation-guidance-' + i18n.locale + '.png'),
       componentName: 'epidemic-trends',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
     },
-    // {
-    //   id: '2',
-    //   title: '社区要素信息',
-    //   added: false,
-    //   image: require('@/assets/img/home/quick-entrance-' + i18n.locale + '.png'),
-    //   componentName: 'epidemic-dynamic',
-    //   privilege: this.rolePrivilege.rapidPreparation,
-    //   desc: 'home.repid_preparation_preplan_description'
-    // }
+    {
+      id: '7',
+      title: '社区疫情分布情况统计',
+      added: false,
+      componentName: 'epidemic-distribution',
+      privilege: this.rolePrivilege.rapidPreparation,
+      desc: 'home.repid_preparation_preplan_description'
+    },
   ];
 
   drag: boolean = false;

@@ -1,80 +1,76 @@
 <div class="person-manage">
-    <div class="table-box">
-        <el-table class="table" border :data="personDate" height="100%" stripe highlight-current-row style="width:100%">
-          <el-table-column prop="personRoom" :label="$t('房间号')">
-            <template slot-scope="scope">
-              <div class="table-slot-cell" :title="scope.row.personRoom">{{ scope.row.personRoom }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="name" :label="$t('姓名')">
-            <template slot-scope="scope">
-              <div class="table-slot-cell" :title="scope.row.name">{{ scope.row.name }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="personTel" :label="$t('联系电话')" :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              <div :title="scope.row.personTel" class="table-slot-cell">{{ scope.row.personTel }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="resSpec" :label="$t('特殊关注人员')" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
-                <div :title="scope.row.personSpecial" class="table-slot-cell">{{ scope.row.personSpecial }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column prop="personDestination" :label="$t('过去十四天是否离开过本地区')" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
-                <div :title="scope.row.personDestination" class="table-slot-cell">{{ scope.row.personDestination }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column prop="otherPerson" :label="$t('是否有外来人员')" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
-                <div :title="scope.row.otherPerson" class="table-slot-cell">{{ scope.row.otherPerson }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column prop="personHealth" :label="$t('健康状况')" :show-overflow-tooltip="true">
-              <template slot-scope="scope">
-                <div :title="scope.row.personHealth" class="table-slot-cell">{{ scope.row.personHealth }}</div>
-              </template>
-            </el-table-column>
-            <el-table-column prop="medical" :label="$t('医疗情况')" :show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                  <div :title="scope.row.medical" class="table-slot-cell">{{ scope.row.medical }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="confirmed" :label="$t('确诊情况')" :show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                    <div :title="scope.row.confirmed" class="table-slot-cell">{{ scope.row.confirmed }}</div>
-                </template>
-            </el-table-column>
-            <el-table-column prop="fillTime" :label="$t('填报时间')" :show-overflow-tooltip="true">
-                <template slot-scope="scope">
-                    <div :title="scope.row.fillTime" class="table-slot-cell">{{ scope.row.fillTime }}</div>
-                </template>
-            </el-table-column>
-          <el-table-column
-            fixed="right"
-            :label="$t('system_log.operation')"
-            class="privilege-operate"
-            width="186"
-          >
-            <template slot-scope="scope">
-              <div class="operation">
-                  <el-button  icon="el-icon-shopping-cart-1" @click="showTransfersDialog" title="出库"></el-button>
-                  <el-button  icon="el-icon-shopping-cart-1" @click="showTransfersDialog" title="详情"></el-button>
-                  <el-button  icon="el-icon-delete" title="删除"></el-button>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-    </div>
-      <el-pagination
-        class="pagination"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-sizes="pageSizes"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="personDate.length">
-    </el-pagination>
+  <div class="table-box">
+    <el-table class="table" border :data="personDate" height="100%" stripe highlight-current-row style="width:100%">
+      <el-table-column prop="personRoom" :label="$t('房间号')">
+        <template slot-scope="scope">
+          <div class="table-slot-cell" :title="scope.row.personRoom">{{ scope.row.personRoom }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" :label="$t('姓名')">
+        <template slot-scope="scope">
+          <div class="table-slot-cell" :title="scope.row.name">{{ scope.row.name }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="personTel" :label="$t('联系电话')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.personTel" class="table-slot-cell">{{ scope.row.personTel }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="resSpec" :label="$t('特殊关注人员')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.personSpecial" class="table-slot-cell">{{ scope.row.personSpecial }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="personDestination" :label="$t('过去十四天是否离开过本地区')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.personDestination" class="table-slot-cell">{{ scope.row.personDestination }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="otherPerson" :label="$t('是否有外来人员')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.otherPerson" class="table-slot-cell">{{ scope.row.otherPerson }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="personHealth" :label="$t('健康状况')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.personHealth" class="table-slot-cell">{{ scope.row.personHealth }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="medical" :label="$t('就医情况')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.medical" class="table-slot-cell">{{ scope.row.medical }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="confirmed" :label="$t('确诊情况')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.confirmed" class="table-slot-cell">{{ scope.row.confirmed }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="fillTime" :label="$t('填报时间')" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <div :title="scope.row.fillTime" class="table-slot-cell">{{ scope.row.fillTime }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column fixed="right" :label="$t('system_log.operation')" class="privilege-operate" width="186">
+        <template slot-scope="scope">
+          <div class="operation">
+            <el-button icon="el-icon-shopping-cart-1" @click="showTransfersDialog" title="出库"></el-button>
+            <el-button icon="el-icon-shopping-cart-1" @click="showTransfersDialog" title="详情"></el-button>
+            <el-button icon="el-icon-delete" title="删除"></el-button>
+          </div>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+  <el-pagination
+    class="pagination"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page.sync="currentPage"
+    :page-sizes="pageSizes"
+    :page-size="pageSize"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="personDate.length"
+  >
+  </el-pagination>
 </div>

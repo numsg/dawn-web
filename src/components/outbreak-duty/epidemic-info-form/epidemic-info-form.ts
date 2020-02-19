@@ -25,7 +25,7 @@ export class EpidemicInfoFormComponent extends Vue {
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
-  // 就诊情况
+  // 诊疗情况
   @Getter('baseData_medicalOpinions')
   diagnosisSituations!: any[];
   // 就医情况
@@ -57,7 +57,10 @@ export class EpidemicInfoFormComponent extends Vue {
     ],
     // submitTime: [{ type: 'date', required: true, message: '请选择报送时间', trigger: 'change' }],
     villageId: [{ required: true, message: '请选择小区', trigger: ['blur', 'change'] }],
-    building: [{ required: true, message: '请填写楼栋', trigger: ['blur', 'change'] }],
+    building: [
+      { required: true, message: '请完整填写楼栋 + 单元号 + 房号' },
+      { validator: this.validateRoomNumber, trigger: ['blur', 'change'] }
+    ],
     unitNumber: [{ required: true, message: '请填写单元号', trigger: ['blur', 'change'] }],
     roomNo: [{ required: true, message: '请填写房间号', trigger: ['blur', 'change'] }],
     // bodyTemperature: [{ required: true, message: '请填写体温', trigger: 'change' }],
@@ -73,6 +76,21 @@ export class EpidemicInfoFormComponent extends Vue {
       callback(new Error('请输入身份证账号'));
     } else if (!/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(value)) {
       callback(new Error('身份证不符合规范'));
+    } else {
+      callback();
+    }
+  }
+
+  validateRoomNumber(rule: any, value: any, callback: any) {
+    if (
+      value === '' ||
+      !value ||
+      this.curEpidemicPerson.roomNumber === '' ||
+      !this.curEpidemicPerson.roomNumber ||
+      this.curEpidemicPerson.unitNumber === '' ||
+      !this.curEpidemicPerson.unitNumber
+    ) {
+      callback(new Error('请完整填写楼栋 + 单元号 + 房号'));
     } else {
       callback();
     }
@@ -169,13 +187,13 @@ export class EpidemicInfoFormComponent extends Vue {
 
   @Watch('editEpidemicPerson')
   onEidtPerson(val: EpidemicPerson) {
+    this.curEpidemicPerson = JSON.parse(JSON.stringify(val));
     if (val && val.id) {
       this.isEdit = true;
-      this.curEpidemicPerson = JSON.parse(JSON.stringify(val));
+      // this.curEpidemicPerson = JSON.parse(JSON.stringify(val));
       this.curEpidemicPerson.diseaseTime = new Date(this.curEpidemicPerson.diseaseTime);
       this.curEpidemicPerson.submitTime = new Date(this.curEpidemicPerson.submitTime);
     } else {
-      this.curEpidemicPerson = new EpidemicPerson();
       this.isEdit = false;
       this.isNew = true;
       this.$emit('on-create-data', this.isNew);

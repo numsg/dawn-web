@@ -34,7 +34,7 @@
         <el-option v-for="item in communities" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select>
     </el-form-item>
-    <el-form-item label="房号" prop="villageId" class="select-item">
+    <el-form-item label="房号" prop="building" class="select-item">
       <div>
         <el-input style="width: 60px; margin-right: 8px;" placeholder="楼栋" maxlength="2" v-model="curEpidemicPerson.building"></el-input>
         <span style="margin-right: 8px;">-</span>
@@ -51,18 +51,18 @@
         <el-option v-for="item in communities" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select> -->
     </el-form-item>
-    <el-form-item label="就诊情况" prop="diagnosisSituation" class="select-item">
-      <el-select v-model="curEpidemicPerson.confirmedDiagnosis" clearable placeholder="请选择就诊情况">
+    <el-form-item label="诊疗情况" prop="diagnosisSituation" class="select-item">
+      <el-select v-model="curEpidemicPerson.confirmedDiagnosis" placeholder="请选择诊疗情况">
         <el-option v-for="item in diagnosisSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="就医情况" prop="medicalCondition" class="select-item">
-      <el-select v-model="curEpidemicPerson.medicalCondition" clearable placeholder="请选择就医情况">
+      <el-select v-model="curEpidemicPerson.medicalCondition" placeholder="请选择就医情况">
         <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="特殊情况" prop="specialSituation" class="select-item">
-      <el-select v-model="curEpidemicPerson.specialSituation" clearable placeholder="请选择特殊情况">
+      <el-select v-model="curEpidemicPerson.specialSituation" placeholder="请选择特殊情况">
         <el-option v-for="item in specialSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
       </el-select>
     </el-form-item>

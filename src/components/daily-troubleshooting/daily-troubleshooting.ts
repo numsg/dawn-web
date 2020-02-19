@@ -42,7 +42,7 @@ export class DailyTroubleshootingComponent extends Vue {
   // 确诊情况
   @Getter('baseData_diagnosisSituations')
   diagnosisSituations!: any[];
-  // 医疗情况
+  // 就医情况
   @Getter('baseData_medicalSituations')
   medicalSituations!: any[];
   // 特殊情况
@@ -66,9 +66,7 @@ export class DailyTroubleshootingComponent extends Vue {
   @Getter('dailyTroubleshooting_conditions')
   conditions!: DailyQueryConditions;
 
-  async created() {
-
-  }
+  async created() {}
 
   modelTypeChange(type: ModelType) {
     this.currentType = type;
@@ -85,9 +83,7 @@ export class DailyTroubleshootingComponent extends Vue {
   }
 
   // 刷新
-  async refesh() {
-
-  }
+  async refesh() {}
 
   async addSuccess() {
     // this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
@@ -107,7 +103,7 @@ export class DailyTroubleshootingComponent extends Vue {
     const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
     const res = await DailyTroubleshootingService.queryCommunity();
     let communityName = '';
-    if ( res && Array.isArray(res) && res.length > 0 ) {
+    if (res && Array.isArray(res) && res.length > 0) {
       communityName = res[0].name;
     }
     // 构造表头数据
@@ -132,7 +128,7 @@ export class DailyTroubleshootingComponent extends Vue {
     const result = await DailyTroubleshootingService.loadExportExcel(this.conditions);
     const res = await DailyTroubleshootingService.queryCommunity();
     let communityName = '';
-    if ( res && Array.isArray(res) && res.length > 0 ) {
+    if (res && Array.isArray(res) && res.length > 0) {
       communityName = res[0].name;
     }
     let data = {};
@@ -140,53 +136,53 @@ export class DailyTroubleshootingComponent extends Vue {
       alignment: {
         horizontal: 'center',
         vertical: 'center'
-      },
+      }
     };
     // 表头
     const headers = {
       A1: { v: '社区疫情排查情况登记表', s },
       A2: { v: '社区(村)', s },
-      F2: { v: '填表日期' , s},
-      B2: { v:  communityName , s},
-      G2: { v:  now, s },
-      A3: { v: '序号' , s},
-      B3: { v: '姓名' , s},
-      C3: { v: '性别' , s},
-      D3: { v: '身份证号' , s },
-      E3: { v: '联系方式' , s},
+      F2: { v: '填表日期', s },
+      B2: { v: communityName, s },
+      G2: { v: now, s },
+      A3: { v: '序号', s },
+      B3: { v: '姓名', s },
+      C3: { v: '性别', s },
+      D3: { v: '身份证号', s },
+      E3: { v: '联系方式', s },
       F3: { v: '家庭住址', s },
       G3: { v: '发热(体温>37.3℃)', s },
-      H3: { v: '新型肺炎', s  },
-      I3: { v: '其他症状' , s },
-      J3: { v: '分类诊疗医疗意见', s  },
-      O3: { v: '备注' , s },
-      J4: { v: '确认患者' , s },
-      K4: { v: '疑似患者' , s },
-      L4: { v: 'CT诊断肺炎患者', s  },
-      M4: { v: '一般发热患者' , s },
-      N4: { v: '密切接触者' , s },
+      H3: { v: '新型肺炎', s },
+      I3: { v: '其他症状', s },
+      J3: { v: '分类诊疗医疗意见', s },
+      O3: { v: '备注', s },
+      J4: { v: '确认患者', s },
+      K4: { v: '疑似患者', s },
+      L4: { v: 'CT诊断肺炎患者', s },
+      M4: { v: '一般发热患者', s },
+      N4: { v: '密切接触者', s }
     };
     // 合并 headers 和 data
     const dataRowHight: any[] = [];
     const rowHeight = 24;
     result.forEach((person: TroubleshootRecord, index: number) => {
-      dataRowHight.push({'hpx': rowHeight});
+      dataRowHight.push({ hpx: rowHeight });
       const tableTr = {
-        [`A${5 + index}`] : { v: index + 1 , s },
-        [`B${5 + index}`] : { v: person.personBase.name },
-        [`C${5 + index}`] : { v:  this.replaceSex(person.personBase.sex) , s }, // 替换 性别
-        [`D${5 + index}`] : { v: person.personBase.identificationNumber, s  },
-        [`E${5 + index}`] : { v: person.personBase.phone , s },
-        [`F${5 + index}`] : { v: person.personBase.address , s },
-        [`G${5 + index}`] : { v: person.isExceedTemp ? '是' : '', s },
-        [`H${5 + index}`] : { v: person.isContact ? '是' : '', s },
-        [`I${5 + index}`] : { v: this.replaceOtherSymptoms(person.otherSymptoms)} , // 替换 其他症状
-        [`J${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '' , s }, // 替换 确认患者
-        [`K${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' , s }, // 替换 疑似患者
-        [`L${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '', s  }, // 替换 CT诊断肺炎患者
-        [`M${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' , s }, // 替换 一般发热患者
-        [`N${5 + index}`] : { v: this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' , s }, // 替换 密切接触者
-        [`O${5 + index}`] : { v: person.note ? person.note : '', s },
+        [`A${5 + index}`]: { v: index + 1, s },
+        [`B${5 + index}`]: { v: person.personBase.name },
+        [`C${5 + index}`]: { v: this.replaceSex(person.personBase.sex), s }, // 替换 性别
+        [`D${5 + index}`]: { v: person.personBase.identificationNumber, s },
+        [`E${5 + index}`]: { v: person.personBase.phone, s },
+        [`F${5 + index}`]: { v: person.personBase.address, s },
+        [`G${5 + index}`]: { v: person.isExceedTemp ? '是' : '', s },
+        [`H${5 + index}`]: { v: person.isContact ? '是' : '', s },
+        [`I${5 + index}`]: { v: this.replaceOtherSymptoms(person.otherSymptoms) }, // 替换 其他症状
+        [`J${5 + index}`]: { v: this.replaceMedicalOpinion(person.medicalOpinion) === '确认患者' ? '是' : '', s }, // 替换 确认患者
+        [`K${5 + index}`]: { v: this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '', s }, // 替换 疑似患者
+        [`L${5 + index}`]: { v: this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '', s }, // 替换 CT诊断肺炎患者
+        [`M${5 + index}`]: { v: this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '', s }, // 替换 一般发热患者
+        [`N${5 + index}`]: { v: this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '', s }, // 替换 密切接触者
+        [`O${5 + index}`]: { v: person.note ? person.note : '', s }
       };
       data = Object.assign({}, data, tableTr);
     });
@@ -216,32 +212,27 @@ export class DailyTroubleshootingComponent extends Vue {
       { s: { c: 10, r: 3 }, e: { c: 10, r: 3 } }, // 疑似患者
       { s: { c: 11, r: 3 }, e: { c: 11, r: 3 } }, // CT诊断肺炎患者
       { s: { c: 12, r: 3 }, e: { c: 12, r: 3 } }, // 一般发热患者
-      { s: { c: 13, r: 3 }, e: { c: 16, r: 3 } }, // 密切接触者
+      { s: { c: 13, r: 3 }, e: { c: 16, r: 3 } } // 密切接触者
     ];
     // 构建 workbook 对象
     const cols = [
-      {'wch': 12},
-      {'wch': 12},
-      {'wch': 12},
-      {'wch': 22},
-      {'wch': 12},
-      {'wch': 12},
-      {'wch': 22},
-      {'wch': 12},
-      {'wch': 12},
-      {'wch': 12},
-      {'wch': 12},
-      {'wch': 14},
-      {'wch': 12},
-      {'wch': 12},
-      {'wch': 22},
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 22 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 22 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 14 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 22 }
     ];
-    const rows = [
-      {'hpx': rowHeight},
-      {'hpx': rowHeight},
-      {'hpx': rowHeight},
-      ...dataRowHight,
-    ];
+    const rows = [{ hpx: rowHeight }, { hpx: rowHeight }, { hpx: rowHeight }, ...dataRowHight];
     const wb = {
       SheetNames: ['mySheet'],
       Sheets: {
@@ -252,7 +243,7 @@ export class DailyTroubleshootingComponent extends Vue {
     // bookType: 'xlsx', // 要生成的文件类型
     // bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
     // type: 'binary'
-    XLSX.writeFile(wb, taskListName, {bookType: 'xlsx',  bookSST: false, type: 'binary' });
+    XLSX.writeFile(wb, taskListName, { bookType: 'xlsx', bookSST: false, type: 'binary' });
 
     // const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
     // const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -279,7 +270,6 @@ export class DailyTroubleshootingComponent extends Vue {
     return otherSymptomsItemList && otherSymptomsItemList.length > 0 ? otherSymptomsItemList.map((item: any) => item.name) : '';
   }
 
-
   replaceMedicalOpinion(medicalOpinion: any) {
     const otherSymptomsItem = this.medicalOpinions.find((item: any) => item.id === medicalOpinion);
     return otherSymptomsItem ? otherSymptomsItem.name : '';
@@ -287,21 +277,22 @@ export class DailyTroubleshootingComponent extends Vue {
 
   getHeaderNames() {
     return [
-    '序号',
-    '姓名',
-    '性别',
-    '身份证号',
-    '联系方式',
-    '家庭住址',
-    '发热(体温>37.3℃)',
-    '新型肺炎',
-    '其他症状',
-    '确认患者',
-    '疑似患者',
-    'CT诊断肺炎患者',
-    '一般发热患者',
-    '密切接触者',
-    '备注'];
+      '序号',
+      '姓名',
+      '性别',
+      '身份证号',
+      '联系方式',
+      '家庭住址',
+      '发热(体温>37.3℃)',
+      '新型肺炎',
+      '其他症状',
+      '确认患者',
+      '疑似患者',
+      'CT诊断肺炎患者',
+      '一般发热患者',
+      '密切接触者',
+      '备注'
+    ];
   }
 
   convertToExeclData(result: TroubleshootRecord[]) {
@@ -310,18 +301,18 @@ export class DailyTroubleshootingComponent extends Vue {
       const data = {} as any;
       data.index = index + 1;
       data.name = person.personBase.name;
-      data.sex = this.replaceSex(person.personBase.sex) ;  // 替换 性别
+      data.sex = this.replaceSex(person.personBase.sex); // 替换 性别
       data.identificationNumber = person.personBase.identificationNumber;
-      data.phone = person.personBase.phone ;
-      data.address = person.personBase.address ;
+      data.phone = person.personBase.phone;
+      data.address = person.personBase.address;
       data.isExceedTemp = person.isExceedTemp ? '是' : '';
       data.isContact = person.isContact ? '是' : '';
       data.otherSymptoms = this.replaceOtherSymptoms(person.otherSymptoms); // 替换 其他症状
-      data.isAdmit = this.replaceMedicalOpinion(person.medicalOpinion) === '确诊患者' ? '是' : '' ;  // 替换 确认患者
-      data.isSuspected = this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : '' ;  // 替换 疑似患者
-      data.isCT = this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : '';   // 替换 CT诊断肺炎患者
-      data.isNormal = this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : '' ;  // 替换 一般发热患者
-      data.isClose = this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : '' ;  // 替换 密切接触者
+      data.isAdmit = this.replaceMedicalOpinion(person.medicalOpinion) === '确诊患者' ? '是' : ''; // 替换 确认患者
+      data.isSuspected = this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : ''; // 替换 疑似患者
+      data.isCT = this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : ''; // 替换 CT诊断肺炎患者
+      data.isNormal = this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : ''; // 替换 一般发热患者
+      data.isClose = this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : ''; // 替换 密切接触者
       data.note = person.note ? person.note : '';
       execlData.push(data);
     });

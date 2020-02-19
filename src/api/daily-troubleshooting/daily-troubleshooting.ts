@@ -571,11 +571,16 @@ export default {
     /**
    * 获取人员分组数据
    */
-  queryGroupsData() {
+  queryGroupsData(param: {page: number, pageSize: number}) {
     const multiTenancy = SessionStorage.get('district');
-    const url = store.getters.configs.communityManagerUrl + `plot-building-unit-staff/${multiTenancy}/multiTenancy`;
+    const pageQuery = {
+      pageNumber: param.page,
+      pageSize: param.pageSize,
+      multiTenancy: multiTenancy.toString()
+    };
+    const url = store.getters.configs.communityManagerUrl + `plot-building-unit-staff/paged-query`;
     return httpClient
-      .getPromise(url)
+      .postPromise(url, pageQuery)
       .then(res => {
         return res;
       })

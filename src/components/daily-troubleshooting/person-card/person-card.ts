@@ -76,15 +76,7 @@ export class PersonCard extends Vue {
   }
 
   set currentPage(val: number) {
-    if (this.isShowgGroup) {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData, {
-        page: val - 1
-      });
-    } else {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
-        page: val - 1
-      });
-    }
+
   }
 
   get currentGroupPage() {
@@ -92,9 +84,7 @@ export class PersonCard extends Vue {
   }
 
   set currentGroupPage(val: number) {
-    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData, {
-      page: val - 1
-    });
+
   }
 
   @Getter('dailyTroubleshooting_groupsData')
@@ -165,9 +155,8 @@ export class PersonCard extends Vue {
   editSuccess() {
     if (this.isShowgGroup) {
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
-      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
     } else {
-      this.$store.dispatch(eventNames.DailyTroubleshooting.LoadPersonData);
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
     }
     this.colse();
   }
@@ -183,7 +172,15 @@ export class PersonCard extends Vue {
   }
   // 当前页改变
   handleCurrentChange(value: any) {
-    this.currentPage = value;
+    if (this.isShowgGroup) {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData, {
+        page: value - 1
+      });
+    } else {
+      this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, {
+        page: value - 1
+      });
+    }
   }
   // 打开编辑
   open() {
@@ -238,13 +235,13 @@ export class PersonCard extends Vue {
   }
 
   groupCurrentChange(value: any) {
-
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData, {
+      page: value
+    });
   }
 
   activeChange() {
 
   }
-
-
 
 }
