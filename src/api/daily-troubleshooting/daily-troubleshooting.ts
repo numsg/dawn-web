@@ -1186,4 +1186,22 @@ export default {
       .catch((error: any) => {});
   },
 
+  /**
+   * 获取统计数据
+   * @param {{ medicalConditionId: string,startTime: string, endTime: string, multiTenancy: string, type: string}} param
+   * @returns
+   */
+  getDistributionStatistics(param: { medicalConditionId: string,
+     startTime: string, endTime: string, multiTenancy: string, type: string}) {
+    const url = store.getters.configs.communityManagerUrl + `statistics/distribution`;
+    return httpClient
+      .postPromise(url, param)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
+  }
+
 };

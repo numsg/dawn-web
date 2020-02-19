@@ -28,7 +28,6 @@ export class PersonCard extends Vue {
 
   pageSizes = [10, 20, 30];
   pageSize = 10;
-  groupPageSize = 5;
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
@@ -60,6 +59,9 @@ export class PersonCard extends Vue {
 
   @State((state: any) => state.dailyTroubleshooting.groupTotalCount)
   groupTotalCount!: number;
+
+  @State((state: any) => state.dailyTroubleshooting.groupPageSize)
+  groupPageSize!: number;
 
   private currentPerson = new TroubleshootRecord();
 

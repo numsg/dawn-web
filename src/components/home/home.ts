@@ -199,17 +199,17 @@ export class HomeComponent extends Vue {
     },
     {
       id: '5',
-      title: '确诊 疑似 发热 接触人员7日数据统计',
+      title: '治愈、死亡人员 7日数据统计',
       added: false,
-      componentName: 'epidemic-trends',
+      componentName: 'epidemic-death-trends',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
     },
     {
       id: '6',
-      title: '治愈、死亡人员 7日数据统计',
+      title: '确诊 疑似 发热 接触人员7日数据统计',
       added: false,
-      componentName: 'epidemic-death-trends',
+      componentName: 'epidemic-trends',
       privilege: this.rolePrivilege.navigation,
       desc: 'home.plan_system_meaning'
     },

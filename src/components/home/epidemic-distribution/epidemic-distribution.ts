@@ -6,7 +6,9 @@ import * as echarts from 'echarts';
 import { Getter } from 'vuex-class';
 import { StatisticalDimension } from '@/models/common/statistical-dimension';
 import moment from 'moment';
-import { DATE_PICKER_FORMAT } from '@/common/filters/dateformat';
+// import { DATE_PICKER_FORMAT } from '@/common/filters/dateformat';
+import SessionStorage from '@/utils/session-storage';
+import DailyTroubleshootingService from '@/api/daily-troubleshooting/daily-troubleshooting';
 
 @Component({
   template: html,
@@ -71,10 +73,10 @@ export class EpidemicDistribution extends Vue {
       ],
       onPick: (zone: any) => {
         if (zone.maxDate && zone.minDate) {
-          const startTime = moment(zone.minDate).format(DATE_PICKER_FORMAT);
+          const startTime = moment(zone.minDate).format('YYYY-MM-DD HH:mm:ss');
           const endTime = moment(zone.maxDate)
             .add(1, 'day')
-            .format(DATE_PICKER_FORMAT);
+            .format('YYYY-MM-DD HH:mm:ss');
           self.dateRange = [startTime, endTime];
           console.log(self.dateRange);
         }
@@ -206,7 +208,7 @@ export class EpidemicDistribution extends Vue {
       .subtract(subtract, 'week');
     const endTime = moment().endOf('day');
     picker.$emit('pick', [startTime.toDate(), endTime.toDate()]);
-    this.dateRange = [startTime.format(DATE_PICKER_FORMAT), endTime.format(DATE_PICKER_FORMAT)];
+    this.dateRange = [startTime.format('YYYY-MM-DD HH:mm:ss'), endTime.format('YYYY-MM-DD HH:mm:ss')];
   }
 
     /**
@@ -214,7 +216,7 @@ export class EpidemicDistribution extends Vue {
    * @param timeZone
    */
   onTimeZoneChange(timeZone: any) {
-
+    // this.queryData();
   }
 
   /**
@@ -229,5 +231,19 @@ export class EpidemicDistribution extends Vue {
    */
   dimensionChange() {
 
+  }
+
+  queryData() {
+    const multiTenancy = SessionStorage.get('district');
+    DailyTroubleshootingService.getDistributionStatistics({
+        medicalConditionId: this.analysisObject,
+        startTime: this.dateRange[0],
+        endTime: this.dateRange[1],
+        multiTenancy: multiTenancy.toString(),
+        type: this.dimension
+    }).then(res => {
+        console.log('---queryData---');
+        console.log(res);
+    });
   }
 }
