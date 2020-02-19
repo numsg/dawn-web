@@ -16,7 +16,7 @@
         </div>
         <div class="fever">
           <div class="count">60</div>
-          <div class="txt"><span>发热</span> </div>
+          <div class="txt"><span>发热</span></div>
           <div class="comparison">昨日<span class="num">+10</span></div>
         </div>
       </div>
@@ -38,15 +38,15 @@
           <div class="comparison">昨日<span class="num">+2310</span></div>
         </div> -->
         <div class="dead">
-            <div class="count">{{curProEpidemicData.dead}}</div>
-            <div class="txt"><span>死亡</span></div>
-            <!-- <div class="comparison">昨日<span class="num">+2310</span></div> -->
-          </div>
-          <div class="cure">
-            <div class="count">{{curProEpidemicData.cure}}</div>
-            <div class="txt"><span>治愈</span></div>
-            <!-- <div class="comparison">昨日<span class="num">+2310</span></div> -->
-          </div>
+          <div class="count">{{curProEpidemicData.dead}}</div>
+          <div class="txt"><span>死亡</span></div>
+          <!-- <div class="comparison">昨日<span class="num">+2310</span></div> -->
+        </div>
+        <div class="cure">
+          <div class="count">{{curProEpidemicData.cure}}</div>
+          <div class="txt"><span>治愈</span></div>
+          <!-- <div class="comparison">昨日<span class="num">+2310</span></div> -->
+        </div>
       </div>
       <div class="diagram">
         <div ref="map" class="map" id="map"></div>
@@ -55,39 +55,36 @@
   </div>
   <div class="grid" :class="{'grid-up': isShowTabs}">
     <div class="operation">
-      <el-input class="search" v-if="isShowTabs" 
-      @input="debounceSearch"
-       suffix-icon="el-icon-search" v-model="keyWords">
-      </el-input>
-      <el-button v-if="isShowTabs" @click="addEpidemicPersion" circle
-        class="add iconfont primary-btn iconpms-icon_Blow-Up"></el-button>
+      <el-input class="search" v-if="isShowTabs" @input="debounceSearch" suffix-icon="el-icon-search" v-model="keyWords"> </el-input>
+      <el-button v-if="isShowTabs" @click="addEpidemicPersion" circle class="add iconfont primary-btn iconpms-icon_Blow-Up"></el-button>
       <!-- <i class="arrow el-icon-arrow-up" @click="showTabs" :class="{'el-icon-arrow-down': isShowTabs}"></i> -->
       <el-button class="arrow default-btn el-icon-arrow-up" @click="showTabs" :class="{'el-icon-arrow-down': isShowTabs}"></el-button>
     </div>
     <el-tabs type="border-card">
       <el-tab-pane label="疫情值守">
         <el-table :data="epidemicPersonList" height="192" border stripe highlight-current-row style="width: 100%">
-          <el-table-column prop="name" label="姓名" width="80">
-          </el-table-column>
-          <el-table-column prop="address" label="地址">
-          </el-table-column>
-          <el-table-column prop="medicalCondition" label="医疗情况" width="120">
-          </el-table-column>
-          <el-table-column prop="specialSituation" label="特殊情况" width="120">
-          </el-table-column>
-          <el-table-column prop="submitTime" label="报送时间" width="160">
-          </el-table-column>
+          <el-table-column prop="name" label="姓名" width="80"> </el-table-column>
+          <el-table-column prop="address" label="地址"> </el-table-column>
+          <el-table-column prop="medicalCondition" label="就医情况" width="120"> </el-table-column>
+          <el-table-column prop="specialSituation" label="特殊情况" width="120"> </el-table-column>
+          <el-table-column prop="submitTime" label="报送时间" width="160"> </el-table-column>
           <el-table-column label="操作" width="190">
             <template slot-scope="scope">
-              <el-button size="mini" class="iconfont iconpms-icon_edit" @click="handleEdit(scope.$index, scope.row)">编辑
-              </el-button>
+              <el-button size="mini" class="iconfont iconpms-icon_edit" @click="handleEdit(scope.$index, scope.row)">编辑 </el-button>
               <el-button size="mini" class="el-icon-info" @click="handleDelete(scope.$index, scope.row)">详情</el-button>
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          :current-page="currentPage" :page-sizes="[10, 20, 30]" :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper" :total="totalCount">
+        <el-pagination
+          class="pagination"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="totalCount"
+        >
         </el-pagination>
       </el-tab-pane>
       <el-tab-pane label="重要需求物资登记">重要需求物资登记</el-tab-pane>
@@ -105,5 +102,4 @@
       <epidemic-info-form @save-person-success="savePersonSuccess"></epidemic-info-form>
     </div>
   </side-frame>
-
 </div>

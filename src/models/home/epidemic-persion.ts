@@ -15,6 +15,9 @@ export class EpidemicPerson {
   gender: string = '0';
   genderModel: any;
   villageId!: string;
+  building!: number | string;
+  unitNumber!: number | string;
+  roomNumber!: number | string;
   communityModel: any;
   diagnosisSituation!: string;
   diagnosisSituationModel: any;
@@ -55,14 +58,14 @@ export class EpidemicPerson {
    */
   specialSituationModel: any;
   /**
-   * 分类诊疗意见 / 就诊情况ID
+   * 分类诊疗意见 / 诊疗情况ID
    *
    * @type {*}
    * @memberof EpidemicPerson
    */
   confirmedDiagnosis: any;
   /**
-   * 分类诊疗意见 / 就诊情况 对象
+   * 分类诊疗意见 / 诊疗情况 对象
    *
    * @type {*}
    * @memberof EpidemicPerson

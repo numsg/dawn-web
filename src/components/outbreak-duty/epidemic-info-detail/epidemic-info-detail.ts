@@ -18,7 +18,7 @@ export class EpidemicInfoDetail extends Vue {
   // 本社区小区
   @Getter('baseData_communities')
   communities!: any[];
-  // 就诊情况
+  // 诊疗情况
   @Getter('baseData_medicalOpinions')
   diagnosisSituations!: any[];
   // 就医情况
