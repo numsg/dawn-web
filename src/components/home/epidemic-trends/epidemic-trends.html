@@ -1,3 +1,44 @@
-<div class="diagram">
-  <div ref="newCaseLineChart" class="map" id="newCaseLineChart"></div>
+<div class="chart-content">
+  <el-radio-group class="dimension-switch" v-model="isDaily">
+    <el-radio :label="false">累计</el-radio>
+    <el-radio :label="true">每日新增</el-radio>
+  </el-radio-group>
+
+  <div class="diagram">
+    <div ref="newCaseLineChart" class="map" id="newCaseLineChart"></div>
+  </div>
+  <div class="data-summary">
+    <li>
+      <img :src="confirmedCaseImg" alt="" />
+      <div>
+        <span>{{ confirmedCaseData.name }}</span>
+        <span v-if="!isDaily" class="number-important">{{ confirmedCaseData.cumulativeTotal }}</span>
+        <span style="color: #ce3636; font-size: 12px;">昨日 +{{ confirmedCaseData.new }}</span>
+      </div>
+    </li>
+    <li>
+      <img :src="suspectedCaseImg" alt="" />
+      <div>
+        <span>{{suspectedCaseData.name}}</span>
+        <span v-if="!isDaily" class="number-important">{{ suspectedCaseData.cumulativeTotal }}</span>
+        <span style="color: #ee8240; font-size: 12px;">昨日 +{{ suspectedCaseData.new }}</span>
+      </div>
+    </li>
+    <li>
+      <img :src="feverCaseImg" alt="" />
+      <div>
+        <span>{{feverCaseData.name}}</span>
+        <span v-if="!isDaily" class="number-important">{{ feverCaseData.cumulativeTotal }}</span>
+        <span style="color: #f0b605; font-size: 12px;">昨日 + {{ feverCaseData.new }}</span>
+      </div>
+    </li>
+    <li>
+      <img :src="closeContactCaseImg" alt="" />
+      <div>
+        <span>{{closeContactCaseData.name}}</span>
+        <span v-if="!isDaily" class="number-important">{{ closeContactCaseData.cumulativeTotal }}</span>
+        <span style="color: #b081e6; font-size: 12px;">昨日 +{{ closeContactCaseData.new }}</span>
+      </div>
+    </li>
+  </div>
 </div>

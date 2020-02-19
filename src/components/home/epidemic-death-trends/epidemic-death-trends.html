@@ -1,3 +1,68 @@
-<div class="diagram">
-  <div ref="deathTrendsLineChart" class="map" id="deathTrendsLineChart"></div>
+<!-- <div class="chart-content">
+  <div class="diagram">
+    <div ref="deathTrendsLineChart" class="map" id="deathTrendsLineChart"></div>
+  </div>
+  <div class="data-summary">
+    <li>
+      <img :src="confirmedCaseImg" alt="" />
+      <div>
+        <span>确诊</span>
+        <span class="number-important">{{ }}</span>
+        <span>昨日 +276</span>
+      </div>
+    </li>
+    <li>
+      <img :src="confirmedCaseImg" alt="" />
+      <div>
+        <span>确诊</span>
+        <span class="number-important">12630</span>
+        <span>昨日+276</span>
+      </div>
+    </li>
+    <li>
+      <img :src="confirmedCaseImg" alt="" />
+      <div>
+        <span>确诊</span>
+        <span class="number-important">12630</span>
+        <span>昨日+276</span>
+      </div>
+    </li>
+    <li>
+      <img :src="confirmedCaseImg" alt="" />
+      <div>
+        <span>确诊</span>
+        <span class="number-important">12630</span>
+        <span>昨日+276</span>
+      </div>
+    </li>
+  </div>
+</div> -->
+
+<div class="chart-content">
+  <el-radio-group class="dimension-switch" v-model="isDaily">
+    <el-radio :label="false">累计</el-radio>
+    <el-radio :label="true">每日新增</el-radio>
+  </el-radio-group>
+
+  <div class="diagram">
+    <div ref="deathTrendsLineChart" class="map" id="deathTrendsLineChart"></div>
+  </div>
+  <div class="data-summary">
+    <li>
+      <img :src="curedCaseImg" alt="" />
+      <div>
+        <span>{{ curedCaseData.name }}</span>
+        <span v-if="!isDaily" class="number-important">{{ curedCaseData.cumulativeTotal }}</span>
+        <span style="color: #10aeb5; font-size: 12px;">昨日 +{{ curedCaseData.new }}</span>
+      </div>
+    </li>
+    <li>
+      <img :src="deathCaseImg" alt="" />
+      <div>
+        <span>{{deathCaseData.name}}</span>
+        <span v-if="!isDaily" class="number-important">{{ deathCaseData.cumulativeTotal }}</span>
+        <span style="color: #757575; font-size: 12px;">昨日 +{{ deathCaseData.new }}</span>
+      </div>
+    </li>
+  </div>
 </div>

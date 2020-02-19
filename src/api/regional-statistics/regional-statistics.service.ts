@@ -1,5 +1,7 @@
 import * as httpClient from '@gsafety/vue-httpclient/dist/httpclient';
 import { verifyArrayEmptyOrUndefined } from '@gsafety/whatever/dist/util';
+import store from '@/store';
+import SessionStorage from '@/utils/session-storage';
 
 class RegionalStatisticsService {
   /**
@@ -32,11 +34,25 @@ class RegionalStatisticsService {
     });
   }
 
-  async loadNewCaseData(url: string) {
+  async loadNewCaseData() {
+    const districtCode = SessionStorage.get('district');
+    const url = store.getters.configs.communityManagerUrl + `troubleshoot-overall/${districtCode}`;
     let data = await httpClient.getPromise(url).catch((err: any) => {
       throw new Error(err);
     });
-    if (!verifyArrayEmptyOrUndefined(data)) {
+    if (verifyArrayEmptyOrUndefined(data)) {
+      data = [];
+    }
+    return data;
+  }
+
+  async loadCureAndDeathCaseData() {
+    const districtCode = SessionStorage.get('district');
+    const url = store.getters.configs.communityManagerUrl + `epidemic-overall/${districtCode}`;
+    let data = await httpClient.getPromise(url).catch((err: any) => {
+      throw new Error(err);
+    });
+    if (verifyArrayEmptyOrUndefined(data)) {
       data = [];
     }
     return data;
