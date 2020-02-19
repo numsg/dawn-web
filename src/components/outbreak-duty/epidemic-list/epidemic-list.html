@@ -117,7 +117,7 @@
       <el-table
         ref="personDataTable"
         :cell-style="{padding:'16px 0px'}"
-        height="358"
+        height="366"
         max-height="490"
         class="table-content cart-table-item"
         :data="epidemicPersonList"
@@ -126,7 +126,7 @@
         style="width: 100%"
         @cell-click="handleClickRow"
       >
-        <el-table-column label="姓名" width="80" :show-overflow-tooltip="true">
+        <el-table-column label="姓名" width="70" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span class="room-num">{{ scope.row.name}}</span>
             <!-- <span class="special-flag" v-if="canShowSpecialFlag(scope.row)">{{ scope.row.specialSituationModel.name}}</span> -->
@@ -158,19 +158,19 @@
             {{replaceOtherSymptoms(scope.row.otherSymptoms)}}
           </template>
         </el-table-column> -->
-        <el-table-column label="发热情况" width="80">
+        <el-table-column label="发热情况" width="100">
           <template slot-scope="scope">
             <el-tag effect="dark" size="mini" :type="scope.row.temperature ? 'danger' : 'primary'" disable-transitions>
               {{scope.row.temperature ? '发热' : '正常'}}</el-tag
             >
           </template>
         </el-table-column>
-        <el-table-column label="诊疗情况" :show-overflow-tooltip="true">
+        <el-table-column label="诊疗情况" width="130" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             {{scope.row.medicalOpinionModel.name}}
           </template>
         </el-table-column>
-        <el-table-column label="就医情况" :show-overflow-tooltip="true">
+        <el-table-column label="就医情况" width="130" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             {{scope.row.medicalConditionModel.name}}
           </template>
