@@ -19,7 +19,7 @@ export class DailyInvestigate extends Vue {
   histogramChartOptions = {};
   histogramChart!: ECharts;
   staffStatisticsData = {};
-  housingEstateData: any = [];
+  housingEstateData: Array<any> = [];
   currenHousingEstate: any = [];
   districtCode: any = '';
   mounted() {
@@ -58,49 +58,69 @@ export class DailyInvestigate extends Vue {
 
   buildOptionsData(plotsids: any, data: any) {
     const xdata: any = [];
-    const ydata: any = [];
+    const legend: any = [];
+    const series: any = [];
+    const housdata = this.housingEstateData;
     plotsids.forEach((p: any) => {
+      const temp = housdata.find((h: any) => h.id === p);
+      const obj = {
+        name: temp.name,
+        type: 'bar',
+        data: [],
+        markPoint: {
+          data: [
+            { type: 'max', name: '最大值' },
+            { type: 'min', name: '最小值' }
+          ]
+        }
+      };
+      const ydata: any = [];
       Object.getOwnPropertyNames(data).forEach(function(key) {
         if (key === p) {
           if (data[key]) {
+            legend.push(temp.name);
             data[key].forEach((plotdaily: any) => {
               const index = xdata.findIndex((date: any) => date === plotdaily.date);
-              if (index >= 0) {
-                ydata[index] += plotdaily.count;
-              } else {
+              if (index < 0) {
                 xdata.push(plotdaily.date);
-                ydata.push(plotdaily.count);
               }
+              ydata.push(plotdaily.count);
             });
           }
         }
       });
+      obj.data = ydata;
+      series.push(obj);
     });
-    this.setOptions(xdata, ydata);
+    this.setOptions(xdata, series, legend);
   }
 
-  private setOptions(xdata: any, ydata: any) {
+  private setOptions(xdata: any, series: any, legend: any) {
     const options: any = {
-      color: ['#3398DB'],
+      title: {
+        subtext: '单位 例',
+        left: 15
+      },
       tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow'
+        trigger: 'axis'
+      },
+      legend: {
+        data: legend
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          dataView: { show: true, readOnly: false },
+          magicType: { show: true, type: ['line', 'bar'] },
+          restore: { show: true },
+          saveAsImage: { show: true }
         }
       },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
+      calculable: true,
       xAxis: [
         {
           type: 'category',
-          data: xdata,
-          axisTick: {
-            alignWithLabel: true
-          }
+          data: xdata
         }
       ],
       yAxis: [
@@ -108,14 +128,7 @@ export class DailyInvestigate extends Vue {
           type: 'value'
         }
       ],
-      series: [
-        {
-          name: '',
-          type: 'bar',
-          barWidth: '60%',
-          data: ydata
-        }
-      ]
+      series: series
     };
     this.histogramChart.setOption(options);
   }
