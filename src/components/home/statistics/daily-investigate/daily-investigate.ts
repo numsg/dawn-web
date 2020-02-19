@@ -108,13 +108,7 @@ export class DailyInvestigate extends Vue {
         data: legend
       },
       toolbox: {
-        show: true,
-        feature: {
-          dataView: { show: true, readOnly: false },
-          magicType: { show: true, type: ['line', 'bar'] },
-          restore: { show: true },
-          saveAsImage: { show: true }
-        }
+        show: true
       },
       calculable: true,
       xAxis: [

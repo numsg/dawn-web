@@ -1,6 +1,7 @@
 <div class="daily-ivestigate-box">
   <div class="top">
-    <el-select class="choose-hou" multiple v-model="currenHousingEstate" @change="changeHousingEstate">
+    <el-select class="choose-hou" :multiple-limit="5" collapse-tags multiple v-model="currenHousingEstate"
+      @change="changeHousingEstate">
       <el-option v-for="item in housingEstateData" :key="item.id" :label="item.name" :value="item.id"></el-option>
     </el-select>
   </div>
