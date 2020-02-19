@@ -1,0 +1,38 @@
+<div class="epidemic-distribution">
+  <div class="operation">
+
+    <el-form :inline="true" class="demo-form-inline">
+      <el-form-item label="分析对象" prop="medicalCondition" class="select-item">
+        <el-select v-model="analysisObject" placeholder="" @change="analysisObjectChange">
+          <el-option v-for="item in medicalSituations" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="分析维度" prop="dimension" class="select-item">
+        <el-select v-model="dimension" placeholder=""  @change="dimensionChange">
+          <el-option v-for="item in analysisDimensions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="选择时间段" prop="date" class="select-item date-picker">
+        <el-date-picker
+            class="picker"
+            :start-placeholder="$t('system_log.start_time')"
+            :end-placeholder="$t('system_log.end_time')"
+            v-model="dateRange"
+            type="datetimerange"
+            :range-separator="$t('system_log.to')"
+            value-format="yyyy-MM-dd[T]HH:mm:ss[Z]"
+            @change="onTimeZoneChange"
+            :default-time="['00:00:00', '23:59:59']"
+            :pickerOptions="pickerOptions"
+            ref="picker">
+        </el-date-picker>
+      </el-form-item>
+
+    </el-form>
+  </div>
+  <div class="chart-container">
+    <div ref="doughnut" class="doughnut" id="doughnut"></div>
+  </div>
+</div>

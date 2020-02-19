@@ -143,7 +143,7 @@ $danger-color: #f8662f;
           }
         }
         .group-table {
-          border-bottom: 4px dashed #6FACE9;
+          border-bottom: 2px dashed #d1e3f7;
           padding-bottom: 15px;
           .checked {
             color: #35B953;
@@ -190,7 +190,7 @@ $danger-color: #f8662f;
           }
         }
         .group-record-table {
-          padding-top: 15px;
+          padding-top: 20px;
         }
 
         .circle {
@@ -235,6 +235,7 @@ $danger-color: #f8662f;
         text-align: right;
         span:not([class*=suffix]) {
           padding: 0 5px;
+          margin-left: 0;
         }
     }
     .person-name{

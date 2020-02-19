@@ -24,7 +24,7 @@ const dailyTroubleshooting = {
     modelType: ModelType.checked,
     formStatus: false,
     groupPage: 1,
-    groupPageSize: 5,
+    groupPageSize: 10,
     groupTotalCount: 0,
     communityBrief: new CommunityBrief,
   },
@@ -67,7 +67,7 @@ const dailyTroubleshooting = {
     },
     SET_GROUPS_DATA: (state: any, result: any) => {
       if (result) {
-        state.groupTotalCount = result.totalPages;
+        state.groupTotalCount = result.total;
         state.groupsData = result.pageContent;
       }
     },

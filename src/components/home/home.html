@@ -141,6 +141,7 @@
               <daily-investigate v-if="data.componentName==='daily-investigate-statistics'" :span="draggableItem.span"></daily-investigate>
               <hebdomad-diagonsis v-if="data.componentName==='hebdomad-diagonsis'" :span="draggableItem.span"></hebdomad-diagonsis>
               <!-- <EpidemicDynamicComponent :span="draggableItem.span"></EpidemicDynamicComponent> -->
+              <EpidemicDistribution v-if="data.componentName==='epidemic-distribution'" :span="draggableItem.span"></EpidemicDistribution>
             </div>
           </div>
         </div>
