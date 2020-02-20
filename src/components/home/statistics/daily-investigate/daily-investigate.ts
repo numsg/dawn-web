@@ -89,7 +89,7 @@ export class DailyInvestigate extends Vue {
           }
         }
       });
-      obj.data = ydata;
+      obj.data = ydata.reverse();
       series.push(obj);
     });
     this.setOptions(xdata, series, legend);
@@ -114,7 +114,7 @@ export class DailyInvestigate extends Vue {
       xAxis: [
         {
           type: 'category',
-          data: xdata
+          data: xdata.reverse()
         }
       ],
       yAxis: [
