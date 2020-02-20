@@ -105,7 +105,8 @@ export class DailyInvestigate extends Vue {
         trigger: 'axis'
       },
       legend: {
-        data: legend
+        data: legend,
+        right: 15
       },
       toolbox: {
         show: true

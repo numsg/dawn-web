@@ -4,23 +4,26 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .top {
     display: flex;
     flex-direction: row-reverse;
+    position: absolute;
+    right: 30px;
+    top: -30px;
+
 
     .choose-text {
       line-height: 32px;
       color: #555;
       font-size: 16px;
       margin-right: 10px;
-      padding-right: 10px;
 
     }
 
     .choose-hou {
       width: 300px;
-      margin-left: 10px;
     }
   }
 
