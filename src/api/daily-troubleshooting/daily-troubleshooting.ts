@@ -589,6 +589,22 @@ export default {
       });
   },
 
+    /**
+   * 获取人员分组数据
+   */
+  queryAllGroupData() {
+    const multiTenancy = SessionStorage.get('district');
+    const url = store.getters.configs.communityManagerUrl + `plot-building-unit-staff/${multiTenancy}/multiTenancy`;
+    return httpClient
+      .getPromise(url)
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return false;
+      });
+  },
+
    /**
    * 获取人员分组数据
    */
@@ -1143,9 +1159,9 @@ export default {
       for (let i = 0, len = conditions.favers.length - 1; i < conditions.favers.length; i++) {
           const value = conditions.favers[i];
           if (i !== len) {
-              str += 'startswith(isExceedTemp, \'' + value + '\') or ';
+              str += '(isExceedTemp eq ' + value + ') or ';
           } else {
-              str = '(' + str + 'startswith(isExceedTemp, \'' + value + '\')' + ')';
+              str = '(' + str + '(isExceedTemp eq ' + value + ')' + ')';
               if (filterStr) {
                 filterStr = filterStr + ' and ' + str;
               } else {

@@ -114,6 +114,7 @@ const StoreEvents = {
     SetModelType: 'SetModelType',
     ReloadGroupsData: 'ReloadGroupsData',
     SetCommunityBrief: 'SetCommunityBrief',
+    SetAllGroupData: 'SetAllGroupData',
   },
   TroubleshootingHistory: {
     SetHistoryRecords: 'SetHistoryRecords',

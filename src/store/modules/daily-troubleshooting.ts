@@ -7,6 +7,13 @@ import eventNames from '@/common/events/store-events';
 import * as R from 'ramda';
 import CommunityBrief from '@/models/daily-troubleshooting/community-brief';
 
+ /**
+ * 分页
+ */
+const getDataByPage = (pageItem: {page: number, pageSize: number}, dataSource: any[]) => {
+    return dataSource.slice(pageItem.pageSize * (pageItem.page - 1), pageItem.pageSize * pageItem.page);
+};
+
 const dailyTroubleshooting = {
   state: {
     statisticsData: [],
@@ -16,6 +23,7 @@ const dailyTroubleshooting = {
     conditions: new DailyQueryConditions(),
     groupsOriginalData: [],
     groupsData: [],
+    allGroupData: [],
     groupPersonData: [],
     activeName: '',
     groupPersonTotalCount: 0,
@@ -66,10 +74,11 @@ const dailyTroubleshooting = {
       Object.assign(state.conditions, conditions);
     },
     SET_GROUPS_DATA: (state: any, result: any) => {
-      if (result) {
-        state.groupTotalCount = result.total;
-        state.groupsData = result.pageContent;
-      }
+      // if (result) {
+      //   state.groupTotalCount = result.total;
+      //   state.groupsData = result.pageContent;
+      // }
+      state.groupsData = result;
     },
     SET_GROUP_PERSON_DATA: (state: any, result: any) => {
       state.groupPersonTotalCount = result.count;
@@ -100,6 +109,7 @@ const dailyTroubleshooting = {
       state.groupPage = 1;
       state.groupTotalCount = 0;
       state.communityBrief = new CommunityBrief();
+      state.allGroupData = [];
     },
     SET_CHECK_GROUP_INFO: (state: any, result: any) => {
       state.conditions.checkedPlot = result.checkedPlot;
@@ -120,7 +130,11 @@ const dailyTroubleshooting = {
     SET_RECORD_COUNT: (state: any, result: any) => {
       state.checkedTotalCount = result.checkedCount;
       state.unCheckedTotalCount = result.unCheckedCount;
-    }
+    },
+    SET_ALL_GROUP_DATA: (state: any, result: any) => {
+      state.allGroupData = result;
+      state.groupTotalCount = result.length;
+    },
   },
   actions: {
     SetStatisticsData: async ({ commit, dispatch, state }: any) => {
@@ -167,31 +181,36 @@ const dailyTroubleshooting = {
       }
       dispatch('SetCRecordCount');
     },
+    // SetGroupsData: async ({ dispatch, commit, state }: any, payloads: {page: number, pageSize: number}) => {
+    //   if (state.conditions && state.conditions.plots && state.conditions.plots.length > 0) {
+    //     const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
+    //     // commit('SET_GROUPS_DATA', result);
+    //   } else {
+    //     const param = Object.assign({page: state.groupPage, pageSize: state.groupPageSize}, payloads);
+    //     const result = await DailyTroubleshootingService.queryGroupsData(param);
+    //     // state.groupsOriginalData = result.pageContent;
+    //     commit('SET_GROUPS_DATA', result);
+    //   }
+    // },
     SetGroupsData: async ({ dispatch, commit, state }: any, payloads: {page: number, pageSize: number}) => {
-      if (state.conditions && state.conditions.plots && state.conditions.plots.length > 0) {
-        const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
-        // commit('SET_GROUPS_DATA', result);
-      } else {
-        const param = Object.assign({page: state.groupPage, pageSize: state.groupPageSize}, payloads);
-        const result = await DailyTroubleshootingService.queryGroupsData(param);
-        // state.groupsOriginalData = result.pageContent;
-        commit('SET_GROUPS_DATA', result);
-      }
+      const param = Object.assign({page: state.groupPage, pageSize: state.groupPageSize}, payloads);
+      const result = getDataByPage(param, state.allGroupData);
+      commit('SET_GROUPS_DATA', result);
+    },
+    SetAllGroupData: async ({ dispatch, commit, state }: any) => {
+        const result = await DailyTroubleshootingService.queryAllGroupData();
+        commit('SET_ALL_GROUP_DATA', result);
     },
     ReloadGroupsData: async ({ dispatch, commit, state }: any) => {
       const param = {page: state.groupPage, pageSize: state.groupPageSize};
-      const result = await DailyTroubleshootingService.queryGroupsData(param);
+      // const result = await DailyTroubleshootingService.queryGroupsData(param);
+      const result = getDataByPage(param, state.allGroupData);
       // state.groupsOriginalData = result.pageContent;
-      if (state.conditions && state.conditions.plots && state.conditions.plots.length > 0) {
-        const result = state.groupsOriginalData.filter((e: any) => state.conditions.plots.includes(e.plotId));
-        // commit('SET_GROUPS_DATA', result);
-      } else {
-        commit('SET_GROUPS_DATA', result);
-        if (result && result.pageContent && Array.isArray(result.pageContent) && result.pageContent.length > 0) {
-          const item = result.pageContent[0];
-          const activeName = item.plotId + '-' + item.building + '-' + item.unitNumber;
-          dispatch('SetActiveName', activeName);
-        }
+      commit('SET_GROUPS_DATA', result);
+      if (result && Array.isArray(result)) {
+        const item = result[0];
+        const activeName = item.plotId + '-' + item.building + '-' + item.unitNumber;
+        dispatch('SetActiveName', activeName);
       }
     },
     SetGroupPersonData: async ({ dispatch, commit, state }: any, conditions?: DailyQueryConditions) => {

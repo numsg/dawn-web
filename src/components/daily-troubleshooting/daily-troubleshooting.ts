@@ -89,11 +89,13 @@ export class DailyTroubleshootingComponent extends Vue {
     // this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetCommunityBrief);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetAllGroupData);
   }
 
   pullData() {
     // this.$store.dispatch(eventNames.DailyTroubleshooting.SetStatisticsData);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetCommunityBrief);
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetAllGroupData);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions, this.conditions);
   }
 
