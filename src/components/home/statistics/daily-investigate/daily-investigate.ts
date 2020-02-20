@@ -1,7 +1,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import styles from './daily-investigate.module.scss';
 import template from './daily-investigate.html';
-import { ECharts, EChartOption } from 'echarts';
+import { ECharts } from 'echarts';
 import * as echarts from 'echarts';
 
 import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
