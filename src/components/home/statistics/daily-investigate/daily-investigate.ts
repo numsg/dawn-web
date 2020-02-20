@@ -28,6 +28,7 @@ export class DailyInvestigate extends Vue {
       this.initDailyCharts();
       this.getHousingEstate();
     }
+    console.log(this.temp(-7));
   }
 
   async getHousingEstate() {
@@ -48,13 +49,33 @@ export class DailyInvestigate extends Vue {
   // 切换小区显示该小区排查历史
   async changeHousingEstate(val: any) {
     this.setOptions([], [], []);
-    const data = await analysisOutbreakService.queryPlotsRecord(this.districtCode.toString(), val);
-    this.buildOptionsData(val, data);
+    if (val.length > 0) {
+      const data = await analysisOutbreakService.queryPlotsRecord(this.districtCode.toString(), val);
+      this.buildOptionsData(val, data);
+    }
   }
 
   private async initDailyCharts() {
     const lineChartEle: HTMLDivElement = document.querySelector('#staffStatisticsChart') || document.createElement('div');
     this.histogramChart = echarts.init(lineChartEle);
+  }
+  temp(day: any) {
+    var today = new Date();
+    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+    today.setTime(targetday_milliseconds);
+    var tYear = today.getFullYear();
+    var tMonth = today.getMonth();
+    var tDate = today.getDate();
+    tMonth = this.doHandleMonth(tMonth + 1);
+    tDate = this.doHandleMonth(tDate);
+    return tMonth + '月' + tDate + '号';
+  }
+  doHandleMonth(month: any) {
+    var m = month;
+    if (month.toString().length == 1) {
+      m = '0' + month;
+    }
+    return m;
   }
 
   buildOptionsData(plotsids: any, data: any) {
@@ -62,6 +83,9 @@ export class DailyInvestigate extends Vue {
     const legend: any = [];
     const series: any = [];
     const housdata = this.housingEstateData;
+    for (let i = 0; i < 7; i++) {
+      xdata.push(this.temp(-i));
+    }
     plotsids.forEach((p: any, i: any) => {
       const temp = housdata.find((h: any) => h.id === p);
       const colors: any = ['#fe912a', '#e96873', '#5eb8c0', '#5179bc', '#b65b7d', '#fdcd66', '#bac888'];
@@ -79,17 +103,16 @@ export class DailyInvestigate extends Vue {
           ]
         }
       };
-      const ydata: any = [];
+      const ydata: any = [0, 0, 0, 0, 0, 0, 0];
       Object.getOwnPropertyNames(data).forEach(function(key) {
         if (key === p) {
           if (data[key]) {
             legend.push(temp.name);
             data[key].forEach((plotdaily: any) => {
               const index = xdata.findIndex((date: any) => date === plotdaily.date);
-              if (index < 0) {
-                xdata.push(plotdaily.date);
+              if (index >= 0) {
+                ydata[index] = plotdaily.count;
               }
-              ydata.push(plotdaily.count);
             });
           }
         }
