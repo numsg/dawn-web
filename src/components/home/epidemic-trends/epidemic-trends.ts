@@ -223,6 +223,7 @@ export class EpidemicTrends extends Vue {
       },
       yAxis: {
         type: 'value',
+        minInterval: 1,
         axisLine: {
           show: false
         },
