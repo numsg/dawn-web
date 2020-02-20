@@ -8,11 +8,6 @@ declare module 'element-ui/lib/locale/lang/*' {
   export default local;
 }
 
-declare module '@gsafety/whatever/dist/i18n/*' {
-  const local: any;
-  export default local;
-}
-
 declare module 'vuedraggable' {
   const Draggable: any;
   export default Draggable;

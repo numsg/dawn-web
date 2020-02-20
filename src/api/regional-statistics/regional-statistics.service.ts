@@ -1,5 +1,4 @@
 import * as httpClient from '@gsafety/vue-httpclient/dist/httpclient';
-import { verifyArrayEmptyOrUndefined } from '@gsafety/whatever/dist/util';
 import store from '@/store';
 import SessionStorage from '@/utils/session-storage';
 
@@ -40,7 +39,7 @@ class RegionalStatisticsService {
     let data = await httpClient.getPromise(url).catch((err: any) => {
       throw new Error(err);
     });
-    if (verifyArrayEmptyOrUndefined(data)) {
+    if (!Array.isArray(data)) {
       data = [];
     }
     return data;
@@ -52,7 +51,7 @@ class RegionalStatisticsService {
     let data = await httpClient.getPromise(url).catch((err: any) => {
       throw new Error(err);
     });
-    if (verifyArrayEmptyOrUndefined(data)) {
+    if (!Array.isArray(data)) {
       data = [];
     }
     return data;

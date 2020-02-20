@@ -50,7 +50,6 @@ export class EpidemicListComponent extends Vue {
   currentPage: number = 1;
   pageSize: number = 10;
   keyWords: string = '';
-  selectFeverState = '0';
 
   // 当前省疫情数据
   curProEpidemicData: any = {};
@@ -66,6 +65,7 @@ export class EpidemicListComponent extends Vue {
 
   sort: any = { type: 'submitTime', flag: 'desc' };
 
+  selectFeverState = '';
   feverStates = [
     // {
     //   value: '0',

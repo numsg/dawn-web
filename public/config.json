@@ -16,25 +16,6 @@
   "superToken": "2765ffb1-a686-4e71-9381-10d46f16fd72",
   "systemSetId": "337b76d8-742d-4f60-ba95-7e143badc305",
   "superUserName": "super",
-  "remoteServerConfig": {
-    "odataServiceHost": "http://116.62.205.14:30013/OdataService.svc",
-    "normalServiceHost": "http://116.62.205.14:30013/api/v1",
-    "componentPostUrl": "/cells",
-    "componentLoadUrl": "/CellEntitys",
-    "componentDeleteUrl": "/cells/{cellId}",
-    "templateLoadUrl": "CellTemplateEntitys",
-    "templatePostUrl": "/cell-templates",
-    "dependencyData": {
-      "cellTypeLoadUrl": "CellTypeEntity"
-    },
-    "imageUploadUrl": "",
-    "dataSourceUrl": "/data-sources/true",
-    "rulesTypeUrl": "/RuleTypeEntitys?$select=id,name,ruleOutputSources&$top=1000",
-    "rulesUrl": "/rules/rule-types/{ruleTypeId}",
-    "ruleResponseDataUrl": "/rules/rule-types/{ruleTypeId}/true",
-    "dataSourceDetailUrl": "/data-source-data/data-source-id/external/{originalId}/true"
-  },
-  "storageMode": "server",
   "ncovUrl": "http://39.105.209.108:3001/ncov/",
   "communityDataSourceId": "a2e01f0e-6c86-4a41-bcf3-c07c1ffa2f82",
   "diagnosisDataSourceId": "97629e08-cb68-489d-8f62-8c8467358d69",

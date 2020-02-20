@@ -8,7 +8,6 @@ import * as format from 'dateformat';
 import { Getter } from 'vuex-class';
 import SessionStorage from '@/utils/session-storage';
 import moment from 'moment';
-import { verifyArrayEmptyOrUndefined } from '@gsafety/whatever/dist/util';
 
 @Component({
   template: epidemicInfoFormHtml,
