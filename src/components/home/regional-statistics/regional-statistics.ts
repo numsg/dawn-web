@@ -4,7 +4,6 @@ import template from './regional-statistics.html';
 import { ECharts, EChartOption } from 'echarts';
 import * as echarts from 'echarts';
 import { regionalStatisticsService } from '../../../api/regional-statistics/regional-statistics.service';
-import { verifyArrayEmptyOrUndefined } from '@gsafety/whatever/dist/util';
 import _ from 'lodash';
 
 @Component({
@@ -46,7 +45,7 @@ export class RegionalStatistics extends Vue {
       let mapDistributionDatas = await regionalStatisticsService.loadMapDistributionDatas();
       const tempDatas1: Array<any> = [];
       const tempDatas2: Array<any> = [];
-      if (!verifyArrayEmptyOrUndefined(data.features)) {
+      if (Array.isArray(data.features)) {
         data.features.forEach((element: any) => {
           const townData = {
             name: element.properties.name,
@@ -54,7 +53,7 @@ export class RegionalStatistics extends Vue {
           };
           tempDatas1.push(townData);
         });
-        if (!verifyArrayEmptyOrUndefined(mapDistributionDatas)) {
+        if (Array.isArray(mapDistributionDatas)) {
           mapDistributionDatas.forEach((element: any) => {
             const townData = {
               name: element.name + '道',

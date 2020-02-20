@@ -17,6 +17,7 @@
       <el-form-item label="选择时间段" prop="date" class="select-item date-picker">
         <el-date-picker
             class="picker"
+            :clearable="false"
             :start-placeholder="$t('system_log.start_time')"
             :end-placeholder="$t('system_log.end_time')"
             v-model="dateRange"

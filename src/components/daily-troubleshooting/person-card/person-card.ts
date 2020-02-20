@@ -133,6 +133,7 @@ export class PersonCard extends Vue {
   created() {
     // this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupsData);
     this.$store.dispatch(eventNames.DailyTroubleshooting.SetConditions);
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetAllGroupData);
   }
 
   mounted() {

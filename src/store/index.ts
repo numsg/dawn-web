@@ -6,10 +6,6 @@ import getters from '@/store/getters';
 import app from './modules/app';
 import login from './modules/login';
 import eventType from './modules/event-type';
-import { whatever } from '@gsafety/whatever/dist/store/modules/whatever';
-import { dependencyData } from '@gsafety/whatever/dist/store/modules/dependency-data';
-import { templateStore } from '@gsafety/whatever/dist/store/modules/templates';
-import { systemConfig } from '@gsafety/whatever/dist/store/modules/system-config';
 import { PMSComponentManager } from './modules/component-manage';
 import layout from './modules/layout';
 import systemSet from './modules/system-set';
@@ -25,10 +21,6 @@ Vue.use(Vuex);
 // const isDev = process.env.NODE_ENV === 'development';
 const store = new Vuex.Store({
   modules: {
-    whatever,
-    systemConfig,
-    templateStore,
-    dependencyData,
     PMSComponentManager,
     eventType,
     app,
@@ -41,7 +33,7 @@ const store = new Vuex.Store({
     outbreakDuty,
     dailyTroubleshooting,
     communityAssociation,
-    troubleshootingHistory,
+    troubleshootingHistory
   },
   getters
   // plugins: isDev ? [createLogger({})] : []

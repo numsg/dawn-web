@@ -21,7 +21,6 @@
     "@gsafety/cad-gutil": "^2.0.3",
     "@gsafety/odata-client": "^1.0.0-RC",
     "@gsafety/vue-httpclient": "^2.0.5",
-    "@gsafety/whatever": "^1.0.15-RC2",
     "axios": "^0.18.0",
     "babel-core": "^6.26.3",
     "echarts": "^4.2.1",

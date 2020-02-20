@@ -6,7 +6,7 @@ import odataClient from '@gsafety/odata-client/dist';
 import moment from 'moment';
 import mapperManagerService from '@/common/odata/mapper-manager.service';
 import SessionStorage from '@/utils/session-storage';
-import { isJsonString } from '@gsafety/whatever/dist/util';
+import { isJsonString } from '@/common/utils/utils';
 
 export default {
   /**

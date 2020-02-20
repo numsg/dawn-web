@@ -2,15 +2,10 @@ import { Vue, Component } from 'vue-property-decorator';
 import HomeStyle from './home.module.scss';
 import HomeHtml from './home.html';
 import Draggable from 'vuedraggable';
-import { generateUUID } from '@gsafety/whatever/dist/util';
-import { PlanAppliedComponent } from '@/components/home/plan-applied/plan-applied';
-import { RecentWorkListComponent } from '@/components/home/recent-work-list/recent-work-list';
-import { NavigationGuidanceComponent } from '@/components/home/navigation-guidance/navigation-guidance';
-import { PlanEntranceComponent } from '@/components/home/plan-entrance/plan-entrance';
 
 import TWEEN from 'three-tween';
 import WebglService from './webgl/webgl.service';
-import { Getter, Action } from 'vuex-class';
+import { Getter } from 'vuex-class';
 import Plan from '@/models/plan-manage/plan';
 import eventNames from '@/common/events/store-events';
 import homePageService from '@/api/home-page/home-page.service';
@@ -21,10 +16,10 @@ import mapperManagerService from '@/common/odata/mapper-manager.service';
 import TypeData from '@/models/home/type-data';
 import PriRouter from '@/utils/pri-router';
 import notifyUtil from '@/common/utils/notifyUtil';
-import { ConfigHelper } from '@gsafety/whatever/dist/util/config-helper';
 import homeStyle from './home.module.scss';
 import homeBlackStyle from './home.black.module.scss';
 import i18n from '@/i18n';
+import { getUuid32 } from '@gsafety/cad-gutil/dist/utilhelper';
 // import { EpidemicDynamicComponent } from './epidemic-dynamic/epidemic-dynamic';
 import { RegionalStatistics } from './regional-statistics/regional-statistics';
 import { EpidemicTrends } from './epidemic-trends/epidemic-trends';
@@ -50,16 +45,16 @@ import { EpidemicDistribution } from './epidemic-distribution/epidemic-distribut
     DailyInvestigate,
     HebdomadDiagonsis,
     EpidemicDistribution
-  },
-  beforeRouteLeave(to: any, from: any, next: any) {
-    const el: any = this;
-    el.toRouter = to;
-    if (el.editMode) {
-      el.routerLeaveDialogVisible = true;
-    } else {
-      next();
-    }
   }
+  // beforeRouteLeave(to: any, next: any) {
+  //   const el: any = this;
+  //   el.toRouter = to;
+  //   if (el.editMode) {
+  //     el.routerLeaveDialogVisible = true;
+  //   } else {
+  //     next();
+  //   }
+  // }
 })
 export class HomeComponent extends Vue {
   composingDialog: boolean = false; // 编辑排版弹窗
@@ -67,12 +62,12 @@ export class HomeComponent extends Vue {
 
   types = [
     {
-      id: generateUUID(),
+      id: getUuid32(),
       typeName: 'one',
       desc: i18n.t('home.layout_1'),
       items: [
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 1,
           flex: 1,
           span: 10,
@@ -81,19 +76,19 @@ export class HomeComponent extends Vue {
       ]
     },
     {
-      id: generateUUID(),
+      id: getUuid32(),
       typeName: 'two',
       desc: i18n.t('home.layout_2'),
       items: [
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 1,
           flex: 1,
           span: 5,
           dataList: []
         },
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 2,
           flex: 1,
           span: 5,
@@ -102,19 +97,19 @@ export class HomeComponent extends Vue {
       ]
     },
     {
-      id: generateUUID(),
+      id: getUuid32(),
       typeName: 'three',
       desc: i18n.t('home.layout_3'),
       items: [
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 1,
           flex: 3,
           span: 3,
           dataList: []
         },
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 2,
           flex: 7,
           span: 7,
@@ -123,19 +118,19 @@ export class HomeComponent extends Vue {
       ]
     },
     {
-      id: generateUUID(),
+      id: getUuid32(),
       typeName: 'four',
       desc: i18n.t('home.layout_4'),
       items: [
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 1,
           flex: 7,
           span: 7,
           dataList: []
         },
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 2,
           flex: 3,
           span: 3,
@@ -144,26 +139,26 @@ export class HomeComponent extends Vue {
       ]
     },
     {
-      id: generateUUID(),
+      id: getUuid32(),
       typeName: 'five',
       desc: i18n.t('home.layout_5'),
       items: [
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 1,
           flex: 1,
           span: 3,
           dataList: []
         },
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 2,
           flex: 1,
           span: 3,
           dataList: []
         },
         {
-          id: generateUUID(),
+          id: getUuid32(),
           index: 3,
           flex: 1,
           span: 3,
@@ -275,13 +270,6 @@ export class HomeComponent extends Vue {
   get userInfo(): any {
     if (SessionStorage.get('userInfo')) {
       return SessionStorage.get('userInfo');
-    }
-  }
-
-  async beforeCreate() {
-    const result: any = await ConfigHelper.load();
-    if (result) {
-      this.$store.dispatch('ON_APP_INITIAL', result.data ? result.data : result);
     }
   }
 
@@ -415,9 +403,9 @@ export class HomeComponent extends Vue {
     this.composingDialog = false;
   }
 
-  handleAdd(arg: any, args: any) {}
+  handleAdd() {}
 
-  handleRemoved(arg: any, args: any) {}
+  handleRemoved() {}
 
   handleModuleAdd(component: any) {
     let item = this.currentType.items[0];
@@ -500,15 +488,15 @@ export class HomeComponent extends Vue {
     TWEEN.removeAll();
   }
 
-  handleChoose(evt: any, data: any, args: any) {}
+  handleChoose() {}
 
-  handleMoveCallback(evt: any, data: any) {}
+  handleMoveCallback() {}
 
-  handleStartDrag(e: any) {
+  handleStartDrag() {
     this.drag = true;
   }
 
-  handleEndDrag(e: any) {
+  handleEndDrag() {
     this.drag = false;
   }
 

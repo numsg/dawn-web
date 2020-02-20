@@ -50,10 +50,29 @@ export class EpidemicDistribution extends Vue {
 
   analysisObject: any = '';
 
+  // 本社区小区
+  @Getter('baseData_communities')
+  communities!: any[];
+
+  // 性别
+  @Getter('baseData_genderClassification')
+  genderClassification!: any[];
+
+  seriesData: {id: string, value: number, name: string}[] = [];
+
+  colors = ['#bac888', '#5eb8c0', '#5179bc', '#b65b7d', '#e96873', '#fe912a', '#fdcd66'];
+
   created() {
-      if (Array.isArray(this.medicalSituations) && this.medicalSituations.length > 0) {
-        this.analysisObject = this.medicalSituations[0].id;
-      }
+
+    const startTime = moment()
+      .startOf('day')
+      .subtract(1, 'week');
+    const endTime = moment().endOf('day');
+    this.dateRange = [startTime.format('YYYY-MM-DD HH:mm:ss'), endTime.format('YYYY-MM-DD HH:mm:ss')];
+    if (Array.isArray(this.medicalSituations) && this.medicalSituations.length > 0) {
+      this.analysisObject = this.medicalSituations[0].id;
+      this.queryData();
+    }
 
     const self = this;
     this.pickerOptions = {
@@ -95,16 +114,17 @@ export class EpidemicDistribution extends Vue {
 
   @Watch('medicalSituations')
   onMedicalSituationsLoad(val: any) {
-      if (Array.isArray(val) && val.length > 0) {
-          this.analysisObject = val[0].id;
-      }
+    if (Array.isArray(val) && val.length > 0) {
+      this.analysisObject = val[0].id;
+      this.queryData();
+    }
   }
 
   async mounted() {
     const doughnut = document.querySelector('#doughnut') as HTMLDivElement;
     this.chart = echarts.init(doughnut);
-    this.setOption();
-    this.addEventListener();
+    // this.queryData();
+    // this.setOption();
   }
 
   setOption() {
@@ -117,7 +137,7 @@ export class EpidemicDistribution extends Vue {
         orient: 'vertical',
         right: 10,
         bottom: 10,
-        data: ['武昌大道', '环卫所', '西郊路', '西市街'],
+        data: this.seriesData.map(e => e.name),
         tooltip: {
           show: true
         },
@@ -170,36 +190,23 @@ export class EpidemicDistribution extends Vue {
           radius: ['40%', '60%'],
           center: ['50%', '50%'],
           selectedMode: true,
-          data: [
-            { name: '武昌大道', value: 2 },
-            { name: '环卫所', value: 3 },
-            { name: '西郊路', value: 2 },
-            { name: '西市街', value: 3 }
-          ],
+          data: this.seriesData,
           itemStyle: {
             emphasis: {
               shadowBlur: 10,
               shadowOffsetX: 0,
               shadowColor: `rgba(0, 0, 0, 0.5)`
+            },
+            normal: {
+              color: (params: any) => {
+                return this.colors[params.dataIndex];
+              }
             }
-            // normal: {
-            //   color: (params: any) => {
-            //     const data = this.statisticsData[params.dataIndex];
-            //     return data.strokeStyle;
-            //   }
-            // }
           }
         }
       ]
     };
     this.chart.setOption(this.option);
-  }
-
-  /**
-   * 监听事件
-   */
-  addEventListener() {
-    this.chart.on('pieselectchanged', (evt: any) => {});
   }
 
   datePickerClick(picker: any, subtract: any) {
@@ -211,39 +218,68 @@ export class EpidemicDistribution extends Vue {
     this.dateRange = [startTime.format('YYYY-MM-DD HH:mm:ss'), endTime.format('YYYY-MM-DD HH:mm:ss')];
   }
 
-    /**
+  /**
    * 清楚时间时
    * @param timeZone
    */
   onTimeZoneChange(timeZone: any) {
-    // this.queryData();
+    this.queryData();
   }
 
   /**
    * 分析对象改变
    */
   analysisObjectChange() {
-
+    this.queryData();
   }
 
   /**
    * 分析维度改变
    */
   dimensionChange() {
-
+    this.queryData();
   }
 
   queryData() {
     const multiTenancy = SessionStorage.get('district');
     DailyTroubleshootingService.getDistributionStatistics({
-        medicalConditionId: this.analysisObject,
-        startTime: this.dateRange[0],
-        endTime: this.dateRange[1],
-        multiTenancy: multiTenancy.toString(),
-        type: this.dimension
+      medicalConditionId: this.analysisObject,
+      startTime: this.dateRange[0],
+      endTime: this.dateRange[1],
+      multiTenancy: multiTenancy.toString(),
+      type: this.dimension
     }).then(res => {
-        console.log('---queryData---');
-        console.log(res);
+      this.buildData(res);
+      console.log('---queryData---');
+      console.log(res);
     });
+  }
+
+  buildData(result: { id: string; value: number }[]) {
+    this.seriesData = [];
+    result.forEach(item => {
+      const data = {} as { id: string; value: number; name: string };
+      switch (this.dimension) {
+        case StatisticalDimension.plot:
+          data.id = item.id;
+          const community = this.communities.find(e => e.id === item.id);
+          data.name = community.name;
+          data.value = item.value;
+          break;
+        case StatisticalDimension.gender:
+          data.id = item.id;
+          const gender = this.genderClassification.find(e => e.id === item.id);
+          data.name = gender.name;
+          data.value = item.value;
+          break;
+        case StatisticalDimension.age:
+          data.id = item.id;
+          data.name = item.id + '岁';
+          data.value = item.value;
+          break;
+      }
+      this.seriesData.push(data);
+    });
+    this.setOption();
   }
 }

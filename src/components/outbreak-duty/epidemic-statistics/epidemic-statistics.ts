@@ -6,7 +6,6 @@ import * as echarts from 'echarts';
 import { ECharts, EChartOption } from 'echarts';
 import moment from 'moment';
 import { Getter } from 'vuex-class';
-import { generateUUID } from '@gsafety/whatever/dist/util';
 import EpidemicDiagram from '../epidemic-diagram/epidemic-diagram';
 import statisticsStyleBlackStyle from './epidemic-statistics.black.module.scss';
 import transformToColor from '@/common/filters/colorformat';

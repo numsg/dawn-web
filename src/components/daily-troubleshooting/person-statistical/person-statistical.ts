@@ -7,7 +7,6 @@ import * as echarts from 'echarts';
 import { ECharts, EChartOption } from 'echarts';
 import moment from 'moment';
 import { Getter } from 'vuex-class';
-import { generateUUID } from '@gsafety/whatever/dist/util';
 import EpidemicDiagram from '../person-diagram/person-diagram';
 import transformToColor from '@/common/filters/colorformat';
 
@@ -15,9 +14,7 @@ import transformToColor from '@/common/filters/colorformat';
   name: 'epidemic-statistics',
   template: Html,
   style: styles,
-  themes: [
-    { name: 'white', style: styles },
-  ],
+  themes: [{ name: 'white', style: styles }],
   components: {
     'epidemic-diagram': EpidemicDiagram
   }
@@ -100,7 +97,7 @@ export class PersonStatistical extends Vue {
             return value.slice(0, 8) + '...';
           }
           return value;
-        },
+        }
       },
       series: [
         {

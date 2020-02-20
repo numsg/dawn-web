@@ -1,4 +1,3 @@
-import { generateUUID } from '@gsafety/whatever/dist/util';
 import * as R from 'ramda';
 
 export const arrayToTree = (data: any[], parentId?: string, key = 'id') => {
@@ -105,4 +104,15 @@ export const debounce = (fn: Function, waitTime: number) => {
     timeout = setTimeout(fn, waitTime);
   };
   func();
+};
+
+export const isJsonString = (val: any) => {
+  let flag = false;
+  try {
+    flag = val && typeof JSON.parse(val) === 'object';
+  } catch (error) {
+    flag = false;
+  } finally {
+    return flag;
+  }
 };

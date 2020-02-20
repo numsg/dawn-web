@@ -20,14 +20,10 @@ import PortalVue from 'portal-vue';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import 'vue-orgchart/dist/style.min.css';
-import { ConfigHelper } from '@gsafety/whatever/dist/util/config-helper';
-
-import magicAnnotationDirective from '@gsafety/whatever/dist/directives/magic-annotation.directive';
 
 NProgress.configure({ ease: 'ease', speed: 1000 });
 
 Vue.use(infiniteScroll);
-Vue.directive('magic-annotation', magicAnnotationDirective);
 
 config(store).then(() => {
   Vue.config.productionTip = false;
@@ -35,7 +31,6 @@ config(store).then(() => {
   if (window) {
     window.onerror = onError;
   }
-  ConfigHelper.use(store.getters.configs);
   Vue.use(PortalVue);
   Vue.use(ElementUI, { size: 'small' });
   Vue.use(VueTsCss);
