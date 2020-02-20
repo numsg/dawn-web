@@ -47,7 +47,7 @@ export class DailyInvestigate extends Vue {
   }
   // 切换小区显示该小区排查历史
   async changeHousingEstate(val: any) {
-    this.histogramChart.clear();
+    this.setOptions([], [], []);
     const data = await analysisOutbreakService.queryPlotsRecord(this.districtCode.toString(), val);
     this.buildOptionsData(val, data);
   }
