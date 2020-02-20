@@ -45,16 +45,16 @@ import { EpidemicDistribution } from './epidemic-distribution/epidemic-distribut
     DailyInvestigate,
     HebdomadDiagonsis,
     EpidemicDistribution
-  },
-  beforeRouteLeave(to: any, next: any) {
-    const el: any = this;
-    el.toRouter = to;
-    if (el.editMode) {
-      el.routerLeaveDialogVisible = true;
-    } else {
-      next();
-    }
   }
+  // beforeRouteLeave(to: any, next: any) {
+  //   const el: any = this;
+  //   el.toRouter = to;
+  //   if (el.editMode) {
+  //     el.routerLeaveDialogVisible = true;
+  //   } else {
+  //     next();
+  //   }
+  // }
 })
 export class HomeComponent extends Vue {
   composingDialog: boolean = false; // 编辑排版弹窗
