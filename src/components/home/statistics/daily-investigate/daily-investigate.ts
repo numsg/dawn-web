@@ -61,12 +61,16 @@ export class DailyInvestigate extends Vue {
     const legend: any = [];
     const series: any = [];
     const housdata = this.housingEstateData;
-    plotsids.forEach((p: any) => {
+    plotsids.forEach((p: any, i: any) => {
       const temp = housdata.find((h: any) => h.id === p);
+      const colors: any = ['#fe912a', '#e96873', '#5eb8c0', '#5179bc', '#b65b7d', '#fdcd66', '#bac888'];
       const obj = {
         name: temp.name,
         type: 'bar',
         data: [],
+        itemStyle: {
+          color: colors[i]
+        },
         markPoint: {
           data: [
             { type: 'max', name: '最大值' },
