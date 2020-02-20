@@ -24,7 +24,7 @@
         </div>
         <div class="filter-options">
           <!-- <span>按发热情况过滤</span> -->
-          <el-select v-model="selectFeverState" placeholder="请选择发热情况">
+          <el-select v-model="selectFeverState" clearable placeholder="请选择发热情况">
             <el-option v-for="(item, index) in feverStates" :key="index" :label="item.label" :value="item.value"> </el-option>
           </el-select>
         </div>
