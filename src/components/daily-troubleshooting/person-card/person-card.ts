@@ -156,6 +156,7 @@ export class PersonCard extends Vue {
   handleCardClick() {}
 
   editSuccess() {
+    this.$store.dispatch(eventNames.DailyTroubleshooting.SetCommunityBrief);
     if (this.isShowgGroup) {
       this.$store.dispatch(eventNames.DailyTroubleshooting.SetGroupPersonData);
     } else {

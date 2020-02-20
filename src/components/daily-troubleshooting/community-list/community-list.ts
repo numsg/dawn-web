@@ -44,6 +44,10 @@ export class CommunityList extends Vue {
     @Watch('communityBrief')
     onCommunityBriefChange() {
       this.plotsBrief = JSON.parse(JSON.stringify(this.communityBrief.plotBriefModels));
+      this.plotsBrief.forEach(data => {
+        data.troubleshootRate = (data.plotTroubleshootTotal === 0 || data.plotDailyTroubleshootTotal === 0) ? '0.00%' :
+        Number((data.plotDailyTroubleshootTotal / data.plotTroubleshootTotal).toFixed(4)) * 100 + '%';
+      });
       this.sort(this.checkType);
     }
 
