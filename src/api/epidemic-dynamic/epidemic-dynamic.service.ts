@@ -151,6 +151,7 @@ export default {
         }
       }
     }
+
     const oorder = {
       type: conditions.sort ? conditions.sort.type : 'submitTime',
       flag: conditions.sort ? conditions.sort.flag : 'desc'
@@ -162,6 +163,11 @@ export default {
     } else {
       // tslint:disable-next-line:quotemark
       filterStr = "(multiTenancy eq '" + multiTenancy + "')";
+    }
+    if (conditions.feverState && conditions.feverState !== '0') {
+      const feverState = conditions.feverState === '1' ? true : false;
+      // tslint:disable-next-line:quotemark
+      filterStr = filterStr + ' and (temperature eq ' + feverState + ')';
     }
     return q
       .skip(conditions.count * conditions.page)

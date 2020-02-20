@@ -178,7 +178,7 @@ export class EpidemicStatisticsComponent extends Vue {
           },
           // radius: '60%',
           radius: ['40%', '60%'],
-          center: ['50%', '50%'],
+          center: ['50%', '40%'],
           data: this.epidemicStaticalData,
           selectedMode: true,
           itemStyle: {

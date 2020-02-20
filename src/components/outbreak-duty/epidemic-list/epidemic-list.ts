@@ -43,13 +43,14 @@ export class EpidemicListComponent extends Vue {
   // 就医情况
   @Getter('baseData_medicalSituations')
   medicalSituations!: any[];
+  selectionMedicalSituations = [];
   // 特殊情况
   @Getter('baseData_specialSituations')
   specialSituations!: any[];
-  selectionMedicalSituations = [];
   currentPage: number = 1;
   pageSize: number = 10;
   keyWords: string = '';
+  selectFeverState = '0';
 
   // 当前省疫情数据
   curProEpidemicData: any = {};
@@ -57,12 +58,28 @@ export class EpidemicListComponent extends Vue {
   editEpidemicPerson: EpidemicPerson = new EpidemicPerson();
   currentMedicalSituation = '';
   showChangeModal = false;
+  startResetData = false;
   /**
    * 搜索防抖
    */
   debounceSearch = debounce(this.handleSearch, 500);
 
   sort: any = { type: 'submitTime', flag: 'desc' };
+
+  feverStates = [
+    // {
+    //   value: '0',
+    //   label: '所有发热情况'
+    // },
+    {
+      value: '1',
+      label: '发热'
+    },
+    {
+      value: '2',
+      label: '正常'
+    }
+  ];
 
   formTitle: string = '疫情人员信息登记';
   canClose: boolean = true;
@@ -71,6 +88,11 @@ export class EpidemicListComponent extends Vue {
     default: 'table'
   })
   displayMode!: string;
+
+  async mounted() {
+    this.queryEpidemicPersons();
+    this.personDataTable = this.$refs['personDataTable'];
+  }
 
   @Watch('epidemicPersonList', { deep: true })
   handlePersonListChange(val: any) {
@@ -90,6 +112,7 @@ export class EpidemicListComponent extends Vue {
         if (focusData && focusData['id'] && focusData.id !== '') {
           this.handleClickRow(focusData);
         }
+        this.startResetData = false;
       }, 500);
     }
   }
@@ -101,11 +124,6 @@ export class EpidemicListComponent extends Vue {
         return d.id === person.specialSituation;
       }).length > 0
     );
-  }
-
-  async mounted() {
-    this.queryEpidemicPersons();
-    this.personDataTable = this.$refs['personDataTable'];
   }
 
   handleCreate(val: boolean) {
@@ -142,15 +160,27 @@ export class EpidemicListComponent extends Vue {
 
   @Watch('selectionCommunities')
   handleSelectionCommunitiesChange(val: any) {
-    this.handleSearch();
+    if (!this.startResetData) {
+      this.handleSearch();
+    }
   }
   @Watch('selectionDiagnosisSituation')
   handleSelectionDiagnosisSituationChange(val: any) {
-    this.handleSearch();
+    if (!this.startResetData) {
+      this.handleSearch();
+    }
   }
   @Watch('selectionMedicalSituations')
-  handleselectionMedicalSituationsChange(val: any) {
-    this.handleSearch();
+  handleSelectionMedicalSituationsChange(val: any) {
+    if (!this.startResetData) {
+      this.handleSearch();
+    }
+  }
+  @Watch('selectFeverState')
+  handleSelectFeverStateChange(val: boolean) {
+    if (!this.startResetData) {
+      this.handleSearch();
+    }
   }
 
   handleSearch() {
@@ -161,6 +191,7 @@ export class EpidemicListComponent extends Vue {
       villageIds: this.selectionCommunities,
       confirmedDiagnosis: this.selectionDiagnosisSituation,
       medicalCondition: this.selectionMedicalSituations,
+      feverState: this.selectFeverState,
       sort: this.sort
     });
   }
@@ -237,9 +268,11 @@ export class EpidemicListComponent extends Vue {
   }
 
   resetData() {
+    this.startResetData = true;
     this.keyWords = '';
     this.currentPage = 1;
     this.pageSize = 10;
+    this.selectFeverState = '';
     this.selectionCommunities = [];
     this.selectionDiagnosisSituation = [];
     this.selectionMedicalSituations = [];
