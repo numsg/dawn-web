@@ -197,7 +197,7 @@ export class TroubleshootingInfoForm extends Vue {
         this.troublePerson.id = getUuid32();
         this.convertTemperature();
         this.troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
-        this.troublePerson.createTime = moment(this.troublePerson.createTime).format('YYYY-MM-DD HH:mm:ss');
+        this.troublePerson.createTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
         this.troublePerson.multiTenancy = SessionStorage.get('district');
         this.troublePerson.districtCode = SessionStorage.get('district-all');
         this.troublePerson.personBase.multiTenancy = SessionStorage.get('district');
@@ -237,8 +237,8 @@ export class TroubleshootingInfoForm extends Vue {
         this.convertTemperature();
         const troublePerson = JSON.parse( JSON.stringify(this.troublePerson) );
         troublePerson.otherSymptoms = this.otherSymptomsList.join(',');
-        troublePerson.createTime = dataFormat.formatTime(this.troublePerson.createTime);
-        troublePerson.createDate = dataFormat.formatTime(this.troublePerson.createDate);
+        troublePerson.createTime = moment().format('YYYY-MM-DD HH:mm:ss');
+        troublePerson.createDate = moment().format('YYYY-MM-DD HH:mm:ss');
         // DailyTroubleshootingService.editDailyTroubleshooting(troublePerson)
         DailyTroubleshootingService.updateTroubleshootingRecord(troublePerson)
           .then(res => {
