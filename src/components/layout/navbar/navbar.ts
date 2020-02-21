@@ -83,8 +83,6 @@ export class NavbarComponent extends Vue {
     await this.$store.dispatch(eventNames.baseData.SetOtherSymptoms);
     await this.$store.dispatch(eventNames.baseData.SetMedicalOpinions);
 
-    // await this.$store.dispatch(eventNames.EventTypes.LoadAllEventTypes);
-
     await this.$store.dispatch(eventNames.systemSet.SystemSetData);
   }
 
@@ -94,15 +92,6 @@ export class NavbarComponent extends Vue {
       this.moduleTitle.forEach((e: any) => {
         if (Array.isArray(e.children) && e.children.length > 0) {
           this.handleMenuSort(e.children);
-          // e.children.sort((a: any, b: any) => {
-          //   if (a.menuOrder < b.menuOrder) {
-          //     return -1;
-          //   } else if (a.menuOrder === b.menuOrder) {
-          //     return 0;
-          //   } else {
-          //     return 1;
-          //   }
-          // });
         }
       });
     }
@@ -160,15 +149,6 @@ export class NavbarComponent extends Vue {
         });
       }
     });
-    // result.sort((a: any, b: any) => {
-    //   if (a.menuOrder < b.menuOrder) {
-    //     return -1;
-    //   } else if (a.menuOrder === b.menuOrder) {
-    //     return 0;
-    //   } else {
-    //     return 1;
-    //   }
-    // });
     this.handleMenuSort(result);
     return result;
   }

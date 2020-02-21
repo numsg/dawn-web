@@ -275,11 +275,6 @@ export class LoginComponent extends Vue {
     superRole = this.roles.filter((e: any) => e.name === 'SuperManager');
     roleManageService.loginRoleCodeQueryMenuNodes(superRole[0].code).then(async result => {
       if (Array.isArray(result) && result.length > 0) {
-        // const privilegeChilds = GenerateTree.getChildren(result, []);
-        // const unPriAss: any =  this.filterIsAss(privilegeChilds);
-        // this.rolesPris = unPriAss;
-        // sessionStorage.set('privilegeChilds', unPriAss);
-
         this.filterIsAss(result);
         await this.getRolePri(superRole[0].code);
         store.commit('SET_ROUTERARR', this.$router.options.routes);
@@ -298,11 +293,6 @@ export class LoginComponent extends Vue {
     if (this.roles.length === 1) {
       roleManageService.loginRoleCodeQueryMenuNodes(this.roles[0].code).then(async result => {
         if (Array.isArray(result) && result.length > 0) {
-
-          // const privilegeChilds = GenerateTree.getChildren(result, []);
-          // const unPriAss: any =  this.filterIsAss(privilegeChilds);
-          // this.rolesPris = unPriAss;
-          // sessionStorage.set('privilegeChilds', unPriAss);
 
           this.filterIsAss(result);
 
