@@ -20,7 +20,6 @@ import { treeToArray } from '@/common/utils/utils';
 import eventNames from '@/common/events/store-events';
 import ruleTypeService from '@/api/base-data-define/rule-type.service';
 import LimitMessage from '@/utils/message-limit';
-import ruleService from '@/api/rule-library-manage/rule-library-manage.service';
 import levelBlackStyle from './level-define-content.black.module.scss';
 import i18n from '@/i18n';
 import store from '@/store';
@@ -276,33 +275,6 @@ export class LevelDefinecontentComponent extends Vue {
   }
 
   /**
-   * 数据源数据是否被规则使用
-   * @param dataSource
-   * @param callBack
-   */
-  async isRuleUse(data: any) {
-    const ruleConditions: any = await ruleService.queryRuleConAssData();
-    const ruleDatas: any = await ruleService.queryRulesAssData();
-    let str = '';
-    ruleConditions.forEach((element: any) => {
-      str += element.dSourceDataId;
-    });
-    ruleDatas.forEach((element: any) => {
-      str += element.conditionSourceIds;
-      str += element.resultSourceId;
-      str += element.resultIds;
-    });
-    const ids: any = this.treeNodeIds(data, []);
-    let result = false;
-    ids.forEach((id: any) => {
-      if (str.indexOf(id) !== -1) {
-        result = true;
-      }
-    });
-    return result;
-  }
-
-  /**
    *1. 获取节点下所有的ids
    *
    * @param {*} node
@@ -392,12 +364,6 @@ export class LevelDefinecontentComponent extends Vue {
 
   // delete tree node
   async onDeleteLeveTree(data: any, node: any) {
-    const isUse = await this.isRuleUse(data);
-    if (isUse) {
-      // LimitMessage.showMessage({ type: 'warning', message: this.$tc('data_source.data_is_associated_ban') });
-      notifyUtil.warning(this.$tc('data_source.data_is_associated_ban'));
-      return;
-    }
     this.deleteDDataSource(data, (res: any) => {
       if (res) {
         this.$store.dispatch(eventNames.SystemLog.HandleDataDelete, {
