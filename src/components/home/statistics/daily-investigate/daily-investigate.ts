@@ -138,6 +138,12 @@ export class DailyInvestigate extends Vue {
         data: legend,
         right: 15
       },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
       toolbox: {
         show: true
       },
