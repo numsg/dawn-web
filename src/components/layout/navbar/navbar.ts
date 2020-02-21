@@ -10,6 +10,7 @@ import eventNames from '@/common/events/store-events';
 import { treeToArray } from '@/common/utils/utils';
 
 import navbarBlackStyle from './navbar.black.module.scss';
+import SessionStorage from '@/utils/session-storage';
 
 @Component({
   template: require('./navbar.html'),
@@ -105,6 +106,7 @@ export class NavbarComponent extends Vue {
     this.stairMenu = active.id;
     const userInfo: any = localStorage.getItem('userInfo');
     store.commit('SET_USER_INFO', JSON.parse(userInfo));
+    window.addEventListener('beforeunload', this.unloadHandle, false);
   }
 
   @Watch('$route')
@@ -216,5 +218,9 @@ export class NavbarComponent extends Vue {
         return 1;
       }
     });
+  }
+
+  unloadHandle() {
+    SessionStorage.remove('routerElementArr');
   }
 }
