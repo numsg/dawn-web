@@ -67,18 +67,18 @@ export class DailyInvestigate extends Vue {
     this.histogramChart = echarts.init(lineChartEle);
   }
   getdays(day: any) {
-    var today = new Date();
-    var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+    const today = new Date();
+    const targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
     today.setTime(targetday_milliseconds);
-    var tMonth = today.getMonth();
-    var tDate = today.getDate();
+    let tMonth = today.getMonth();
+    let tDate = today.getDate();
     tMonth = this.doHandleMonth(tMonth + 1);
     tDate = this.doHandleMonth(tDate);
     return tMonth + '月' + tDate + '号';
   }
   doHandleMonth(month: any) {
-    var m = month;
-    if (month.toString().length == 1) {
+    let m = month;
+    if (month.toString().length === 1) {
       m = '0' + month;
     }
     return m;
@@ -120,7 +120,7 @@ export class DailyInvestigate extends Vue {
           }
         }
       });
-      obj.data = ydata.reverse();
+      obj.data = ydata;
       series.push(obj);
     });
     this.setOptions(this.weekDays, series, legend);
