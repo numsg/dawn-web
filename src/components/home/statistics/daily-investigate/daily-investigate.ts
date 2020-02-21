@@ -22,13 +22,20 @@ export class DailyInvestigate extends Vue {
   housingEstateData: Array<any> = [];
   currenHousingEstate: any = [];
   districtCode: any = '';
+  weekDays: any = [];
+
   mounted() {
     this.districtCode = SessionStorage.get('district');
+    const xdata: any = [];
+    for (let i = 0; i < 7; i++) {
+      xdata.push(this.getdays(-i));
+    }
+    this.weekDays = xdata.reverse();
+    this.initDailyCharts();
+    this.setOptions(this.weekDays, [], []);
     if (this.districtCode) {
-      this.initDailyCharts();
       this.getHousingEstate();
     }
-    console.log(this.temp(-7));
   }
 
   async getHousingEstate() {
@@ -48,7 +55,7 @@ export class DailyInvestigate extends Vue {
   }
   // 切换小区显示该小区排查历史
   async changeHousingEstate(val: any) {
-    this.setOptions([], [], []);
+    this.setOptions(this.weekDays, [], []);
     if (val.length > 0) {
       const data = await analysisOutbreakService.queryPlotsRecord(this.districtCode.toString(), val);
       this.buildOptionsData(val, data);
@@ -59,11 +66,10 @@ export class DailyInvestigate extends Vue {
     const lineChartEle: HTMLDivElement = document.querySelector('#staffStatisticsChart') || document.createElement('div');
     this.histogramChart = echarts.init(lineChartEle);
   }
-  temp(day: any) {
+  getdays(day: any) {
     var today = new Date();
     var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
     today.setTime(targetday_milliseconds);
-    var tYear = today.getFullYear();
     var tMonth = today.getMonth();
     var tDate = today.getDate();
     tMonth = this.doHandleMonth(tMonth + 1);
@@ -79,13 +85,9 @@ export class DailyInvestigate extends Vue {
   }
 
   buildOptionsData(plotsids: any, data: any) {
-    const xdata: any = [];
     const legend: any = [];
     const series: any = [];
     const housdata = this.housingEstateData;
-    for (let i = 0; i < 7; i++) {
-      xdata.push(this.temp(-i));
-    }
     plotsids.forEach((p: any, i: any) => {
       const temp = housdata.find((h: any) => h.id === p);
       const colors: any = ['#fe912a', '#e96873', '#5eb8c0', '#5179bc', '#b65b7d', '#fdcd66', '#bac888'];
@@ -104,12 +106,13 @@ export class DailyInvestigate extends Vue {
         }
       };
       const ydata: any = [0, 0, 0, 0, 0, 0, 0];
+      const self = this;
       Object.getOwnPropertyNames(data).forEach(function(key) {
         if (key === p) {
           if (data[key]) {
             legend.push(temp.name);
             data[key].forEach((plotdaily: any) => {
-              const index = xdata.findIndex((date: any) => date === plotdaily.date);
+              const index = self.weekDays.findIndex((date: any) => date === plotdaily.date);
               if (index >= 0) {
                 ydata[index] = plotdaily.count;
               }
@@ -120,7 +123,7 @@ export class DailyInvestigate extends Vue {
       obj.data = ydata.reverse();
       series.push(obj);
     });
-    this.setOptions(xdata, series, legend);
+    this.setOptions(this.weekDays, series, legend);
   }
 
   private setOptions(xdata: any, series: any, legend: any) {
@@ -143,7 +146,7 @@ export class DailyInvestigate extends Vue {
       xAxis: [
         {
           type: 'category',
-          data: xdata.reverse()
+          data: xdata
         }
       ],
       yAxis: [
@@ -153,6 +156,6 @@ export class DailyInvestigate extends Vue {
       ],
       series: series
     };
-    this.histogramChart.setOption(options);
+    this.histogramChart.setOption(options, true);
   }
 }
