@@ -32,7 +32,8 @@
                   ></el-button>
                 </div>
               </div>
-              <p class="level-type-describe" :title="item.description">{{ item.description }}</p>
+              <p class="level-type-describe" v-if="item.districtName" :title="item.districtName">行政区划名称：{{ item.districtName }}</p>
+              <p class="level-type-describe" v-if="item.description" :title="item.description">行政区划code：{{ item.description }}</p>
               <div class="tag-container">
                 <div class="tag-item" v-for="(tag, index) in item.tags" :title="tag.name">
                   {{ tag.name }}

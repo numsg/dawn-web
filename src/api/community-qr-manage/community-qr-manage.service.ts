@@ -91,7 +91,6 @@ export default {
       .top(100000)
       .get(null)
       .then((response: any) => {
-        console.log(response);
         return JSON.parse(response.body).value;
       })
       .catch((err: any) => {
@@ -135,7 +134,23 @@ export default {
         .top(10000)
         .get(null)
         .then((response: any) => {
-          console.log(response);
+          return JSON.parse(response.body).value;
+        })
+        .catch((err: any) => {
+          return false;
+        });
+    },
+
+    queryDistrictByCode(code: any): Promise<any> {
+      const q = odataClient({
+        service: store.getters.configs.communityManagerOdataUrl,
+        resources: 'DistrictEntity'
+      });
+      return q
+        .skip(0)
+        .filter('districtCode' , 'eq' , code)
+        .get(null)
+        .then((response: any) => {
           return JSON.parse(response.body).value;
         })
         .catch((err: any) => {

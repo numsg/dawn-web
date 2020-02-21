@@ -26,6 +26,7 @@ import attributeStyle from './attribute-manage.module.scss';
 import eventTypeServie from '@/api/base-data-define/event-type.service';
 import notifyUtil from '@/common/utils/notifyUtil';
 import i18n from '@/i18n';
+import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
 
 @Component({
   template: Html,
@@ -359,6 +360,16 @@ export class AttributeManageComponent extends Vue {
     } else {
       // 使用本系统数据
       result = await dataSourceService.queryDataSource();
+      for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        if (element.description) {
+          const discricts: any = await communityQrManageService.queryDistrictByCode(String(element.description));
+          if (Array.isArray(discricts) && discricts.length > 0) {
+            element.districtName = discricts[0].name;
+          }
+        }
+      }
+      console.log(result);
       const userString = sessionStorage.getItem('userInfo');
       if (userString) {
         const userInfo = JSON.parse(userString);
@@ -377,6 +388,7 @@ export class AttributeManageComponent extends Vue {
         );
         result = publicDataSOurce.concat(curDataSource);
       }
+
     }
     return result;
   }

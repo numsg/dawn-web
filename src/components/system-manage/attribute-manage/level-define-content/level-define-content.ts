@@ -191,6 +191,7 @@ export class LevelDefinecontentComponent extends Vue {
       newItem.originalId = item.originalId;
       newItem.dSourceDataModels = item.dSourceDataModels;
       newItem.description = item.description;
+      newItem.districtName = item.districtName ? item.districtName : '';
       return newItem;
     });
     this.currentSource = this.currentItem;

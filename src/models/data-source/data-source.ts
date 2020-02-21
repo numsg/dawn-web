@@ -12,5 +12,6 @@ export class DataSource {
   tags?: Array<DataSourceCorrelation> = []; // 用于展示的model tag
   data: Array<any> = [];
   originalId: string = '';
+  districtName: string = '';
 }
 export default DataSource;
