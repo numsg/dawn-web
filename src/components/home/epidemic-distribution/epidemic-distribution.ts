@@ -274,7 +274,7 @@ export class EpidemicDistribution extends Vue {
           break;
         case StatisticalDimension.age:
           data.id = item.id;
-          data.name = item.id + '岁';
+          data.name = item.id;
           data.value = item.value;
           break;
       }

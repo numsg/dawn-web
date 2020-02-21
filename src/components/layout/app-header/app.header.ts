@@ -145,7 +145,6 @@ export class AppHeaderComponent extends Vue {
       showClose: false
     })
       .then(() => {
-        this.clearData();
         const userName = SessionStorage.get('userInfo').userName;
         if (userName === 'super' || userName === 'manager_pms') {
           _this.$router.push('/login');
@@ -153,9 +152,7 @@ export class AppHeaderComponent extends Vue {
           userService.userLogout();
           _this.$router.push('/login');
         }
-        SessionStorage.get('Admin-Token');
-        SessionStorage.get('privilegeChilds');
-        SessionStorage.get('handleCom');
+        this.clearData();
       })
       .catch(() => { });
   }
@@ -236,31 +233,10 @@ export class AppHeaderComponent extends Vue {
     if (localTheme && localTheme !== '') {
       Skin.changeTheme(localTheme);
     }
-    // const changePwd: any = document.querySelector('#change-pwd-dialog') as HTMLDivElement;
-    // changePwd.children[0].style.borderRadius = '6px';
-    // if (localStorage.getItem('system-theme') === 'black') {
-    //   changePwd.children[0].style.background = '#2e4773';
-    // } else {
-    //   changePwd.children[0].style.background = '#ecedf1';
-    // }
-    this.oldTime = Date.now();
-    // this.registerEvent();
-    // this.timeOutTimer();
-    window.onbeforeunload = () => {
-      this.beforeUnloadTime = new Date().getTime();
-    };
-    window.addEventListener('unload', e => {
-      this.gapTime = new Date().getTime() - this.beforeUnloadTime;
-      if (this.gapTime <= 5) {
-        this.writeExitLog();
-      }
-    });
     this.currentLange = this.$i18n.locale;
   }
 
-  writeExitLog() {
 
-  }
 
   goHome() {
     this.$router.push({
@@ -323,58 +299,17 @@ export class AppHeaderComponent extends Vue {
     newWindow.location.href = localPath + '/pms-user-manual/default.htm';
   }
 
-  timeOutTimer() {
-    const timeOut = this.timeOut * 60 * 1000;
-    this.timer = setInterval(() => {
-      const newTime = Date.now();
-      if (newTime - this.oldTime > timeOut) {
-        clearInterval(this.timer);
-        this.$alert(this.$tc('home.wait_long_time_to_log_out'), {
-          confirmButtonText: this.$tc('common.determine'),
-          showClose: false,
-          callback: () => {
-            SessionStorage.remove('Admin-Token');
-            this.$router.push('/login');
-          }
-        });
-      }
-    }, 1000);
-  }
-
-  registerEvent() {
-    const html = document.querySelector('html') as HTMLElement;
-    html.addEventListener('click', () => {
-      this.oldTime = Date.now();
-    });
-
-    html.addEventListener('keydown', () => {
-      this.oldTime = Date.now();
-    });
-
-    html.addEventListener('mousemove', () => {
-      this.oldTime = Date.now();
-    });
-
-    html.addEventListener('mousewheel', () => {
-      this.oldTime = Date.now();
-    });
-    const body = html.querySelector('html > body') as HTMLElement;
-    body.ondrop = (e: any) => {
-      e.stopPropagation();
-      e.preventDefault();
-    };
-  }
-
   clearData() {
-    SessionStorage.set('district', '');
-    SessionStorage.set('district-all', '');
+    SessionStorage.remove('district');
+    SessionStorage.remove('district-all');
+    SessionStorage.remove('Admin-Token');
+    SessionStorage.remove('privilegeChilds');
+    SessionStorage.remove('handleCom');
     this.$store.dispatch(eventNames.baseData.ClearBaseData);
   }
 
   beforeDestroyed() {
-    this.writeExitLog();
   }
   destroyed() {
-    this.writeExitLog();
   }
 }

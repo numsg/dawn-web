@@ -43,7 +43,7 @@ config(store).then(() => {
 
   router.beforeEach((to, from, next) => {
     NProgress.start();
-    RouterBefore.routerBefore(to, from, next, routerElementArr);
+    RouterBefore.routerBefore(to, from, next);
   });
   router.afterEach(() => {
     NProgress.done();

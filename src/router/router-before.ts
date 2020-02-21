@@ -9,7 +9,7 @@ import NProgress from 'nprogress';
 import eventNames from '@/common/events/store-events';
 
 export default {
-  routerBefore(to: any, from: any, next: any, routerElementArr: any) {
+  routerBefore(to: any, from: any, next: any) {
     NProgress.start();
     const token = SessionStorage.get('Admin-Token');
     if (!token && to.path !== '/login') {
@@ -17,8 +17,13 @@ export default {
     }
     if (token && to.path === '/login') {
       SessionStorage.remove('Admin-Token');
+      SessionStorage.remove('routerElementArr');
+      router.options.routes = [];
+      next();
+      return;
     }
     const permissions = SessionStorage.get('privilegeChilds');
+    const routerElementArr = SessionStorage.get('routerElementArr') || [];
     if (token && Array.isArray(permissions) && permissions.length > 0 && routerElementArr.length === 0) {
       permissions.forEach(p => {
         if (router.options.routes.filter((r: any) => r.path === p.expression).length === 0 && p.description !== '1') {
@@ -40,6 +45,7 @@ export default {
           routerElementArr.push(routerElement);
         }
       });
+      SessionStorage.set('routerElementArr', routerElementArr);
       if (routerElementArr.length > 0) {
         const routerTree = GenerateTree.generateTree(routerElementArr, '');
         const newRoutes = constRouterMap.concat(routerTree);

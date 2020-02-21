@@ -10,6 +10,7 @@ import eventNames from '@/common/events/store-events';
 import { treeToArray } from '@/common/utils/utils';
 
 import navbarBlackStyle from './navbar.black.module.scss';
+import SessionStorage from '@/utils/session-storage';
 
 @Component({
   template: require('./navbar.html'),
@@ -83,8 +84,6 @@ export class NavbarComponent extends Vue {
     await this.$store.dispatch(eventNames.baseData.SetOtherSymptoms);
     await this.$store.dispatch(eventNames.baseData.SetMedicalOpinions);
 
-    // await this.$store.dispatch(eventNames.EventTypes.LoadAllEventTypes);
-
     await this.$store.dispatch(eventNames.systemSet.SystemSetData);
   }
 
@@ -94,15 +93,6 @@ export class NavbarComponent extends Vue {
       this.moduleTitle.forEach((e: any) => {
         if (Array.isArray(e.children) && e.children.length > 0) {
           this.handleMenuSort(e.children);
-          // e.children.sort((a: any, b: any) => {
-          //   if (a.menuOrder < b.menuOrder) {
-          //     return -1;
-          //   } else if (a.menuOrder === b.menuOrder) {
-          //     return 0;
-          //   } else {
-          //     return 1;
-          //   }
-          // });
         }
       });
     }
@@ -116,6 +106,7 @@ export class NavbarComponent extends Vue {
     this.stairMenu = active.id;
     const userInfo: any = localStorage.getItem('userInfo');
     store.commit('SET_USER_INFO', JSON.parse(userInfo));
+    window.addEventListener('beforeunload', this.unloadHandle, false);
   }
 
   @Watch('$route')
@@ -160,15 +151,6 @@ export class NavbarComponent extends Vue {
         });
       }
     });
-    // result.sort((a: any, b: any) => {
-    //   if (a.menuOrder < b.menuOrder) {
-    //     return -1;
-    //   } else if (a.menuOrder === b.menuOrder) {
-    //     return 0;
-    //   } else {
-    //     return 1;
-    //   }
-    // });
     this.handleMenuSort(result);
     return result;
   }
@@ -236,5 +218,9 @@ export class NavbarComponent extends Vue {
         return 1;
       }
     });
+  }
+
+  unloadHandle() {
+    SessionStorage.remove('routerElementArr');
   }
 }

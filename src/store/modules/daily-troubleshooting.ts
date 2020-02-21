@@ -123,9 +123,9 @@ const dailyTroubleshooting = {
       state.formStatus = result;
     },
     SET_COMMUNITY_BRIEF: (state: any, result: any) => {
-      console.log('---SET_COMMUNITY_BRIEF---');
-      console.log(result);
-      state.communityBrief = result;
+      if (result) {
+        state.communityBrief = result;
+      }
     },
     SET_RECORD_COUNT: (state: any, result: any) => {
       state.checkedTotalCount = result.checkedCount;
