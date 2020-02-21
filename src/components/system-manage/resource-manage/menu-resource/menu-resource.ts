@@ -70,7 +70,9 @@ export class MenuResourceComponent extends Vue {
       { className: 'iconpms-icon_Plan-system', id: 'icon_order-response3', upload: false },
       { className: 'iconpms-icon_Plan-management-menu', id: 'icon_order-response4', upload: false },
       { className: 'iconpms-icon_Create-deduction', id: 'icon_order-response4', upload: false },
-      { className: 'iconpms-icon_scene', id: 'icon_order-response4', upload: false }
+      { className: 'iconpms-icon_scene', id: 'icon_order-response4', upload: false },
+      { className: 'iconpms-icon_System-logs', id: 'icon_order-response4', upload: false },
+      { className: 'iconpms-icon_Plan-ability', id: 'icon_order-response4', upload: false }
     ]
   };
 
