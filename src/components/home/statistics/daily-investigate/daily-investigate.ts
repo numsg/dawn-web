@@ -3,7 +3,6 @@ import styles from './daily-investigate.module.scss';
 import template from './daily-investigate.html';
 import { ECharts } from 'echarts';
 import * as echarts from 'echarts';
-
 import communityQrManageService from '@/api/community-qr-manage/community-qr-manage.service';
 import ddatasourceService from '@/api/data-source/d-data-source.service';
 import SessionStorage from '@/utils/session-storage';
