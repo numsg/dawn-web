@@ -52,57 +52,17 @@ export class EpidemicStatisticsComponent extends Vue {
   chart!: ECharts;
   option!: any;
 
-  epidemicData = [
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '确诊病例',
-      count: 20,
-      strokeStyle: '#990000'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '疑似病例',
-      count: 15,
-      strokeStyle: '#CC9934'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '死亡病例',
-      count: 1,
-      strokeStyle: '#9494A6'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '治愈病例',
-      count: 1,
-      strokeStyle: '#00CC34'
-    },
-    {
-      id: getUuid32(),
-      selected: false,
-      name: '发热人员',
-      count: 50,
-      strokeStyle: '#990000'
-    }
-  ];
-
   @Getter('outbreakDuty_epidemicStaticalData')
   epidemicStaticalData!: any[];
   totalCount: number = 0;
   constructor() {
     super();
-    // const startDate = moment()
-    //   .startOf('day')
-    //   .subtract(3, 'month');
-    // const endDate = moment().endOf('day');
-    // this.dateRange = [startDate.format(DATE_PICKER_FORMAT), endDate.format(DATE_PICKER_FORMAT)];
   }
 
   async mounted() {
+    window.onresize = () => {
+      this.chart.resize();
+    };
     const doughnut: HTMLDivElement = document.querySelector('#doughnut') || document.createElement('div');
     this.chart = echarts.init(doughnut);
     this.addEventListener();
@@ -133,7 +93,11 @@ export class EpidemicStatisticsComponent extends Vue {
         orient: 'vertical',
         left: 10,
         // data: ['确诊病例', '疑似病例', '死亡病例', '治愈病例', '发热人员']
-        data: this.epidemicStaticalData.map((e: any) => e.name)
+        data: this.epidemicStaticalData
+          .filter((d: any) => {
+            return d.value > 0;
+          })
+          .map((e: any) => e.name)
       },
       series: [
         {
@@ -190,6 +154,13 @@ export class EpidemicStatisticsComponent extends Vue {
               color: (params: any) => {
                 const data = this.epidemicStaticalData[params.dataIndex];
                 return data.strokeStyle;
+              },
+              formatter: (params: any, option: any) => {
+                if (params.data.value === 0) {
+                  // params.data.itemStyle.normal.labelLine.show = false;
+                  params.data.label.normal.show = false;
+                  params.data.labelLine.normal.show = false;
+                }
               }
             }
           }

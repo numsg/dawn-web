@@ -1,7 +1,7 @@
 <div class="outbreak-duty">
   <!-- outbreak-duty -->
   <!-- 疫情统计 -->
-  <div class="statistical">
+  <div class="statistical" style="max-width: 580px;">
     <el-radio-group v-model="currentDimension" class="type-statistics">
       <el-radio-button v-for="(item, index) in typeOfStatistics" :key="index" :label="item.id">{{item.label}}</el-radio-button>
     </el-radio-group>

@@ -51,7 +51,7 @@
               autofocus
               @input="debounceSearch"
               v-model="keyWords"
-              placeholder="请输入姓名或电话号码进行过滤"
+              placeholder="请输入姓名、电话号码或房号进行过滤"
             />
             <span class="iconfont iconpms-icon_search iconfont-size"></span>
           </div>
@@ -152,6 +152,11 @@
         <el-table-column label="房号" width="120" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span class="room-num">{{ scope.row.building }} - {{scope.row.unitNumber}} - {{scope.row.roomNumber}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="手机号" width="120" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span class="room-num">{{ scope.row.mobileNumber }}</span>
           </template>
         </el-table-column>
         <!-- <el-table-column label="是否有接触史" width="110">

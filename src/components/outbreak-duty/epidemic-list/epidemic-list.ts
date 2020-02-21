@@ -61,7 +61,10 @@ export class EpidemicListComponent extends Vue {
   /**
    * 搜索防抖
    */
-  debounceSearch = debounce(this.handleSearch, 500);
+  debounceSearch = debounce(() => {
+    this.currentPage = 1;
+    this.handleSearch();
+  }, 500);
 
   sort: any = { type: 'submitTime', flag: 'desc' };
 
@@ -90,6 +93,7 @@ export class EpidemicListComponent extends Vue {
   displayMode!: string;
 
   async mounted() {
+    this.currentPage = 1;
     this.queryEpidemicPersons();
     this.personDataTable = this.$refs['personDataTable'];
   }
@@ -184,16 +188,33 @@ export class EpidemicListComponent extends Vue {
   }
 
   handleSearch() {
-    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, {
-      page: 0,
+    const options = {
+      page: this.currentPage - 1,
       count: this.pageSize,
       keywords: this.keyWords,
       villageIds: this.selectionCommunities,
       confirmedDiagnosis: this.selectionDiagnosisSituation,
       medicalCondition: this.selectionMedicalSituations,
+      building: '',
+      unitNumber: '',
+      roomNumber: '',
       feverState: this.selectFeverState,
       sort: this.sort
-    });
+    };
+    const arr = this.keyWords.split('-');
+    for (let index = 0; index < arr.length; index++) {
+      const content = arr[index];
+      if (index === 0 && content.length > 0 && content.length <= 2) {
+        options.building = content;
+      }
+      if (index === 1 && content.length > 0 && content.length <= 2) {
+        options.unitNumber = content;
+      }
+      if (content.length > 0 && content.length <= 4) {
+        options.roomNumber = content;
+      }
+    }
+    this.$store.dispatch(eventNames.OutbreakDuty.SetEpidemicPersons, options);
   }
 
   addEpidemicPersion() {
@@ -227,12 +248,12 @@ export class EpidemicListComponent extends Vue {
 
   handleSizeChange(val: any) {
     this.pageSize = val;
-    this.queryEpidemicPersons();
+    this.handleSearch();
     console.log(`每页 ${val} 条`);
   }
   handleCurrentChange(val: any) {
     this.currentPage = val;
-    this.queryEpidemicPersons();
+    this.handleSearch();
     console.log(`当前页: ${val}`);
   }
 

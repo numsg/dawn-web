@@ -120,7 +120,22 @@ export class EpidemicTrends extends Vue {
       this.weekdays = data.map((d: any) => {
         return d.date;
       });
-
+      // this.weekdays = [
+      //   0 +
+      //     moment()
+      //       .locale('zh-cn')
+      //       .format('MMMDo')
+      // ];
+      // for (let i = 1; i < 7; i++) {
+      //   this.weekdays.push(
+      //     0 +
+      //       moment()
+      //         .locale('zh-cn')
+      //         .subtract('days', i)
+      //         .format('MMMDo')
+      //   );
+      // }
+      this.weekdays = this.weekdays.reverse();
       data.forEach((d: any) => {
         if (!this.isDaily) {
           this.confirmedCaseData.data.push(d.allConfirmed);

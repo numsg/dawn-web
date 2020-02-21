@@ -32,7 +32,7 @@
         display: inline-flex;
         flex-direction: column;
         padding: 5px;
-        flex: 9;
+        flex: 4;
         // span {
         //   margin-bottom: 5px;
         // }
@@ -43,10 +43,12 @@
         text-align: right;
         display: inline-flex;
         align-items: center;
-        padding: 5px 10px;
+        padding: 5px;
+        min-width: 138px;
         .title {
           color: #838383;
           margin-right: 10px;
+          width: 120px;
         }
         .content {
           color: #555;

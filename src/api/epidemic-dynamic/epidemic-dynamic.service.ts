@@ -78,6 +78,19 @@ export default {
     if (conditions.keywords && conditions.keywords !== '') {
       // tslint:disable-next-line:quotemark
       filterStr += "contains( name, '" + conditions.keywords + "') or contains( mobileNumber, '" + conditions.keywords + "')";
+      // tslint:disable-next-line:quotemark
+      filterStr +=
+        // tslint:disable-next-line:quotemark
+        " or (contains( building, '" +
+        conditions.building +
+        // tslint:disable-next-line:quotemark
+        "') and contains( unitNumber, '" +
+        conditions.unitNumber +
+        // tslint:disable-next-line:quotemark
+        "') and contains( roomNumber, '" +
+        conditions.roomNumber +
+        // tslint:disable-next-line:quotemark
+        "'))";
     }
     if (conditions.diagnosisIds && conditions.diagnosisIds.length > 0) {
       let str = '';
