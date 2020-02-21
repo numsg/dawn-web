@@ -312,7 +312,7 @@ export class DailyTroubleshootingComponent extends Vue {
       data.otherSymptoms = this.replaceOtherSymptoms(person.otherSymptoms); // 替换 其他症状
       data.isAdmit = this.replaceMedicalOpinion(person.medicalOpinion) === '确诊患者' ? '是' : ''; // 替换 确认患者
       data.isSuspected = this.replaceMedicalOpinion(person.medicalOpinion) === '疑似患者' ? '是' : ''; // 替换 疑似患者
-      data.isCT = this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎患者' ? '是' : ''; // 替换 CT诊断肺炎患者
+      data.isCT = this.replaceMedicalOpinion(person.medicalOpinion) === 'CT诊断肺炎者' ? '是' : ''; // 替换 CT诊断肺炎患者
       data.isNormal = this.replaceMedicalOpinion(person.medicalOpinion) === '一般发热患者' ? '是' : ''; // 替换 一般发热患者
       data.isClose = this.replaceMedicalOpinion(person.medicalOpinion) === '密切接触者' ? '是' : ''; // 替换 密切接触者
       data.note = person.note ? person.note : '';

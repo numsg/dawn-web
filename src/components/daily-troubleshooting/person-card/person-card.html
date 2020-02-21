@@ -10,11 +10,6 @@
       
       <div class="group-table">
         <el-table :cell-style="{padding:'16px 0px', 'font-size': '16px', cursor: 'pointer'}" @row-click="rowClick" :current-row-key="currentRowKey" :row-key="rowKeyFunc" class="table-content" :data="groupsData" max-height="320" highlight-current-row style="width: 100%">
-          <el-table-column align="center" label="楼栋-单元" >
-            <template slot-scope="scope">
-              <span class="room-num">{{scope.row.building}}-{{scope.row.unitNumber}}</span>
-            </template>
-          </el-table-column>
           <el-table-column align="center" label="小区名称">
             <template slot-scope="scope">
               <span class="community-cell">
@@ -24,6 +19,11 @@
                   <span class="angle"><i></i></span>
                 </span>
               </span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="楼栋-单元" >
+            <template slot-scope="scope">
+              <span class="room-num">{{scope.row.building}}-{{scope.row.unitNumber}}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="排查情况">
